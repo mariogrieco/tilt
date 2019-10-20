@@ -8,13 +8,13 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 6,
-    paddingBottom: 6
+    paddingBottom: 6,
   },
   mentionsProfileImage: {
     width: 26,
     height: 26,
     borderRadius: 13,
-    flex: 0
+    flex: 0,
   },
   commandContainer: {
     display: 'flex',
@@ -24,13 +24,12 @@ export default StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 6,
     paddingBottom: 5,
-    paddingTop: 6
+    paddingTop: 6,
   },
   mentionsColor: {
     color: '#0e141e',
-    fontFamily: 'SFProDisplay',
-    fontWeight: 'bold',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
-    letterSpacing: 0.1
-  }
+    letterSpacing: 0.1,
+  },
 });

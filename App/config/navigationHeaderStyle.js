@@ -15,7 +15,6 @@ export const stackHeader = {
     backgroundColor: '#fff'
   },
   headerTitleStyle: {
-    fontWeight: 'bold',
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,

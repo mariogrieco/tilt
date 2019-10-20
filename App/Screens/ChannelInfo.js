@@ -173,8 +173,7 @@ const styles = StyleSheet.create({
   },
   textCancel: {
     paddingTop: '0.6rem',
-    fontFamily: 'SFProDisplay',
-    fontWeight: 'bold',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1,
     flex: 1,
