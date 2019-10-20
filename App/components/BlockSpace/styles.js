@@ -7,6 +7,6 @@ export default StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#DCDCDC',
     borderBottomColor: '#DCDCDC',
-    borderBottomWidth: StyleSheet.hairlineWidth
-  }
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
 });

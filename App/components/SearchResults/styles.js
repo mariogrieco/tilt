@@ -4,12 +4,12 @@ export default StyleSheet.create({
   container: {
     borderBottomColor: '#DCDCDC',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    flex: 1
+    flex: 1,
   },
   body: {
     flex: 1,
     paddingBottom: 10,
-    backgroundColor: '#f6f7f9'
+    backgroundColor: '#f6f7f9',
   },
   header: {
     backgroundColor: '#F6F7F9',
@@ -22,7 +22,7 @@ export default StyleSheet.create({
   },
   title: {
     color: '#0e141e',
-    fontFamily: 'SFProDisplay-Medium'
+    fontFamily: 'SFProDisplay-Medium',
   },
   channelTitleContainer: {
     paddingLeft: 10,
@@ -34,5 +34,5 @@ export default StyleSheet.create({
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Bold',
     // fontWeight: 'bold'
-  }
+  },
 });

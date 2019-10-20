@@ -1,14 +1,14 @@
-import { 
-  SELECTED_SYMBOL, 
+import {
+  SELECTED_SYMBOL,
   FETCH_SYMBOLS,
-  FETCH_CRYPTOS_ERROR
+  FETCH_CRYPTOS_ERROR,
 } from '../actions/symbols';
 
 const initialState = {
   ticker: [],
   selectedSymbol: null,
   hasData: false,
-  err: null
+  err: null,
 };
 
 const watchlist = (state = initialState, action) => {
@@ -18,24 +18,24 @@ const watchlist = (state = initialState, action) => {
         ...state,
         ticker: action.payload,
         hasData: true,
-        err: null
+        err: null,
       };
     case `CHART_${FETCH_SYMBOLS}`:
       return {
         ...state,
-        selectedSymbol: action.payload
+        selectedSymbol: action.payload,
       };
     case SELECTED_SYMBOL:
       return {
         ...state,
-        selectedSymbol: action.payload
+        selectedSymbol: action.payload,
       };
     case FETCH_CRYPTOS_ERROR:
       return {
         ...state,
         ticker: [],
         err: action.payload,
-        hasData: false
+        hasData: false,
       };
     default:
       return state;

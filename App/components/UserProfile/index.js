@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  View,
-  FlatList,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import { connect } from 'react-redux';
+import {View, FlatList, Text, Image, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
 import Post from '../Post/Post';
-import { getAllPostByUserId } from '../../selectors/getUserById';
+import {getAllPostByUserId} from '../../selectors/getUserById';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
-import { getChannelDisplayNameAsDictionary } from '../../selectors/getChannelNames';
-import {
-  createDirectChannel
-} from '../../actions/channels';
+import {getChannelDisplayNameAsDictionary} from '../../selectors/getChannelNames';
+import {createDirectChannel} from '../../actions/channels';
 import styles from './styles';
 
 const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
@@ -26,44 +18,38 @@ export const Header = ({
   description,
   imageUrl,
   isSelfProfile,
-  createDirectChannel
+  createDirectChannel,
 }) => (
   <View style={styles.headerContainer}>
-    <View style={{ flexDirection: 'row', marginBottom: 15 }}>
+    <View style={{flexDirection: 'row', marginBottom: 15}}>
       <View style={{}}>
-
-        <Image source={{ uri: imageUrl }} style={{ width: 80, height: 80, borderRadius: 40 }} />
-        {
-            (firstName || lastName)
-              ? (
-                <Text style={styles.userNames}>
-                  {`${firstName} ${lastName}`}
-                </Text>
-              )
-              : <Text />
-        }
+        <Image
+          source={{uri: imageUrl}}
+          style={{width: 80, height: 80, borderRadius: 40}}
+        />
+        {firstName || lastName ? (
+          <Text style={styles.userNames}>{`${firstName} ${lastName}`}</Text>
+        ) : (
+          <Text />
+        )}
         <Text style={styles.userNickName}>{`@${username}`}</Text>
       </View>
-      {
-            !isSelfProfile && (
-              <View style={{ flex: 1 }}>
-                <View style={{
-                  flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'
-                }}
-                >
-                  <TouchableOpacity
-                    onPress={createDirectChannel}
-                    style={styles.headerIcon}
-                  >
-                    <Image
-                      source={MESSAGE}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )
-          }
-
+      {!isSelfProfile && (
+        <View style={{flex: 1}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={createDirectChannel}
+              style={styles.headerIcon}>
+              <Image source={MESSAGE} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
 
     <Text style={styles.description}>{description}</Text>
@@ -76,25 +62,23 @@ class UserProfile extends React.PureComponent {
     <View style={styles.emptyContainer}>
       <Image source={LANDER} />
       <Text style={styles.emptyText}>
-        Welcome to Tilt. It’s time to radio back to Earth. Make your first post, then see it here.
+        Welcome to Tilt. It’s time to radio back to Earth. Make your first post,
+        then see it here.
       </Text>
     </View>
   );
 
   createDirectChannel = () => {
-    const {
-      user,
-      createDirectChannel
-    } = this.props;
+    const {user, createDirectChannel} = this.props;
     createDirectChannel(user.id);
-  }
+  };
 
   listHeaderComponent = () => {
-    const {
-      user,
-      isSelfProfile,
-    } = this.props;
-    const pictureProfileUrl = getUserProfilePicture(user.id, user.last_picture_update);
+    const {user, isSelfProfile} = this.props;
+    const pictureProfileUrl = getUserProfilePicture(
+      user.id,
+      user.last_picture_update,
+    );
     return (
       <Header
         firstName={user ? user.first_name : ''}
@@ -105,14 +89,11 @@ class UserProfile extends React.PureComponent {
         isSelfProfile={isSelfProfile}
         createDirectChannel={this.createDirectChannel}
       />
-
     );
-  }
+  };
 
-  renderItem = ({ item: post }) => {
-    const {
-      user, channelMentions, isSelfProfile
-    } = this.props;
+  renderItem = ({item: post}) => {
+    const {user, channelMentions, isSelfProfile} = this.props;
 
     const isHashtagChannel = channelMentions.hashtagChannels[post.channel_id]
       ? `#${channelMentions.hashtagChannels[post.channel_id]} `
@@ -122,10 +103,11 @@ class UserProfile extends React.PureComponent {
       ? `$${channelMentions.dollarChannels[post.channel_id]} `
       : '';
 
-
-    const inhiretChannelInMessage = `${isHashtagChannel || isDollarChannel || ''}${post.message}`;
+    const inhiretChannelInMessage = `${isHashtagChannel ||
+      isDollarChannel ||
+      ''}${post.message}`;
     return (
-      <View style={{ paddingTop: 0, backgroundColor: '#fff' }}>
+      <View style={{paddingTop: 0, backgroundColor: '#fff'}}>
         <Post
           extendedDateFormat
           postId={post.id}
@@ -145,33 +127,31 @@ class UserProfile extends React.PureComponent {
         />
       </View>
     );
-  }
+  };
 
   render() {
-    const {
-      user, userPosts
-    } = this.props;
-
+    const {user, userPosts} = this.props;
 
     if (!user) {
       // Home redirection at the action
-      return (<View />);
+      return <View />;
     }
 
     return (
       <FlatList
-        ref={(ref) => { this.listRef = ref; }}
+        ref={ref => {
+          this.listRef = ref;
+        }}
         ListHeaderComponent={this.listHeaderComponent}
         ListEmptyComponent={this.listEmptyComponent}
         data={userPosts}
         extraData={userPosts}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
-        style={{ flex: 1, backgroundColor: '#f6f7f9' }}
+        style={{flex: 1, backgroundColor: '#f6f7f9'}}
         initialNumToRender={10}
         keyboardDismissMode="on-drag"
       />
-
     );
   }
 }
@@ -179,7 +159,6 @@ class UserProfile extends React.PureComponent {
 const mapStateToProps = (state, props) => {
   let user = null;
   let isSelfProfile = false;
-
 
   if (state.login.user) {
     if (props.itsMe) {
@@ -193,7 +172,6 @@ const mapStateToProps = (state, props) => {
       : state.users.data[state.users.currentUserIdProfile];
   }
 
-
   if (user) {
     const userPosts = getAllPostByUserId(state, user.id);
     const channelMentions = getChannelDisplayNameAsDictionary(state);
@@ -202,7 +180,7 @@ const mapStateToProps = (state, props) => {
       user,
       userPosts,
       channelMentions,
-      isSelfProfile
+      isSelfProfile,
     };
   }
   return {
@@ -212,10 +190,10 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  createDirectChannel
+  createDirectChannel,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UserProfile);

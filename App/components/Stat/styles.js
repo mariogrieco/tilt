@@ -10,36 +10,34 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: '0.75rem',
     paddingTop: '0.9375rem',
-
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   number: {
     fontFamily: 'SFMono-Medium',
     color: '$textColor',
     fontSize: 14,
-    letterSpacing: -0.5
+    letterSpacing: -0.5,
   },
   lowNumber: {
     fontFamily: 'SFMono-Medium',
     color: '#FC3E30',
     fontSize: 14,
-    letterSpacing: -0.5
+    letterSpacing: -0.5,
   },
   highNumber: {
     fontFamily: 'SFMono-Medium',
     color: '#17C491',
     fontSize: 14,
-    letterSpacing: -0.5
+    letterSpacing: -0.5,
   },
   tag: {
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
     letterSpacing: 0.1,
     // letterSpacing: -0.11,
-    color: '$textColorLight'
-  }
-
+    color: '$textColorLight',
+  },
 });

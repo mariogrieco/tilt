@@ -1,12 +1,8 @@
-import React, { PureComponent } from 'react'
-import {
-  Text,
-  View,
-  Linking
-} from 'react-native'
+import React, {PureComponent} from 'react';
+import {Text, View, Linking} from 'react-native';
 
 export default class DeepLinking extends PureComponent {
-  async getInitialUrl () {
+  async getInitialUrl() {
     try {
       const url = await Linking.getInitialURL();
       alert(url);
@@ -14,9 +10,13 @@ export default class DeepLinking extends PureComponent {
       alert(err);
     }
   }
-  componentDidMount () {}
+  componentDidMount() {}
 
   render() {
-    return (<View><Text>{' '}</Text></View>);
-  };
+    return (
+      <View>
+        <Text> </Text>
+      </View>
+    );
+  }
 }

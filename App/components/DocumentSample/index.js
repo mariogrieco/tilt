@@ -1,18 +1,8 @@
-import React, { PureComponent } from 'react';
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-  Platform,
-  Linking
-} from 'react-native';
+import React, {PureComponent} from 'react';
+import {Text, View, Image, TouchableOpacity, Linking} from 'react-native';
 // import RNFetchBlob from 'rn-fetch-blob';
 import prettyBytes from 'pretty-bytes';
-import {
-  Files
-} from '../Input/file_utils';
+import {Files} from '../Input/file_utils';
 import Client4 from '../../api/MattermostClient';
 
 import styles from './styles';
@@ -36,8 +26,8 @@ export default class DocumentSample extends PureComponent {
     downloading: false,
     downloadComplete: false,
     percentage: 0,
-    downloadError: null
-  }
+    downloadError: null,
+  };
 
   getCurrentIcon(ext) {
     if (Files.WORD_TYPES.includes(ext)) {
@@ -92,7 +82,6 @@ export default class DocumentSample extends PureComponent {
   //         console.log('The file saved to ', res.path());
   //         // Alert.alert('Your file has been downloaded', res.path());
 
-
   //         this.setState({
   //           downloading: false,
   //           downloadComplete: true
@@ -110,88 +99,96 @@ export default class DocumentSample extends PureComponent {
   // }
 
   donwloadFile = async () => {
-    const { fileId, name } = this.props;
+    const {fileId, name} = this.props;
     console.log('onpress for download', name);
-    const { link } = await Client4.getFilePublicLink(fileId).catch(err => console.log(err));
+    const {link} = await Client4.getFilePublicLink(fileId).catch(err =>
+      console.log(err),
+    );
 
     Linking.openURL(link);
+  };
+
+  onPress = () => {
+    //  if (Platform.OS === 'android') {
+    //    this.downloadFileAndroid();
+    //  } else {
+    //    this.downloadFileIOS();
+    //  }
+    this.donwloadFile();
+  };
+
+  renderDownloadControls = () => {
+    const {
+      downloading,
+      downloadComplete,
+      percentage,
+      downloadError,
+    } = this.state;
+
+    if (downloading) {
+      return (
+        <View
+          style={{
+            width: 60,
+            height: 60,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: '#17C491',
+              fontFamily: 'SFProDisplay-Bold',
+              fontSize: 15,
+              letterSpacing: 0.1,
+            }}>
+            {`${percentage}%`}
+          </Text>
+        </View>
+      );
+    }
+    if (downloadError) {
+      return (
+        <React.Fragment>
+          <TouchableOpacity
+            style={styles.downloadIconContainer}
+            onPress={this.onPress}>
+            <Image source={DOWNLOAD_UNFILLED} />
+          </TouchableOpacity>
+          <Text>{downloadError}</Text>
+        </React.Fragment>
+      );
+    }
+    if (downloadComplete) {
+      return (
+        <View style={styles.downloadIconContainer}>
+          <Image source={DOWNLOAD_COMPLETE} />
+        </View>
+      );
+    }
+    return (
+      <TouchableOpacity
+        style={styles.downloadIconContainer}
+        onPress={this.onPress}>
+        <Image source={DOWNLOAD_UNFILLED} style={styles.downloadIcon} />
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    const {extension, name, size} = this.props;
+
+    return (
+      <View style={[styles.documentContainer]}>
+        <View
+          style={{paddingRight: 15, alignItems: 'center', alignSelf: 'center'}}>
+          <Image source={this.getCurrentIcon(extension)} />
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={styles.documentName}>{name}</Text>
+          <Text>{prettyBytes(size)}</Text>
+        </View>
+        {this.renderDownloadControls()}
+      </View>
+    );
   }
-
-   onPress = () => {
-     //  if (Platform.OS === 'android') {
-     //    this.downloadFileAndroid();
-     //  } else {
-     //    this.downloadFileIOS();
-     //  }
-     this.donwloadFile();
-   }
-
-   renderDownloadControls = () => {
-     const {
-       downloading,
-       downloadComplete,
-       percentage,
-       downloadError
-     } = this.state;
-
-     if (downloading) {
-       return (
-         <View style={{
-           width: 60, height: 60, justifyContent: 'center', alignItems: 'center'
-         }}
-         >
-           <Text style={{
-             color: '#17C491', fontFamily: 'SFProDisplay-Bold', fontSize: 15, letterSpacing: 0.1
-           }}
-           >
-             {`${percentage}%`}
-           </Text>
-         </View>
-       );
-     }
-     if (downloadError) {
-       return (
-         <React.Fragment>
-           <TouchableOpacity style={styles.downloadIconContainer} onPress={this.onPress}>
-             <Image source={DOWNLOAD_UNFILLED} />
-           </TouchableOpacity>
-           <Text>{downloadError}</Text>
-         </React.Fragment>
-       );
-     } if (downloadComplete) {
-       return (
-         <View style={styles.downloadIconContainer}>
-           <Image source={DOWNLOAD_COMPLETE} />
-         </View>
-       );
-     }
-     return (
-       <TouchableOpacity style={styles.downloadIconContainer} onPress={this.onPress}>
-         <Image source={DOWNLOAD_UNFILLED} style={styles.downloadIcon} />
-       </TouchableOpacity>
-     );
-   }
-
-   render() {
-     const {
-       extension,
-       name,
-       size
-     } = this.props;
-
-     return (
-       <View style={[styles.documentContainer]}>
-         <View style={{ paddingRight: 15, alignItems: 'center', alignSelf: 'center' }}>
-           <Image source={this.getCurrentIcon(extension)} />
-         </View>
-         <View style={{ flex: 1 }}>
-           <Text style={styles.documentName}>{name}</Text>
-           <Text>{prettyBytes(size)}</Text>
-         </View>
-         {
-          this.renderDownloadControls()
-         }
-       </View>
-     );
-   }
 }

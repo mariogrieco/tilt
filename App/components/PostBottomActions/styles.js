@@ -9,7 +9,7 @@ export default StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
     // backgroundColor: 'red',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   contentContainer: {
     paddingHorizontal: 14,
@@ -18,25 +18,25 @@ export default StyleSheet.create({
   },
   button: {
     paddingVertical: 12,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   iconButton: {
     marginRight: 10,
     marginLeft: 8,
-    flex: 0.1
+    flex: 0.1,
   },
   textButton: {
     fontFamily: 'SFProDisplay-Regular',
     fontSize: 16,
     letterSpacing: 0.1,
     color: '$textColor',
-    flex: 1
+    flex: 1,
   },
   deleteButton: {
     fontFamily: 'SFProDisplay-Regular',
     fontSize: 16,
     letterSpacing: 0.1,
     color: '#FC3E30',
-    flex: 1
-  }
+    flex: 1,
+  },
 });

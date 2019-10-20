@@ -7,7 +7,7 @@ export default StyleSheet.create({
     fontFamily: 'SFProDisplay-Medium',
     color: '#17C491',
     paddingBottom: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button: {
     backgroundColor: '#17C491',
@@ -25,9 +25,9 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   disabled: {
-    opacity: 0.5
+    opacity: 0.5,
   },
   enable: {
-    opacity: 1
-  }
+    opacity: 1,
+  },
 });

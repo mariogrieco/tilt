@@ -1,11 +1,9 @@
 import {
   GET_FLAGGED_SUCESS,
-  SET_FLAGGED_SUCESS
+  SET_FLAGGED_SUCESS,
   // GET_FLAGGED_ERROR
 } from '../actions/flagged';
-import {
-  LOGOUT_SUCESS
-} from '../actions/login';
+import {LOGOUT_SUCESS} from '../actions/login';
 
 // import {
 //  SET_NEW_FLAG_ERROR,
@@ -14,7 +12,7 @@ import {
 
 const initialState = {
   order: [],
-  posts: {}
+  posts: {},
 };
 
 const flagged = (state = initialState, action) => {
@@ -22,11 +20,11 @@ const flagged = (state = initialState, action) => {
     case LOGOUT_SUCESS: {
       return {
         order: [],
-        posts: {}
+        posts: {},
       };
     }
     case SET_FLAGGED_SUCESS: {
-      const nextState = { ...state };
+      const nextState = {...state};
       const newFlag = action.payload[0];
       nextState.order.push(newFlag.name);
       nextState.posts[newFlag.id] = newFlag;

@@ -1,7 +1,6 @@
 import StyleSheet from 'react-native-extended-stylesheet';
 
 export default StyleSheet.create({
-
   toggle: {
     flexDirection: 'row',
     height: '1.813rem',
@@ -22,10 +21,10 @@ export default StyleSheet.create({
     backgroundColor: '#17C491',
     color: '#fff',
     borderRadius: '0.875rem',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   toggleUnSelected: {
     color: '#0e141e',
     // paddingLeft: '0.625rem'
-  }
+  },
 });

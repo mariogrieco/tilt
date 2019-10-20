@@ -1,25 +1,25 @@
 import {
   SET_ACTIVE_MODAL_ID,
-  CLOSE_ACTIVE_MODAL_ID
-} from '../actions/channelJoinModalAlert'
+  CLOSE_ACTIVE_MODAL_ID,
+} from '../actions/channelJoinModalAlert';
 
 const initialState = {
-  channelId: null
+  channelId: null,
 };
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_ACTIVE_MODAL_ID: {
       return {
-        channelId: payload
+        channelId: payload,
       };
     }
     case CLOSE_ACTIVE_MODAL_ID: {
       return {
-        channelId: null
+        channelId: null,
       };
     }
     default:
-      return state
+      return state;
   }
 };

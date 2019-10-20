@@ -1,18 +1,18 @@
-import { FETCH_BOOKS } from '../actions/book';
+import {FETCH_BOOKS} from '../actions/book';
 
 const initialState = {
   bids: [],
   asks: [],
-  hasData: false
+  hasData: false,
 };
 
 const books = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_BOOKS:
-      return ({
+      return {
         ...action.payload,
-        hasData: true
-      });
+        hasData: true,
+      };
     default:
       return state;
   }

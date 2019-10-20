@@ -1,4 +1,8 @@
-import { FETCH_CANDLE_DATA, CHANGE_INTERVAL, RESET_CANDLE } from '../actions/candle';
+import {
+  FETCH_CANDLE_DATA,
+  CHANGE_INTERVAL,
+  RESET_CANDLE,
+} from '../actions/candle';
 
 const initialState = {
   data: [
@@ -8,22 +12,22 @@ const initialState = {
       shadowH: 0,
       shadowL: 0,
       volume: 0,
-      closeTime: ''
-    }
+      closeTime: '',
+    },
   ],
-  selectedInterval: 0
+  selectedInterval: 0,
 };
 
 const candle = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CANDLE_DATA:
-      return { ...state, data: action.payload.data };
+      return {...state, data: action.payload.data};
 
     case CHANGE_INTERVAL:
-      return { ...state, selectedInterval: action.payload };
+      return {...state, selectedInterval: action.payload};
 
     case RESET_CANDLE:
-      return { ...initialState };
+      return {...initialState};
     default:
       return state;
   }

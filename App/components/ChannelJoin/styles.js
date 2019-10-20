@@ -35,16 +35,16 @@ export default StyleSheet.create({
     letterSpacing: 0.1,
   },
   blue: {
-    color: '#007aff'
+    color: '#007aff',
   },
   orange: {
     color: '#FF9500',
   },
   purple: {
-    color: '#5856d6'
+    color: '#5856d6',
   },
   black: {
-    color: '#434343'
+    color: '#434343',
   },
   join: {
     width: 60,
@@ -52,11 +52,11 @@ export default StyleSheet.create({
     borderRadius: '1.375rem',
     backgroundColor: '#17C491',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   joinText: {
     color: 'white',
     fontSize: 15,
     letterSpacing: 0.1,
-  }
+  },
 });

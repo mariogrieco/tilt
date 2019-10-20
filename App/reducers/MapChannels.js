@@ -8,20 +8,13 @@ import {
   CHANNEL_UPDATED_SUCCESS,
   GET_CHANNEL_BY_NAME_SUCCESS,
   ADD_TO_CHANNEL_SUCESS,
-  DELETE_CHANNEL_SUCCESS
+  DELETE_CHANNEL_SUCCESS,
 } from '../actions/channels';
-import {
-  IS_SIGN_UP
-} from '../actions/signup';
-import {
-  LOGOUT_SUCESS
-} from '../actions/login';
-import {
-  SEARCH_CHANNELS_SUCCESS
-} from '../actions/search';
+import {IS_SIGN_UP} from '../actions/signup';
+import {LOGOUT_SUCESS} from '../actions/login';
+import {SEARCH_CHANNELS_SUCCESS} from '../actions/search';
 
 import Immutable from 'immutable';
-
 
 const initialState = new Immutable.Map({});
 
@@ -29,7 +22,7 @@ const channels = (state = initialState, action) => {
   switch (action.type) {
     case GET_CHANNELS_SUCESS: {
       let nextState = state;
-      action.payload.forEach((element) => {
+      action.payload.forEach(element => {
         nextState = nextState.set(element.id, element);
       });
       return nextState;
@@ -43,7 +36,7 @@ const channels = (state = initialState, action) => {
     }
     case GET_CHANNEL_BY_NAME_SUCCESS: {
       let nextState = state;
-      const channel = action.payload;  
+      const channel = action.payload;
       nextState = nextState.set(channel.id, channel);
       return nextState;
     }
@@ -81,12 +74,12 @@ const channels = (state = initialState, action) => {
       const channel = action.payload;
       if (state.has(channel.id)) {
         const current = Immutable.mergeDeep(state.get(channel.id), channel);
-        return state.set(channel.id, current)
+        return state.set(channel.id, current);
       }
       return state;
     }
     case DELETE_CHANNEL_SUCCESS: {
-      const { channelId } = action.payload;
+      const {channelId} = action.payload;
       if (state.has(channelId)) state.delete(channelId);
       return state;
     }
@@ -96,7 +89,7 @@ const channels = (state = initialState, action) => {
     case SEARCH_CHANNELS_SUCCESS: {
       if (!action.payload || action.payload.length === 0) return state;
       let nextState = state;
-      action.payload.forEach((channel) => {
+      action.payload.forEach(channel => {
         nextState = nextState.set(channel.id, channel);
       });
       return nextState;
@@ -110,6 +103,6 @@ const channels = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 
 export default channels;

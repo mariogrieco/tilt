@@ -1,4 +1,4 @@
-import React, {createRef, Fragment, Memo} from 'react';
+import React, {createRef, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {
   View,
@@ -17,7 +17,6 @@ import {
   SafeAreaView,
 } from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
-import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import findIndex from 'lodash/findIndex';
 import GoBack from '../components/GoBack';
@@ -29,7 +28,6 @@ import NewMessageLabel from '../components/NewMessageLabel';
 import SeparatorContainer from '../components/SeparatorContainer';
 import {getJumpPostsOrtList} from '../selectors/getJumpPostList';
 import {clearjumpToAction} from '../actions/advancedSearch';
-import {getUsersNames} from '../selectors/getUsersNames';
 import {getPostsForChannel} from '../actions/posts';
 import {setViewChannel} from '../actions/channels';
 import {setActiveFocusChannel} from '../actions/AppNavigation';

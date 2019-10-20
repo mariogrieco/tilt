@@ -1,6 +1,5 @@
-import {
-// GET_CHANNELS_SUCESS
-} from '../actions/files';
+import // GET_CHANNELS_SUCESS
+'../actions/files';
 
 const initialState = [];
 

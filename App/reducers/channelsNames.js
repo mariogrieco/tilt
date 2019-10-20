@@ -9,7 +9,7 @@ import {
   GET_CHANNEL_BY_NAME_SUCCESS,
   DELETE_CHANNEL_SUCCESS,
   GET_MY_CHANNEL_BY_ID_SUCCESS,
-  GET_MY_CHANNELS_SUCESS
+  GET_MY_CHANNELS_SUCESS,
 } from '../actions/channels';
 
 import parser from '../../App/utils/parse_display_name';
@@ -20,24 +20,23 @@ import keys from 'lodash/keys';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
-
 function customizer(objValue, srcValue) {
   if (!isEmpty(srcValue)) {
     return srcValue;
   } else {
     return objValue;
-  };
-};
-
-const initialState = {
-  'id': {
-    // formatedName: '',  
-    // ...channel
   }
 }
 
-function setFormatedNames(channels) { 
-  keys(channels).forEach((key) => {
+const initialState = {
+  id: {
+    // formatedName: '',
+    // ...channel
+  },
+};
+
+function setFormatedNames(channels) {
+  keys(channels).forEach(key => {
     if (channels[key]) {
       channels[key].format_name = parser(channels[key].display_name || '');
     }
@@ -45,7 +44,7 @@ function setFormatedNames(channels) {
   return channels;
 }
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case GET_CHANNEL_BY_NAME_SUCCESS:
     case CREATE_CHANNEL_SUCESS:
@@ -57,7 +56,7 @@ export default (state = initialState, { type, payload }) => {
     case GET_MY_CHANNELS_SUCESS:
     case GET_CHANNELS_SUCESS: {
       const nextState = cloneDeep(state);
-      payload.forEach((channel) => {
+      payload.forEach(channel => {
         nextState[channel.id] = channel;
       });
       return setFormatedNames(nextState);
@@ -98,7 +97,7 @@ export default (state = initialState, { type, payload }) => {
     }
     case GET_MY_CHANNEL_BY_ID_SUCCESS: {
       const nextState = cloneDeep(state);
-      const { channel } = payload;
+      const {channel} = payload;
       nextState[channel.id] = channel;
       return setFormatedNames(nextState);
     }
@@ -111,4 +110,4 @@ export default (state = initialState, { type, payload }) => {
       return state;
     }
   }
-}
+};

@@ -1,10 +1,8 @@
-import {
-  POST_REPLY,
-} from '../actions/reply';
+import {POST_REPLY} from '../actions/reply';
 
 const initialState = {
   postId: '',
-  userId: ''
+  userId: '',
 };
 
 const reply = (state = initialState, action) => {

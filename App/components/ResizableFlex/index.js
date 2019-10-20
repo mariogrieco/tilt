@@ -4,9 +4,13 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  StyleSheet, View, Dimensions, PanResponder, Animated
+  StyleSheet,
+  View,
+  Dimensions,
+  PanResponder,
+  Animated,
 } from 'react-native';
 
 export default class MyComponent extends Component {
@@ -20,7 +24,7 @@ export default class MyComponent extends Component {
       deviceHeight: Dimensions.get('window').height,
       isDividerClicked: false,
 
-      pan: new Animated.ValueXY()
+      pan: new Animated.ValueXY(),
     };
   }
 
@@ -33,15 +37,18 @@ export default class MyComponent extends Component {
       onPanResponderGrant: (e, gestureState) => {
         this.setState({
           offset: e.nativeEvent.pageY,
-          isDividerClicked: true
+          isDividerClicked: true,
         });
       },
 
       // When we drag the divider, set the bottomHeight (component state) again.
       onPanResponderMove: (e, gestureState) => {
         this.setState({
-          bottomHeight: gestureState.moveY > (this.state.deviceHeight - 40) ? 40 : this.state.deviceHeight - gestureState.moveY,
-          offset: e.nativeEvent.pageY
+          bottomHeight:
+            gestureState.moveY > this.state.deviceHeight - 40
+              ? 40
+              : this.state.deviceHeight - gestureState.moveY,
+          offset: e.nativeEvent.pageY,
         });
       },
 
@@ -49,36 +56,43 @@ export default class MyComponent extends Component {
         // Do something here for the touch end event
         this.setState({
           offset: e.nativeEvent.pageY,
-          isDividerClicked: false
+          isDividerClicked: false,
         });
-      }
+      },
     });
   }
 
-
   render() {
-    const { topView } = this.props;
+    const {topView} = this.props;
     return (
       <View style={styles.content}>
-
         {/* Top View */}
         <Animated.View
-          style={[{ backgroundColor: 'pink', minHeight: 40, flex: 1 }, { height: this.state.topHeight }]}
-        >
+          style={[
+            {backgroundColor: 'pink', minHeight: 40, flex: 1},
+            {height: this.state.topHeight},
+          ]}>
           {topView()}
         </Animated.View>
 
         {/* Divider */}
         <View
-          style={[{ height: 10 }, this.state.isDividerClicked ? { backgroundColor: '#666' } : { backgroundColor: '#e2e2e2' }]}
+          style={[
+            {height: 10},
+            this.state.isDividerClicked
+              ? {backgroundColor: '#666'}
+              : {backgroundColor: '#e2e2e2'},
+          ]}
           {...this._panResponder.panHandlers}
         />
 
         {/* Bottom View */}
         <Animated.View
-          style={[{ backgroundColor: 'green', minHeight: 40 }, { height: this.state.bottomHeight }]}
-        >
-        </Animated.View>
+          style={[
+            {backgroundColor: 'green', minHeight: 40},
+            {height: this.state.bottomHeight},
+          ]}
+        />
       </View>
     );
   }
@@ -87,6 +101,6 @@ export default class MyComponent extends Component {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
 });

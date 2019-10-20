@@ -1,7 +1,5 @@
-export const getFavoriteChannels = (state) => {
-  const {
-    preferences
-  } = state;
+export const getFavoriteChannels = state => {
+  const {preferences} = state;
   return [...preferences].filter(pre => pre.category === 'favorite_channel');
 };
 

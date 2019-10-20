@@ -1,28 +1,30 @@
-import { processColor } from 'react-native';
+import {processColor} from 'react-native';
 
 const config = {
   description: {
-    text: ''
+    text: '',
   },
   legend: {
     enabled: false,
   },
   data: {
-    dataSets: [{
-      values: [{ y: 0 }],
-      label: 'Bar dataSet',
-      config: {
-        colors: [processColor('#17C491')],
-        // barShadowColor: processColor('lightgrey'),
-        // highlightAlpha: 90,
-        // highlightColor: processColor('red'),
-        drawValues: false
-      }
-    }],
+    dataSets: [
+      {
+        values: [{y: 0}],
+        label: 'Bar dataSet',
+        config: {
+          colors: [processColor('#17C491')],
+          // barShadowColor: processColor('lightgrey'),
+          // highlightAlpha: 90,
+          // highlightColor: processColor('red'),
+          drawValues: false,
+        },
+      },
+    ],
 
     config: {
       barWidth: 0.8,
-    }
+    },
   },
   // highlights: [{ x: 3 }, { x: 6 }],
   xAxis: {
@@ -33,20 +35,20 @@ const config = {
     drawLabels: false,
     drawAxisLine: false,
     fontSize: 0,
-    yOffset: 0
+    yOffset: 0,
   },
   yAxis: {
     left: {
       enabled: false,
       spaceTop: 0,
-      spaceBottom: 0
+      spaceBottom: 0,
     },
     right: {
       enabled: false,
       spaceTop: 0,
-      spaceBottom: 0
-    }
-  }
+      spaceBottom: 0,
+    },
+  },
 };
 
 export default config;

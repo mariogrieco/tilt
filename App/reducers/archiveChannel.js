@@ -1,16 +1,16 @@
-import { ARCHIVE_CHANNEL_ACTIVE } from '../actions/archiveChannel';
+import {ARCHIVE_CHANNEL_ACTIVE} from '../actions/archiveChannel';
 
 const initialState = {
-  archiveChannelActive: false
+  archiveChannelActive: false,
 };
 
 const archiveChannel = (state = initialState, action) => {
   switch (action.type) {
     case ARCHIVE_CHANNEL_ACTIVE:
-      return ({
+      return {
         ...action.payload,
-        archiveChannel: true
-      });
+        archiveChannel: true,
+      };
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import React from 'react';
-import { LineChart } from 'react-native-charts-wrapper';
-import { processColor } from 'react-native';
-import { connect } from 'react-redux';
+import {LineChart} from 'react-native-charts-wrapper';
+import {processColor} from 'react-native';
+import {connect} from 'react-redux';
 import update from 'immutability-helper';
 import StyleSheet from 'react-native-extended-stylesheet';
 import minichart from '../../actions/miniChart';
@@ -10,7 +10,7 @@ import styles from './styles';
 
 const fillColor = {
   green: processColor('#17C491'),
-  red: processColor('#FC3E30')
+  red: processColor('#FC3E30'),
 };
 
 class MiniChart extends React.Component {
@@ -33,12 +33,12 @@ class MiniChart extends React.Component {
                   drawFilled: false,
                   fillColor: fillColor[props.color],
                   fillAlpha: 100,
-                  drawValues: false
-                }
-              }
-            ]
-          }
-        }
+                  drawValues: false,
+                },
+              },
+            ],
+          },
+        },
       });
     }
     return null;
@@ -47,7 +47,7 @@ class MiniChart extends React.Component {
   state = {
     data: {},
     xAxis: {},
-    yAxis: {}
+    yAxis: {},
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,72 +55,74 @@ class MiniChart extends React.Component {
   }
 
   componentDidMount() {
-    const { color, dispatchMiniChart, symbol } = this.props;
+    const {color, dispatchMiniChart, symbol} = this.props;
 
-    this.setState(
-      {
-        xAxis: {
-          drawAxisLine: false,
-          axisLineColor: processColor('#DCDCDC'),
-          axisLineWidth: StyleSheet.hairlineWidth,
-          position: 'BOTTOM',
-          drawGridLines: false,
-          drawLabels: false
+    this.setState({
+      xAxis: {
+        drawAxisLine: false,
+        axisLineColor: processColor('#DCDCDC'),
+        axisLineWidth: StyleSheet.hairlineWidth,
+        position: 'BOTTOM',
+        drawGridLines: false,
+        drawLabels: false,
+      },
+      yAxis: {
+        left: {
+          enabled: false,
         },
-        yAxis: {
-          left: {
-            enabled: false,
+        right: {
+          enabled: false,
+        },
+      },
+      data: {
+        dataSets: [
+          {
+            values: [],
+            label: '',
+            config: {
+              lineWidth: 1.2,
+              drawCircles: false,
+              drawCubicIntensity: 0.3,
+              drawCubic: true,
+              drawHighlightIndicators: false,
+              color: fillColor[color],
+              drawFilled: false,
+              fillColor: fillColor[color],
+              fillAlpha: 100,
+              drawValues: false,
+            },
           },
-          right: {
-            enabled: false
-          }
-        },
-        data: {
-          dataSets: [
-            {
-              values: [],
-              label: '',
-              config: {
-                lineWidth: 1.2,
-                drawCircles: false,
-                drawCubicIntensity: 0.3,
-                drawCubic: true,
-                drawHighlightIndicators: false,
-                color: fillColor[color],
-                drawFilled: false,
-                fillColor: fillColor[color],
-                fillAlpha: 100,
-                drawValues: false
-              }
-            }
-          ]
-        }
-      }
-
-    );
+        ],
+      },
+    });
 
     dispatchMiniChart(symbol);
   }
 
   render() {
-    const { data, xAxis, yAxis } = this.state;
+    const {data, xAxis, yAxis} = this.state;
     return (
       <LineChart
         style={styles.chart}
         data={data}
-        chartDescription={{ text: '' }}
+        chartDescription={{text: ''}}
         xAxis={xAxis}
         yAxis={yAxis}
-        legend={{ enabled: false }}
+        legend={{enabled: false}}
       />
     );
   }
 }
 
 MiniChart.defaultProps = {
-  data: []
+  data: [],
 };
 
-const mapStateToProps = ({ miniChart }, props) => ({ data: miniChart[props.symbol] });
+const mapStateToProps = ({miniChart}, props) => ({
+  data: miniChart[props.symbol],
+});
 
-export default connect(mapStateToProps, { dispatchMiniChart: minichart })(MiniChart);
+export default connect(
+  mapStateToProps,
+  {dispatchMiniChart: minichart},
+)(MiniChart);

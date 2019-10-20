@@ -3,14 +3,10 @@ import filterPostBy from './filterPostBy';
 // import getAllRootsforPost from './getAllRootsforPost';
 import cloneDeep from 'lodash/cloneDeep';
 
-const getJumpPosts = (state) => {
+const getJumpPosts = state => {
   const me = state.login.user ? state.login.user.id : null;
-  const {
-    jumpPosts
-  } = state.advancedSearch;
-  const {
-    active_channel_id,
-  } = state.appNavigation;
+  const {jumpPosts} = state.advancedSearch;
+  const {active_channel_id} = state.appNavigation;
   const lastViewAt = state.lastViewed[active_channel_id];
   let posts = [];
   let flagActive = false;
@@ -27,10 +23,15 @@ const getJumpPosts = (state) => {
       };
       if (filterPostBy(data)) {
         // if (!activeLabels) return posts.unshift(data);
-        if (me !== data.user_id && lastViewAt !== undefined && !flagActive && (post.create_at > lastViewAt || post.edit_at > lastViewAt)) {
+        if (
+          me !== data.user_id &&
+          lastViewAt !== undefined &&
+          !flagActive &&
+          (post.create_at > lastViewAt || post.edit_at > lastViewAt)
+        ) {
           flagActive = true;
           data.render_separator = true;
-        };
+        }
         if (flagActive) {
           flagCount += 1;
         }
@@ -44,18 +45,16 @@ const getJumpPosts = (state) => {
     flagCount,
     activeJumpLabel: true,
     channel: channel,
-  }
+  };
 };
 
-export const getJumpPostsOrtList = (state) => {
+export const getJumpPostsOrtList = state => {
   let data = {};
-  const {
-    activeJump
-  } = state.advancedSearch;
+  const {activeJump} = state.advancedSearch;
   if (!activeJump) {
     data = getPostAndChannelById(state, true);
   } else {
-    data = getJumpPosts(state)
+    data = getJumpPosts(state);
   }
   return data;
 };

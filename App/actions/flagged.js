@@ -15,30 +15,31 @@ export const getFlagged = () => async (dispatch, getState) => {
   } catch (ex) {
     dispatch(getFlaggedError(ex));
     return Promise.reject(ex.message);
-;
   }
 };
 
 export const getFlaggedSucess = flaggedPosts => ({
   type: GET_FLAGGED_SUCESS,
-  payload: flaggedPosts
+  payload: flaggedPosts,
 });
 
 export const getFlaggedError = err => ({
   type: GET_FLAGGED_ERROR,
-  payload: err
+  payload: err,
 });
 
-function getSetFlagSchema (user_id, post_id) {
-  return [{
-    category: 'flagged_post',
-    name: post_id,
-    user_id,
-    value: 'true'
-  }];
-};
+function getSetFlagSchema(user_id, post_id) {
+  return [
+    {
+      category: 'flagged_post',
+      name: post_id,
+      user_id,
+      value: 'true',
+    },
+  ];
+}
 
-export const setFlagged = (userId, postId) => async (dispatch) => {
+export const setFlagged = (userId, postId) => async dispatch => {
   try {
     const preference = getSetFlagSchema(userId, postId);
     const result = await Client4.savePreferences(userId, preference);
@@ -47,21 +48,20 @@ export const setFlagged = (userId, postId) => async (dispatch) => {
   } catch (ex) {
     dispatch(setFlaggedError(ex));
     return Promise.reject(ex.message);
-  };
+  }
 };
 
 export const setFlaggedSucess = flaggedPosts => ({
   type: SET_FLAGGED_SUCESS,
-  payload: flaggedPosts
+  payload: flaggedPosts,
 });
 
 export const setFlaggedError = err => ({
   type: SET_FLAGGED_ERROR,
-  payload: err
+  payload: err,
 });
 
-
-export const removeFlagged = (userId, postId) => async (dispatch) => {
+export const removeFlagged = (userId, postId) => async dispatch => {
   try {
     const preference = getSetFlagSchema(userId, postId);
     await Client4.deletePreferences(userId, preference);
@@ -70,7 +70,7 @@ export const removeFlagged = (userId, postId) => async (dispatch) => {
   } catch (ex) {
     dispatch(setFlaggedError(ex));
     return Promise.reject(ex.message);
-  };
+  }
 };
 
 // export const setFlaggedSucess = flaggedPosts => ({

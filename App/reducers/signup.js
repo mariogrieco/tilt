@@ -1,7 +1,4 @@
-import {
-  IS_SIGN_UP,
-  CREATE_USER_SUCESS
-} from '../actions/signup';
+import {IS_SIGN_UP, CREATE_USER_SUCESS} from '../actions/signup';
 
 const initialState = {
   isSignUp: false,
@@ -15,13 +12,13 @@ const signUp = (state = initialState, action) => {
     case CREATE_USER_SUCESS: {
       return {
         ...state,
-        isSignUp: action.payload
+        isSignUp: action.payload,
       };
     }
     case IS_SIGN_UP:
       return {
         ...state,
-        isSignUp: action.payload
+        isSignUp: action.payload,
       };
     default:
       return state;

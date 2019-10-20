@@ -1,7 +1,7 @@
-export default mapChannelsToDictionary = (channels) => {
+export default function mapChannelsToDictionary(channels) {
   const dictionary = {};
-  channels.forEach((channel) => {
+  channels.forEach(channel => {
     dictionary[channel.id] = channel;
   });
   return dictionary;
-};
+}

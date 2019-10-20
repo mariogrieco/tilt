@@ -1,6 +1,4 @@
-import {
-  GET_CUSTOM_EMOJIS_SUCCESS
-} from '../actions/emojis';
+import {GET_CUSTOM_EMOJIS_SUCCESS} from '../actions/emojis';
 
 const initialState = [];
 

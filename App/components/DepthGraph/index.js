@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  View,
-  processColor
-} from 'react-native';
+import {View, processColor} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 import update from 'immutability-helper';
-import { LineChart } from 'react-native-charts-wrapper';
+import {LineChart} from 'react-native-charts-wrapper';
 
 class DepthGraph extends React.Component {
   static getDerivedStateFromProps(props, state) {
@@ -13,8 +10,8 @@ class DepthGraph extends React.Component {
       return update(state, {
         data: {
           dataSets: {
-            $set:
-              [{
+            $set: [
+              {
                 values: props.data,
                 label: '',
                 config: {
@@ -26,23 +23,16 @@ class DepthGraph extends React.Component {
                   color: processColor(props.config.color),
                   drawFilled: true,
                   fillColor: processColor(props.config.color),
-                  fillAlpha: 90
-                }
+                  fillAlpha: 90,
+                },
               },
-
-              ],
-
-          }
-
-
+            ],
+          },
         },
-
-
       });
     }
     return null;
   }
-
 
   constructor() {
     super();
@@ -55,7 +45,7 @@ class DepthGraph extends React.Component {
   }
 
   componentDidMount() {
-    const { config } = this.props;
+    const {config} = this.props;
     this.setState(
       // eslint-disable-next-line react/no-access-state-in-setstate
       update(this.state, {
@@ -69,8 +59,8 @@ class DepthGraph extends React.Component {
             axisLineWidth: StyleSheet.hairlineWidth,
             fontFamily: 'SFProDisplay-Regular',
             avoidFirstLastClipping: true,
-            position: 'BOTTOM'
-          }
+            position: 'BOTTOM',
+          },
         },
         yAxis: {
           $set: {
@@ -84,7 +74,7 @@ class DepthGraph extends React.Component {
               textSize: 12,
               fontFamily: 'SFProDisplay-Regular',
               textColor: processColor('#0e141e'),
-              position: 'INSIDE_CHART'
+              position: 'INSIDE_CHART',
             },
             right: {
               drawAxisLine: true,
@@ -96,33 +86,34 @@ class DepthGraph extends React.Component {
               textSize: 12,
               fontFamily: 'SFProDisplay-Regular',
               textColor: processColor('#0e141e'),
-              position: 'INSIDE_CHART'
+              position: 'INSIDE_CHART',
             },
-          }
+          },
         },
         data: {
           $set: {
-            dataSets: [{
-              values: [{ y: 0 }],
-              label: '',
-              config: {
-                lineWidth: 1.5,
-                drawCircles: false,
-                drawCubicIntensity: 0.3,
-                drawCubic: true,
-                drawHighlightIndicators: false,
-                color: processColor(config.color),
-                drawFilled: true,
-                fillColor: processColor(config.color),
-                fillAlpha: 100
-              }
-            }],
-          }
-        }
-      })
+            dataSets: [
+              {
+                values: [{y: 0}],
+                label: '',
+                config: {
+                  lineWidth: 1.5,
+                  drawCircles: false,
+                  drawCubicIntensity: 0.3,
+                  drawCubic: true,
+                  drawHighlightIndicators: false,
+                  color: processColor(config.color),
+                  drawFilled: true,
+                  fillColor: processColor(config.color),
+                  fillAlpha: 100,
+                },
+              },
+            ],
+          },
+        },
+      }),
     );
   }
-
 
   // handleSelect(event) {
   //   const entry = event.nativeEvent;
@@ -136,20 +127,17 @@ class DepthGraph extends React.Component {
   // }
 
   render() {
-    const { data, xAxis, yAxis } = this.state;
+    const {data, xAxis, yAxis} = this.state;
     return (
-
-      <View style={{ flex: 1 }}>
-
-
+      <View style={{flex: 1}}>
         <View style={styles.container}>
           <LineChart
             style={styles.chart}
             data={data}
-            chartDescription={{ text: '' }}
+            chartDescription={{text: ''}}
             xAxis={xAxis}
             yAxis={yAxis}
-            legend={{ enabled: false }}
+            legend={{enabled: false}}
             // onSelect={this.handleSelect.bind(this)}
             // onChange={event => console.log(event.nativeEvent)}
             maxVisibleValueCount={5}
@@ -168,8 +156,7 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
-  }
+  },
 });
-
 
 export default DepthGraph;

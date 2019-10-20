@@ -11,6 +11,6 @@ export default StyleSheet.create({
     width: 40,
     borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 });

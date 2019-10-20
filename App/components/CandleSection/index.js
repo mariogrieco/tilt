@@ -2,12 +2,9 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-access-state-in-setstate */
 import React from 'react';
-import {
-  View,
-  processColor,
-} from 'react-native';
-import { CandleStickChart } from 'react-native-charts-wrapper';
-import { connect } from 'react-redux';
+import {View, processColor} from 'react-native';
+import {CandleStickChart} from 'react-native-charts-wrapper';
+import {connect} from 'react-redux';
 import update from 'immutability-helper';
 import isEqueal from 'lodash/isEqual';
 import BarChartSection from '../BarChartSection';
@@ -21,8 +18,12 @@ class CandleSection extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (!isEqueal(props.candleData, state.data.dataSets[0].values)) {
       const xLabels = props.candleData.map(item => item.closeTime);
-      const volume = props.candleData.map(item => ({ y: item.volume }));
-      const colors = props.candleData.map(item => (item.close < item.open ? processColor('rgba(252, 62, 48, 0.65)') : processColor('rgba(23, 196, 145, 0.65)')));
+      const volume = props.candleData.map(item => ({y: item.volume}));
+      const colors = props.candleData.map(item =>
+        item.close < item.open
+          ? processColor('rgba(252, 62, 48, 0.65)')
+          : processColor('rgba(23, 196, 145, 0.65)'),
+      );
 
       return update(state, {
         data: {
@@ -40,25 +41,24 @@ class CandleSection extends React.Component {
                   increasingColor: processColor('#17C491'),
                   increasingPaintStyle: 'FILL',
                   decreasingColor: processColor('#FC3E30'),
-                  drawValues: false
+                  drawValues: false,
                 },
                 label: 'AAPL',
-              }
-            ]
-          }
+              },
+            ],
+          },
         },
         xAxis: {
           $merge: {
-            valueFormatter: xLabels
-          }
+            valueFormatter: xLabels,
+          },
         },
         volume: {
-          $set: volume
+          $set: volume,
         },
         colors: {
-          $set: colors
-        }
-
+          $set: colors,
+        },
       });
     }
     return null;
@@ -66,9 +66,11 @@ class CandleSection extends React.Component {
 
   state = {
     data: {
-      dataSets: [{
-        values: [],
-      }]
+      dataSets: [
+        {
+          values: [],
+        },
+      ],
     },
     marker: {},
     legend: {},
@@ -76,11 +78,11 @@ class CandleSection extends React.Component {
     yAxis: {},
     volume: [],
     colors: [],
-  }
+  };
 
   componentDidMount() {
     this.setState({
-      ...config
+      ...config,
     });
   }
 
@@ -93,9 +95,9 @@ class CandleSection extends React.Component {
   }
 
   handleSelectTimeInterval = (interval, startTime, format) => {
-    const { fetchData, symbol } = this.props;
+    const {fetchData, symbol} = this.props;
     fetchData(symbol, interval, startTime, format);
-  }
+  };
 
   render() {
     return (
@@ -104,7 +106,7 @@ class CandleSection extends React.Component {
           style={styles.chart}
           data={this.state.data}
           marker={this.state.marker}
-          chartDescription={{ text: '' }}
+          chartDescription={{text: ''}}
           legend={this.state.legend}
           xAxis={this.state.xAxis}
           yAxis={this.state.yAxis}
@@ -117,8 +119,11 @@ class CandleSection extends React.Component {
           // eslint-disable-next-line react/no-string-refs
           ref="chart"
         />
-        <View style={{ flex: 0.2, width: '100%', backgroundColor: '#fff' }}>
-          <BarChartSection data={this.state.volume} colors={this.state.colors} />
+        <View style={{flex: 0.2, width: '100%', backgroundColor: '#fff'}}>
+          <BarChartSection
+            data={this.state.volume}
+            colors={this.state.colors}
+          />
         </View>
         <TimeInterval onSelect={this.handleSelectTimeInterval} />
       </View>
@@ -127,15 +132,19 @@ class CandleSection extends React.Component {
 }
 
 CandleSection.defaultProps = {
-  candleData: [{
-    shadowH: 0,
-    shadowL: 0,
-    close: 0,
-    open: 0
-  }]
+  candleData: [
+    {
+      shadowH: 0,
+      shadowL: 0,
+      close: 0,
+      open: 0,
+    },
+  ],
 };
 
+const mapStateToProps = ({candle}) => ({candleData: candle.data});
 
-const mapStateToProps = ({ candle }) => ({ candleData: candle.data });
-
-export default connect(mapStateToProps, { fetchData: fetchCandle })(CandleSection);
+export default connect(
+  mapStateToProps,
+  {fetchData: fetchCandle},
+)(CandleSection);

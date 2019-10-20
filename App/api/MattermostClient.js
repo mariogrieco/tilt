@@ -1,6 +1,4 @@
-import {
-  Client4
-} from 'mattermost-redux/client';
+import {Client4} from 'mattermost-redux/client';
 import axios from 'axios';
 
 export const baseUrl = 'https://community.tiltchat.com';
@@ -15,7 +13,7 @@ Client4.createUser = ({
   password,
   phone,
   firstName,
-  lastName
+  lastName,
 }) => {
   return axios.post(`${baseServicesUrl}/users`, {
     user: {
@@ -24,16 +22,14 @@ Client4.createUser = ({
       password,
       phone,
       firstName,
-      lastName
-    }
+      lastName,
+    },
   });
 };
 
 Client4.getSponsored = async () => {
   try {
-    const {
-      data
-    } = await axios.get(`${baseServicesUrl}/sponsored`);
+    const {data} = await axios.get(`${baseServicesUrl}/sponsored`);
     return data;
   } catch (ex) {
     return Promise.reject(ex);
@@ -42,8 +38,8 @@ Client4.getSponsored = async () => {
 
 export default Client4;
 
-export const setToken = (token) => {
+export const setToken = token => {
   Client4.setToken(token);
 };
 
-export const getBaseUrl = () => (Client4.getUrl());
+export const getBaseUrl = () => Client4.getUrl();

@@ -1,15 +1,16 @@
 import React from 'react';
-import {
-  View,
-  processColor,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { LineChart } from 'react-native-charts-wrapper';
+import {View, processColor} from 'react-native';
+import {connect} from 'react-redux';
+import {LineChart} from 'react-native-charts-wrapper';
 import update from 'immutability-helper';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
-import { depthChartActive, depthChartInactive, fetchAll } from '../../actions/depth';
-import { DEPTH_INTERVAL } from '../../config/refreshIntervals';
+import {
+  depthChartActive,
+  depthChartInactive,
+  fetchAll,
+} from '../../actions/depth';
+import {DEPTH_INTERVAL} from '../../config/refreshIntervals';
 import config from './config';
 import styles from './styles';
 
@@ -18,8 +19,8 @@ const memoProcessColor = memoize(color => processColor(color));
 class DepthSection extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (
-      !isEqual(state.data.dataSets[0].values, props.bids)
-      || !isEqual(state.data.dataSets[1].values, props.asks)
+      !isEqual(state.data.dataSets[0].values, props.bids) ||
+      !isEqual(state.data.dataSets[1].values, props.asks)
     ) {
       return update(state, {
         data: {
@@ -36,8 +37,8 @@ class DepthSection extends React.PureComponent {
                   lineWidth: 2,
                   drawFilled: true,
                   fillColor: memoProcessColor('#17C491'),
-                }
-              }
+                },
+              },
             },
             1: {
               $merge: {
@@ -51,11 +52,11 @@ class DepthSection extends React.PureComponent {
                   lineWidth: 2,
                   drawFilled: true,
                   fillColor: memoProcessColor('#FC3E30'),
-                }
-              }
-            }
-          }
-        }
+                },
+              },
+            },
+          },
+        },
       });
     }
     return null;
@@ -68,7 +69,7 @@ class DepthSection extends React.PureComponent {
     data: {
       dataSets: [
         {
-          values: [{ x: 0, y: 0 }],
+          values: [{x: 0, y: 0}],
           label: 'Bids',
           config: {
             highlightEnabled: false,
@@ -78,10 +79,10 @@ class DepthSection extends React.PureComponent {
             lineWidth: 2,
             drawFilled: true,
             fillColor: memoProcessColor('#17C491'),
-          }
+          },
         },
         {
-          values: [{ x: 0, y: 0 }],
+          values: [{x: 0, y: 0}],
           label: 'Asks',
           config: {
             highlightEnabled: false,
@@ -91,9 +92,9 @@ class DepthSection extends React.PureComponent {
             lineWidth: 2,
             drawFilled: true,
             fillColor: memoProcessColor('#FC3E30'),
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
   };
 
@@ -103,39 +104,34 @@ class DepthSection extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { dispatchFetchData, symbol, dispatchNowActive } = this.props;
+    const {dispatchFetchData, symbol, dispatchNowActive} = this.props;
     dispatchNowActive();
-    this.setState({ ...config });
+    this.setState({...config});
     this.intervalId = setInterval(() => {
       dispatchFetchData(symbol);
     }, DEPTH_INTERVAL);
   }
 
   componentWillUnmount() {
-    const { dispatchNowInactive } = this.props;
+    const {dispatchNowInactive} = this.props;
     clearInterval(this.intervalId);
     dispatchNowInactive();
   }
 
   render() {
-    const {
-      data,
-      xAxis,
-      yAxis,
-      marker
-    } = this.state;
+    const {data, xAxis, yAxis, marker} = this.state;
 
     return (
-      <View style={{ flex: 1, marginTop: 15, marginBottom: 0 }}>
+      <View style={{flex: 1, marginTop: 15, marginBottom: 0}}>
         <View style={styles.container}>
           <LineChart
             data={data}
             xAxis={xAxis}
             yAxis={yAxis}
             marker={marker}
-            legend={{ enabled: false }}
+            legend={{enabled: false}}
             style={styles.chart}
-            chartDescription={{ text: '' }}
+            chartDescription={{text: ''}}
             dragEnabled={false}
             doubleTapToZoomEnabled={false}
             pinchZoom={false}
@@ -150,21 +146,18 @@ class DepthSection extends React.PureComponent {
 
 DepthSection.defaultProps = {
   asks: [],
-  bids: []
+  bids: [],
 };
 
 const mapStateToProps = ({
   depth: {
-    graph: {
-      asks,
-      bids
-    },
-    isFetching
-  }
+    graph: {asks, bids},
+    isFetching,
+  },
 }) => ({
   asks,
   bids,
-  isFetching
+  isFetching,
 });
 
 export default connect(
@@ -172,6 +165,6 @@ export default connect(
   {
     dispatchFetchData: fetchAll,
     dispatchNowActive: depthChartActive,
-    dispatchNowInactive: depthChartInactive
-  }
+    dispatchNowInactive: depthChartInactive,
+  },
 )(DepthSection);

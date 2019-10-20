@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import React, {Component} from 'react';
+import {Alert} from 'react-native';
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 // import Modal from 'react-native-modal';
 import isEqual from 'lodash/isEqual';
-import cloneDeep from 'lodash/cloneDeep';
-import {
-  closeModal
-} from '../../actions/channelJoinModalAlert';
-import {
-  setActiveFocusChannel
-} from '../../actions/AppNavigation';
-import {
-  addToChannel
-} from '../../actions/channels';
+import {closeModal} from '../../actions/channelJoinModalAlert';
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
+import {addToChannel} from '../../actions/channels';
 import parser from '../../utils/parse_display_name';
 import NavigationService from '../../config/NavigationService';
-import { getFavoriteChannelById } from '../../selectors/getFavoriteChannels';
+import {getFavoriteChannelById} from '../../selectors/getFavoriteChannels';
 
 // import styles from './style';
 
@@ -24,20 +17,20 @@ export class ChannelJoinModalAlert extends Component {
   // static propTypes = {
   //   prop: PropTypes
   // }
-  static getDerivedStateFromProps(props, { isVisible, loading }) {
+  static getDerivedStateFromProps(props, {isVisible, loading}) {
     if (props.open !== isVisible) {
       return {
         isVisible: props.open,
-        loading
+        loading,
       };
     }
-    return { isVisible, loading };
+    return {isVisible, loading};
   }
 
   state = {
     isVisible: false,
-    loading: false
-  }
+    loading: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
@@ -52,7 +45,7 @@ export class ChannelJoinModalAlert extends Component {
   }
 
   onJoin = async () => {
-    const { channel } = this.props;
+    const {channel} = this.props;
     try {
       this.props.closeModal();
       await this.join(channel);
@@ -60,7 +53,7 @@ export class ChannelJoinModalAlert extends Component {
     } catch (err) {
       alert(err.message || err);
     }
-  }
+  };
 
   redirect(channel) {
     this.props.setActiveFocusChannel(channel.id);
@@ -68,28 +61,31 @@ export class ChannelJoinModalAlert extends Component {
       display_name: channel.display_name,
       create_at: channel.create_at,
       members: channel.members,
-      fav: channel.fav
+      fav: channel.fav,
     });
   }
 
   join(channel) {
-    if (this.state.loading) return null;
-    this.setState({
-      loading: true
-    }, async () => {
-      const {
-        meId
-      } = this.props;
-      try {
-        await this.props.addToChannel(meId, channel.id);
-      } catch (err) {
-        alert(err);
-      } finally {
-        this.setState({
-          loading: false
-        });
-      }
-    });
+    if (this.state.loading) {
+      return null;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        const {meId} = this.props;
+        try {
+          await this.props.addToChannel(meId, channel.id);
+        } catch (err) {
+          alert(err);
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
   }
 
   onCancel = () => {
@@ -97,10 +93,10 @@ export class ChannelJoinModalAlert extends Component {
   };
 
   open = () => {
-    if (!this.state.isVisible) return null;
-    const {
-      channel
-    } = this.props;
+    if (!this.state.isVisible) {
+      return null;
+    }
+    const {channel} = this.props;
     Alert.alert(
       'Join Channel',
       `You are not a member of #${channel.display_name}. Would you like to join the channel?`,
@@ -113,23 +109,25 @@ export class ChannelJoinModalAlert extends Component {
         {
           text: 'Join',
           onPress: this.onJoin.bind(this),
-          style: 'default'
+          style: 'default',
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-  }
+  };
 
   render() {
     return null;
   }
 }
 
-const mapStateToProps = (state) => {
-  const channel = state.mapChannels.find(_channel => state.channelJoinModalAlert.channelId === _channel.id);
+const mapStateToProps = state => {
+  const channel = state.mapChannels.find(
+    _channel => state.channelJoinModalAlert.channelId === _channel.id,
+  );
   if (channel) {
     channel.fav = getFavoriteChannelById(state, channel.id);
-    channel.display_name = parser(channel.display_name)
+    channel.display_name = parser(channel.display_name);
   }
   return {
     open: !!channel,
@@ -141,10 +139,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   closeModal,
   addToChannel,
-  setActiveFocusChannel
+  setActiveFocusChannel,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ChannelJoinModalAlert);

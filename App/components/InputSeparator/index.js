@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 
 const styles = {
@@ -7,11 +7,11 @@ const styles = {
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#DCDCDC',
     width: 285,
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 };
 
-const InputSeparator = ({ customStyles }) => (
+const InputSeparator = ({customStyles}) => (
   <View style={[styles.line, customStyles]} />
 );
 

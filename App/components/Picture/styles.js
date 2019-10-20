@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   picture: {
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   bubble: {
     left: -7,
@@ -21,15 +21,15 @@ export default StyleSheet.create({
     position: 'absolute',
     width: 14,
     height: 14,
-    borderRadius: 14
+    borderRadius: 14,
   },
   available: {
-    backgroundColor: '#FC3E30'
+    backgroundColor: '#FC3E30',
   },
   camera: {
     right: 0,
     bottom: 0,
     position: 'absolute',
-    zIndex: 999
-  }
+    zIndex: 999,
+  },
 });

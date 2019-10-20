@@ -6,7 +6,7 @@ export const CREATE_USER_FAILED = 'CREATE_USER_ERROR';
 
 const isSignUp = signUp => ({
   type: IS_SIGN_UP,
-  payload: signUp
+  payload: signUp,
 });
 
 export const createUser = (
@@ -15,18 +15,16 @@ export const createUser = (
   password,
   phone,
   firstName,
-  lastName
-  ) => async (dispatch) => {
+  lastName,
+) => async dispatch => {
   try {
-    const {
-      data
-    } = await Client4.createUser({
+    const {data} = await Client4.createUser({
       email,
       username,
       password,
       phone,
       firstName,
-      lastName
+      lastName,
     });
     dispatch(createUserSuccess(data));
     return data;
@@ -38,12 +36,12 @@ export const createUser = (
 
 const createUserSuccess = data => ({
   type: CREATE_USER_SUCESS,
-  payload: data
+  payload: data,
 });
 
 const createUserFailed = message => ({
   type: CREATE_USER_FAILED,
-  payload: message
+  payload: message,
 });
 
 export default isSignUp;

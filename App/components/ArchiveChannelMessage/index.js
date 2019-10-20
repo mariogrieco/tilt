@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import styles from './styles';
 
@@ -19,7 +16,11 @@ class ArchiveChannelMessage extends React.Component {
             Your are viewing an archived channel. New messages cannot be posted.
           </Text>
         </View>
-        <Text style={styles.button} onPress={this.props.redirectToChannels}>Close Channel</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.props.redirectToChannels}>
+          Close Channel
+        </TouchableOpacity>
       </View>
     );
   }

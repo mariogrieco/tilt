@@ -1,18 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
   Text,
   View,
   FlatList,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
-import {
-  connect
-} from 'react-redux';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import {
-  navigateIfExists
-} from '../../actions/channels';
+import {connect} from 'react-redux';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {navigateIfExists} from '../../actions/channels';
 import Post from '../Post/Post';
 
 import styles from './styles';
@@ -31,7 +27,7 @@ export class SearchResults extends PureComponent {
     };
   }
 
-  getChannelDisplayItem = (item) => {
+  getChannelDisplayItem = item => {
     const name = item.channel ? this.parseName(item.channel.display_name) : '';
     return (
       <TouchableOpacity onPress={this.navegateIfExists(name)}>
@@ -41,15 +37,15 @@ export class SearchResults extends PureComponent {
         </Text>
       </TouchableOpacity>
     );
-  }
+  };
 
   parseName(name = '') {
-    return parser(name)
+    return parser(name);
   }
 
-  renderItem = ({ item, index }) => (
-    <View style={{ backgroundColor: '#fff' }}>
-      <View style={[styles.channelTitleContainer, { paddingTop: 10 }]}>
+  renderItem = ({item}) => (
+    <View style={{backgroundColor: '#fff'}}>
+      <View style={[styles.channelTitleContainer, {paddingTop: 10}]}>
         {/* <SeparatorContainer noPadding createdAt={item.create_at} /> */}
         {this.getChannelDisplayItem(item)}
       </View>
@@ -60,10 +56,9 @@ export class SearchResults extends PureComponent {
         last_picture_update={item.user ? item.user.last_picture_update : ''}
         message={item.message}
         username={item.user ? item.user.username : ''}
-        metadata={item.metadata}
         channel={item.channel}
         createdAt={item.create_at}
-          // replies={item.replies}
+        // replies={item.replies}
         edit_at={item.edit_at}
         // channelsNames={this.props.channelsNames}
         // usernames={this.props.usernames}
@@ -74,18 +69,20 @@ export class SearchResults extends PureComponent {
       />
       <BottomBlockSpaceSmall />
     </View>
-  )
+  );
 
   renderLoading = () => {
-    if (!this.props.loading) return (<View><Text /></View>);
+    if (!this.props.loading)
+      return (
+        <View>
+          <Text />
+        </View>
+      );
     return <ActivityIndicator size="large" color="#17C491" />;
-  }
+  };
 
   render() {
-    const {
-      posts,
-      loading
-    } = this.props;
+    const {posts, loading} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -110,10 +107,10 @@ export class SearchResults extends PureComponent {
 }
 
 const mapDispatchToProps = {
-  navigateIfExists
+  navigateIfExists,
 };
 
 export default connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(SearchResults);

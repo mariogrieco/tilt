@@ -17,7 +17,7 @@ export default StyleSheet.create({
     fontSize: 22,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Bold',
-    color: '$textColor'
+    color: '$textColor',
   },
   toggle: {
     flexDirection: 'row',
@@ -42,6 +42,6 @@ export default StyleSheet.create({
     borderRadius: 14.5,
   },
   toggleUnSelected: {
-    color: '$textColor'
-  }
+    color: '$textColor',
+  },
 });

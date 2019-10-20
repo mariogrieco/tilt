@@ -1,6 +1,4 @@
-import {
-  RECOVERY_REQUEST_SUCCESS,
-} from '../actions/recoveryActions';
+import {RECOVERY_REQUEST_SUCCESS} from '../actions/recoveryActions';
 
 const initialState = {};
 

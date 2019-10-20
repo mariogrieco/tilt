@@ -1,4 +1,3 @@
-
 // import Client4 from '../api/MattermostClient';
 
 export const GET_FILE_SUCCESS = 'GET_FILE_SUCCESS';

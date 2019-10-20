@@ -11,10 +11,10 @@ export default (state, channel_id) => {
 
   if (channel) {
     const creator = channel.creator_id;
-    if (!creator) return false; // default channel and other does not . 
+    if (!creator) return false; // default channel and other does not .
     const user = state.users.data[creator];
     if (!user) return false;
     if (user && user.roles.includes('system_admin')) return true;
-  };
+  }
   return false;
-}
+};

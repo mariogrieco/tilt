@@ -5,6 +5,6 @@ export default StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#DCDCDC',
     width: 285,
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });

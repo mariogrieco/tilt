@@ -8,5 +8,5 @@ export default StyleSheet.create({
     // borderTopColor: '#DCDCDC',
     // borderBottomColor: '#DCDCDC',
     // borderBottomWidth: StyleSheet.hairlineWidth
-  }
+  },
 });

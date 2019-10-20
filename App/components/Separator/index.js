@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 
 const styles = {
   line: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#DCDCDC',
-    width: '100%'
-  }
+    width: '100%',
+  },
 };
 
-const Separator = ({ customStyles }) => (
+const Separator = ({customStyles}) => (
   <View style={[styles.line, customStyles]} />
 );
 

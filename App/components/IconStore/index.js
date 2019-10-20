@@ -11,5 +11,5 @@ export default {
   Laught,
   Like,
   Rocket,
-  SadFace
+  SadFace,
 };

@@ -5,28 +5,31 @@ export const DEPTH_CHART_ACTIVE = 'DEPTH_CHART_ACTIVE';
 export const DEPTH_CHART_INACTIVE = 'DEPTH_CHART_INACTIVE';
 
 export const releaseDepthFetching = () => ({
-  type: RELEASE_DEPTH_FETCHING
+  type: RELEASE_DEPTH_FETCHING,
 });
 
 export const resetDepthChart = () => ({
-  type: RESET_DEPTH_CHART
+  type: RESET_DEPTH_CHART,
 });
 
 export const depthChartActive = () => ({
-  type: DEPTH_CHART_ACTIVE
+  type: DEPTH_CHART_ACTIVE,
 });
 
 export const depthChartInactive = () => ({
-  type: DEPTH_CHART_INACTIVE
+  type: DEPTH_CHART_INACTIVE,
 });
 
-export const fetchBooksOnly = symbol => dispatch => fetchDepthData(symbol, false, true, dispatch);
+export const fetchBooksOnly = symbol => dispatch =>
+  fetchDepthData(symbol, false, true, dispatch);
 
-export const fetchGraphOnly = symbol => dispatch => fetchDepthData(symbol, true, false, dispatch);
+export const fetchGraphOnly = symbol => dispatch =>
+  fetchDepthData(symbol, true, false, dispatch);
 
-export const fetchAll = symbol => dispatch => fetchDepthData(symbol, true, true, dispatch);
+export const fetchAll = symbol => dispatch =>
+  fetchDepthData(symbol, true, true, dispatch);
 
-const graphCalcs = (data) => {
+const graphCalcs = data => {
   const asks = [];
   const bids = [];
   const sortBids = data.bids.reverse();
@@ -37,7 +40,7 @@ const graphCalcs = (data) => {
     currentQty += parseFloat(data.asks[index][1]);
     asks.push({
       x: parseFloat(data.asks[index][0]),
-      y: currentQty
+      y: currentQty,
     });
   }
 
@@ -54,58 +57,56 @@ const graphCalcs = (data) => {
     currentQty -= parseFloat(sortBids[index][1]);
     bids.push({
       x: parseFloat(sortBids[index][0]),
-      y: currentQty
+      y: currentQty,
     });
   }
-  return ({ asks, bids });
+  return {asks, bids};
 };
 
-const prepareBooks = (data) => {
+const prepareBooks = data => {
   const books = [];
   for (let index = 0; index < data.asks.length; index += 1) {
     books.push({
       ask: {
         price: data.asks[index][0],
-        qty: data.asks[index][1]
+        qty: data.asks[index][1],
       },
       bid: {
         price: data.bids[index][0],
-        qty: data.bids[index][1]
-      }
+        qty: data.bids[index][1],
+      },
     });
   }
   return books.slice(0, 20);
 };
 
 const fetchDepthData = (symbol, hasGraph, hasBooks, dispatch) => {
-  console.log(symbol)
+  console.log(symbol);
   fetch(`https://api.binance.com/api/v1/depth?symbol=${symbol}&limit=100`)
     .then(response => response.json())
-    .then((data) => {
-      console.log(data)
+    .then(data => {
+      console.log(data);
       const emptyGraph = {
-        asks: [{ x: 0, y: 0 }],
-        bids: [{ x: 0, y: 0 }]
+        asks: [{x: 0, y: 0}],
+        bids: [{x: 0, y: 0}],
       };
       const emptyBooks = [
         {
-          ask: { price: 0, qty: 0 },
-          bids: { price: 0, qty: 0 }
-        }
+          ask: {price: 0, qty: 0},
+          bids: {price: 0, qty: 0},
+        },
       ];
       dispatch({
         type: FETCH_DEPTH_DATA,
         payload: {
           graph: {
-            ...(hasGraph ? graphCalcs(data) : emptyGraph)
+            ...(hasGraph ? graphCalcs(data) : emptyGraph),
           },
-          books: [
-            ...(hasBooks ? prepareBooks(data) : emptyBooks)
-          ],
-        }
+          books: [...(hasBooks ? prepareBooks(data) : emptyBooks)],
+        },
       });
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
     });
 };

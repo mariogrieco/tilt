@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Text, View} from 'react-native';
 
 import styles from './styles';
 
@@ -7,9 +7,7 @@ export class SearchResults extends PureComponent {
   getRecentItem() {
     return (
       <View style={styles.recentItem}>
-        <Text style={styles.recentText}>
-          test
-        </Text>
+        <Text style={styles.recentText}>test</Text>
         <Text>X</Text>
       </View>
     );

@@ -1,4 +1,4 @@
-import { processColor } from 'react-native';
+import {processColor} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 
 // if you want style the lines of the chart,
@@ -56,31 +56,34 @@ const config = {
       fontFamily: 'SFProDisplay-Regular',
       textColor: processColor('#0e141e'),
       position: 'INSIDE_CHART',
-    }
+    },
   },
   marker: {
     enabled: false,
   },
   data: {
-    dataSets: [{
-      values: [0],
-      label: '',
-      config: {
-        drawValues: false,
-        colors: [processColor('green')],
-        drawCircles: false,
-        lineWidth: 2,
-      }
-    }, {
-      values: [0],
-      label: '',
-      config: {
-        drawValues: false,
-        colors: [processColor('blue')],
-        drawCircles: false,
-        lineWidth: 2,
-      }
-    }],
+    dataSets: [
+      {
+        values: [0],
+        label: '',
+        config: {
+          drawValues: false,
+          colors: [processColor('green')],
+          drawCircles: false,
+          lineWidth: 2,
+        },
+      },
+      {
+        values: [0],
+        label: '',
+        config: {
+          drawValues: false,
+          colors: [processColor('blue')],
+          drawCircles: false,
+          lineWidth: 2,
+        },
+      },
+    ],
   },
 };
 

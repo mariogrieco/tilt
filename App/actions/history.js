@@ -3,16 +3,16 @@ import moment from 'moment';
 export const FETCH_TRADE_HISTORIES = 'FETCH_TRADE_HISTORIES';
 export const RESET_HISTORIES = 'RESET_HISTORIES';
 
-export const resetHistories = () => ({ type: RESET_HISTORIES });
+export const resetHistories = () => ({type: RESET_HISTORIES});
 
-const fetchHistories = symbol => (dispatch) => {
+const fetchHistories = symbol => dispatch => {
   fetch(`https://api.binance.com/api/v1/trades?symbol=${symbol}`)
     .then(response => response.json())
-    .then((data) => {
+    .then(data => {
       let historyList = data.map(value => ({
         ...value,
         price: parseFloat(value.price),
-        time: moment(value.time).format('HH:mm:ss')
+        time: moment(value.time).format('HH:mm:ss'),
       }));
 
       for (let index = 0; index < historyList.length; index += 1) {
@@ -38,7 +38,7 @@ const fetchHistories = symbol => (dispatch) => {
 
       dispatch({
         type: FETCH_TRADE_HISTORIES,
-        payload: historyList
+        payload: historyList,
       });
     });
 };

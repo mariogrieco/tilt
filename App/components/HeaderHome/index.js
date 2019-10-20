@@ -7,16 +7,16 @@ import {
   Text,
   TextInput,
   Dimensions,
-  Animated
+  Animated,
 } from 'react-native';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import styles from './styles';
 
 // const MENU_IMAGE = require('../../../assets/images/menu/menu.png');
 const SEARCH = require('../../../assets/images/search/search.png');
 const SEARCH_ICON = require('../../../assets/images/searchIcon/searchIcon.png');
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 // export const HeaderLeft = (props) => {
 //   const { navigation } = props;
@@ -40,49 +40,43 @@ const { width } = Dimensions.get('window');
 //   );
 // };
 
-
 class Search extends React.Component {
   state = {
     widthAnim: new Animated.Value(0), // Initial value for opacity: 0
-    fadeAnim: new Animated.Value(0)
+    fadeAnim: new Animated.Value(0),
   };
 
   componentDidMount() {
     Animated.parallel([
-      Animated.timing( // Animate over time
+      Animated.timing(
+        // Animate over time
         this.state.widthAnim, // The animated value to drive
         {
           toValue: Math.floor(width * 0.79), // Animate to opacity: 1 (opaque)
           duration: 300, // Make it take a while
-        }
+        },
       ),
-      Animated.timing(
-        this.state.fadeAnim,
-        {
-          toValue: 1, // Animate to opacity: 1 (opaque)
-          duration: 300,
-        }
-      ) // Starts the animation
+      Animated.timing(this.state.fadeAnim, {
+        toValue: 1, // Animate to opacity: 1 (opaque)
+        duration: 300,
+      }), // Starts the animation
     ]).start();
   }
 
   render() {
-    const { navigation } = this.props;
-    const { widthAnim, fadeAnim } = this.state;
+    const {navigation} = this.props;
+    const {widthAnim, fadeAnim} = this.state;
 
     return (
-      <Animated.View style={{
-        width: widthAnim,
-        opacity: fadeAnim,
-        marginRight: 10
-
-      }}
-      >
+      <Animated.View
+        style={{
+          width: widthAnim,
+          opacity: fadeAnim,
+          marginRight: 10,
+        }}>
         <View style={styles.searchContainer}>
-          <View style={{ paddingRight: 6 }}>
-            <Image
-              source={SEARCH_ICON}
-            />
+          <View style={{paddingRight: 6}}>
+            <Image source={SEARCH_ICON} />
           </View>
           <View>
             <TextInput
@@ -102,64 +96,66 @@ class Search extends React.Component {
   }
 }
 
-
 class HeaderRight extends React.Component {
   state = {
     isSearching: false,
   };
 
   handleSearch = () => {
-    const { navigation } = this.props;
-    this.setState(prevState => ({ isSearching: !prevState.isSearching }));
+    const {navigation} = this.props;
+    this.setState(prevState => ({isSearching: !prevState.isSearching}));
     navigation.setParams({
-      title: ''
+      title: '',
     });
-  }
+  };
 
   handleCancel = () => {
-    const { navigation } = this.props;
-    this.setState(prevState => ({ isSearching: !prevState.isSearching }));
+    const {navigation} = this.props;
+    this.setState(prevState => ({isSearching: !prevState.isSearching}));
     navigation.setParams({
-      title: 'All Cryptos'
+      title: 'All Cryptos',
     });
     navigation.getParam('onChangeText')('');
-  }
+  };
 
   render() {
-    const { isSearching } = this.state;
-    const { navigation } = this.props;
+    const {isSearching} = this.state;
+    const {navigation} = this.props;
 
     return (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {
-          isSearching
-            ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Search
-                  navigation={navigation}
-                />
-                <TouchableOpacity style={styles.headerRight} onPress={this.handleCancel}>
-                  <Text style={{
-                    color: '#0E141E', fontFamily: 'SFProDisplay-Medium', fontSize: 16, letterSpacing: 0.1
-                  }}
-                  >
-Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )
-            : (
-              <TouchableOpacity style={styles.headerRight} onPress={this.handleSearch}>
-                <Image source={SEARCH} />
-              </TouchableOpacity>
-            )
-        }
-
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {isSearching ? (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Search navigation={navigation} />
+            <TouchableOpacity
+              style={styles.headerRight}
+              onPress={this.handleCancel}>
+              <Text
+                style={{
+                  color: '#0E141E',
+                  fontFamily: 'SFProDisplay-Medium',
+                  fontSize: 16,
+                  letterSpacing: 0.1,
+                }}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={styles.headerRight}
+            onPress={this.handleSearch}>
+            <Image source={SEARCH} />
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ login }) => ({ login });
+const mapStateToProps = ({login}) => ({login});
 
-export default connect(mapStateToProps, null)(HeaderRight);
+export default connect(
+  mapStateToProps,
+  null,
+)(HeaderRight);

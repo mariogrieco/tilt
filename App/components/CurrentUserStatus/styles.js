@@ -1,6 +1,5 @@
 import StyleSheet from 'react-native-extended-stylesheet';
 
-
 export default StyleSheet.create({
   bubble: {
     backgroundColor: '#ffcc00',
@@ -9,6 +8,6 @@ export default StyleSheet.create({
     bottom: '-0.125rem',
     borderRadius: '0.3125rem',
     width: '0.69rem',
-    height: '0.69rem'
+    height: '0.69rem',
   },
-})
+});
