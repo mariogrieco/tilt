@@ -34,23 +34,13 @@ target 'tiltClient' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'Firebase/Core', '~> 6.3.0'
+  pod 'Firebase/AdMob', '~> 6.3.0'
+  pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper'
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
   pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
   
-  target 'tiltClientTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  use_native_modules!
-end
-
-target 'tiltClient-tvOS' do
-  # Pods for tiltClient-tvOS
-
-  target 'tiltClient-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
 
 end
