@@ -17,6 +17,7 @@
     "core-js": "^3.3.2",
     "emogeez-parser": "^0.21.1",
     "immutability-helper": "^3.0.1",
+    "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
     "mattermost-redux": "^5.16.0",
     "moment": "^2.24.0",
