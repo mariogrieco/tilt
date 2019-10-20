@@ -595,7 +595,9 @@ class Channel extends React.Component {
     const flagCount = this.props.flagCount || this.state.flagCount;
 
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView
+        forceInset={{top: 'never', bottom: 'always'}}
+        style={{flex: 1}}>
         {!activeJumpLabel && scrollLabel && flagCount > 0 && (
           <NewMessageLabel
             length={flagCount}

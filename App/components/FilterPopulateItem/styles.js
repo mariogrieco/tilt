@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   labelBody: {
     fontSize: 16,
-    fontFamily: 'SFProDisplay',
+    fontFamily: 'SFProDisplay-Regular',
     color: '#585c63',
   },
   labelHeader: {
@@ -17,7 +17,7 @@ export default StyleSheet.create({
     marginBottom: 5,
     marginTop: 5,
     marginLeft: 7,
-    fontFamily: 'SFProDisplay',
+    fontFamily: 'SFProDisplay-Regular',
     color: '#0e141e',
   },
   headerContainer: {
