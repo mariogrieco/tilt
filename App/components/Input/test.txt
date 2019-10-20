@@ -1,0 +1,12 @@
+metedata.files: []
+
+create_at: 1568321044061
+delete_at: 0
+extension: "mp4"
+id: "3nqy35r69bfcursph6gnaga3ue"
+mime_type: "video/mp4"
+name: "SampleVideo_1280x720_1mb.mp4"
+post_id: "u49y4ojj1bf9uqkrb44hoi83bw"
+size: 1055736
+update_at: 1568321044061
+user_id: "w6swods6nidgxgqoazdbahjgre"
