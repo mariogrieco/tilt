@@ -791,7 +791,7 @@ class Input extends React.Component {
     const file = new FormData();
     const id = generateId();
     let formBoundary;
-    if (Platform.os === 'ios') {
+    if (Platform.OS === 'ios') {
       formBoundary = '--mobile.client.file.upload';
     }
     data.name = encodeHeaderURIStringToUTF8(data.fileName);
