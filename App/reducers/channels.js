@@ -8,22 +8,16 @@ import {
   CHANNEL_UPDATED_SUCCESS,
   GET_CHANNEL_BY_NAME_SUCCESS,
   ADD_TO_CHANNEL_SUCESS,
-  DELETE_CHANNEL_SUCCESS
+  DELETE_CHANNEL_SUCCESS,
 } from '../actions/channels';
-import {
-  IS_SIGN_UP
-} from '../actions/signup';
-import {
-  LOGOUT_SUCESS
-} from '../actions/login';
-import {
-  SEARCH_CHANNELS_SUCCESS
-} from '../actions/search';
+import {IS_SIGN_UP} from '../actions/signup';
+import {LOGOUT_SUCESS} from '../actions/login';
+import {SEARCH_CHANNELS_SUCCESS} from '../actions/search';
 
 import cloneDeep from 'lodash/cloneDeep';
 import mergeWith from 'lodash/mergeWith';
 import isEmpty from 'lodash/isEmpty';
-import uniqBy from 'lodash/uniqBy'; 
+import uniqBy from 'lodash/uniqBy';
 import initialState from '../config/initialState/channels';
 import concat from 'lodash/concat';
 
@@ -32,8 +26,8 @@ function customizer(objValue, srcValue) {
     return srcValue;
   } else {
     return objValue;
-  };
-};
+  }
+}
 
 const channels = (state = initialState, action) => {
   switch (action.type) {
@@ -42,7 +36,7 @@ const channels = (state = initialState, action) => {
       return [...state].filter(channel => channel.id !== channelId);
     }
     case LOGOUT_SUCESS: {
-      return []
+      return [];
     }
     case SEARCH_CHANNELS_SUCCESS: {
       if (!action.payload || action.payload.length === 0) return state;
@@ -51,7 +45,7 @@ const channels = (state = initialState, action) => {
     case ADD_TO_CHANNEL_SUCESS: {
       return state.filter(channel => {
         if (channel.id === action.payload.id) {
-          return false; 
+          return false;
         }
         return true;
       });
@@ -61,7 +55,7 @@ const channels = (state = initialState, action) => {
         const nextChannel = cloneDeep(channel);
         if (channel.id === action.payload.id) {
           mergeWith(nextChannel, action.payload, customizer);
-          return nextChannel; 
+          return nextChannel;
         }
         return nextChannel;
       });
@@ -73,10 +67,10 @@ const channels = (state = initialState, action) => {
         if (channel.id === channelID) {
           return {
             ...cloneDeep(channel),
-            display_name: newDisplayName
-          }
-        };
-        return channel
+            display_name: newDisplayName,
+          };
+        }
+        return channel;
       });
     }
     case UPDATE_PURPOSE_SUCCESS: {
@@ -86,10 +80,10 @@ const channels = (state = initialState, action) => {
         if (channel.id === channelID) {
           return {
             ...cloneDeep(channel),
-            purpose: newPurpose
-          }
-        };
-        return channel
+            purpose: newPurpose,
+          };
+        }
+        return channel;
       });
     }
     case UPDATE_CHANNEL_HEADER_SUCCESS: {
@@ -99,10 +93,10 @@ const channels = (state = initialState, action) => {
         if (channel.id === channelID) {
           return {
             ...cloneDeep(channel),
-            header: newHeader
-          }
-        };
-        return channel
+            header: newHeader,
+          };
+        }
+        return channel;
       });
     }
     case IS_SIGN_UP: {
@@ -110,7 +104,7 @@ const channels = (state = initialState, action) => {
     }
     case GET_CHANNEL_BY_NAME_SUCCESS: {
       let nextState = cloneDeep(state);
-      nextState.push(action.payload);  
+      nextState.push(action.payload);
       nextState = uniqBy(nextState, 'id');
       return nextState;
     }

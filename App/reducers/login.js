@@ -3,25 +3,18 @@ import {
   LOGIN_SUCCESS,
   USER_LOGIN,
   MODAL_ACTIVE,
-  LOGOUT_SUCESS
+  LOGOUT_SUCESS,
 } from '../actions/login';
-import {
-  CREATE_USER_SUCESS
-} from '../actions/signup';
-import {
-  USER_UPDATED_SUCCESS
-} from '../actions/users';
-import {
-  mergeWith,
-  isEmpty
-} from 'lodash';
+import {CREATE_USER_SUCESS} from '../actions/signup';
+import {USER_UPDATED_SUCCESS} from '../actions/users';
+import {mergeWith, isEmpty} from 'lodash';
 import NavigationService from '../config/NavigationService';
 import moment from 'moment';
 
 const initialState = {
   isLogin: false,
   modalActive: false,
-  user: null
+  user: null,
 };
 
 function customizer(objValue, srcValue) {
@@ -29,21 +22,24 @@ function customizer(objValue, srcValue) {
     return srcValue;
   } else {
     return objValue;
-  };
-};
+  }
+}
 
 const login = (state = initialState, action) => {
   if ((state.isLogin || state.user) && action.type.includes('_ERROR')) {
-    if (action.payload && action.payload.server_error_id === 'api.context.session_expired.app_error') {
+    if (
+      action.payload &&
+      action.payload.server_error_id === 'api.context.session_expired.app_error'
+    ) {
       setTimeout(() => {
         NavigationService.navigate('SignUp');
       }, 0);
       return {
         ...state,
         isLogin: false,
-        user: null
-      }
-    };
+        user: null,
+      };
+    }
   }
 
   switch (action.type) {
@@ -51,7 +47,7 @@ const login = (state = initialState, action) => {
       if (!state.user) {
         return state;
       }
-      const nextState = { ...state };
+      const nextState = {...state};
       if (action.payload.id === state.user.id) {
         mergeWith(nextState.user, action.payload, customizer);
         nextState.user.last_picture_update = moment().unix();
@@ -61,35 +57,35 @@ const login = (state = initialState, action) => {
     case CREATE_USER_SUCESS: {
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
     }
     case LOGOUT_SUCESS: {
       return {
         // user: null,
-        isLogin: false
+        isLogin: false,
       };
     }
     case IS_LOGIN:
       return {
         ...state,
         isLogin: action.payload,
-        user: action.payload ? state.user : null
+        user: action.payload ? state.user : null,
       };
     case MODAL_ACTIVE:
       return {
         ...state,
-        modalActive: action.payload
+        modalActive: action.payload,
       };
     case USER_LOGIN:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
     }
     default:

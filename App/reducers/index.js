@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import watchlist from './wacthlist';
 import history from './history';
 import book from './book';
@@ -24,7 +24,7 @@ import archivedChannels from './archivedChannels';
 import statuses from './statuses';
 import commands from './commands';
 import reply from './reply';
-import thread from './thread'
+import thread from './thread';
 import channelsStat from './channelsStat';
 import channelStatsGroup from './channelStatsGroup';
 import lastViewed from './lastViewed';
@@ -84,6 +84,6 @@ export default combineReducers({
   sponsored,
   archivedChannels,
   mapChannels,
-  myChannelsMap
+  myChannelsMap,
   // client4Error
 });

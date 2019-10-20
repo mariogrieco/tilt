@@ -6,7 +6,7 @@ import {
 
 const initialState = 'jk5osmydatgt5kaahkeheprk6e,';
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_NEW_SPONSORED_STRING: {
       return payload;

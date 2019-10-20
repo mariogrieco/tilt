@@ -1,6 +1,6 @@
 import {
   // GET_MY_PREFERENCES_ERROR,
-  GET_MY_PREFERENCES_SUCCESS
+  GET_MY_PREFERENCES_SUCCESS,
 } from '../actions/preferences';
 import {
   // DELETE_FAVORITE_CHANNEL_ERROR,
@@ -15,9 +15,14 @@ const preferences = (state = initialState, action) => {
   switch (action.type) {
     case DELETE_FAVORITE_CHANNEL_SUCCESS: {
       const nextState = [...state];
-      return nextState.filter((preference) => {
+      return nextState.filter(preference => {
         const current = action.payload[0];
-        return !(preference.category === current.category && preference.name === current.name && preference.user_id === current.user_id && preference.value === current.value);
+        return !(
+          preference.category === current.category &&
+          preference.name === current.name &&
+          preference.user_id === current.user_id &&
+          preference.value === current.value
+        );
       });
     }
     case SET_FAVORITE_CHANNEL_SUCCESS: {

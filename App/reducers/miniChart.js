@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { FETCH_MINICHART } from '../actions/miniChart';
-
+import {FETCH_MINICHART} from '../actions/miniChart';
 
 const initialState = [];
 
@@ -11,8 +10,8 @@ const miniChart = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_MINICHART:
       newSymbol[action.payload.symbol] = action.payload.data;
-      newState = _.assign({ ...state }, newSymbol);
-      return (newState);
+      newState = _.assign({...state}, newSymbol);
+      return newState;
     default:
       return state;
   }

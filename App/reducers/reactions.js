@@ -1,6 +1,4 @@
-import {
-  ADD_REACTION_SUCCESS
-} from '../actions/reactions';
+import {ADD_REACTION_SUCCESS} from '../actions/reactions';
 
 const initialState = [];
 

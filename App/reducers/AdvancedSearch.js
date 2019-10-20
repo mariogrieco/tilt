@@ -2,11 +2,9 @@ import {
   // SEARCH_POSTS_WITH_PARAMS_ERROR,
   SEARCH_POSTS_WITH_PARAMS_SUCCESS,
   JUMP_TO_ACTION_SUCCESS,
-  JUMP_TO_ACTION_CLEAR
+  JUMP_TO_ACTION_CLEAR,
 } from '../actions/advancedSearch';
-import {
-  SET_ACTIVE_FOCUS_CHANNEL_ID
-} from '../actions/advancedSearch';
+import {SET_ACTIVE_FOCUS_CHANNEL_ID} from '../actions/advancedSearch';
 
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -17,12 +15,12 @@ const initialState = {
   jumpPosts: {
     order: [],
     posts: {},
-    channel_id: null
+    channel_id: null,
   },
-  activeJump: false
+  activeJump: false,
 };
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_ACTIVE_FOCUS_CHANNEL_ID:
     case JUMP_TO_ACTION_CLEAR: {
@@ -32,9 +30,9 @@ export default (state = initialState, { type, payload }) => {
         jumpPosts: {
           order: [],
           posts: {},
-          channel_id: null
-        }
-      }
+          channel_id: null,
+        },
+      };
     }
     case JUMP_TO_ACTION_SUCCESS: {
       return {
@@ -43,12 +41,12 @@ export default (state = initialState, { type, payload }) => {
         jumpPosts: {
           order: payload.order,
           posts: payload.posts,
-          channel_id: payload.channel_id
-        }
-      }
+          channel_id: payload.channel_id,
+        },
+      };
     }
     case SEARCH_POSTS_WITH_PARAMS_SUCCESS:
-      return { ...cloneDeep(state), ...payload };
+      return {...cloneDeep(state), ...payload};
     default:
       return state;
   }
