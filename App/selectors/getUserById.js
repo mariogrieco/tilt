@@ -1,13 +1,13 @@
 // import momemt from 'moment'
 import some from 'lodash/some';
-import cloneDeep from 'lodash/cloneDeep';
+// import cloneDeep from 'lodash/cloneDeep';
 import includes from 'lodash/includes';
 import filterPostBy from './filterPostBy';
 import getAllRootsforPost from './getAllRootsforPost';
 
 const getUserById = (state, userId) => {
-  const { users, myChannels } = state;
-  const channels = cloneDeep(myChannels).filter(({ type }) => type === 'O').map((channel) => {
+  const { users, myChannelsMap } = state;
+  const channels = myChannelsMap.filter(c => c.type === 'O').valueSeq().map((channel) => {
     const posts = state.posts.orders[channel.id];
     return {
       posts: getAllPost(posts, userId, state.posts.entities),
@@ -36,8 +36,8 @@ function getAllPost(data, userId, entities) {
 }
 
 const filterIfPrivate = (state, channel_id) => {
-  let channel = state.channels.find(channel => channel.id === channel_id);
-  channel = channel ? channel : state.myChannels.find(channel => channel.id === channel_id);
+  let channel = state.mapChannels.get(channel_id);
+  channel = channel ? channel : state.myChannelsMap.get(channel_id);
 
   if (channel && channel.type !== 'O') {
     return true

@@ -168,8 +168,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   selectedSymbol: state.watchlist.selectedSymbol,
-  channels: state.channels,
-  myChannels: state.myChannels
+  channels: state.mapChannels.valueSeq().toJS(),
+  myChannels: state.myChannelsMap.valueSeq().toJS()
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CryptoRoom);

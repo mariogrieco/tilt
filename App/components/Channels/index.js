@@ -53,15 +53,6 @@ class Channels extends React.Component {
     membersFetched: false
   }
 
-  componentDidMount() {
-    const { navigation } = this.props;
-    // if (!navigation && navigation.addListener) return null;
-    this.navigationListener = navigation.addListener('didFocus', () => {
-      this._getData();
-    });
-  }
-
-
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
@@ -78,34 +69,33 @@ class Channels extends React.Component {
 
   // eslint-disable-next-line no-underscore-dangle
   _getData() {
-    if (!this.props.isAuth) return null;
-    if (this.state.loadingData) return null;
-
-    this.setState({
-      loadingData: true
-    }, async () => {
-      try {
-        await this.props.getTeams();
-        await this.props.getMyChannels();
-        const asyncFetchs = [];
-        const myChannels = await this.props.myChannels;
-        asyncFetchs.push(this.props.getLastViewForChannels());
-        asyncFetchs.push(this.props.getChannels());
-        asyncFetchs.push(this.props.getPostsByChannelId(myChannels));
-        // asyncFetchs.push(this.props.getMyChannelMembers())
-        await Promise.all(asyncFetchs);
-        await this.props.getProfilesInGroupChannels();
-        await this.props.getFlagged();
-      } catch (ex) {
-        alert(ex.message || ex);
-      } finally {
-        if (!this.state.unmount) {
-          this.setState({
-            loadingData: false
-          });
-        }
-      }
-    });
+    // if (!this.props.isAuth) return null;
+    // if (this.state.loadingData) return null;
+    // this.setState({
+    //   loadingData: true
+    // }, async () => {
+      // try {
+      //   await this.props.getTeams();
+      //   await this.props.getMyChannels();
+      //   const asyncFetchs = [];
+      //   const myChannels = await this.props.myChannels;
+      //   asyncFetchs.push(this.props.getLastViewForChannels());
+      //   asyncFetchs.push(this.props.getChannels());
+      //   asyncFetchs.push(this.props.getPostsByChannelId(myChannels));
+      //   // asyncFetchs.push(this.props.getMyChannelMembers())
+      //   await Promise.all(asyncFetchs);
+      //   await this.props.getProfilesInGroupChannels();
+      //   await this.props.getFlagged();
+      // } catch (ex) {
+      //   alert(ex.message || ex);
+      // } finally {
+      //   if (!this.state.unmount) {
+          // this.setState({
+          //   loadingData: false
+          // });
+        // }
+      // }
+    // });
   }
 
   renderActivityIndicator = () => {
@@ -163,7 +153,7 @@ class Channels extends React.Component {
         data={channels}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
-        initialNumToRender={3}
+        // initialNumToRender={22}
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
       />
@@ -173,10 +163,8 @@ class Channels extends React.Component {
 
 const mapStateToProps = state => ({
   channels: getChannelsList(state),
-  // channelsStat: state.channelsStat,
   channelStatsGroup: state.channelStatsGroup,
-  isAuth: state.login.isLogin,
-  myChannels: state.myChannels
+  isAuth: state.login.isLogin
 });
 
 const mapDispatchToProps = {

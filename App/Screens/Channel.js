@@ -609,8 +609,8 @@ class Channel extends React.Component {
           onScrollEndDrag={this._setScrollPosition}
           onMomentumScrollEnd={this._setScrollPosition}
           extraData={posts}
-          initialNumToRender={12}
-          viewabilityConfig={{ viewAreaCoveragePercentThreshold: 35 }}
+          initialNumToRender={10}
+          viewabilityConfig={{ viewAreaCoveragePercentThreshold: 0.35 }}
           keyboardDismissMode="on-drag"
         />
         {activeJumpLabel && this.renderJumpLabel()}
@@ -669,7 +669,7 @@ const mapStateToProps = (state) => {
     active_channel_id,
     prev_active_channel_id,
   } = state.appNavigation;
-  const channel = state.myChannels.find(data => data.id === active_channel_id) || {};
+  const channel = state.myChannelsMap.get(active_channel_id) || {};
   const isArchived = findIndex(state.archivedChannels, ['channelId', active_channel_id]) !== -1;
 
   return {
@@ -680,7 +680,7 @@ const mapStateToProps = (state) => {
     channel_id: active_channel_id,
     prev_active_channel_id,
     last_view_at: lastViewed[active_channel_id],
-    channel: cloneDeep(channel),
+    channel: channel,
     isPM: channel.type === 'D',
     isArchived
   };

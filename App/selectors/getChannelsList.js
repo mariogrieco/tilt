@@ -5,13 +5,15 @@ import {
 import filterPostBy from './filterPostBy';
 
 const getChnnelsList = (state) => {
+  let channels = [];
   const {
     lastViewed
   } = state;
   const {
     entities
   } = state.posts;
-  const data = state.myChannels.filter(({ type }) => type === 'O').map((channel) => {
+
+  state.myChannelsMap.filter(c => c.type === 'O').valueSeq().forEach(channel => {
     const channelData = state.posts.orders[channel.id];
     if (channelData && channelData.order) {
           let titleColor = '#0E141E';
@@ -22,25 +24,28 @@ const getChnnelsList = (state) => {
           };
         };
         return entities[key];
-      }); //.reverse().filter(post => filterPostBy(post)).slice(0, 2);
-      return {
+      });
+
+      channels.push({
         ...channel,
         posts,
         creator: state.users.data[channel.creator_id]||{},
         fav: getFavoriteChannelById(state, channel.id),
         activeUsers: {},
         titleColor
-      };
-    };
-    return {
-      posts: [],
-      ...channel,
-      activeUsers: {},
-      fav: false,
-      creator: {}
-    };
-  });
-  return data;
+      });
+    } else {
+      channels.push({
+        posts: [],
+        ...channel,
+        activeUsers: {},
+        fav: false,
+        creator: {}
+      });
+    }
+  })
+
+  return channels;
 }
 
 export default getChnnelsList;

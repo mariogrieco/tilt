@@ -74,9 +74,9 @@ export class SponsorBanner extends React.PureComponent {
         size="MEDIUM_RECTANGLE"
         unitId={adMob.sponsor}
         request={request.build()}
-        onAdLoaded={() => {
+        // onAdLoaded={() => {
           // console.log('Advert loaded');
-        }}
+        // }}
       />
     );
   };

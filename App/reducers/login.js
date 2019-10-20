@@ -33,7 +33,7 @@ function customizer(objValue, srcValue) {
 };
 
 const login = (state = initialState, action) => {
-  if (action.type.includes('_ERROR')) {
+  if ((state.isLogin || state.user) && action.type.includes('_ERROR')) {
     if (action.payload && action.payload.server_error_id === 'api.context.session_expired.app_error') {
       setTimeout(() => {
         NavigationService.navigate('SignUp');

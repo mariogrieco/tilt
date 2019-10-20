@@ -17,6 +17,7 @@ import {
 import moment from 'moment';
 
 const eventsDispatched = (data) => {
+  console.log(data.event);
   switch (data.event) {
     case 'posted': {
       const post = JSON.parse(data.data.post);

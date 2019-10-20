@@ -625,9 +625,9 @@ const mapStateToProps = (state) => {
   const channel_id = state.appNavigation.active_channel_id;
   const r = getPostAndChannelById(state); // need to be updated
   const favorite = !!getFavoriteChannelById(state, channel_id);
-  const iamIn = state.myChannels.find(({ id }) => id === channel_id);
+  const iamIn = state.mapChannels.has(channel_id) ? state.mapChannels.get(channel_id) : {};
   const iAmAdmin = state.login.user.roles.includes('admin');
-  const channel = state.myChannels.find(channel => channel.id === channel_id) || {};
+  const channel = state.myChannelsMap.has(channel_id) ? state.myChannelsMap.get(channel_id) : {};
   const owner = state.users.data[channel.creator_id];
   const ChannelCreatorPicture = getUserProfilePicture(channel.creator_id);
   return {

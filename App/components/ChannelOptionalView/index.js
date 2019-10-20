@@ -50,8 +50,8 @@ const mapStateToProps = (state) => {
   const {
     active_channel_id
   } = state.appNavigation;
-  const onMychannel = state.myChannels.find(data => data.id === active_channel_id)
-  const channel = state.channels.find(data => data.id === active_channel_id)
+  const onMychannel = state.myChannelsMap.get(active_channel_id)
+  const channel = state.mapChannels.get(active_channel_id)
   return {
     onMychannel,
     channel,

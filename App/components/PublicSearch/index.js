@@ -99,10 +99,10 @@ PublicSearch.defaultProps = {
 const mapStateToProps = (state) => {
   const {
     users,
-    myChannels,
+    myChannelsMap,
     channelStatsGroup
   } = state;
-  let channels = [...state.channels];
+  let channels = [...state.mapChannels.valueSeq().toJS()];
   const mapChannelsForJoin = {};
   const mapFavoritesChannels = {};
   const mapChannelsColors = {};
@@ -128,7 +128,7 @@ const mapStateToProps = (state) => {
     mapFavoritesChannels,
     channelStatsGroup,
     mapChannelsColors,
-    myChannels,
+    myChannels: myChannelsMap.valueSeq().toJS(),
   });
 };
 

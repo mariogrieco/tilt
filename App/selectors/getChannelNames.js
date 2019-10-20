@@ -27,12 +27,12 @@ export const getDolarChannelNames = (state) => {
 };
 
 export const getMychannelsNames = (state) => {
-  const names = cloneDeep(state.myChannels).filter(({ type }) => type === 'O').map(({ display_name }) => parser(display_name));
+  const names = state.myChannelsMap.filter(({ type }) => type === 'O').map(({ display_name }) => parser(display_name)).valueSeq().toJS();
   return names.sort((a, b) => b.length - a.length);
 };
 
 export const getChannelById = (state, channelId) => {
-  const result = state.channels.find(channel => channel.id === channelId);
+  const result = state.mapChannels.find(channel => channel.id === channelId);
   if (result) return result.display_name;
   return '';
 };

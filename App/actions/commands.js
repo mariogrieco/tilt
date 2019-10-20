@@ -53,10 +53,9 @@ export const getCommandsListError = err => ({
 
 export const executeCommand = (command, channelId) => async (dispatch, getState) => {
   const defaultTeam  = getState().teams.default_team_id;
-
   switch (command.split(' ')[0]) {
     case '/search': {
-      let channel = getState().myChannels.find(_channel => channelId === _channel.id) || {};
+      let channel = getState().myChannelsMap.find(_channel => channelId === _channel.id) || {};
       if (channel.type === 'D') {
         channel = {
           ...channel,
