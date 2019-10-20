@@ -1,27 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import {
-  View,
-  ActivityIndicator,
-  FlatList,
-  Text
-} from 'react-native';
+import {connect} from 'react-redux';
+import {View, ActivityIndicator, FlatList, Text} from 'react-native';
 import isEqual from 'lodash/isEqual';
-import { withNavigation } from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 // import Post from '../Post/Post';
 // import NavigationService from '../../config/NavigationService';
-import {
-  getTeams
-} from '../../actions/teams';
-import {
-  setActiveFocusChannel
-} from '../../actions/AppNavigation';
-import {
-  getPostsByChannelId
-} from '../../actions/posts';
+import {getTeams} from '../../actions/teams';
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
+import {getPostsByChannelId} from '../../actions/posts';
 import {
   getProfilesInGroupChannels,
-  getMyChannelMembers
+  getMyChannelMembers,
 } from '../../actions/users';
 import getChannelsList from '../../selectors/getChannelsList';
 import {
@@ -29,20 +18,18 @@ import {
   getChannels,
   getChannelStatsByGroup,
   getLastViewForChannels,
-  getMyChannels
+  getMyChannels,
 } from '../../actions/channels';
-import {
-  getFlagged
-} from '../../actions/flagged';
+import {getFlagged} from '../../actions/flagged';
 import ChannelDisplayName from '../ChannelDisplayName';
 
 class Channels extends React.Component {
   static getDerivedStateFromProps(props, state) {
-    const { channels, isAuth } = props;
-    const { membersFetched } = state;
+    const {channels, isAuth} = props;
+    const {membersFetched} = state;
     if (channels.length > 0 && !membersFetched && isAuth) {
       props.getChannelStatsByGroup(channels);
-      return { membersFetched: true };
+      return {membersFetched: true};
     }
     return null;
   }
@@ -50,20 +37,19 @@ class Channels extends React.Component {
   state = {
     unmount: false,
     loadingData: false,
-    membersFetched: false
-  }
+    membersFetched: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
-
 
   componentWillUnmount() {
     if (this.navigationListener) {
       this.navigationListener.remove();
     }
     this.setState({
-      unmount: true
+      unmount: true,
     });
   }
 
@@ -99,36 +85,34 @@ class Channels extends React.Component {
   }
 
   renderActivityIndicator = () => {
-    const {
-      loadingData
-    } = this.state;
-    const {
-      isAuth
-    } = this.props;
+    const {loadingData} = this.state;
+    const {isAuth} = this.props;
     if (loadingData && isAuth) {
       return (
-        <View style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 15
-        }}
-        >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 15,
+          }}>
           <ActivityIndicator size="large" color="#17C491" />
         </View>
       );
     }
-    return <View><Text /></View>;
-  }
+    return (
+      <View>
+        <Text />
+      </View>
+    );
+  };
 
   keyExtractor(channel) {
     return channel.id;
   }
 
-  renderItem = ({ item }) => {
-    const {
-      channelStatsGroup
-    } = this.props;
+  renderItem = ({item}) => {
+    const {channelStatsGroup} = this.props;
     return (
       <ChannelDisplayName
         channel={item}
@@ -141,12 +125,10 @@ class Channels extends React.Component {
         titleColor={item.titleColor}
       />
     );
-  }
+  };
 
   render() {
-    const {
-      channels
-    } = this.props;
+    const {channels} = this.props;
     return (
       <FlatList
         extraData={channels}
@@ -178,10 +160,12 @@ const mapDispatchToProps = {
   getFlagged,
   getMyChannelMembers,
   getMyChannels,
-  getTeams
+  getTeams,
 };
 
-export default withNavigation(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Channels));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Channels),
+);

@@ -10,12 +10,10 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   ActivityIndicator,
-  Platform
+  Platform,
 } from 'react-native';
-import {
-  Emoji
-} from '../../utils/TiltEmoji';
-import { connect } from 'react-redux';
+import {Emoji} from '../../utils/TiltEmoji';
+import {connect} from 'react-redux';
 import Video from 'react-native-video';
 import DocumentPicker from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-picker';
@@ -25,32 +23,24 @@ import prettyBytes from 'pretty-bytes';
 import parserFactory from 'emogeez-parser';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
+import {createPost, updatePost} from '../../actions/posts';
 import {
-  createPost,
-  updatePost
-} from '../../actions/posts';
-import { getHashTagChannelsNames, getDolarChannelNames } from '../../selectors/getChannelNames';
+  getHashTagChannelsNames,
+  getDolarChannelNames,
+} from '../../selectors/getChannelNames';
 import ProfilePicture from './profile_picture';
 import styles from './styles';
-import {
-  executeCommand
-} from '../../actions/commands';
+import {executeCommand} from '../../actions/commands';
 import {
   generateId,
   encodeHeaderURIStringToUTF8,
-  buildFileUploadData
+  buildFileUploadData,
 } from './file_utils';
 // import RNFetchBlob from 'rn-fetch-blob';
 
-
 import Client4 from '../../api/MattermostClient';
 
-const {
-  store,
-  replacer,
-  matcher,
-} = parserFactory();
-
+const {store, replacer, matcher} = parserFactory();
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dolarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
@@ -74,24 +64,48 @@ const VIDEO = require('../../../assets/images/video-file/video.png');
 const IMAGE = require('../../../assets/images/image-file/image.png');
 const STANDARD_FILE = require('../../../assets/images/standard-file/folder.png');
 
-const getDisplayIconForFile = memoize((extension) => {
-  if (extension.includes('doc')) return WORD;
-  if (extension.includes('docx')) return WORD;
-  if (extension.includes('csv')) return EXCEL;
-  if (extension.includes('xls')) return EXCEL;
-  if (extension.includes('xlsx')) return EXCEL;
-  if (extension.includes('pdf')) return PDF;
-  if (extension.includes('ppt')) return POWERPOINT;
-  if (extension.includes('pptx')) return POWERPOINT;
-  if (extension.includes('mp3')) return AUDIO;
-  if (extension.includes('mp4')) return VIDEO;
-  if (extension.includes('jpg')) return IMAGE;
-  if (extension.includes('gif')) return IMAGE;
+const getDisplayIconForFile = memoize(extension => {
+  if (extension.includes('doc')) {
+    return WORD;
+  }
+  if (extension.includes('docx')) {
+    return WORD;
+  }
+  if (extension.includes('csv')) {
+    return EXCEL;
+  }
+  if (extension.includes('xls')) {
+    return EXCEL;
+  }
+  if (extension.includes('xlsx')) {
+    return EXCEL;
+  }
+  if (extension.includes('pdf')) {
+    return PDF;
+  }
+  if (extension.includes('ppt')) {
+    return POWERPOINT;
+  }
+  if (extension.includes('pptx')) {
+    return POWERPOINT;
+  }
+  if (extension.includes('mp3')) {
+    return AUDIO;
+  }
+  if (extension.includes('mp4')) {
+    return VIDEO;
+  }
+  if (extension.includes('jpg')) {
+    return IMAGE;
+  }
+  if (extension.includes('gif')) {
+    return IMAGE;
+  }
   return STANDARD_FILE;
 });
 
 class Input extends React.Component {
-  refInput = React.createRef()
+  refInput = React.createRef();
 
   state = {
     messageText: '',
@@ -103,7 +117,7 @@ class Input extends React.Component {
     mentionsCount: 0,
     selection: {
       start: 0,
-      end: 0
+      end: 0,
     },
     filerDolarTagBuffer: [],
     filterMentionBuffer: [],
@@ -115,20 +129,17 @@ class Input extends React.Component {
     filesIds: [],
     uploadDocument: null,
     fileLoaders: [],
-  }
+  };
 
-  showOptionsView = (value) => {
+  showOptionsView = value => {
     if (value === 1) {
-      this.setState((prevState) => {
-        const {
-          showMentionsOptions,
-          filterMentionBuffer
-        } = prevState;
+      this.setState(prevState => {
+        const {showMentionsOptions, filterMentionBuffer} = prevState;
         return {
           showMentionsOptions: !showMentionsOptions,
           showComandOptions: false,
           filterMentionBuffer: !showMentionsOptions ? filterMentionBuffer : [],
-          mentionsCount: !showMentionsOptions ? this.state.mentionsCount : 0
+          mentionsCount: !showMentionsOptions ? this.state.mentionsCount : 0,
         };
       });
     } else if (value === 2) {
@@ -137,102 +148,124 @@ class Input extends React.Component {
         showMentionsOptions: false,
         // showDolarTags: false,
         filterMentionBuffer: [],
-        mentionsCount: 0
+        mentionsCount: 0,
       });
     }
-  }
+  };
 
   isComand() {
     return this.state.messageText.trim()[0] === '/';
   }
 
   send = () => {
-    if (this.state.loading) return false;
+    if (this.state.loading) {
+      return false;
+    }
     if (this.isComand()) {
       this.sendCommandMessage();
     } else if (this.props.editable) {
       this.sendEditableMessage();
-    } else if (this.props.editable !== this.state.messageText && this.state.messageText.trim().length > 0) {
+    } else if (
+      this.props.editable !== this.state.messageText &&
+      this.state.messageText.trim().length > 0
+    ) {
       this.sendNormalMessage();
     }
-  }
+  };
 
   sendCommandMessage = () => {
-    if (this.state.loading) return false;
-    this.setState({
-      loading: true
-    }, async () => {
-      try {
-        const { channelId } = this.props;
-        const parsedValue = Emoji.parse(this.state.messageText)
-        await this.props.executeCommand(parsedValue, channelId);
-      } catch (err) {
-        alert(err.message || err);
-      } finally {
-        this.setState({
-          loading: false,
-          messageText: ''
-        });
-        this.blurInput();
-        this.clearState();
-        this.closeComands();
-      }
-    });
-  }
-
+    if (this.state.loading) {
+      return false;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        try {
+          const {channelId} = this.props;
+          const parsedValue = Emoji.parse(this.state.messageText);
+          await this.props.executeCommand(parsedValue, channelId);
+        } catch (err) {
+          alert(err.message || err);
+        } finally {
+          this.setState({
+            loading: false,
+            messageText: '',
+          });
+          this.blurInput();
+          this.clearState();
+          this.closeComands();
+        }
+      },
+    );
+  };
 
   sendEditableMessage = () => {
-    if (this.state.loading) return false;
-    this.setState({
-      loading: true
-    }, async () => {
-      try {
-        const {
-          post
-        } = this.props;
-        const parsedValue = Emoji.parse(this.state.messageText)
-        await this.props.updatePost({
-          ...post,
-          message: parsedValue
-        });
-      } catch (ex) {
-        alert(ex.message || ex);
-      } finally {
-        this.setState({
-          loading: false,
-          messageText: ''
-        });
-        this.blurInput();
-        this.clearState();
-      }
-    });
-  }
+    if (this.state.loading) {
+      return false;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        try {
+          const {post} = this.props;
+          const parsedValue = Emoji.parse(this.state.messageText);
+          await this.props.updatePost({
+            ...post,
+            message: parsedValue,
+          });
+        } catch (ex) {
+          alert(ex.message || ex);
+        } finally {
+          this.setState({
+            loading: false,
+            messageText: '',
+          });
+          this.blurInput();
+          this.clearState();
+        }
+      },
+    );
+  };
 
   sendNormalMessage = () => {
-    if (this.state.loading) return false;
-    this.setState({
-      loading: true
-    }, async () => {
-      try {
-        const { messageText, filesIds } = this.state;
-        const { channelId, root_id } = this.props;
-        const parsedValue = Emoji.parse(messageText)
-        await this.props.createPost(parsedValue, channelId, root_id, filesIds);
-        this.setState({
-          messageText: ''
-        });
-      } catch (ex) {
-        console.log(ex);
-        alert(ex.message || ex);
-      } finally {
-        this.blurInput();
-        this.setState({
-          loading: false
-        });
-        this.clearState();
-      }
-    });
-  }
+    if (this.state.loading) {
+      return false;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        try {
+          const {messageText, filesIds} = this.state;
+          const {channelId, root_id} = this.props;
+          const parsedValue = Emoji.parse(messageText);
+          await this.props.createPost(
+            parsedValue,
+            channelId,
+            root_id,
+            filesIds,
+          );
+          this.setState({
+            messageText: '',
+          });
+        } catch (ex) {
+          console.log(ex);
+          alert(ex.message || ex);
+        } finally {
+          this.blurInput();
+          this.setState({
+            loading: false,
+          });
+          this.clearState();
+        }
+      },
+    );
+  };
 
   blurInput() {
     if (this.refInput && this.refInput.current) {
@@ -240,30 +273,41 @@ class Input extends React.Component {
     }
   }
 
-  onChangeMessage = (value) => {
+  onChangeMessage = value => {
     if (value.charAt(0) === '/') {
       this.setState({
-        showComandOptions: true
+        showComandOptions: true,
       });
     } else {
       this.setState({
-        showComandOptions: false
+        showComandOptions: false,
       });
     }
 
-
-    this.setState({
-      messageText: value
-    }, this.checkForMentionsOrTags);
-  }
+    this.setState(
+      {
+        messageText: value,
+      },
+      this.checkForMentionsOrTags,
+    );
+  };
 
   filterDolarTags() {
-    const nextTags = this.props.channelDolarTagNames.filter((tag) => {
+    const nextTags = this.props.channelDolarTagNames.filter(tag => {
       const userString = `$${tag.toLowerCase()}`;
       const indexFocus = this.state.currentDolarTagTextFocused;
       const inputValue = this.state.filerDolarTagBuffer;
-      if (inputValue && inputValue[indexFocus] && inputValue[indexFocus].trim() !== '') {
-        const match = !!userString.match(inputValue[indexFocus].toLowerCase().trim().replace('$', ''));
+      if (
+        inputValue &&
+        inputValue[indexFocus] &&
+        inputValue[indexFocus].trim() !== ''
+      ) {
+        const match = !!userString.match(
+          inputValue[indexFocus]
+            .toLowerCase()
+            .trim()
+            .replace('$', ''),
+        );
         return match;
       }
       return true;
@@ -276,12 +320,18 @@ class Input extends React.Component {
   }
 
   filterTags() {
-    const nextTags = this.props.channelTagNames.filter((tag) => {
+    const nextTags = this.props.channelTagNames.filter(tag => {
       const userString = `#${tag.toLowerCase()}`;
       const indexFocus = this.state.currentTagTextFocused;
       const inputValue = this.state.filerTagBuffer;
-      if (inputValue && inputValue[indexFocus] && inputValue[indexFocus].trim() !== '') {
-        const match = !!userString.match(inputValue[indexFocus].toLowerCase().trim());
+      if (
+        inputValue &&
+        inputValue[indexFocus] &&
+        inputValue[indexFocus].trim() !== ''
+      ) {
+        const match = !!userString.match(
+          inputValue[indexFocus].toLowerCase().trim(),
+        );
         return match;
       }
       return true;
@@ -294,12 +344,18 @@ class Input extends React.Component {
   }
 
   filterUsers() {
-    const nextUsers = this.props.users.filter(({ username }) => {
+    const nextUsers = this.props.users.filter(({username}) => {
       const userString = `@${username.toLowerCase()}`;
       const indexFocus = this.state.currentMentionTextFocused;
       const inputValue = this.state.filterMentionBuffer;
-      if (inputValue && inputValue[indexFocus] && inputValue[indexFocus].trim() !== '') {
-        const match = !!userString.match(inputValue[indexFocus].toLowerCase().trim());
+      if (
+        inputValue &&
+        inputValue[indexFocus] &&
+        inputValue[indexFocus].trim() !== ''
+      ) {
+        const match = !!userString.match(
+          inputValue[indexFocus].toLowerCase().trim(),
+        );
         return match;
       }
       return true;
@@ -312,9 +368,11 @@ class Input extends React.Component {
   }
 
   filterComands() {
-    const commands = this.props.commands.filter((command) => {
+    const commands = this.props.commands.filter(command => {
       const stringComand = `/${command.trigger.toLowerCase()}`;
-      const inputValue = this.state.messageText ? this.state.messageText.toLowerCase() : '';
+      const inputValue = this.state.messageText
+        ? this.state.messageText.toLowerCase()
+        : '';
       if (this.state.messageText.length > 1) {
         return stringComand.match(inputValue);
       }
@@ -339,16 +397,21 @@ class Input extends React.Component {
               underlayColor="#17C491"
               onPress={() => {
                 this.interpolateStrToMessage(`${user.username}`, '@');
-              }}
-            >
+              }}>
               <View style={styles.mentions}>
                 <Image
                   style={styles.mentionsProfileImage}
-                  source={{ uri: getUserProfilePicture(user.id, user.last_picture_update) }}
+                  source={{
+                    uri: getUserProfilePicture(
+                      user.id,
+                      user.last_picture_update,
+                    ),
+                  }}
                 />
-                <Text style={[styles.commandContainer, styles.mentionsColor]} key={index}>
-                  @
-                  {user.username}
+                <Text
+                  style={[styles.commandContainer, styles.mentionsColor]}
+                  key={index}>
+                  @{user.username}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -358,20 +421,18 @@ class Input extends React.Component {
     );
   }
 
-  executeComands = (trigger) => {
+  executeComands = trigger => {
     try {
       this.setState({
-        messageText: trigger
+        messageText: trigger,
       });
       this.closeComands();
-    } catch (ex) {
-
-    }
-  }
+    } catch (ex) {}
+  };
 
   closeComands() {
     this.setState({
-      showComandOptions: false
+      showComandOptions: false,
     });
   }
 
@@ -384,12 +445,8 @@ class Input extends React.Component {
               underlayColor="#17C491"
               onPress={() => {
                 this.executeComands(data.trigger);
-              }}
-            >
-              <View
-                style={styles.commandContainer}
-                key={index}
-              >
+              }}>
+              <View style={styles.commandContainer} key={index}>
                 <Text style={styles.commandExec}>{data.trigger}</Text>
                 <Text style={styles.commandDescription}>{data.name}</Text>
               </View>
@@ -407,16 +464,11 @@ class Input extends React.Component {
           {this.filterTags().map((name, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
-              onPress={() => this.interpolateStrToMessage(`${name.toLowerCase()}`, '#')}
-            >
-              <View
-                style={styles.commandTagContainer}
-                key={index}
-              >
-                <Text style={styles.hashTag}>
-                #
-                  {name.toLowerCase()}
-                </Text>
+              onPress={() =>
+                this.interpolateStrToMessage(`${name.toLowerCase()}`, '#')
+              }>
+              <View style={styles.commandTagContainer} key={index}>
+                <Text style={styles.hashTag}>#{name.toLowerCase()}</Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -432,9 +484,15 @@ class Input extends React.Component {
       messageText,
       // selection
     } = this.state;
-    const nextState = `${messageText.slice(0, iterableInit)}${type}${str.trim()}${messageText.slice(iteralbeEnd, messageText.length)}`;
+    const nextState = `${messageText.slice(
+      0,
+      iterableInit,
+    )}${type}${str.trim()}${messageText.slice(
+      iteralbeEnd,
+      messageText.length,
+    )}`;
     this.setState({
-      messageText: nextState
+      messageText: nextState,
     });
     this.closeTags();
     this.closeMentions();
@@ -442,15 +500,12 @@ class Input extends React.Component {
   }
 
   determineIfOpenMentions() {
-    const {
-      selection,
-      messageText
-    } = this.state;
+    const {selection, messageText} = this.state;
     const patt = mentionsRegx;
     const matches = messageText.match(mentionsRegx);
     const startCursor = selection.start;
     let currentIndex = null;
-    while (match = patt.exec(messageText)) {
+    while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
         currentIndex = matches.indexOf(match[0]);
         break;
@@ -460,15 +515,12 @@ class Input extends React.Component {
   }
 
   determineIfOpenDolarTags() {
-    const {
-      selection,
-      messageText
-    } = this.state;
+    const {selection, messageText} = this.state;
     const patt = dolarTagRegx;
     const matches = messageText.match(dolarTagRegx);
     const startCursor = selection.start;
     let currentIndex = null;
-    while (match = patt.exec(messageText)) {
+    while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
         iteralbeEnd = patt.lastIndex;
         iterableInit = match.index;
@@ -477,19 +529,16 @@ class Input extends React.Component {
       }
     }
 
-    return (currentIndex !== null);
+    return currentIndex !== null;
   }
 
   determineIfOpenTags() {
-    const {
-      selection,
-      messageText
-    } = this.state;
+    const {selection, messageText} = this.state;
     const patt = tagRegx;
     const matches = messageText.match(tagRegx);
     const startCursor = selection.start;
     let currentIndex = null;
-    while (match = patt.exec(messageText)) {
+    while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
         iteralbeEnd = patt.lastIndex;
         iterableInit = match.index;
@@ -498,16 +547,11 @@ class Input extends React.Component {
       }
     }
 
-    return (currentIndex !== null);
+    return currentIndex !== null;
   }
 
   checkForMentionsOrTags() {
-    const {
-      messageText,
-      selection,
-      showMentionsOptions,
-      showTags
-    } = this.state;
+    const {messageText, selection, showMentionsOptions, showTags} = this.state;
 
     if (messageText.trim() === '') {
       this.closeMentions();
@@ -517,8 +561,14 @@ class Input extends React.Component {
     }
 
     // users types @ or #
-    const nexMentionstMatch = messageText.slice(selection.start - 2, selection.start);
-    const nextTagMatch = messageText.slice(selection.start - 2, selection.start);
+    const nexMentionstMatch = messageText.slice(
+      selection.start - 2,
+      selection.start,
+    );
+    const nextTagMatch = messageText.slice(
+      selection.start - 2,
+      selection.start,
+    );
 
     let tags = false;
     let mentions = false;
@@ -530,7 +580,7 @@ class Input extends React.Component {
         showMentionsOptions: true,
         showTags: false,
         showDolarTags: false,
-        filerTagBuffer: []
+        filerTagBuffer: [],
       });
     } else if (nextTagMatch.includes('#') || this.determineIfOpenTags()) {
       tags = true;
@@ -538,7 +588,7 @@ class Input extends React.Component {
         showTags: true,
         showMentionsOptions: false,
         showDolarTags: false,
-        filterMentionBuffer: []
+        filterMentionBuffer: [],
       });
     } else if (nextTagMatch.includes('$') || this.determineIfOpenDolarTags()) {
       dolarTags = true;
@@ -546,7 +596,7 @@ class Input extends React.Component {
         showDolarTags: true,
         showTags: false,
         showMentionsOptions: false,
-        filerDolarTagBuffer: []
+        filerDolarTagBuffer: [],
       });
     } else if (nextTagMatch.includes(' ')) {
       this.closeMentions();
@@ -560,41 +610,41 @@ class Input extends React.Component {
       const {
         iterableInit,
         iteralbeEnd,
-        currentIndex
+        currentIndex,
       } = this.calculateCurrentMentionFocus(selection, restOfMatchs);
 
       this.setState({
         filterMentionBuffer: restOfMatchs,
         currentMentionTextFocused: currentIndex,
         iterableInit,
-        iteralbeEnd
+        iteralbeEnd,
       });
     } else if (tags) {
       const restOfMatchs = messageText.match(tagRegx);
       const {
         iterableInit,
         iteralbeEnd,
-        currentIndex
+        currentIndex,
       } = this.calculateCurrentTagFocus(selection, restOfMatchs);
 
       this.setState({
         filerTagBuffer: restOfMatchs,
         currentTagTextFocused: currentIndex,
         iterableInit,
-        iteralbeEnd
+        iteralbeEnd,
       });
     } else if (dolarTags) {
       const restOfMatchs = messageText.match(dolarTagRegx);
       const {
         iterableInit,
         iteralbeEnd,
-        currentIndex
+        currentIndex,
       } = this.calculateCurrentDolarTagFocus(selection, restOfMatchs);
       this.setState({
         filerDolarTagBuffer: restOfMatchs,
         currentDolarTagTextFocused: currentIndex,
         iterableInit,
-        iteralbeEnd
+        iteralbeEnd,
       });
     }
   }
@@ -602,12 +652,12 @@ class Input extends React.Component {
   calculateCurrentDolarTagFocus(selections, matches = []) {
     const patt = dolarTagRegx;
     const startCursor = selections.start;
-    const { messageText } = this.state;
+    const {messageText} = this.state;
     let currentIndex = null;
     let iterableInit = 0;
     let iteralbeEnd = 0;
 
-    while (match = patt.exec(messageText)) {
+    while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
         iteralbeEnd = patt.lastIndex;
         iterableInit = match.index;
@@ -619,19 +669,19 @@ class Input extends React.Component {
     return {
       currentIndex: currentIndex || 0,
       iteralbeEnd,
-      iterableInit
+      iterableInit,
     };
   }
 
   calculateCurrentTagFocus(selections, matches = []) {
     const patt = tagRegx;
     const startCursor = selections.start;
-    const { messageText } = this.state;
+    const {messageText} = this.state;
     let currentIndex = null;
     let iterableInit = 0;
     let iteralbeEnd = 0;
 
-    while (match = patt.exec(messageText)) {
+    while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
         iteralbeEnd = patt.lastIndex;
         iterableInit = match.index;
@@ -643,19 +693,19 @@ class Input extends React.Component {
     return {
       currentIndex: currentIndex || 0,
       iteralbeEnd,
-      iterableInit
+      iterableInit,
     };
   }
 
   calculateCurrentMentionFocus(selections, matches = []) {
     const patt = mentionsRegx;
     const startCursor = selections.start;
-    const { messageText } = this.state;
+    const {messageText} = this.state;
     let currentIndex = null;
     let iterableInit = 0;
     let iteralbeEnd = 0;
 
-    while (match = patt.exec(messageText)) {
+    while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
         iteralbeEnd = patt.lastIndex;
         iterableInit = match.index;
@@ -667,38 +717,36 @@ class Input extends React.Component {
     return {
       currentIndex: currentIndex || 0,
       iteralbeEnd,
-      iterableInit
+      iterableInit,
     };
   }
 
   closeTags() {
     this.setState({
       showTags: false,
-      filerTagBuffer: []
+      filerTagBuffer: [],
     });
   }
 
   closeDolarTags() {
     this.setState({
       showDolarTags: false,
-      filerDolarTagBuffer: []
+      filerDolarTagBuffer: [],
     });
   }
 
   closeMentions() {
     this.setState({
       showMentionsOptions: false,
-      filterMentionBuffer: []
+      filterMentionBuffer: [],
     });
   }
 
   componentDidMount() {
-    const {
-      editable
-    } = this.props;
+    const {editable} = this.props;
     if (editable) {
       this.setState({
-        messageText: editable
+        messageText: editable,
       });
     }
   }
@@ -711,11 +759,14 @@ class Input extends React.Component {
     }
   }
 
-  onSelectionChange = (e) => {
-    this.setState({
-      selection: e.nativeEvent.selection
-    }, this.checkForMentionsOrTags);
-  }
+  onSelectionChange = e => {
+    this.setState(
+      {
+        selection: e.nativeEvent.selection,
+      },
+      this.checkForMentionsOrTags,
+    );
+  };
 
   getFileId() {
     return this.state.filesIds;
@@ -725,14 +776,14 @@ class Input extends React.Component {
     const nextState = [...this.state.filesIds];
     nextState.push(id);
     this.setState({
-      filesIds: nextState
+      filesIds: nextState,
     });
   }
 
   removeFileId(id) {
     const nextState = [...this.state.filesIds].filter(_id => _id !== id);
     this.setState({
-      filesIds: nextState
+      filesIds: nextState,
     });
   }
 
@@ -750,7 +801,7 @@ class Input extends React.Component {
     return {
       formBoundary,
       file,
-      id
+      id,
     };
   }
 
@@ -758,20 +809,20 @@ class Input extends React.Component {
     const fileLoaders = [...this.state.fileLoaders];
     fileLoaders.push(1);
     this.setState({
-      fileLoaders
+      fileLoaders,
     });
-  }
+  };
 
   removeFileLoader = () => {
     const fileLoaders = [...this.state.fileLoaders];
     fileLoaders.pop();
     this.setState({
-      fileLoaders
+      fileLoaders,
     });
-  }
+  };
 
   handleImageUpload = () => {
-    const { uploadImages } = this.state;
+    const {uploadImages} = this.state;
 
     if (uploadImages.length + 1 > 1) {
       Alert.alert('', 'You can only upload 1 photo at this time.');
@@ -783,10 +834,10 @@ class Input extends React.Component {
         skipBackup: true,
         path: 'images',
       },
-      noData: false
+      noData: false,
     };
 
-    ImagePicker.launchImageLibrary(options, async (response) => {
+    ImagePicker.launchImageLibrary(options, async response => {
       console.log('Response = ', response);
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -798,26 +849,23 @@ class Input extends React.Component {
         this.addFileLoader();
         console.log('image picked', response);
         const preparedFile = this.prepareFileToUpload(response);
-        const {
-          formBoundary,
-          file
-        } = preparedFile;
+        const {formBoundary, file} = preparedFile;
         console.log('image prepared', preparedFile);
 
         try {
           await setTimeout(async () => {
             const file_uploaded = await Client4.uploadFile(file, formBoundary);
-            file_uploaded.file_infos.forEach((element) => {
+            file_uploaded.file_infos.forEach(element => {
               this.pushFileId(element.id);
-              const source = { uri: response.uri };
-              this.setState((state) => {
+              const source = {uri: response.uri};
+              this.setState(state => {
                 const images = [...state.uploadImages];
                 images.push({
                   ...source,
-                  id: element.id
+                  id: element.id,
                 });
                 return {
-                  uploadImages: images
+                  uploadImages: images,
                 };
               });
             });
@@ -832,7 +880,7 @@ class Input extends React.Component {
         }
       }
     });
-  }
+  };
 
   clearState() {
     this.setState({
@@ -840,12 +888,12 @@ class Input extends React.Component {
       uploadVideos: [],
       uploadImages: [],
       fileLoaders: [],
-      filesIds: []
+      filesIds: [],
     });
   }
 
   handleVideoUpload = () => {
-    const { uploadVideos } = this.state;
+    const {uploadVideos} = this.state;
 
     if (uploadVideos.length + 1 > 1) {
       Alert.alert('', 'You can only upload 1 video at this time.');
@@ -858,10 +906,10 @@ class Input extends React.Component {
         skipBackup: true,
         path: 'movies',
       },
-      noData: false
+      noData: false,
     };
 
-    ImagePicker.launchImageLibrary(options, async (response) => {
+    ImagePicker.launchImageLibrary(options, async response => {
       console.log('Response = ', response);
 
       if (response.didCancel) {
@@ -877,23 +925,19 @@ class Input extends React.Component {
         console.log('video after build', response);
         try {
           console.log(response);
-          const {
-            formBoundary,
-            file,
-            id
-          } = this.prepareFileToUpload(response);
+          const {formBoundary, file, id} = this.prepareFileToUpload(response);
           const file_uploaded = await Client4.uploadFile(file, formBoundary);
-          file_uploaded.file_infos.forEach((element) => {
+          file_uploaded.file_infos.forEach(element => {
             this.pushFileId(element.id);
-            const source = { uri: response.uri };
-            this.setState((state) => {
+            const source = {uri: response.uri};
+            this.setState(state => {
               const videos = [...state.uploadVideos];
               videos.push({
                 ...source,
-                id: element.id
+                id: element.id,
               });
               return {
-                uploadVideos: videos
+                uploadVideos: videos,
               };
             });
           });
@@ -904,7 +948,7 @@ class Input extends React.Component {
         }
       }
     });
-  }
+  };
 
   handleDocumentUpload = async () => {
     try {
@@ -916,7 +960,7 @@ class Input extends React.Component {
         'public.movie',
         'public.audio',
         'public.text',
-        'public.image'
+        'public.image',
       ];
 
       const androidTypes = [
@@ -937,10 +981,7 @@ class Input extends React.Component {
       const types = Platform.OS === 'android' ? androidTypes : iosTypes;
 
       let res = await DocumentPicker.pick({
-        type: [
-          ...types
-        ],
-
+        type: [...types],
       });
       this.addFileLoader();
       console.log('file picked', res);
@@ -948,16 +989,11 @@ class Input extends React.Component {
       console.log('res after build', res);
       const document = null;
 
-
       try {
-        const {
-          formBoundary,
-          file,
-          id
-        } = this.prepareFileToUpload(res);
+        const {formBoundary, file, id} = this.prepareFileToUpload(res);
         const file_uploaded = await Client4.uploadFile(file, formBoundary);
         // console.log('done!: ', file_uploaded);
-        file_uploaded.file_infos.forEach((element) => {
+        file_uploaded.file_infos.forEach(element => {
           const icon = getDisplayIconForFile(res.extension);
           this.pushFileId(element.id);
           // console.log(res, element, icon)
@@ -966,8 +1002,8 @@ class Input extends React.Component {
               name: element.name,
               size: element.size,
               id: element.id,
-              icon
-            }
+              icon,
+            },
           });
         });
       } catch (err) {
@@ -984,57 +1020,52 @@ class Input extends React.Component {
     } finally {
       this.removeFileLoader();
     }
-  }
+  };
 
   handleDeleteImage = (deleteRef, id) => () => {
     this.removeFileId(id);
-    this.setState((state) => {
-      const { uploadImages } = state;
+    this.setState(state => {
+      const {uploadImages} = state;
       return {
-        uploadImages: uploadImages.filter((item, index) => deleteRef !== index)
+        uploadImages: uploadImages.filter((item, index) => deleteRef !== index),
       };
     });
-  }
+  };
 
   handleDeleteVideo = (deleteRef, id) => () => {
     this.removeFileId(id);
-    this.setState((state) => {
-      const { uploadVideos } = state;
+    this.setState(state => {
+      const {uploadVideos} = state;
       return {
-        uploadVideos: uploadVideos.filter((item, index) => deleteRef !== index)
+        uploadVideos: uploadVideos.filter((item, index) => deleteRef !== index),
       };
     });
-  }
+  };
 
   handleDeleteDocument = () => {
     this.setState(() => ({
       uploadDocument: null,
-      filesIds: []
+      filesIds: [],
     }));
-  }
+  };
 
   renderLoadingImages = () => {
     const items = this.state.fileLoaders.map((i, index) => (
-      <View
-        style={styles.mediaUpload}
-        key={index}
-      >
-        <ActivityIndicator
-          color="#17C491"
-        />
+      <View style={styles.mediaUpload} key={index}>
+        <ActivityIndicator color="#17C491" />
       </View>
     ));
     return (
-      <View style={{
-        flexDirection: 'row',
-        paddingLeft: 15,
-        flexWrap: 'wrap'
-      }}
-      >
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingLeft: 15,
+          flexWrap: 'wrap',
+        }}>
         {items}
       </View>
     );
-  }
+  };
 
   getDolarTagsComponent() {
     return (
@@ -1043,16 +1074,11 @@ class Input extends React.Component {
           {this.filterDolarTags().map((name, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
-              onPress={() => this.interpolateStrToMessage(`${name.toLowerCase()}`, '$')}
-            >
-              <View
-                style={styles.commandTagContainer}
-                key={index}
-              >
-                <Text style={styles.hashTag}>
-                $
-                  {name.toLowerCase()}
-                </Text>
+              onPress={() =>
+                this.interpolateStrToMessage(`${name.toLowerCase()}`, '$')
+              }>
+              <View style={styles.commandTagContainer} key={index}>
+                <Text style={styles.hashTag}>${name.toLowerCase()}</Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -1062,7 +1088,7 @@ class Input extends React.Component {
   }
 
   render() {
-    const { placeholder, loggedUserPicture, isPrivateChannel } = this.props;
+    const {placeholder, loggedUserPicture, isPrivateChannel} = this.props;
     const {
       messageText,
       showMentionsOptions,
@@ -1071,17 +1097,20 @@ class Input extends React.Component {
       uploadImages,
       uploadVideos,
       uploadDocument,
-      showDolarTags
+      showDolarTags,
     } = this.state;
     return (
       <View style={styles.container}>
-        {showMentionsOptions && !isPrivateChannel && this.getMentionsComponent()}
+        {showMentionsOptions &&
+          !isPrivateChannel &&
+          this.getMentionsComponent()}
         {showComandOptions && this.getCommandComponent()}
         {showTags && this.getTagComponent()}
         {showDolarTags && this.getDolarTagsComponent()}
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           <ProfilePicture loggedUserPicture={loggedUserPicture} />
-          <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 10 : null }}>
+          <View
+            style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 10 : null}}>
             <TextInput
               keyboardType="default"
               dataDetectorTypes="all"
@@ -1098,86 +1127,74 @@ class Input extends React.Component {
             />
           </View>
         </View>
-        <View style={{
-          flexDirection: 'row',
-          paddingVertical: 6,
-          flexWrap: 'wrap'
-        }}
-        >
-          {
-              uploadImages.map(({ uri, id }, index) => (
-                <View
-                  style={styles.mediaContainer}
-                  key={id}
-                >
-                  <Image
-                    source={{ uri }}
-                    style={styles.mediaUpload}
-                  />
-                  <View style={styles.deleteMedia}>
-                    <TouchableWithoutFeedback onPress={this.handleDeleteImage(index, id)}>
-                      <Image source={DELETE} />
-                    </TouchableWithoutFeedback>
-                  </View>
-                </View>
-              ))
-            }
-          {
-              uploadVideos.map(({ uri, id }, index) => (
-                <View
-                  style={styles.mediaContainer}
-                  key={id}
-                >
-                  <Video
-                    source={{ uri }}
-                    style={styles.mediaUpload}
-                    volume={0.0}
-                    resizeMode="stretch"
-                  />
-                  <View style={styles.deleteMedia}>
-                    <TouchableWithoutFeedback onPress={this.handleDeleteVideo(index, id)}>
-                      <Image source={DELETE} />
-                    </TouchableWithoutFeedback>
-                  </View>
-                </View>
-              ))
-            }
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingVertical: 6,
+            flexWrap: 'wrap',
+          }}>
+          {uploadImages.map(({uri, id}, index) => (
+            <View style={styles.mediaContainer} key={id}>
+              <Image source={{uri}} style={styles.mediaUpload} />
+              <View style={styles.deleteMedia}>
+                <TouchableWithoutFeedback
+                  onPress={this.handleDeleteImage(index, id)}>
+                  <Image source={DELETE} />
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
+          ))}
+          {uploadVideos.map(({uri, id}, index) => (
+            <View style={styles.mediaContainer} key={id}>
+              <Video
+                source={{uri}}
+                style={styles.mediaUpload}
+                volume={0.0}
+                resizeMode="stretch"
+              />
+              <View style={styles.deleteMedia}>
+                <TouchableWithoutFeedback
+                  onPress={this.handleDeleteVideo(index, id)}>
+                  <Image source={DELETE} />
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
+          ))}
           {this.renderLoadingImages()}
-          {
-              uploadDocument && (
-                <View style={styles.documentContainer}>
-                  <View style={{ paddingRight: 15, alignItems: 'center', alignSelf: 'center' }}>
-                    <Image source={uploadDocument.icon} />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.documentName}>{uploadDocument.name}</Text>
-                    <Text>{prettyBytes(uploadDocument.size)}</Text>
-                  </View>
-                  <View style={styles.deleteDocument}>
-                    <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
-                      <Image source={DELETE} />
-                    </TouchableWithoutFeedback>
-                  </View>
-                </View>
-              )
-            }
+          {uploadDocument && (
+            <View style={styles.documentContainer}>
+              <View
+                style={{
+                  paddingRight: 15,
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                }}>
+                <Image source={uploadDocument.icon} />
+              </View>
+              <View style={{flex: 1}}>
+                <Text style={styles.documentName}>{uploadDocument.name}</Text>
+                <Text>{prettyBytes(uploadDocument.size)}</Text>
+              </View>
+              <View style={styles.deleteDocument}>
+                <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
+                  <Image source={DELETE} />
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
+          )}
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.leftElements}>
-            {
-              !isPrivateChannel && (
-                <TouchableHighlight
-                  underlayColor="rgba(63, 184, 127, 0.2)"
-                  onPress={() => this.showOptionsView(1)}
-                >
-                  <Image source={AT} />
-                </TouchableHighlight>
-              )
-            }
+            {!isPrivateChannel && (
+              <TouchableHighlight
+                underlayColor="rgba(63, 184, 127, 0.2)"
+                onPress={() => this.showOptionsView(1)}>
+                <Image source={AT} />
+              </TouchableHighlight>
+            )}
             <TouchableHighlight
               underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={() => this.showOptionsView(2)}
-            >
+              onPress={() => this.showOptionsView(2)}>
               <Image source={SLASH} />
             </TouchableHighlight>
           </View>
@@ -1185,34 +1202,34 @@ class Input extends React.Component {
             <TouchableHighlight
               underlayColor="rgba(63, 184, 127, 0.2)"
               onPress={this.handleImageUpload}
-              disabled={uploadVideos.length !== 0 || !!uploadDocument}
-            >
+              disabled={uploadVideos.length !== 0 || !!uploadDocument}>
               <Image source={PHOTO} style={styles.inputOption} />
             </TouchableHighlight>
-            {
-              Platform.OS === 'android' && (
-                <TouchableHighlight
-                  underlayColor="rgba(63, 184, 127, 0.2)"
-                  onPress={this.handleVideoUpload}
-                  disabled={uploadImages.length !== 0 || !!uploadDocument}
-                >
-                  <Image source={VIDEO_THIN} style={styles.inputOption} />
-                </TouchableHighlight>
-              )
-            }
+            <TouchableHighlight
+              underlayColor="rgba(63, 184, 127, 0.2)"
+              onPress={this.handleVideoUpload}
+              disabled={uploadImages.length !== 0 || !!uploadDocument}>
+              <Image source={VIDEO_THIN} style={styles.inputOption} />
+            </TouchableHighlight>
 
             <TouchableHighlight
               onPress={this.handleDocumentUpload}
               underlayColor="rgba(63, 184, 127, 0.2)"
-              disabled={uploadVideos.length !== 0 || uploadImages.length !== 0 || !!uploadDocument}
-            >
+              disabled={
+                uploadVideos.length !== 0 ||
+                uploadImages.length !== 0 ||
+                !!uploadDocument
+              }>
               <Image source={FILE} style={styles.inputOption} />
             </TouchableHighlight>
             <TouchableOpacity>
-              {this.isDisable()
-                ? <Text style={[styles.button, styles.disabled]}>Send</Text>
-                : <Text style={styles.button} onPress={this.send}>Send</Text>
-                }
+              {this.isDisable() ? (
+                <Text style={[styles.button, styles.disabled]}>Send</Text>
+              ) : (
+                <Text style={styles.button} onPress={this.send}>
+                  Send
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -1222,21 +1239,28 @@ class Input extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  commands: state.commands.map(({ name, trigger }) => ({ name, trigger })),
-  users: state.users.keys.filter(key => !state.sponsored.includes(key)).map(key => (state.users.data[key] ? state.users.data[key] : {})),
+  commands: state.commands.map(({name, trigger}) => ({name, trigger})),
+  users: state.users.keys
+    .filter(key => !state.sponsored.includes(key))
+    .map(key => (state.users.data[key] ? state.users.data[key] : {})),
   channelTagNames: getHashTagChannelsNames(state), // state.channelsTagNames
   channelDolarTagNames: getDolarChannelNames(state),
-  loggedUserPicture: state.login.user ? getUserProfilePicture(state.login.user.id, state.login.user.last_picture_update) : '',
-  isPrivateChannel: getIsCurrentFocusChannelPrivate(state)
+  loggedUserPicture: state.login.user
+    ? getUserProfilePicture(
+        state.login.user.id,
+        state.login.user.last_picture_update,
+      )
+    : '',
+  isPrivateChannel: getIsCurrentFocusChannelPrivate(state),
 });
 
 const mapDisptchToProps = {
   createPost,
   updatePost,
-  executeCommand
+  executeCommand,
 };
 
 export default connect(
   mapStateToProps,
-  mapDisptchToProps
+  mapDisptchToProps,
 )(Input);

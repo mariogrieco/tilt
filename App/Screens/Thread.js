@@ -39,7 +39,6 @@ class Thread extends React.Component {
         backgroundColor: '#fff'
       },
       headerTitleStyle: {
-        fontWeight: 'bold',
         fontSize: 18,
         letterSpacing: 0.1,
         marginTop: 10,

@@ -2,9 +2,8 @@ import StyleSheet from 'react-native-extended-stylesheet';
 
 export default StyleSheet.create({
   span: {
-    fontFamily: 'SFProDisplay',
+    fontFamily: 'SFProDisplay-Bold',
     color: 'white',
-    fontWeight: '600',
     fontSize: 16,
     letterSpacing: 0.1,
   },

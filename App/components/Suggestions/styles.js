@@ -24,8 +24,7 @@ export default StyleSheet.create({
   },
   channelText: {
     color: '#0e141e',
-    fontFamily: 'SFProDisplay',
-    fontWeight: 'bold',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1
   },

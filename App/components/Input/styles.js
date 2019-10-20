@@ -1,6 +1,6 @@
 import StyleSheet from 'react-native-extended-stylesheet';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
-import { Platform } from 'react-native';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {Platform} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export default StyleSheet.create({
     // paddingTop: Platform.OS === 'ios' ? 15 : 10,
     borderTopColor: '#DCDCDC',
     borderTopWidth: StyleSheet.hairlineWidth,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   mentions: {
     flexDirection: 'row',
@@ -17,19 +17,18 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   mentionsProfileImage: {
     width: 26,
     height: 26,
     borderRadius: 13,
-    flex: 0
+    flex: 0,
   },
   mentionsColor: {
     color: '#0e141e',
-    fontFamily: 'SFProDisplay',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
     letterSpacing: 0.1,
   },
   input: {
@@ -42,7 +41,7 @@ export default StyleSheet.create({
   inputPicture: {
     height: 30,
     width: 30,
-    borderRadius: 15
+    borderRadius: 15,
   },
   commandTagContainer: {
     display: 'flex',
@@ -52,7 +51,7 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 10,
-    paddingTop: 10
+    paddingTop: 10,
   },
   commandContainer: {
     display: 'flex',
@@ -62,7 +61,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
-    paddingTop: 10
+    paddingTop: 10,
   },
   commandExec: {
     flex: 2,
@@ -80,18 +79,18 @@ export default StyleSheet.create({
   hashTag: {
     flex: 2,
     color: '#0e141e',
-    fontFamily: 'SFProDisplay',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     letterSpacing: 0.1,
   },
   rightElements: {
-    flex: Platform.OS === 'android' ? 0.55 : 0.44,
+    flex: 0.55,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginRight: 15,
-    marginTop: -5
+    marginTop: -5,
   },
   leftElements: {
     flex: 0.225,
@@ -99,11 +98,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginLeft: 5,
-    marginTop: -5
+    marginTop: -5,
   },
   inputOption: {
     paddingLeft: '0.625rem',
-    paddingRight: '0.625rem'
+    paddingRight: '0.625rem',
   },
   showOptionsView: {
     height: 180,
@@ -111,7 +110,7 @@ export default StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   notShowOptionsView: {
-    height: 0
+    height: 0,
   },
   button: {
     width: '4rem',
@@ -126,25 +125,25 @@ export default StyleSheet.create({
     borderRadius: 14.5,
     overflow: 'hidden',
     borderWidth: 1.25,
-    borderColor: 'transparent'
+    borderColor: 'transparent',
   },
   disabled: {
     color: '#585C63',
     borderWidth: 1,
     borderColor: '#585C63',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   mediaContainer: {
     position: 'relative',
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   mediaPlaceHolder: {
     paddingTop: 10,
     paddingBottom: 10,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   mediaUpload: {
     marginTop: 10,
@@ -157,12 +156,12 @@ export default StyleSheet.create({
     borderColor: '#DCDCDC',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   deleteMedia: {
     position: 'absolute',
     right: '2.5%',
-    top: '8%'
+    top: '8%',
   },
   documentContainer: {
     padding: 15,
@@ -174,17 +173,17 @@ export default StyleSheet.create({
     flex: 1,
     marginRight: 15,
     marginVertical: 10,
-    position: 'relative'
+    position: 'relative',
   },
   deleteDocument: {
     position: 'absolute',
     right: '-3.7%',
-    top: '-27%'
+    top: '-27%',
   },
   documentName: {
     color: '$textColor',
     fontFamily: 'SFProDisplay-SemiBold',
     fontSize: 15,
-    letterSpacing: 0.1
-  }
+    letterSpacing: 0.1,
+  },
 });
