@@ -1,4 +1,3 @@
-
 import Client4 from '../api/MattermostClient';
 // import {
 //   PER_PAGE_DEFAULT
@@ -9,7 +8,7 @@ export const SEARCH_CHANNELS_ERROR = 'SEARCH_CHANNELS_ERROR';
 
 export const searchChannels = (teamId, term) => async (dispatch, getState) => {
   try {
-    team_id = getState().teams.default_team_id;
+    // const team_id = getState().teams.default_team_id;
     const results = await Client4.searchChannels(teamId, term);
     const channelsFilter = results.filter(channel => channel.delete_at === 0);
     dispatch(searchChannelsSucess(channelsFilter));
@@ -22,10 +21,10 @@ export const searchChannels = (teamId, term) => async (dispatch, getState) => {
 
 export const searchChannelsSucess = results => ({
   type: SEARCH_CHANNELS_SUCCESS,
-  payload: results
+  payload: results,
 });
 
 export const searchChannelsError = err => ({
   type: SEARCH_CHANNELS_ERROR,
-  payload: err
+  payload: err,
 });

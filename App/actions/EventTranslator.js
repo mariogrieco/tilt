@@ -1,22 +1,11 @@
 import store from '../config/store';
-import {
-  addPostTo,
-  removeFromPost,
-  editPost
-} from './posts';
-import {
-  getChannelById,
-  channelUpdated,
-  deleteChannelSucess
-} from './channels';
-import {
-  userUpdatedSuccess,
-  getNewUser
-} from './users';
+import {addPostTo, removeFromPost, editPost} from './posts';
+import {getChannelById, channelUpdated, deleteChannelSucess} from './channels';
+import {userUpdatedSuccess, getNewUser} from './users';
 
 import moment from 'moment';
 
-const eventsDispatched = (data) => {
+const eventsDispatched = data => {
   console.log(data.event);
   switch (data.event) {
     case 'posted': {
@@ -32,15 +21,11 @@ const eventsDispatched = (data) => {
       return store.dispatch(editPost(post));
     }
     case 'direct_added': {
-      const {
-        channel_id
-      } = data.broadcast;
+      const {channel_id} = data.broadcast;
       return store.dispatch(getChannelById(channel_id, true));
     }
     case 'channel_created': {
-      const {
-        channel_id
-      } = data.data;  
+      const {channel_id} = data.data;
       return store.dispatch(getChannelById(channel_id));
     }
     case 'new_user': {
@@ -51,18 +36,20 @@ const eventsDispatched = (data) => {
       return store.dispatch(channelUpdated(newChannel));
     }
     case 'user_updated': {
-      const { user } = data.data;  
+      const {user} = data.data;
       user.last_picture_update = moment().unix();
       return store.dispatch(userUpdatedSuccess(user));
     }
     case 'channel_deleted': {
-      const { channel_id } = data.data;
-      return store.dispatch(deleteChannelSucess({
-        channelId: channel_id
-      }));
+      const {channel_id} = data.data;
+      return store.dispatch(
+        deleteChannelSucess({
+          channelId: channel_id,
+        }),
+      );
     }
     default:
-      // console.log(data) 
+      // console.log(data)
       return null;
   }
 };

@@ -1,18 +1,13 @@
 import Client4 from '../api/MattermostClient';
-import NavigationService from './../config/NavigationService'
-import {
-  searchPostsWithParams
-} from '../actions/advancedSearch';
+import NavigationService from './../config/NavigationService';
+import {searchPostsWithParams} from '../actions/advancedSearch';
 import {
   removeFromChannel,
   navigateIfExists,
-  createDirectChannel
+  createDirectChannel,
 } from './channels';
-import {
-  logout,
-  isLogin
-} from '../actions/login';
-import getPrivateMessagesChnnelsList from '../selectors/getChannelNameForPM'
+import {logout, isLogin} from '../actions/login';
+import getPrivateMessagesChnnelsList from '../selectors/getChannelNameForPM';
 import cloneDeep from 'lodash/cloneDeep';
 // getCommandsList (teamId)
 // executeCommand (command, commandArgs = {})
@@ -31,7 +26,7 @@ export const EXECUTE_ONLINE_ERROR = 'EXECUTE_ONLINE_ERROR';
 
 const customTeamId = 'k1df69t1ibryue11z5wd4n48nr'; // TEMPORAL !
 
-export const getCommandsList = () => async (dispatch) => {
+export const getCommandsList = () => async dispatch => {
   try {
     const commandList = await Client4.getCommandsList(customTeamId);
     dispatch(getCommandsListSuccess(commandList));
@@ -43,23 +38,28 @@ export const getCommandsList = () => async (dispatch) => {
 
 export const getCommandsListSuccess = list => ({
   type: GET_COMMAND_LIST_SUCCESS,
-  payload: list
+  payload: list,
 });
 
 export const getCommandsListError = err => ({
   type: GET_COMMAND_LIST_ERROR,
-  payload: err
+  payload: err,
 });
 
-export const executeCommand = (command, channelId) => async (dispatch, getState) => {
-  const defaultTeam  = getState().teams.default_team_id;
+export const executeCommand = (command, channelId) => async (
+  dispatch,
+  getState,
+) => {
+  const defaultTeam = getState().teams.default_team_id;
   switch (command.split(' ')[0]) {
     case '/search': {
-      let channel = getState().myChannelsMap.find(_channel => channelId === _channel.id) || {};
+      let channel =
+        getState().myChannelsMap.find(_channel => channelId === _channel.id) ||
+        {};
       if (channel.type === 'D') {
         channel = {
           ...channel,
-          name: getPrivateMessagesChnnelsList(getState(), cloneDeep(channel))
+          name: getPrivateMessagesChnnelsList(getState(), cloneDeep(channel)),
         };
       }
       let queryStr = command.replace('/search', '').trim();
@@ -67,7 +67,7 @@ export const executeCommand = (command, channelId) => async (dispatch, getState)
       await dispatch(searchPostsWithParams(queryStr, 0));
       NavigationService.navigate('AdvancedSearch', {
         queryStr,
-        channel
+        channel,
       });
       return true;
     }
@@ -89,13 +89,13 @@ export const executeCommand = (command, channelId) => async (dispatch, getState)
     }
     case '/msg': {
       try {
-        const r = await executeCommands(command, channelId);
+        await executeCommands(command, channelId);
         const username = command.split(' ')[1];
         let userId = '';
         getState().users.keys.forEach(key => {
           const data = getState().users.data[key];
           if (data && `@${data.username}` === username) {
-            userId = data.id; 
+            userId = data.id;
           }
         });
         return dispatch(createDirectChannel(userId));
@@ -108,27 +108,27 @@ export const executeCommand = (command, channelId) => async (dispatch, getState)
       return await executeCommands(command, channelId, defaultTeam);
     }
   }
-}
-
-function customErrorCommands (err) {
-  return {
-    type: 'COMMANDS_ERROR',
-    payload: err
-  };
 };
 
-async function executeCommands (command, channelId, defaultTeam) {
+function customErrorCommands(err) {
+  return {
+    type: 'COMMANDS_ERROR',
+    payload: err,
+  };
+}
+
+async function executeCommands(command, channelId, defaultTeam) {
   try {
     // alert();
     const result = await Client4.executeCommand(command, {
       // command,
       channel_id: channelId,
-      team_id: defaultTeam
+      team_id: defaultTeam,
     });
     // dispatch(executeAwaySuccess(result));
     return result;
   } catch (ex) {
-    dispatch(customErrorCommands(err));
+    // dispatch(customErrorCommands(ex));
     return Promise.reject(`${ex.message || ex}: ${command}`);
     // return Promise.reject(`Command with a trigger of ${command.split(' ')[0]} not found`);
   }
@@ -136,16 +136,16 @@ async function executeCommands (command, channelId, defaultTeam) {
 
 export const executeAwaySuccess = result => ({
   type: EXECUTE_AWAY_SUCCESS,
-  payload: result
+  payload: result,
 });
 
 export const executeAwayError = err => ({
   type: EXECUTE_AWAY_ERROR,
-  payload: err
+  payload: err,
 });
 
 export const executeOffline = ({
-  channel_id
+  channel_id,
   // command: "/offline "
   // team_id: "k1df69t1ibryue11z5wd4n48nr"
 }) => async (dispatch, getState) => {
@@ -153,29 +153,28 @@ export const executeOffline = ({
     const result = await Client4.executeCommand({
       command: '/offline',
       team_id: getState().teams.default_team_id,
-      channel_id
+      channel_id,
     });
     dispatch(executeOfflineSuccess(result));
     return result;
   } catch (ex) {
     dispatch(executeOfflineError(ex));
     return Promise.reject(ex.message);
-;
   }
 };
 
 export const executeOfflineSuccess = result => ({
   type: EXECUTE_OFFLINE_SUCCESS,
-  payload: result
+  payload: result,
 });
 
 export const executeOfflineError = err => ({
   type: EXECUTE_OFFLINE_ERROR,
-  payload: err
+  payload: err,
 });
 
 export const executeOnline = ({
-  channel_id
+  channel_id,
   // command: "/offline "
   // team_id: "k1df69t1ibryue11z5wd4n48nr"
 }) => async (dispatch, getState) => {
@@ -183,7 +182,7 @@ export const executeOnline = ({
     const result = await Client4.executeCommand({
       command: '/online',
       team_id: getState().teams.default_team_id,
-      channel_id
+      channel_id,
     });
     dispatch(executeOfflineSuccess(result));
     return result;
@@ -195,10 +194,10 @@ export const executeOnline = ({
 
 export const executeOnlineSuccess = result => ({
   type: EXECUTE_ONLINE_SUCCESS,
-  payload: result
+  payload: result,
 });
 
 export const executeOnlineError = err => ({
   type: EXECUTE_ONLINE_ERROR,
-  payload: err
+  payload: err,
 });
