@@ -5,18 +5,13 @@ import cloneDeep from 'lodash/cloneDeep';
 
 export default (state, activeLabels) => {
   const me = state.login.user ? state.login.user.id : null;
-  const {
-    entities
-  } = state.posts;
-  const {
-    active_channel_id
-  } = state.appNavigation;
+  const {entities} = state.posts;
+  const {active_channel_id} = state.appNavigation;
   const lastViewAt = state.lastViewed[active_channel_id];
   let posts = [];
   let flagActive = false;
   let flagCount = 0;
 
-  
   const store = state.posts.orders[active_channel_id];
   if (!!active_channel_id && store && store.order) {
     for (let index = store.order.length - 1; index >= 0; index -= 1) {
@@ -25,16 +20,21 @@ export default (state, activeLabels) => {
       const data = {
         ...cloneDeep(post),
         user: state.users.data[post.user_id] || {},
-        replies: getAllRootsforPost(store.order, entities, post.id)
+        replies: getAllRootsforPost(store.order, entities, post.id),
       };
       if (filterPostBy(data)) {
         if (!activeLabels) {
           return posts.unshift(data);
         } else {
-          if (me !== data.user_id && lastViewAt !== undefined && !flagActive && (post.create_at > lastViewAt || post.edit_at > lastViewAt)) {
+          if (
+            me !== data.user_id &&
+            lastViewAt !== undefined &&
+            !flagActive &&
+            (post.create_at > lastViewAt || post.edit_at > lastViewAt)
+          ) {
             flagActive = true;
             data.render_separator = true;
-          };
+          }
           if (flagActive) {
             flagCount += 1;
           }
@@ -47,8 +47,9 @@ export default (state, activeLabels) => {
   const mapedProps = {
     channel: state.mapChannels.get(active_channel_id) || {},
     posts,
-    flagCount
+    flagCount,
   };
-  mapedProps.channel.user = state.users.data[(mapedProps.channel).creator_id]||{};
+  mapedProps.channel.user =
+    state.users.data[mapedProps.channel.creator_id] || {};
   return mapedProps;
 };

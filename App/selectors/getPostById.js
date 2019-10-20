@@ -5,8 +5,8 @@ const getPostById = (state, postId) => {
   if (!post) return {};
   return {
     ...post,
-    user: cloneDeep(state.users.data[post.user_id]) || {}
-  }
-}
+    user: cloneDeep(state.users.data[post.user_id]) || {},
+  };
+};
 
 export default getPostById;
