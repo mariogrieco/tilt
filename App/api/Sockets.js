@@ -15,18 +15,18 @@ wsClient.setReconnectCallback(() => {
 
 wsClient.setErrorCallback(() => {
   console.log('setErrorCallback');
-})
+});
 
 wsClient.setCloseCallback(() => {
   console.log('setCloseCallback');
 });
 
-wsClient.setEventCallback((event) => {
+wsClient.setEventCallback(event => {
   EventTranslator(event);
 });
 
 wsClient.setFirstConnectCallback(() => {
-  console.log('setFirstConnectCallback!! ', );
+  console.log('setFirstConnectCallback!! ');
 });
 
 const init = () => {
@@ -34,14 +34,12 @@ const init = () => {
     wsClient.close(true);
     wsClient.initialize('', {
       connectionUrl: 'wss://community.tiltchat.com/api/v4/websocket',
-      forceConnection: true
+      forceConnection: true,
     });
   } catch (ex) {
     console.log(ex);
   }
-}
+};
 
 export default init;
-export {
-  init
-}
+export {init};
