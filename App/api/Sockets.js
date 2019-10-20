@@ -1,35 +1,32 @@
 import wsClient from 'mattermost-redux/client/websocket_client';
-// import Client4 from './MattermostClient';
+import store from '../config/store';
+import Sync from '../config/SyncApp';
 
 import EventTranslator from '../actions/EventTranslator';
 
-wsClient.setConnectingCallback((message) => {
-  // alert('connection socket');
-  console.log(message);
+wsClient.setConnectingCallback(() => {
+  console.log('setConnectingCallback');
 });
 
-wsClient.setReconnectCallback((message) => {
-  // alert('connection socket');
-  console.log(message);
+wsClient.setReconnectCallback(() => {
+  Sync.init(store.dispatch);
+  console.log('setReconnectCallback');
 });
 
-wsClient.setErrorCallback((err) => {
-  // alert('err socket');
-  console.log(err);
+wsClient.setErrorCallback(() => {
+  console.log('setErrorCallback');
 })
 
-wsClient.setCloseCallback((message) => {
-  // alert('close socket');
-  console.log(message);
+wsClient.setCloseCallback(() => {
+  console.log('setCloseCallback');
 });
 
 wsClient.setEventCallback((event) => {
-  console.log('event!! ', event);
   EventTranslator(event);
 });
 
-wsClient.setFirstConnectCallback((event) => {
-  console.log('setFirstConnectCallback!! ', event);
+wsClient.setFirstConnectCallback(() => {
+  console.log('setFirstConnectCallback!! ', );
 });
 
 const init = () => {

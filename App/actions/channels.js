@@ -169,11 +169,14 @@ export const patchChannelError = err => ({
 // };
 
 export const navigateIfExists = (channelDisplayName) => (dispatch, getState) => {
-  const myChannels = getState().myChannels;
-  [...cloneDeep(getState().channels), ...cloneDeep(myChannels)].forEach((item) => {
+  const MyMapChannel = getState().myChannelsMap; 
+  const myChannels = getState().myChannelsMap.valueSeq().toJS();
+  const channels = getState().mapChannels.valueSeq().toJS();
+
+  [...channels, ...myChannels].forEach((item) => {
     const formatName = parser(item.display_name);
     if (`${formatName}` === channelDisplayName.replace('$', '').replace('#', '')) {
-      const joined = myChannels.find(channel => channel.id === item.id);
+      const joined = MyMapChannel.get(item.id);
       if (joined) {
         dispatch(setActiveFocusChannel(item.id));
         NavigationService.navigate('Channel', {
@@ -486,12 +489,11 @@ export const createChannelError = err => ({
   payload: err
 });
 
-
 export const addToChannel = (user_id, channel_id, postRootId) => async (dispatch, getState) => {
   try {
     const state = getState();
     await Client4.addToChannel(user_id, channel_id, postRootId);
-    const payload = state.channels.find(({ id }) => channel_id === id);
+    const payload = state.mapChannels.find(({ id }) => channel_id === id);
     dispatch(getPostsForChannel(channel_id));
     dispatch(addToChannelSucess(payload));
     return payload;
@@ -545,8 +547,9 @@ export const createDirectChannel = (userId) => async (dispatch, getState) => {
   try {
     dispatch(clearjumpToAction());
     const meId = getState().login.user.id;
-    const comparator = `${userId}__${meId}`;  
-    let channel = getState().myChannels.find(channel => {
+    const comparator = `${userId}__${meId}`;
+
+    let channel = getState().mapChannels.find(channel => {
       if (comparator.includes(channel.name)) {
         return channel;
       }

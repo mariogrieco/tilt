@@ -45,7 +45,7 @@ export default (state, activeLabels) => {
   }
 
   const mapedProps = {
-    channel: cloneDeep(state.channels.find(({ id }) => active_channel_id === id) || {}),
+    channel: state.mapChannels.get(active_channel_id) || {},
     posts,
     flagCount
   };

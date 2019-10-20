@@ -9,14 +9,16 @@ const getChnnelsList = (state) => {
   const {
     entities
   } = state.posts;
-  const myChannelsKeys = {};
-  state.myChannels.forEach((channel) => {
-    myChannelsKeys[channel.id] = channel;
-  });
-  const data = state.channels.filter(({ type, id }) => type === 'O' && !myChannelsKeys[id] && !isChannelCreatorAdmin(state, id)).map((channel) => {
+  const {
+    myChannelsMap,
+    mapChannels
+  } = state;
+  const data = [];
+
+  mapChannels.filter(({ type, id }) => type === 'O' && !myChannelsMap.has(id) && !isChannelCreatorAdmin(state, id)).valueSeq().forEach((channel) => {
     const channelData = state.posts.orders[channel.id];
     if (channelData && channelData.order) {
-      return {
+      data.push({
         ...channel,
         posts: channelData.order.map((key) => {
           return entities[key];
@@ -24,15 +26,16 @@ const getChnnelsList = (state) => {
         creator: state.users.data[channel.creator_id] || {},
         fav: getFavoriteChannelById(state, channel.id),
         activeUsers: {},
-      };
+      });
+    } else {
+      data.push({
+        posts: [],
+        ...channel,
+        activeUsers: {},
+        fav: false,
+        creator: {}
+      });
     }
-    return {
-      posts: [],
-      ...channel,
-      activeUsers: {},
-      fav: false,
-      creator: {}
-    };
   });
   return data;
 }

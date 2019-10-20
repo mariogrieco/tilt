@@ -4,33 +4,50 @@ import {
   Text,
   Image,
   // ImageBackground,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import RNUrlPreview from 'react-native-url-preview';
 // import CurrentUserStatus from '../CurrentUserStatus'
 import moment from 'moment';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import {SponsorBanner} from '../AdBanner';
-import {jumpToAction} from '../../actions/advancedSearch';
-import {navigateIfExists} from '../../actions/channels';
-import {removeReaction, addReaction} from '../../actions/reactions';
-import {setCurrentDisplayUserProfile, onUser} from '../../actions/users';
-import {showPostActions, showPostMediaBox} from '../../actions/posts';
-import {getBaseUrl} from '../../api/MattermostClient';
+import SponsorAd from './SponsorAd';
+import {
+  jumpToAction
+} from '../../actions/advancedSearch';
+import {
+  navigateIfExists
+} from '../../actions/channels';
+import {
+  removeReaction,
+  addReaction
+} from '../../actions/reactions';
+import {
+  setCurrentDisplayUserProfile,
+  onUser
+} from '../../actions/users';
+import { showPostActions, showPostMediaBox } from '../../actions/posts';
+import {
+  getBaseUrl,
+} from '../../api/MattermostClient';
 import NavigationService from '../../config/NavigationService';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import {
   setActiveThreadData,
-  setActiveFocusChannel,
+  setActiveFocusChannel
 } from '../../actions/AppNavigation';
 import PureParsedText from './PureParsedText';
-import {isVideo, isDocument, isImage} from '../Input/file_utils';
+import {
+  isVideo,
+  isDocument,
+  isImage
+} from '../Input/file_utils';
 import DocumentSample from '../DocumentSample';
 import VideoSample from '../VideoSample';
 import parser from '../../utils/parse_display_name';
 import Reactions from './Reactions';
 import styles from './style';
+
 
 const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
 const TILT_SYSTEM_LOGO = require('../../../assets/images/tilt-logo/tilt-logo.png');
@@ -46,7 +63,7 @@ function reduceReactions(metadata) {
   let eyes = 0;
 
   if (metadata && metadata.reactions) {
-    metadata.reactions.forEach(({emoji_name}) => {
+    metadata.reactions.forEach(({ emoji_name }) => {
       if (emoji_name === '+1') {
         ++likes;
       }
@@ -73,9 +90,10 @@ function reduceReactions(metadata) {
     laughs,
     rocket,
     sadFace,
-    eyes,
+    eyes
   };
 }
+
 
 class Post extends React.Component {
   state = {
@@ -84,8 +102,8 @@ class Post extends React.Component {
     loadingRocket: false,
     loadingLaughts: false,
     loadingSadFace: false,
-    loadingDislike: false,
-  };
+    loadingDislike: false
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
@@ -94,162 +112,164 @@ class Post extends React.Component {
   onDislike = () => {
     if (this.state.loadingDislike) return null;
     const reactions = this.getReactions();
-    this.setState(
-      {
-        loadingDislike: true,
-      },
-      async () => {
-        try {
-          const {postId, me} = this.props;
-          if (this.findEmojiName('-1')) {
-            await this.props.removeReaction(me, postId, '-1');
-          } else {
-            await this.props.addReaction(me, postId, '-1');
-          }
-        } catch (ex) {
-          alert(ex);
-        } finally {
-          this.setState({
-            loadingDislike: false,
-          });
+    this.setState({
+      loadingDislike: true
+    }, async () => {
+      try {
+        const {
+          postId,
+          me
+        } = this.props;
+        if (this.findEmojiName('-1')) {
+          await this.props.removeReaction(me, postId, '-1');
+        } else {
+          await this.props.addReaction(me, postId, '-1');
         }
-      },
-    );
-  };
+      } catch (ex) {
+        alert(ex);
+      } finally {
+        this.setState({
+          loadingDislike: false
+        });
+      }
+    });
+  }
 
   onEyes = () => {
     if (this.state.loadingEye) return null;
-    this.setState(
-      {
-        loadingEye: true,
-      },
-      async () => {
-        try {
-          const {postId, me} = this.props;
-          if (this.findEmojiName('eyes')) {
-            await this.props.removeReaction(me, postId, 'eyes');
-          } else {
-            await this.props.addReaction(me, postId, 'eyes');
-          }
-        } catch (ex) {
-          alert(ex);
-        } finally {
-          this.setState({
-            loadingEye: false,
-          });
+    this.setState({
+      loadingEye: true
+    }, async () => {
+      try {
+        const {
+          postId,
+          me
+        } = this.props;
+        if (this.findEmojiName('eyes')) {
+          await this.props.removeReaction(me, postId, 'eyes');
+        } else {
+          await this.props.addReaction(me, postId, 'eyes');
         }
-      },
-    );
-  };
+      } catch (ex) {
+        alert(ex);
+      } finally {
+        this.setState({
+          loadingEye: false
+        });
+      }
+    });
+  }
+
 
   onRocket = () => {
     if (this.state.loadingRocket) return null;
-    this.setState(
-      {
-        loadingRocket: true,
-      },
-      async () => {
-        try {
-          const {postId, me} = this.props;
-          if (this.findEmojiName('rocket')) {
-            await this.props.removeReaction(me, postId, 'rocket');
-          } else {
-            await this.props.addReaction(me, postId, 'rocket');
-          }
-        } catch (ex) {
-          alert(ex);
-        } finally {
-          this.setState({
-            loadingRocket: false,
-          });
+    this.setState({
+      loadingRocket: true
+    }, async () => {
+      try {
+        const {
+          postId,
+          me
+        } = this.props;
+        if (this.findEmojiName('rocket')) {
+          await this.props.removeReaction(me, postId, 'rocket');
+        } else {
+          await this.props.addReaction(me, postId, 'rocket');
         }
-      },
-    );
-  };
+      } catch (ex) {
+        alert(ex);
+      } finally {
+        this.setState({
+          loadingRocket: false
+        });
+      }
+    });
+  }
 
   onLaughs = () => {
     if (this.state.loadingLaughts) return null;
-    this.setState(
-      {
-        loadingLaughts: true,
-      },
-      async () => {
-        try {
-          const {postId, me} = this.props;
-          if (this.findEmojiName('joy')) {
-            await this.props.removeReaction(me, postId, 'joy');
-          } else {
-            await this.props.addReaction(me, postId, 'joy');
-          }
-        } catch (ex) {
-          alert(ex);
-        } finally {
-          this.setState({
-            loadingLaughts: false,
-          });
+    this.setState({
+      loadingLaughts: true
+    }, async () => {
+      try {
+        const {
+          postId,
+          me
+        } = this.props;
+        if (this.findEmojiName('joy')) {
+          await this.props.removeReaction(me, postId, 'joy');
+        } else {
+          await this.props.addReaction(me, postId, 'joy');
         }
-      },
-    );
-  };
+      } catch (ex) {
+        alert(ex);
+      } finally {
+        this.setState({
+          loadingLaughts: false
+        });
+      }
+    });
+  }
 
   onSadFace = () => {
     if (this.state.loadingSadFace) return null;
-    this.setState(
-      {
-        loadingSadFace: true,
-      },
-      async () => {
-        try {
-          const {postId, me} = this.props;
-          if (this.findEmojiName('frowning_face')) {
-            await this.props.removeReaction(me, postId, 'frowning_face');
-          } else {
-            await this.props.addReaction(me, postId, 'frowning_face');
-          }
-        } catch (ex) {
-          alert(ex);
-        } finally {
-          this.setState({
-            loadingSadFace: false,
-          });
+    this.setState({
+      loadingSadFace: true
+    }, async () => {
+      try {
+        const {
+          postId,
+          me
+        } = this.props;
+        if (this.findEmojiName('frowning_face')) {
+          await this.props.removeReaction(me, postId, 'frowning_face');
+        } else {
+          await this.props.addReaction(me, postId, 'frowning_face');
         }
-      },
-    );
-  };
+      } catch (ex) {
+        alert(ex);
+      } finally {
+        this.setState({
+          loadingSadFace: false
+        });
+      }
+    });
+  }
 
   onLikes = () => {
     if (this.state.loadingLike) return null;
-    this.setState(
-      {
-        loadingLike: true,
-      },
-      async () => {
-        try {
-          const {postId, me} = this.props;
-          if (this.findEmojiName('+1')) {
-            await this.props.removeReaction(me, postId, '+1');
-          } else {
-            await this.props.addReaction(me, postId, '+1');
-          }
-        } catch (ex) {
-          alert(ex);
-        } finally {
-          this.setState({
-            loadingLike: false,
-          });
+    this.setState({
+      loadingLike: true
+    }, async () => {
+      try {
+        const {
+          postId,
+          me
+        } = this.props;
+        if (this.findEmojiName('+1')) {
+          await this.props.removeReaction(me, postId, '+1');
+        } else {
+          await this.props.addReaction(me, postId, '+1');
         }
-      },
-    );
-  };
+      } catch (ex) {
+        alert(ex);
+      } finally {
+        this.setState({
+          loadingLike: false
+        });
+      }
+    });
+  }
 
   getReactions() {
-    return this.props.metadata && this.props.metadata
-      ? this.props.metadata.reactions
-      : null;
+    return this.props.metadata && this.props.metadata ? this.props.metadata.reactions : null;
   }
 
   handleNavigationToProfile = () => {
-    const {showLoggedUserProfile, userId} = this.props;
+    const {
+      showLoggedUserProfile,
+      userId,
+    } = this.props;
 
     if (showLoggedUserProfile) {
       this.props.setCurrentDisplayUserProfile(userId);
@@ -266,30 +286,39 @@ class Post extends React.Component {
     // if (isPM) return null;
     setActiveThreadData(postId);
     NavigationService.navigate('Thread');
-  };
+  }
 
-  findEmojiName = name => {
+  findEmojiName = (name) => {
     const reactions = this.getReactions();
-    const {me} = this.props;
+    const { me } = this.props;
     if (reactions) {
-      return reactions.find(
-        ({emoji_name, user_id}) => emoji_name == name && user_id === me,
-      );
+      return reactions.find(({ emoji_name, user_id }) => (emoji_name == name && user_id === me));
     }
     return null;
-  };
+  }
 
   onPostPress = () => {
-    const {showPostActions, postId, userId, isReply, isPM} = this.props;
-    showPostActions(userId, postId, {hideReply: isReply, isPM});
-  };
+    const {
+      showPostActions,
+      postId,
+      userId,
+      isReply,
+      isPM
+    } = this.props;
+    showPostActions(userId, postId, { hideReply: isReply, isPM });
+  }
+
 
   parseDisplayName(str = '') {
     return parser(str);
   }
 
   jumpTo = async () => {
-    const {channel, postId, jumpToAction} = this.props;
+    const {
+      channel,
+      postId,
+      jumpToAction
+    } = this.props;
     if (!channel) return null;
     this.props.setActiveFocusChannel(channel.id);
     const r = await jumpToAction(channel.id, postId, 0, 10);
@@ -298,45 +327,23 @@ class Post extends React.Component {
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
-      focusOn: postId,
+      focusOn: postId
     });
-  };
+  }
 
   renderFile(file) {
     // CLient4.getFilePublicLink(file.id).then(response => console.log(response))
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
         return (
-          <TouchableOpacity
-            key={file.id}
-            onPress={() =>
-              this.props.showPostMediaBox({
-                uri: `${getBaseUrl()}/api/v4/files/${file.id}`,
-                type: 'image',
-                id: file.id,
-              })
-            }>
-            <Image
-              style={styles.imageContainer}
-              source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}`}}
-            />
+          <TouchableOpacity key={file.id} onPress={() => this.props.showPostMediaBox({ uri: `${getBaseUrl()}/api/v4/files/${file.id}`, type: 'image', id: file.id })}>
+            <Image style={styles.imageContainer} source={{ uri: `${getBaseUrl()}/api/v4/files/${file.id}` }} />
           </TouchableOpacity>
         );
       }
       return (
-        <TouchableOpacity
-          key={file.id}
-          onPress={() =>
-            this.props.showPostMediaBox({
-              uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview`,
-              type: 'image',
-              id: file.id,
-            })
-          }>
-          <Image
-            style={styles.imageContainer}
-            source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview`}}
-          />
+        <TouchableOpacity key={file.id} onPress={() => this.props.showPostMediaBox({ uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview`, type: 'image', id: file.id })}>
+          <Image style={styles.imageContainer} source={{ uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview` }} />
         </TouchableOpacity>
       );
     }
@@ -361,21 +368,19 @@ class Post extends React.Component {
       // />
       // return <View><Text>{`${getBaseUrl()}/api/v4/files/${file.id}`}</Text></View>
       return (
-        <VideoSample key={file.id} file={file} extension={file.extension} />
+        <VideoSample
+          key={file.id}
+          file={file}
+          extension={file.extension}
+        />
       );
     }
 
-    return (
-      <Image
-        source={FILE_NOT_FOUND}
-        styles={styles.imageContainer}
-        key={file.id}
-      />
-    );
+    return <Image source={FILE_NOT_FOUND} styles={styles.imageContainer} key={file.id} />;
   }
 
   renderFileComponent(files) {
-    return files.map((file, index) => this.renderFile(file));
+    return files.map((file, index) => (this.renderFile(file)));
   }
 
   renderMessage = () => {
@@ -387,50 +392,42 @@ class Post extends React.Component {
       navigateIfExists,
       onUser,
       disableInteractions,
-      isPM,
+      isPM
     } = this.props;
     const typeIsSystem = type.match('system');
 
-    const imageUrl =
-      metadata && metadata.embeds && metadata.embeds[0].type === 'image'
-        ? metadata.embeds[0].url
-        : false;
-    const files =
-      metadata && metadata.files && metadata.files ? metadata.files : [];
+    const imageUrl = metadata && metadata.embeds && metadata.embeds[0].type === 'image' ? metadata.embeds[0].url : false;
+    const files = metadata && metadata.files && metadata.files ? metadata.files : [];
     return (
       <>
-        <TouchableOpacity
-          onPress={disableInteractions ? () => {} : this.onReply}>
-          {!imageUrl && (
-            <View
-              style={{
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}>
-              <PureParsedText
-                message={message}
-                typeIsSystem={typeIsSystem}
-                onChannel={navigateIfExists}
-                onUser={onUser}
-                disableUserPattern={isPM}
-              />
-              <Text> </Text>
-              {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
-            </View>
-          )}
+        <TouchableOpacity onPress={disableInteractions ? () => {} : this.onReply}>
+          {!imageUrl
+            && (
+              <View style={{
+                justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap',
+              }}
+              >
+                <PureParsedText
+                  message={message}
+                  typeIsSystem={typeIsSystem}
+                  onChannel={navigateIfExists}
+                  onUser={onUser}
+                  disableUserPattern={isPM}
+                />
+                <Text>{' '}</Text>
+                  {(edit_at > 0) && (
+                  <Text style={styles.edited}>
+                  (edited)
+                  </Text>
+                  )}
+              </View>
+            )
+            }
         </TouchableOpacity>
         {imageUrl && (
-          <TouchableOpacity
-            onPress={() =>
-              this.props.showPostMediaBox({uri: imageUrl, type: 'image'})
-            }>
-            <Image
-              style={styles.imageUrlContainer}
-              source={{uri: `${imageUrl}`}}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.showPostMediaBox({ uri: imageUrl, type: 'image' })}>
+          <Image style={styles.imageUrlContainer} source={{ uri: `${imageUrl}` }} />
+        </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
         <RNUrlPreview
@@ -441,16 +438,9 @@ class Post extends React.Component {
         />
       </>
     );
-  };
+  }
 
-  renderSponsorAd = () => (
-    <View style={{minHeight: 100}}>
-      <Text style={[styles.text, {marginBottom: 10}]}>
-        A message form our sponsors.
-      </Text>
-      <SponsorBanner />
-    </View>
-  );
+  renderSponsorAd = () => (<SponsorAd />)
 
   render() {
     const {
@@ -471,73 +461,72 @@ class Post extends React.Component {
       userId,
       jumpTo,
       disableInteractions,
-      sponsorIds,
+      sponsorIds
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
     const isSponsorUser = sponsorIds.includes(userId);
-    const profilePictureUrl = getUserProfilePicture(
-      userId,
-      last_picture_update,
-    );
+    const profilePictureUrl = getUserProfilePicture(userId, last_picture_update);
     return (
       <View style={styles.container}>
-        {!typeIsSystem && !disableDots && (
+        {!typeIsSystem && !disableDots
+        && (
           <View style={styles.dotContainer}>
             <TouchableOpacity
               style={[styles.dotContainer]}
-              onPress={disableInteractions ? () => {} : this.onPostPress}>
+              onPress={disableInteractions ? () => {} : this.onPostPress}
+            >
               <View style={styles.dot} />
               <View style={styles.dot} />
               <View style={styles.dot} />
             </TouchableOpacity>
           </View>
-        )}
-        {jumpTo && (
+        )
+        }
+        {jumpTo
+          && (
           <TouchableOpacity
             style={styles.jumpContainer}
-            onPress={disableInteractions ? () => {} : this.jumpTo}>
+            onPress={disableInteractions ? () => {} : this.jumpTo}
+          >
             <View>
-              <Text
-                style={{
-                  color: '#17C491',
-                  fontFamily: 'SFProDisplay-Medium',
-                  fontSize: 16,
-                  letterSpacing: 0.1,
-                }}>
+              <Text style={{
+                color: '#17C491', fontFamily: 'SFProDisplay-Medium', fontSize: 16, letterSpacing: 0.1
+              }}
+              >
                 Jump
               </Text>
             </View>
           </TouchableOpacity>
-        )}
+          )
+        }
         <View style={styles.leftSideContainer}>
           <View>
             <Image
-              style={[styles.profileImage, {resizeMode: 'cover'}]}
-              source={
-                typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
-              }
+              style={[styles.profileImage, { resizeMode: 'cover' }]}
+              source={typeIsSystem ? TILT_SYSTEM_LOGO : { uri: profilePictureUrl }}
             />
           </View>
           {thread && <View style={styles.threadSeparator} />}
         </View>
         <View style={styles.rightSide}>
-          <TouchableOpacity
-            onPress={
-              disableInteractions || isSponsorUser
-                ? () => {}
-                : this.handleNavigationToProfile
-            }>
+          <TouchableOpacity onPress={disableInteractions || isSponsorUser ? () => {} : this.handleNavigationToProfile}>
             <Text style={[styles.username]}>
-              {typeIsSystem ? 'System' : username}{' '}
+              {typeIsSystem ? 'System' : username}
+              {' '}
               <Text style={styles.timespan}>
-                {extendedDateFormat
-                  ? moment(createdAt).format('M/D/YY, h:mm A')
-                  : moment(createdAt).format('h:mm A')}
+                {
+                  extendedDateFormat
+                    ? moment(createdAt).format('M/D/YY, h:mm A')
+                    : moment(createdAt).format('h:mm A')
+                }
               </Text>
             </Text>
           </TouchableOpacity>
-          {isSponsorUser ? this.renderSponsorAd() : this.renderMessage()}
+          { isSponsorUser
+            ? this.renderSponsorAd()
+            : this.renderMessage()
+          }
           <Reactions
             reactions={reactions}
             disableInteractions={disableInteractions}
@@ -561,13 +550,13 @@ Post.defaultProps = {
   showLoggedUserProfile: true,
   isReply: false,
   disableInteractions: false,
-  disableDots: false,
+  disableDots: false
 };
 
 const mapStateToProps = (state, props) => ({
   loggedUser: state.login.user ? state.login.user.username : '',
   me: state.login.user ? state.login.user.id : null,
-  sponsorIds: state.sponsored,
+  sponsorIds: state.sponsored
 });
 
 const mapDispatchToProps = {
@@ -580,11 +569,11 @@ const mapDispatchToProps = {
   onUser,
   setActiveFocusChannel,
   jumpToAction,
-  showPostMediaBox,
+  showPostMediaBox
   // clearjumpToAction
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Post);
