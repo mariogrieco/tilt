@@ -147,6 +147,7 @@ class PublicChat extends React.Component {
             inactiveColor="#585C63"
           />
         )}
+        swipeEnabled={false}
       />
     </React.Fragment>
   );
