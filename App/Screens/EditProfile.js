@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, {createRef} from 'react';
 import {
   View,
   Text,
@@ -6,16 +6,14 @@ import {
   ScrollView,
   TextInput,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import GoBack from '../components/GoBack';
 import Picture from '../components/Picture';
-import {
-  updateUser
-} from '../actions/users';
+import {updateUser} from '../actions/users';
 import getUserProfilePicture from '../selectors/getUserProfilePicture';
 import Separator from '../components/Separator';
 import Client4 from '../api/MattermostClient';
@@ -32,13 +30,13 @@ const styles = StyleSheet.create({
     height: 145,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   row: {
     paddingTop: 11,
     paddingBottom: 11,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
   },
   rowTitle: {
     backgroundColor: '#f6f7f9',
@@ -50,12 +48,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Bold',
-    color: '#17C491'
+    color: '#17C491',
   },
   title: {
     color: '$textColor',
     fontFamily: 'SFProDisplay-Semibold',
-    fontSize: 16
+    fontSize: 16,
   },
   input: {
     fontSize: 16,
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
   },
   bio: {
     color: '$textColor',
-  }
+  },
 });
 
 class EditProfile extends React.PureComponent {
@@ -74,30 +72,28 @@ class EditProfile extends React.PureComponent {
 
   inputRefFirst = createRef();
 
-  static getDerivedStateFromProps({ user }, { firstName, lastName, position }) {
+  static getDerivedStateFromProps({user}, {firstName, lastName, position}) {
     if (!(firstName || lastName || position)) {
       return {
         firstName: user.first_name,
         lastName: user.last_name,
-        position: user.position
+        position: user.position,
       };
     }
     return null;
   }
 
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({navigation}) => ({
     title: 'Edit Profile',
-    headerLeft: (
-      <GoBack
-        onPress={() => navigation.goBack()}
-        icon={BACK}
-      />
-    ),
+    headerLeft: <GoBack onPress={() => navigation.goBack()} icon={BACK} />,
     headerRight: (
       <TouchableOpacity
-        style={{ paddingHorizontal: 15, paddingVertical: 13, backgroundColor: '#fff' }}
-        onPress={navigation.getParam('onSave', () => {})}
-      >
+        style={{
+          paddingHorizontal: 15,
+          paddingVertical: 13,
+          backgroundColor: '#fff',
+        }}
+        onPress={navigation.getParam('onSave', () => {})}>
         <Text style={styles.saveButton}>Save</Text>
       </TouchableOpacity>
     ),
@@ -107,38 +103,34 @@ class EditProfile extends React.PureComponent {
     firstName: '',
     lastName: '',
     position: '',
-    profilePicture: null
+    profilePicture: null,
   };
 
   _updateUser = () => {
     if (this.state.loading) return null;
-    this.setState({
-      loading: true
-    }, async () => {
-      const {
-        firstName,
-        lastName,
-        position
-      } = this.state;
-      const {
-        updateUser,
-        user
-      } = this.props;
-      try {
-        user.first_name = (firstName || user.first_name);
-        user.last_name = (lastName || user.last_name);
-        user.position = (position || user.position);
-        await updateUser(user);
-        this.blurAll();
-        this.props.navigation.goBack();
-      } catch (ex) {
-        alert(ex);
-      } finally {
-        this.setState({
-          loading: false
-        });
-      }
-    });
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        const {firstName, lastName, position} = this.state;
+        const {updateUser, user} = this.props;
+        try {
+          user.first_name = firstName || user.first_name;
+          user.last_name = lastName || user.last_name;
+          user.position = position || user.position;
+          await updateUser(user);
+          this.blurAll();
+          this.props.navigation.goBack();
+        } catch (ex) {
+          alert(ex);
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
   };
 
   blurAll() {
@@ -154,9 +146,9 @@ class EditProfile extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     navigation.setParams({
-      onSave: this.handleSave
+      onSave: this.handleSave,
     });
   }
 
@@ -165,11 +157,11 @@ class EditProfile extends React.PureComponent {
     this._saveProfilePicture();
   };
 
-  onFirstNameChange = text => this.setState({ firstName: text })
+  onFirstNameChange = text => this.setState({firstName: text});
 
-  onLastNameChange = text => this.setState({ lastName: text })
+  onLastNameChange = text => this.setState({lastName: text});
 
-  onPositionChange = text => this.setState({ position: text })
+  onPositionChange = text => this.setState({position: text});
 
   onProfilePictureChange = (err, image) => {
     if (err) {
@@ -178,9 +170,9 @@ class EditProfile extends React.PureComponent {
     }
     this.setState({
       profilePicture: image,
-      newProfile: image
+      newProfile: image,
     });
-  }
+  };
 
   prepareFileToUpload(data) {
     // const file = new FormData();
@@ -195,19 +187,14 @@ class EditProfile extends React.PureComponent {
     return {
       formBoundary,
       data,
-      id
+      id,
     };
   }
 
   _saveProfilePicture = async () => {
-    const {
-      profilePicture,
-      newProfile
-    } = this.state;
+    const {profilePicture, newProfile} = this.state;
     if (!newProfile) return null;
-    const {
-      data
-    } = this.prepareFileToUpload(profilePicture);
+    const {data} = this.prepareFileToUpload(profilePicture);
     try {
       const userId = this.props.user.id;
       const r = await Client4.uploadProfileImage(userId, data);
@@ -216,20 +203,22 @@ class EditProfile extends React.PureComponent {
       alert(err.message || err);
     } finally {
     }
-  }
+  };
 
   render() {
-    const {
-      firstName, lastName, position, profilePicture
-    } = this.state;
-    const { pictureUrl } = this.props;
+    const {firstName, lastName, position, profilePicture} = this.state;
+    const {pictureUrl} = this.props;
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 85 : 0;
     return (
-      <ScrollView keyboardDismissMode="on-drag" style={{ flex: 1, backgroundColor: '#f6f7f9' }}>
-        <KeyboardAvoidingView keyboardVerticalOffset={keyboardVerticalOffset} behavior={Platform.OS === 'ios' ? 'position' : undefined}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={keyboardVerticalOffset}
+          behavior={Platform.OS === 'ios' ? 'position' : undefined}>
           <View style={styles.profilePictureContainer}>
             <Picture
-              source={{ uri: profilePicture ? profilePicture.uri : pictureUrl }}
+              source={{uri: profilePicture ? profilePicture.uri : pictureUrl}}
               camera
               onPressCamera={this.onProfilePictureChange}
             />
@@ -278,16 +267,16 @@ class EditProfile extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({ login: { user } }) => ({
+const mapStateToProps = ({login: {user}}) => ({
   user: cloneDeep(user),
-  pictureUrl: getUserProfilePicture(user.id, user.last_picture_update)
+  pictureUrl: getUserProfilePicture(user.id, user.last_picture_update),
 });
 
 const mapDispatchToProps = {
-  updateUser
+  updateUser,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(EditProfile);

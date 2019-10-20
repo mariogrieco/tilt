@@ -1,31 +1,21 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Image,
-  Dimensions, View, Animated,
-} from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
+import {TouchableOpacity, Image, Dimensions, View} from 'react-native';
+import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import {
-  TabView,
-  SceneMap,
-  TabBar,
-} from 'react-native-tab-view';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import StyleSheet from 'react-native-extended-stylesheet';
-import {
-  searchChannels
-} from '../actions/search';
+import {searchChannels} from '../actions/search';
 import Channels from '../components/Channels';
 import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
-import { headerForScreenWithTabs } from '../config/navigationHeaderStyle';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
 const PLUS = require('../../assets/images/plus/plus.png');
 const CLOSE = require('../../assets/images/close/shape.png');
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -39,23 +29,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   label: {
     // color: '#0E141E',
     fontSize: 14,
     letterSpacing: 0.1,
-    fontFamily: 'SFProDisplay-Bold'
+    fontFamily: 'SFProDisplay-Bold',
   },
   indicator: {
     backgroundColor: '#17C491',
     // backgroundColor: 'rgba(16, 115, 240, 0.75)',
-    height: 3
-  }
+    height: 3,
+  },
 });
 
 class PublicChat extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({navigation}) => ({
     title: '',
     ...headerForScreenWithTabs,
     headerLeft: (
@@ -70,46 +60,41 @@ class PublicChat extends React.Component {
         />
       </View>
     ),
-    headerRight: navigation.getParam('isSearching', false)
-      ? (
-        <TouchableOpacity
-          style={{ paddingHorizontal: 15, paddingBottom: 8 }}
-          onPress={() => {
-            navigation.setParams({
-              isSearching: false
-            });
-            navigation.getParam('onSearch', () => {})('');
-          }}
-        >
-          <Image source={CLOSE} />
-        </TouchableOpacity>
-      )
-      : (
-        <TouchableOpacity
-          style={{ paddingHorizontal: 15, paddingBottom: 8 }}
-          onPress={() => navigation.navigate('CreateChannel')}
-        >
-          <Image source={PLUS} />
-        </TouchableOpacity>
-      )
+    headerRight: navigation.getParam('isSearching', false) ? (
+      <TouchableOpacity
+        style={{paddingHorizontal: 15, paddingBottom: 8}}
+        onPress={() => {
+          navigation.setParams({
+            isSearching: false,
+          });
+          navigation.getParam('onSearch', () => {})('');
+        }}>
+        <Image source={CLOSE} />
+      </TouchableOpacity>
+    ) : (
+      <TouchableOpacity
+        style={{paddingHorizontal: 15, paddingBottom: 8}}
+        onPress={() => navigation.navigate('CreateChannel')}>
+        <Image source={PLUS} />
+      </TouchableOpacity>
+    ),
   });
 
   state = {
-
     index: 0,
     routes: [
-      { key: 'channels', title: 'MY CHANNELS' },
-      { key: 'discover', title: 'DISCOVER' },
+      {key: 'channels', title: 'MY CHANNELS'},
+      {key: 'discover', title: 'DISCOVER'},
     ],
     searchValue: '',
-    currentToggleSelected: 'left'
-  }
+    currentToggleSelected: 'left',
+  };
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
 
     navigation.setParams({
-      onSearch: this.handleSearch
+      onSearch: this.handleSearch,
     });
   }
 
@@ -117,19 +102,21 @@ class PublicChat extends React.Component {
     return !isEqual(nextProps, this.props) || !isEqual(this.state, nextState);
   }
 
-
-  handleSearch = (text) => {
-    const { navigation } = this.props;
-    this.setState(() => {
-      navigation.setParams({
-        isSearching: text !== '',
-        searchValue: text.toLowerCase()
-      });
-      return { searchValue: text.toLowerCase() };
-    }, () => {
-      this.searchFor(text);
-    });
-  }
+  handleSearch = text => {
+    const {navigation} = this.props;
+    this.setState(
+      () => {
+        navigation.setParams({
+          isSearching: text !== '',
+          searchValue: text.toLowerCase(),
+        });
+        return {searchValue: text.toLowerCase()};
+      },
+      () => {
+        this.searchFor(text);
+      },
+    );
+  };
 
   async searchFor(queryStr) {
     // if (this.state.searchValue !== queryStr) return null;
@@ -143,13 +130,13 @@ class PublicChat extends React.Component {
   renderChannels = () => (
     <React.Fragment>
       <TabView
-        navigationState={{ ...this.state }}
+        navigationState={{...this.state}}
         renderScene={SceneMap({
           channels: Channels,
-          discover: Discover
+          discover: Discover,
         })}
-        onIndexChange={index => this.setState({ index })}
-        initialLayout={{ width }}
+        onIndexChange={index => this.setState({index})}
+        initialLayout={{width}}
         renderTabBar={props => (
           <TabBar
             {...props}
@@ -162,23 +149,17 @@ class PublicChat extends React.Component {
         )}
       />
     </React.Fragment>
-  )
+  );
 
   render() {
-    const { searchValue } = this.state;
+    const {searchValue} = this.state;
     return (
       <React.Fragment>
-
-        {
-          searchValue !== ''
-            ? (
-              <PublicSearch
-                searchValue={searchValue}
-              />
-            )
-            : this.renderChannels()
-
-        }
+        {searchValue !== '' ? (
+          <PublicSearch searchValue={searchValue} />
+        ) : (
+          this.renderChannels()
+        )}
       </React.Fragment>
     );
   }
@@ -187,9 +168,12 @@ class PublicChat extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
-  searchChannels
+  searchChannels,
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(PublicChat)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PublicChat),
 );

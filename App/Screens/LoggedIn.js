@@ -1,37 +1,29 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import {TouchableOpacity, Image} from 'react-native';
+import {connect} from 'react-redux';
+import {withNavigation} from 'react-navigation';
 import UserProfile from '../components/UserProfile';
-import {
-  getChannels,
-  getMyChannels
-} from '../actions/channels';
-import {
-  getPostsByChannelId,
-} from '../actions/posts';
-import {
-  getProfilesInGroupChannels,
-} from '../actions/users';
+import {getChannels, getMyChannels} from '../actions/channels';
+import {getPostsByChannelId} from '../actions/posts';
+import {getProfilesInGroupChannels} from '../actions/users';
 
 const MENU = require('../../assets/images/menu-black/menu.png');
 
 class LoggedIn extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({navigation}) => ({
     title: 'Profile',
     headerLeft: null,
     headerRight: (
-      <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 13 }} onPress={() => navigation.navigate('LoggedInMenu')}>
+      <TouchableOpacity
+        style={{paddingHorizontal: 15, paddingVertical: 13}}
+        onPress={() => navigation.navigate('LoggedInMenu')}>
         <Image source={MENU} />
       </TouchableOpacity>
     ),
   });
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
 
     this.navigationListener = navigation.addListener('didFocus', () => {
       this.getPostChannelsAndUsersData();
@@ -55,25 +47,23 @@ class LoggedIn extends React.Component {
     } catch (ex) {
       alert(ex.message);
     }
-  }
-
+  };
 
   render() {
-    return (
-      <UserProfile itsMe />
-    );
+    return <UserProfile itsMe />;
   }
 }
-
 
 const mapDispatchToProps = {
   getChannels,
   getMyChannels,
   getPostsByChannelId,
-  getProfilesInGroupChannels
+  getProfilesInGroupChannels,
 };
 
-export default withNavigation(connect(
-  () => ({}),
-  mapDispatchToProps
-)(LoggedIn));
+export default withNavigation(
+  connect(
+    () => ({}),
+    mapDispatchToProps,
+  )(LoggedIn),
+);

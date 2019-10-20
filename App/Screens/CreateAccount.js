@@ -1,37 +1,23 @@
 import React from 'react';
 import {
   View,
-  TouchableOpacity,
-  Image,
   TextInput,
-  Platform, TouchableWithoutFeedback, Keyboard
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
+import {NavigationActions} from 'react-navigation';
+import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 import isEqual from 'lodash/isEqual';
 import Form from '../components/Form';
-import { modalActive } from '../actions/modal';
-import {
-  verificateUser
-} from '../actions/codeVerification';
-import {
-  getTeams,
-  addToTeam
-} from '../actions/teams';
-import {
-  isLogin,
-  createUserAccessToken,
-  login
-} from '../actions/login';
-import {
-  getChannels,
-  getMyChannels
-} from '../actions/channels';
-import {
-  createUser
-} from '../actions/signup';
+import {modalActive} from '../actions/modal';
+import {verificateUser} from '../actions/codeVerification';
+import {getTeams, addToTeam} from '../actions/teams';
+import {isLogin, createUserAccessToken, login} from '../actions/login';
+import {getChannels, getMyChannels} from '../actions/channels';
+import {createUser} from '../actions/signup';
 import {
   // getProfilesInChannels,
   getProfilesInGroupChannels,
@@ -41,18 +27,14 @@ import {
   getPostsByChannelId,
   // getPostThreads
 } from '../actions/posts';
-import {
-  getFlagged
-} from '../actions/flagged';
-import {
-  getMyPreferences
-} from '../actions/preferences';
+import {getFlagged} from '../actions/flagged';
+import {getMyPreferences} from '../actions/preferences';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
 
 const BACK = require('../../assets/images/pin-left/pin-left.png');
 
-const DismissKeyboard = ({ children }) => (
+const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
@@ -67,19 +49,19 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     textAlign: 'left',
     width: 285,
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });
 
 class CreateAccount extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({navigation}) => ({
     title: navigation.getParam('title', 'Create Account'),
     headerLeft: (
       <GoBack
         icon={BACK}
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
-    )
+    ),
   });
 
   state = {
@@ -87,10 +69,10 @@ class CreateAccount extends React.Component {
     email: '',
     password: '',
     firstName: '',
-    lastName: ''
-  }
+    lastName: '',
+  };
 
-  validateEmail = (email) => {
+  validateEmail = email => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
@@ -100,19 +82,18 @@ class CreateAccount extends React.Component {
   }
 
   navigationToHome = async () => {
-    const {
-      username,
-      email,
-      password,
-      firstName,
-      lastName
-    } = this.state;
+    const {username, email, password, firstName, lastName} = this.state;
     const phone = this.props.phoneOnVerification;
     if (username && this.validateEmail(email) && password) {
       try {
-        const {
-          user
-        } = await this.props.createUser(username, email, password, phone, firstName, lastName);
+        const {user} = await this.props.createUser(
+          username,
+          email,
+          password,
+          phone,
+          firstName,
+          lastName,
+        );
         await this.props.login(password, username);
         const teams = await this.props.getTeams();
         await this.props.addToTeam(teams[teams.length - 1].id, user.id);
@@ -126,8 +107,7 @@ class CreateAccount extends React.Component {
         alert(ex);
       }
     }
-  }
-
+  };
 
   getPostChannelsAndUsersData = async () => {
     try {
@@ -140,46 +120,82 @@ class CreateAccount extends React.Component {
     } catch (ex) {
       alert(ex.message);
     }
-  }
+  };
 
   canSend() {
-    const {
-      firstName,
-      lastName,
-      email,
-      username,
-      password
-    } = this.state;
-    return !!((password.trim().length > 0 && firstName.trim().length > 0 && lastName.trim().length > 0 && email.trim().length > 0 && username.trim().length > 0));
+    const {firstName, lastName, email, username, password} = this.state;
+    return !!(
+      password.trim().length > 0 &&
+      firstName.trim().length > 0 &&
+      lastName.trim().length > 0 &&
+      email.trim().length > 0 &&
+      username.trim().length > 0
+    );
   }
 
   render() {
-    const {
-      email,
-      password,
-      firstName,
-      lastName,
-      username
-    } = this.state;
+    const {email, password, firstName, lastName, username} = this.state;
     const canSend = this.canSend();
     return (
       <DismissKeyboard>
-        <View style={{ flex: 1, marginVertical: 0 }}>
-          <Form canSend={canSend} textButton="Continue" navigationTo={this.navigationToHome} keyboardVerticalOffset={Platform.OS === 'ios' ? ifIphoneX(95, 80) : 0}>
-
-            <TextInput value={firstName} onChangeText={(firstName) => { this.setState({ firstName }); }} placeholder="First Name" style={styles.placeholders} />
+        <View style={{flex: 1, marginVertical: 0}}>
+          <Form
+            canSend={canSend}
+            textButton="Continue"
+            navigationTo={this.navigationToHome}
+            keyboardVerticalOffset={
+              Platform.OS === 'ios' ? ifIphoneX(95, 80) : 0
+            }>
+            <TextInput
+              value={firstName}
+              onChangeText={firstName => {
+                this.setState({firstName});
+              }}
+              placeholder="First Name"
+              style={styles.placeholders}
+            />
             <InputSeparator />
 
-            <TextInput value={lastName} onChangeText={(lastName) => { this.setState({ lastName }); }} placeholder="Last Name" style={styles.placeholders} />
+            <TextInput
+              value={lastName}
+              onChangeText={lastName => {
+                this.setState({lastName});
+              }}
+              placeholder="Last Name"
+              style={styles.placeholders}
+            />
             <InputSeparator />
 
-            <TextInput value={email} onChangeText={(email) => { this.setState({ email }); }} placeholder="Email" style={styles.placeholders} />
+            <TextInput
+              value={email}
+              onChangeText={email => {
+                this.setState({email});
+              }}
+              placeholder="Email"
+              style={styles.placeholders}
+            />
             <InputSeparator />
 
-            <TextInput value={username} onChangeText={(username) => { this.setState({ username }); }} placeholder="Username" style={styles.placeholders} />
+            <TextInput
+              value={username}
+              onChangeText={username => {
+                this.setState({username});
+              }}
+              placeholder="Username"
+              style={styles.placeholders}
+            />
             <InputSeparator />
 
-            <TextInput value={password} onChangeText={(password) => { this.setState({ password }); }} placeholder="Password" secureTextEntry maxLength={12} style={styles.placeholders} />
+            <TextInput
+              value={password}
+              onChangeText={password => {
+                this.setState({password});
+              }}
+              placeholder="Password"
+              secureTextEntry
+              maxLength={12}
+              style={styles.placeholders}
+            />
             <InputSeparator />
           </Form>
         </View>
@@ -202,15 +218,15 @@ const mapDispatchToProps = {
   getChannels,
   getProfilesInGroupChannels,
   getPostsByChannelId,
-  getMyPreferences
+  getMyPreferences,
 };
 
 const mapStateToProps = state => ({
   phoneOnVerification: state.codeVerification.phoneNumber,
-  token: state.codeVerification.code
+  token: state.codeVerification.code,
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CreateAccount);
