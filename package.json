@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "postinstall": "node make-emojisMap.js"
+    "postinstall": "node make-emojisMap.js && cd android/ && ./gradlew clean"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
