@@ -41,6 +41,6 @@ target 'tiltClient' do
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
   pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
+  use_native_modules!
   
-
 end
