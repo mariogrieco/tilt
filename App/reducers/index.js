@@ -8,11 +8,11 @@ import depth from './depth';
 import login from './login';
 import signUp from './signup';
 import modal from './modal';
-import channels from './channels';
+// import channels from './channels';
 import posts from './posts';
 import users from './users';
 import AppNavigation from './AppNavigation';
-import myChannels from './myChannels';
+// import myChannels from './myChannels';
 import emojis from './emojis';
 import reactions from './reactions';
 import files from './files';
@@ -39,6 +39,8 @@ import teams from './teams';
 import channelsNames from './channelsNames';
 import postMedia from './postMedia';
 import sponsored from './sponsored';
+import mapChannels from './MapChannels';
+import myChannelsMap from './MyChannelsMap';
 
 export default combineReducers({
   flagged,
@@ -51,8 +53,8 @@ export default combineReducers({
   login,
   signUp,
   modal,
-  channels, // Al these Channels for existing teams.
-  myChannels,
+  // channels, // Al these Channels for existing teams.
+  // myChannels,
   posts,
   users,
   appNavigation: AppNavigation,
@@ -80,6 +82,8 @@ export default combineReducers({
   channelsNames,
   postMedia,
   sponsored,
-  archivedChannels
+  archivedChannels,
+  mapChannels,
+  myChannelsMap
   // client4Error
 });

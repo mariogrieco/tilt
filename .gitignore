@@ -1,3 +1,8 @@
+tilt-emojis/*.js
+tilt-emojis/*.json
+tilt-emojis/*.*.js
+tilt-emojis/*.*.json
+
 # OSX
 #
 .DS_Store

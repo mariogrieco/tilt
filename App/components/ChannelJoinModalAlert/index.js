@@ -126,7 +126,7 @@ export class ChannelJoinModalAlert extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const channel = cloneDeep(state.channels.find(_channel => state.channelJoinModalAlert.channelId === _channel.id));
+  const channel = state.mapChannels.find(_channel => state.channelJoinModalAlert.channelId === _channel.id);
   if (channel) {
     channel.fav = getFavoriteChannelById(state, channel.id);
     channel.display_name = parser(channel.display_name)

@@ -38,12 +38,12 @@ const getJumpPosts = (state) => {
       }
     }
   }
-  const channel = state.channels.find(({ id }) => active_channel_id === id) || {};
+  const channel = state.mapChannels.get(active_channel_id) || {};
   return {
     posts,
     flagCount,
     activeJumpLabel: true,
-    channel: cloneDeep(channel),
+    channel: channel,
   }
 };
 

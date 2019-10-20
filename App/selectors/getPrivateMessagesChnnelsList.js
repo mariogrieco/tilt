@@ -12,17 +12,17 @@ const getPrivateMessagesChnnelsList = (state) => {
     entities
   } = state.posts;
   const myId = state.login && state.login.user ? state.login.user.id : '';
-  const data = [...state.myChannels].filter(({ type }) => (type === 'D')).map((data) => {
-    let channel =  cloneDeep(data);
+  const data = [];
+  state.myChannelsMap.filter(({ type }) => (type === 'D')).valueSeq().forEach(channel => {
     const channelData = cloneDeep(state.posts.orders[channel.id]);
     if (channelData && channelData.order) {
-        if (channel.type === 'D') {
-          channel.display_name = getChannelNameForPM(state, channel);
-        };
-        return {
-          ...channel,
-          posts: [...channelData.order].map((key) => {
-            const post = entities[key] || {}
+      if (channel.type === 'D') {
+        channel.display_name = getChannelNameForPM(state, channel);
+      };
+      data.push({
+        ...channel,
+        posts: [...channelData.order].map((key) => {
+          const post = entities[key] || {}
           return {
             ...post,
             user: state.users.data[post.user_id] || {},
@@ -31,15 +31,16 @@ const getPrivateMessagesChnnelsList = (state) => {
         creator: {},
         fav: getFavoriteChannelById(state, channel.id),
         activeUsers: channel.name.split('__'),
-      };
+      });
+    } else {
+      data.push({
+        posts: [],
+        ...channel,
+        activeUsers: [],
+        fav: false,
+        creator: {}
+      });
     }
-    return {
-      posts: [],
-      ...channel,
-      activeUsers: [],
-      fav: false,
-      creator: {}
-    };
   });
   return data;
 }

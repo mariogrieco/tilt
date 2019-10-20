@@ -11,13 +11,13 @@ const getAdvancedSearchList = (state) => {
     posts
   } = state.advancedSearch;
   const {
-    myChannels
+    myChannelsMap
   } = state;
   return {
     posts: order.map(key => {
       const post = cloneDeep(posts[key] || {});
       post.user = cloneDeep(users.data[post.user_id]);
-      post.channel = cloneDeep(myChannels.find(channel => channel.id === post.channel_id));
+      post.channel = myChannelsMap.has(post.channel_id) ?  myChannelsMap.get(post.channel_id) : {};
       return {
         ...post,
         isDollar: isChannelCreatorAdmin(state, post.channel_id)

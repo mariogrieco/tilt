@@ -315,7 +315,7 @@ class EditChannel extends React.Component {
 
 const mapStateToProps = state => ({
   me: state.login.user,
-  channel: cloneDeep(state.myChannels.find(({ id }) => id === state.appNavigation.active_channel_id) || {}),
+  channel: state.myChannelsMap.has(state.appNavigation.active_channel_id) ? state.myChannelsMap.get(state.appNavigation.active_channel_id) : {},
 });
 
 const mapDispatchToProps = {
