@@ -1,7 +1,4 @@
-tilt-emojis/*.js
-tilt-emojis/*.json
-tilt-emojis/*.*.js
-tilt-emojis/*.*.json
+tilt-emojis/requires.*.js
 
 # OSX
 #
