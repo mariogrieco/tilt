@@ -76,7 +76,6 @@ class Flagged extends React.PureComponent {
         renderItem={this.renderItem}
         ListEmptyComponent={this.renderEmptyList}
         style={styles.listContainer}
-        keyboardDismissMode="on-drag"
       />
     );
   }

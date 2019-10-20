@@ -12,7 +12,6 @@ export default class CryptoList extends React.PureComponent {
         data={[]}
         renderItem={this.renderItem}
         keyExtractor={item => item.name}
-        keyboardDismissMode="on-drag"
       />
     );
   }

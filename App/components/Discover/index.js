@@ -74,7 +74,6 @@ class Discover extends React.Component {
           initialNumToRender={22}
           onEndReached={this._fetchMore}
           onEndReachedThreshold={0.35}
-          keyboardDismissMode="on-drag"
         />
         {loading && <ActivityIndicator size="large" color="#17C491" />}
       </Fragment>

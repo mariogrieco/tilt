@@ -137,7 +137,6 @@ class Channels extends React.Component {
         keyExtractor={this.keyExtractor}
         // initialNumToRender={22}
         ListEmptyComponent={this.renderActivityIndicator}
-        keyboardDismissMode="on-drag"
       />
     );
   }

@@ -150,7 +150,6 @@ class UserProfile extends React.PureComponent {
         renderItem={this.renderItem}
         style={{flex: 1, backgroundColor: '#f6f7f9'}}
         initialNumToRender={10}
-        keyboardDismissMode="on-drag"
       />
     );
   }

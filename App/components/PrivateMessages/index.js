@@ -1,7 +1,6 @@
 import React from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, Text, View, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import getPrivateMessagesChnnelsList from '../../selectors/getPrivateMessagesChnnelsList';
 import Post from '../Post/Post';
 import NavigationService from '../../config/NavigationService';
@@ -70,7 +69,6 @@ class PrivateMessages extends React.Component {
         style={styles.listContainer}
         renderItem={this.renderItem}
         extraData={allPosts}
-        keyboardDismissMode="on-drag"
       />
     );
   }
