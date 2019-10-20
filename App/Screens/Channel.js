@@ -597,7 +597,9 @@ class Channel extends React.Component {
     const flagCount = this.props.flagCount || this.state.flagCount;
 
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView
+        forceInset={{top: 'never', bottom: 'always'}}
+        style={{flex: 1}}>
         {!activeJumpLabel && scrollLabel && flagCount > 0 && (
           <NewMessageLabel
             length={flagCount}
@@ -617,7 +619,7 @@ class Channel extends React.Component {
           onMomentumScrollEnd={this._setScrollPosition}
           extraData={posts}
           initialNumToRender={10}
-          viewabilityConfig={{ viewAreaCoveragePercentThreshold: 0.35 }}
+          viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.35}}
           keyboardDismissMode="on-drag"
         />
         {activeJumpLabel && this.renderJumpLabel()}
@@ -658,15 +660,11 @@ Channel.defaultProps = {
 
 const mapStateToProps = state => {
   const data = getJumpPostsOrtList(state, true);
-  const {
-    lastViewed
-  } = state;
-  const {
-    active_channel_id,
-    prev_active_channel_id,
-  } = state.appNavigation;
+  const {lastViewed} = state;
+  const {active_channel_id, prev_active_channel_id} = state.appNavigation;
   const channel = state.myChannelsMap.get(active_channel_id) || {};
-  const isArchived = findIndex(state.archivedChannels, ['channelId', active_channel_id]) !== -1;
+  const isArchived =
+    findIndex(state.archivedChannels, ['channelId', active_channel_id]) !== -1;
 
   return {
     ...data,
