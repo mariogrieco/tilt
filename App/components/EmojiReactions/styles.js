@@ -23,6 +23,6 @@ export default StyleSheet.create({
   },
   borderLess: {
     borderWidth: 0,
-    borderColor: 'transparent'
+    borderColor: 'transparent',
   },
 });

@@ -5,6 +5,6 @@ export default StyleSheet.create({
     backgroundColor: '#F4F4F4',
     color: '#FC3E30',
     fontFamily: 'SFMono-Regular',
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });

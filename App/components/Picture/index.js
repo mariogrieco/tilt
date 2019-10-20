@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  ImageBackground,
-  TouchableOpacity,
-  View,
-  Image
-} from 'react-native';
+import {ImageBackground, TouchableOpacity, View, Image} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 
 import styles from './styles';
@@ -13,7 +8,7 @@ const CAMERA = require('../../../assets/images/camera/camera.png');
 
 export default class Picture extends React.PureComponent {
   handleCamera = () => {
-    const { onPressCamera } = this.props;
+    const {onPressCamera} = this.props;
 
     if (onPressCamera) {
       const options = {
@@ -23,7 +18,7 @@ export default class Picture extends React.PureComponent {
         },
       };
 
-      ImagePicker.launchImageLibrary(options, (response) => {
+      ImagePicker.launchImageLibrary(options, response => {
         if (response.didCancel) {
           onPressCamera(new Error('User cancelled image picker'), null);
         } else if (response.error) {
@@ -33,17 +28,12 @@ export default class Picture extends React.PureComponent {
         }
       });
     }
-  }
+  };
 
   render() {
-    const {
-      userStatus,
-      camera,
-      source
-    } = this.props;
+    const {userStatus, camera, source} = this.props;
     return (
       <View style={styles.container}>
-
         <View style={styles.pictureContainer}>
           <ImageBackground source={source} style={styles.picture}>
             <View style={[styles.bubble, styles[userStatus]]} />

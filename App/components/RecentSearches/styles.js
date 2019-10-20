@@ -4,21 +4,21 @@ export default StyleSheet.create({
   container: {
     minHeight: 100,
     borderBottomColor: '#DCDCDC',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   header: {
     backgroundColor: '#DCDCDC',
     paddingLeft: 15,
     paddingRight: 16,
     paddingTop: 2,
-    paddingBottom: 2
+    paddingBottom: 2,
   },
   recentText: {
     color: '#0e141e',
   },
   title: {
     color: '#0e141e',
-    fontFamily: 'SFProDisplay-Medium'
+    fontFamily: 'SFProDisplay-Medium',
   },
   recentItem: {
     flexDirection: 'row',
@@ -27,6 +27,6 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 16,
     paddingTop: 6,
-    paddingBottom: 6
-  }
+    paddingBottom: 6,
+  },
 });

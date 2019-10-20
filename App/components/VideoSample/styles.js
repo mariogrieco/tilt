@@ -12,15 +12,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position: 'relative',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   documentName: {
     color: '$textColor',
     fontFamily: 'SFProDisplay-SemiBold',
     fontSize: 15,
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
   downloadIconContainer: {
-    padding: 15
-  }
+    padding: 15,
+  },
 });

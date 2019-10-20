@@ -6,5 +6,5 @@ export default StyleSheet.create({
     backgroundColor: '#f6f7f9',
     // borderTopWidth: StyleSheet.hairlineWidth,
     // borderTopColor: '#DCDCDC'
-  }
+  },
 });

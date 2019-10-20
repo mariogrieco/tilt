@@ -5,12 +5,12 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 16,
     paddingTop: 7,
-    paddingBottom: 7
+    paddingBottom: 7,
   },
   labelBody: {
     fontSize: 16,
     fontFamily: 'SFProDisplay',
-    color: '#585c63'
+    color: '#585c63',
   },
   labelHeader: {
     fontSize: 16,
@@ -18,11 +18,11 @@ export default StyleSheet.create({
     marginTop: 5,
     marginLeft: 7,
     fontFamily: 'SFProDisplay',
-    color: '#0e141e'
+    color: '#0e141e',
   },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });

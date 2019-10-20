@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  processColor
-} from 'react-native';
-import { BarChart } from 'react-native-charts-wrapper';
+import {StyleSheet, View, processColor} from 'react-native';
+import {BarChart} from 'react-native-charts-wrapper';
 import update from 'immutability-helper';
 import isEqual from 'lodash/isEqual';
 import config from './config';
@@ -19,20 +15,22 @@ class BarChartSection extends React.Component {
       return update(state, {
         data: {
           dataSets: {
-            $set: [{
-              values: props.data,
-              label: 'Bar dataSet',
-              config: {
-                highlightEnabled: false,
-                colors: props.colors,
-                // barShadowColor: processColor('lightgrey'),
-                // highlightAlpha: 90,
-                // highlightColor: processColor('red'),
-                drawValues: false
-              }
-            }]
-          }
-        }
+            $set: [
+              {
+                values: props.data,
+                label: 'Bar dataSet',
+                config: {
+                  highlightEnabled: false,
+                  colors: props.colors,
+                  // barShadowColor: processColor('lightgrey'),
+                  // highlightAlpha: 90,
+                  // highlightColor: processColor('red'),
+                  drawValues: false,
+                },
+              },
+            ],
+          },
+        },
       });
     }
 
@@ -45,13 +43,12 @@ class BarChartSection extends React.Component {
     data: {},
     // highlights: [],
     xAxis: {},
-    yAxis: {}
+    yAxis: {},
   };
-
 
   componentDidMount() {
     this.setState({
-      ...config
+      ...config,
     });
   }
 
@@ -66,19 +63,14 @@ class BarChartSection extends React.Component {
   //   console.log(event.nativeEvent);
   // }
 
-
   render() {
-    const {
-      description, data, xAxis, yAxis, legend,
-    } = this.state;
+    const {description, data, xAxis, yAxis, legend} = this.state;
     return (
       <View style={styles.container}>
-
-
         <BarChart
           chartDescription={description}
           style={styles.chart}
-          marker={{ enabled: false }}
+          marker={{enabled: false}}
           data={data}
           xAxis={xAxis}
           yAxis={yAxis}
@@ -96,7 +88,6 @@ class BarChartSection extends React.Component {
           // onSelect={this.handleSelect.bind(this)}
           // highlights={this.state.highlights}
           // onChange={event => console.log(event.nativeEvent)}
-
         />
       </View>
     );
@@ -110,8 +101,8 @@ const styles = StyleSheet.create({
   chart: {
     flex: 1,
     padding: 0,
-    margin: 0
-  }
+    margin: 0,
+  },
 });
 
 export default BarChartSection;

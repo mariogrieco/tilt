@@ -1,10 +1,5 @@
-import React, { PureComponent } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  TouchableHighlight
-} from 'react-native';
+import React, {PureComponent} from 'react';
+import {Text, View, FlatList, TouchableHighlight} from 'react-native';
 import UserMentionPreview from '../UserMentionPreview';
 import Separator from '../Separator';
 
@@ -17,14 +12,13 @@ export default class index extends PureComponent {
       onPress={() => {
         this.props.onChannel(item.name);
       }}
-      style={styles.channelName}
-    >
+      style={styles.channelName}>
       <Text style={styles.channelText}>
-        {item.isDolar ? '$' : '#'}{item.name}
+        {item.isDolar ? '$' : '#'}
+        {item.name}
       </Text>
     </TouchableHighlight>
-  )
-
+  );
 
   renderMentionItem = item => (
     <UserMentionPreview
@@ -33,12 +27,14 @@ export default class index extends PureComponent {
       last_picture_update={item.last_picture_update}
       onMention={this.props.onMention}
     />
-  )
+  );
 
-  renderItem = ({ item }) => {
-    const { channel } = this.props;
-    return channel ? this.renderChannelItem(item) : this.renderMentionItem(item);
-  }
+  renderItem = ({item}) => {
+    const {channel} = this.props;
+    return channel
+      ? this.renderChannelItem(item)
+      : this.renderMentionItem(item);
+  };
 
   keyExtractor(item) {
     return item.id;
@@ -48,34 +44,24 @@ export default class index extends PureComponent {
     return <Separator />;
   }
 
-  keyExtractor(item) {
-    return item.name;
-  }
-
   renderHeader() {
-    const {
-      headerLabel
-    } = this.props;
+    const {headerLabel} = this.props;
     return (
       <View style={styles.body}>
         <View style={styles.header}>
-          <Text style={styles.title}>
-            {headerLabel}
-          </Text>
+          <Text style={styles.title}>{headerLabel}</Text>
         </View>
       </View>
     );
   }
 
   render() {
-    const {
-      data
-    } = this.props;
+    const {data} = this.props;
     return (
       <View style={styles.container}>
         {this.renderHeader()}
         <FlatList
-          style={{ flex: 1 }}
+          style={{flex: 1}}
           data={data}
           renderItem={this.renderItem}
           renderSeparator={this.renderSeparator}

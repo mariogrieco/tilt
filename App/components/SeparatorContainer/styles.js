@@ -10,7 +10,7 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: '#DCDCDC',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   footerText: {
     fontFamily: 'SFProDisplay-bold',
@@ -18,7 +18,7 @@ export default StyleSheet.create({
     fontSize: 16,
     paddingTop: 12,
     paddingBottom: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   footerButton: {
     borderRadius: 22,
@@ -28,12 +28,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 12,
-    paddingBottom: 11
+    paddingBottom: 11,
   },
   footerBottonText: {
     fontSize: 18,
     color: '#fff',
-    fontFamily: 'SFProDisplay-Medium'
+    fontFamily: 'SFProDisplay-Medium',
   },
   separator: {
     flexDirection: 'row',
@@ -45,5 +45,5 @@ export default StyleSheet.create({
     color: '#0e141e',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 14,
-  }
+  },
 });

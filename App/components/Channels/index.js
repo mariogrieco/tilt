@@ -60,27 +60,27 @@ class Channels extends React.Component {
     // this.setState({
     //   loadingData: true
     // }, async () => {
-      // try {
-      //   await this.props.getTeams();
-      //   await this.props.getMyChannels();
-      //   const asyncFetchs = [];
-      //   const myChannels = await this.props.myChannels;
-      //   asyncFetchs.push(this.props.getLastViewForChannels());
-      //   asyncFetchs.push(this.props.getChannels());
-      //   asyncFetchs.push(this.props.getPostsByChannelId(myChannels));
-      //   // asyncFetchs.push(this.props.getMyChannelMembers())
-      //   await Promise.all(asyncFetchs);
-      //   await this.props.getProfilesInGroupChannels();
-      //   await this.props.getFlagged();
-      // } catch (ex) {
-      //   alert(ex.message || ex);
-      // } finally {
-      //   if (!this.state.unmount) {
-          // this.setState({
-          //   loadingData: false
-          // });
-        // }
-      // }
+    // try {
+    //   await this.props.getTeams();
+    //   await this.props.getMyChannels();
+    //   const asyncFetchs = [];
+    //   const myChannels = await this.props.myChannels;
+    //   asyncFetchs.push(this.props.getLastViewForChannels());
+    //   asyncFetchs.push(this.props.getChannels());
+    //   asyncFetchs.push(this.props.getPostsByChannelId(myChannels));
+    //   // asyncFetchs.push(this.props.getMyChannelMembers())
+    //   await Promise.all(asyncFetchs);
+    //   await this.props.getProfilesInGroupChannels();
+    //   await this.props.getFlagged();
+    // } catch (ex) {
+    //   alert(ex.message || ex);
+    // } finally {
+    //   if (!this.state.unmount) {
+    // this.setState({
+    //   loadingData: false
+    // });
+    // }
+    // }
     // });
   }
 
@@ -146,7 +146,7 @@ class Channels extends React.Component {
 const mapStateToProps = state => ({
   channels: getChannelsList(state),
   channelStatsGroup: state.channelStatsGroup,
-  isAuth: state.login.isLogin
+  isAuth: state.login.isLogin,
 });
 
 const mapDispatchToProps = {

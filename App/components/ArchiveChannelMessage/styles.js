@@ -33,6 +33,6 @@ export default StyleSheet.create({
     marginTop: '0.5rem',
     marginLeft: '0.9375rem',
     marginRight: '0.9375rem',
-    padding: '0.5rem'
-  }
-})
+    padding: '0.5rem',
+  },
+});

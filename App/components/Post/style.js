@@ -1,5 +1,4 @@
 import StyleSheet from 'react-native-extended-stylesheet';
-import Platform from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -10,38 +9,38 @@ export default StyleSheet.create({
     alignItems: 'stretch',
   },
   url: {
-    color: '#017AFE'
+    color: '#017AFE',
   },
   mentions: {
     color: '#017AFE',
     backgroundColor: '#E4EFFF',
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
   bullishText: {
     color: '#17C491',
     backgroundColor: 'rgba(23, 196, 145, 0.1)',
     fontFamily: 'SFProDisplay-Medium',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   bearishText: {
     color: '#FC3E30',
     backgroundColor: 'rgba(252, 62, 48, 0.1)',
     fontFamily: 'SFProDisplay-Medium',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   boldText: {
-    fontFamily: 'SFProDisplay-Bold'
+    fontFamily: 'SFProDisplay-Bold',
   },
   mediumText: {
-    fontFamily: 'SFProDisplay-Medium'
+    fontFamily: 'SFProDisplay-Medium',
   },
   italicText: {
-    fontFamily: 'SFProDisplay-Italic'
+    fontFamily: 'SFProDisplay-Italic',
   },
   boldItalicText: {
-    fontFamily: 'SFProDisplay-BoldItalic'
+    fontFamily: 'SFProDisplay-BoldItalic',
   },
   emailText: {
     color: '#017AFE',
@@ -50,7 +49,7 @@ export default StyleSheet.create({
     color: '#017AFE',
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
   thumbnails: {
     width: '6.25rem',
@@ -77,18 +76,18 @@ export default StyleSheet.create({
   },
   thumbnailsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   systemText: {
     color: '#8E8E95',
-    fontFamily: 'SFProDisplay-Light'
+    fontFamily: 'SFProDisplay-Light',
   },
   dot: {
     width: 3.5,
     height: 3.5,
     backgroundColor: '#0e141e',
     borderRadius: 3.5,
-    marginLeft: 3
+    marginLeft: 3,
   },
   dotContainer: {
     paddingTop: 15,
@@ -100,7 +99,7 @@ export default StyleSheet.create({
     position: 'absolute',
     zIndex: 999,
     top: 0,
-    right: 0
+    right: 0,
   },
   jumpContainer: {
     paddingTop: 10,
@@ -112,7 +111,7 @@ export default StyleSheet.create({
     position: 'absolute',
     zIndex: 999,
     top: 0,
-    right: 0
+    right: 0,
   },
   username: {
     color: '#0E141E',
@@ -129,17 +128,17 @@ export default StyleSheet.create({
   },
   emojiContainer: {
     paddingTop: 4,
-    borderWidth: 0
+    borderWidth: 0,
   },
   emoji: {
     width: 22,
     height: 22,
     borderWidth: 0,
     shadowColor: 'rgba(0,0,0, .2)',
-    shadowOffset: { height: 0, width: 0 },
+    shadowOffset: {height: 0, width: 0},
     shadowOpacity: 0, //default is 1
     shadowRadius: 0, //default is 1,
-    elevation: 0
+    elevation: 0,
   },
   timespan: {
     fontSize: 13,
@@ -152,8 +151,8 @@ export default StyleSheet.create({
     color: '#191919',
     fontSize: 16,
     letterSpacing: 0.1,
-    flexDirection:'row',
-    flexWrap:'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   codeText: {
     fontFamily: 'SFMono-Regular',
@@ -167,7 +166,7 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     paddingTop: 10,
     paddingBottom: '0.5rem',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
     // paddingLeft: '0.9375rem',
     // paddingRight: '1rem',
   },
@@ -190,7 +189,7 @@ export default StyleSheet.create({
   },
   rightSide: {
     paddingTop: 10,
-    width: '85.5%'
+    width: '85.5%',
   },
   leftSideContainer: {
     paddingTop: 10,
@@ -198,26 +197,26 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    flex: 0
+    flex: 0,
   },
   threadSeparator: {
     // marginTop: 5,
     width: 3,
     height: 10,
     backgroundColor: '#EBEBEB',
-    flex: 3
+    flex: 3,
   },
   profileImage: {
     width: 42,
     height: 42,
     borderRadius: 21,
-    flex: 0
+    flex: 0,
   },
   optionButton: {
     position: 'absolute',
     top: 0,
     right: '1rem',
-    borderRadius: 17
+    borderRadius: 17,
   },
   linkContainer: {
     borderWidth: StyleSheet.hairlineWidth,
@@ -230,12 +229,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 0,
-    paddingLeft: 0
+    paddingLeft: 0,
   },
   textLink: {
     fontFamily: 'SFProDisplay-Regular',
     color: '#585C63',
     fontSize: 15,
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
 });

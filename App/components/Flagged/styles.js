@@ -8,7 +8,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   emptyText: {
     paddingTop: 20,
@@ -17,7 +17,7 @@ export default StyleSheet.create({
     fontFamily: 'SFProDisplay-Regular',
     color: '#8E8E95',
     textAlign: 'center',
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   listContainer: {
     // paddingLeft: 10,
@@ -26,13 +26,12 @@ export default StyleSheet.create({
   },
   channelTitleContainer: {
     paddingLeft: 10,
-    paddingTop: 10
+    paddingTop: 10,
   },
   channelTitle: {
     color: '#005493',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
-    letterSpacing: 0.1
+    letterSpacing: 0.1,
   },
-
 });

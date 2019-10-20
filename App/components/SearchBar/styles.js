@@ -10,12 +10,12 @@ export default StyleSheet.create({
     marginRight: 15,
     height: 36,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   input: {
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
-    padding: 1
+    padding: 1,
   },
 });

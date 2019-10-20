@@ -4,6 +4,6 @@ export default StyleSheet.create({
   container: {
     height: StyleSheet.hairlineWidth,
     width: '100%',
-    color: '#DCDCDC'
-  }
+    color: '#DCDCDC',
+  },
 });

@@ -3,11 +3,11 @@ import StyleSheet from 'react-native-extended-stylesheet';
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginTop: 10
+    marginTop: 10,
   },
   containerJoin: {
     flexDirection: 'row',
-    marginTop: '1rem'
+    marginTop: '1rem',
   },
   header: {
     color: '#0E141E',
@@ -37,14 +37,14 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   paddingBottom: {
-    paddingBottom: '0.25rem'
+    paddingBottom: '0.25rem',
   },
   imageContainer: {
     height: '3rem',
     width: '3rem',
     alignItems: 'center',
     paddingTop: '0.65rem',
-    paddingBottom: '0.25rem'
+    paddingBottom: '0.25rem',
   },
   join: {
     marginTop: 6,
@@ -54,12 +54,12 @@ export default StyleSheet.create({
     backgroundColor: '#EBEBEB',
     // backgroundColor: 'rgba(16, 115, 240, 0.75)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   joinText: {
     color: '#17C491',
     fontSize: 16,
     letterSpacing: 0.2,
-    fontFamily: 'SFProDisplay-Bold'
-  }
+    fontFamily: 'SFProDisplay-Bold',
+  },
 });

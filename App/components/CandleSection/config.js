@@ -1,13 +1,18 @@
-import { processColor } from 'react-native';
+import {processColor} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 
 const config = {
   data: {
     dataSets: [
       {
-        values: [{
-          shadowH: 0, shadowL: 0, close: 0, open: 0
-        }],
+        values: [
+          {
+            shadowH: 0,
+            shadowL: 0,
+            close: 0,
+            open: 0,
+          },
+        ],
         label: '',
         config: {
           highlightColor: processColor('darkgray'),
@@ -17,11 +22,10 @@ const config = {
           increasingColor: processColor('#71BD6A'),
           increasingPaintStyle: 'FILL',
           decreasingColor: processColor('#FC3E30'),
-          drawValues: false
+          drawValues: false,
         },
       },
-
-    ]
+    ],
   },
   xAxis: {
     drawLabels: true,
@@ -61,19 +65,19 @@ const config = {
       axisLineColor: processColor('#DCDCDC'),
       axisLineWidth: StyleSheet.hairlineWidth,
       drawLabels: false,
-      drawGridLines: false
-    }
+      drawGridLines: false,
+    },
   },
   marker: {
     enabled: false,
     markerColor: processColor('#2c3e50'),
-    textColor: processColor('white')
+    textColor: processColor('white'),
   },
   legend: {
     enabled: false,
     textSize: 14,
     form: 'CIRCLE',
-    wordWrapEnabled: true
+    wordWrapEnabled: true,
   },
 };
 

@@ -1,6 +1,5 @@
 import StyleSheet from 'react-native-extended-stylesheet';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import {Platform} from 'react-native';
 
 export default StyleSheet.create({
   container: {

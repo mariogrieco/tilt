@@ -1,63 +1,51 @@
-import React, { lazy, Suspense } from 'react';
-import {
-  ActivityIndicator,
-  Text,
-  View,
-} from 'react-native';
-import { connect } from 'react-redux';
+import React, {lazy, Suspense} from 'react';
+import {ActivityIndicator, View} from 'react-native';
+import {connect} from 'react-redux';
 import Description from '../ChartViewTopDescription';
 import CandleSection from '../CandleSection';
-import { ChartBanner } from '../AdBanner';
+import {ChartBanner} from '../AdBanner';
 
 const DepthSection = lazy(() => import('../DepthSection'));
 
-
 class Chart extends React.PureComponent {
   state = {
-    selectedChart: 'left'
-  }
+    selectedChart: 'left',
+  };
 
-  handleToggle = (_selectedChart) => {
-    const { selectedChart } = this.state;
-    if (_selectedChart !== selectedChart) this.setState({ selectedChart: _selectedChart });
-  }
+  handleToggle = _selectedChart => {
+    const {selectedChart} = this.state;
+    if (_selectedChart !== selectedChart)
+      this.setState({selectedChart: _selectedChart});
+  };
 
   render() {
     const {
-      selectedSymbol: {
-        symbol
-      }
+      selectedSymbol: {symbol},
     } = this.props;
-    const { selectedChart } = this.state;
+    const {selectedChart} = this.state;
     return (
-      <View style={{ flex: 1, paddingBottom: 20 }}>
-        <View style={{ flex: 0.23 }}>
-
-          <Description
-            onToggle={this.handleToggle}
-          />
+      <View style={{flex: 1, paddingBottom: 20}}>
+        <View style={{flex: 0.23}}>
+          <Description onToggle={this.handleToggle} />
         </View>
-        {
-      selectedChart === 'left'
-        ? <CandleSection symbol={symbol} />
-        : (
+        {selectedChart === 'left' ? (
+          <CandleSection symbol={symbol} />
+        ) : (
           <Suspense
-            fallback={(
-              <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 15,
-              }}
-              >
+            fallback={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 15,
+                }}>
                 <ActivityIndicator size="large" color="#17C491" />
               </View>
-)}
-          >
+            }>
             <DepthSection symbol={symbol} />
           </Suspense>
-        )
-    }
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        )}
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <ChartBanner />
         </View>
       </View>
@@ -65,6 +53,6 @@ class Chart extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({ watchlist: { selectedSymbol } }) => ({ selectedSymbol });
+const mapStateToProps = ({watchlist: {selectedSymbol}}) => ({selectedSymbol});
 
 export default connect(mapStateToProps)(Chart);

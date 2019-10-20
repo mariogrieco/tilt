@@ -1,25 +1,17 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image
-} from 'react-native';
-import { connect } from 'react-redux';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {connect} from 'react-redux';
 import NavigationService from '../../config/NavigationService';
-import {
-  setCurrentDisplayUserProfile
-} from '../../actions/users';
+import {setCurrentDisplayUserProfile} from '../../actions/users';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import styles from './styles';
-
 
 const SearchUserDisplay = ({
   username,
   id,
   loggedUserId,
   pictureUrl,
-  dispatchGoToMemberProfile
+  dispatchGoToMemberProfile,
 }) => (
   <TouchableOpacity
     style={styles.container}
@@ -30,13 +22,10 @@ const SearchUserDisplay = ({
       } else {
         NavigationService.navigate('LoggedIn');
       }
-    }}
-  >
-    <Image style={styles.image} source={{ uri: pictureUrl }} />
+    }}>
+    <Image style={styles.image} source={{uri: pictureUrl}} />
     <View style={styles.textContainer}>
-      <Text style={styles.text}>
-        {username}
-      </Text>
+      <Text style={styles.text}>{username}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -44,14 +33,14 @@ const SearchUserDisplay = ({
 SearchUserDisplay.defaultProps = {
   username: '',
   id: '',
-  loggedUserId: ''
+  loggedUserId: '',
 };
 
 const mapDispatchToProps = {
-  dispatchGoToMemberProfile: setCurrentDisplayUserProfile
+  dispatchGoToMemberProfile: setCurrentDisplayUserProfile,
 };
 
-const mapStateToProps = ({ login: { user } }, props) => {
+const mapStateToProps = ({login: {user}}, props) => {
   if (user) {
     return {
       loggedUserId: user.id,
@@ -61,4 +50,7 @@ const mapStateToProps = ({ login: { user } }, props) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchUserDisplay);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchUserDisplay);

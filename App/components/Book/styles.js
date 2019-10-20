@@ -21,14 +21,14 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingTop: '0.75rem',
-    paddingBottom: '0.625rem'
+    paddingBottom: '0.625rem',
   },
   listItem: {
     fontFamily: 'SFMono-Medium',
     color: '$textColor',
     fontSize: 14,
-    letterSpacing: -0.5
+    letterSpacing: -0.5,
     // fontFamily: 'SFProDisplay-Regular',
     // letterSpacing: -0.93
-  }
+  },
 });

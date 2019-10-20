@@ -5,6 +5,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: '0.9375rem',
     paddingRight: '0.8125rem',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 });

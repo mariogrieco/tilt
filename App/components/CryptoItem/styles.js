@@ -1,6 +1,5 @@
 import StyleSheet from 'react-native-extended-stylesheet';
 
-
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -9,7 +8,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 68,
-    flex: 1
+    flex: 1,
   },
   pair: {
     fontSize: 16,
@@ -28,7 +27,7 @@ export default StyleSheet.create({
     width: 86,
     borderRadius: 17,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   priceChangeChartView: {
     fontSize: 16,
@@ -39,9 +38,9 @@ export default StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Medium',
-    color: '#fff'
+    color: '#fff',
   },
   chart: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 });

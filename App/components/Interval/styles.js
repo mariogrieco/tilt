@@ -7,13 +7,13 @@ export default StyleSheet.create({
     height: 28,
     borderRadius: 14,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   text: {
     color: '#17C491',
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Medium',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });

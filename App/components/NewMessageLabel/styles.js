@@ -17,13 +17,13 @@ export default StyleSheet.create({
     paddingLeft: 15,
     marginLeft: 30,
     alignItems: 'center',
-    flex: 1
+    flex: 1,
   },
   container: {
     backgroundColor: '#17C491',
     height: 29,
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexDirection: 'row'
-  }
-})
+    flexDirection: 'row',
+  },
+});

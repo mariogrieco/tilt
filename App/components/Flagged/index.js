@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  FlatList, View, TouchableOpacity, Text, Image
-} from 'react-native';
-import {
-  connect
-} from 'react-redux';
+import {FlatList, View, TouchableOpacity, Text, Image} from 'react-native';
+import {connect} from 'react-redux';
 import getFlagged from '../../selectors/getFlagged';
 import Post from '../Post/Post';
 import NavigationService from '../../config/NavigationService';
-import {
-  setActiveFocusChannel
-} from '../../actions/AppNavigation';
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import styles from './styles';
 import BottomBlockSpaceSmall from '../BottomBlockSpaceSmall';
 import parser from '../../utils/parse_display_name';
@@ -18,11 +12,10 @@ import parser from '../../utils/parse_display_name';
 const MOON = require('../../../assets/images/flagged_moon/flagged_moon.png');
 
 class Flagged extends React.PureComponent {
-  renderItem = ({ item: channel }) => {
-    const { channelsNames, usersNames } = this.props;
+  renderItem = ({item: channel}) => {
     const channelName = this.parseName(channel.display_name);
     return (
-      <View style={{ backgroundColor: '#fff' }}>
+      <View style={{backgroundColor: '#fff'}}>
         <TouchableOpacity
           style={styles.channelTitleContainer}
           onPress={() => {
@@ -31,11 +24,14 @@ class Flagged extends React.PureComponent {
               display_name: channelName,
               members: channel.members,
               create_at: channel.create_at,
-              fav: channel.fav
+              fav: channel.fav,
             });
-          }}
-        >
-          <Text style={[styles.channelTitle, { paddingTop: 5 }]}>{`#${channelName}`}</Text>
+          }}>
+          <Text
+            style={[
+              styles.channelTitle,
+              {paddingTop: 5},
+            ]}>{`#${channelName}`}</Text>
         </TouchableOpacity>
         {channel.flagged.map(post => (
           <Post
@@ -56,7 +52,7 @@ class Flagged extends React.PureComponent {
         <BottomBlockSpaceSmall />
       </View>
     );
-  }
+  };
 
   renderEmptyList = () => (
     <View style={styles.emptyContainer}>
@@ -72,7 +68,7 @@ class Flagged extends React.PureComponent {
   }
 
   render() {
-    const { flagged_channels } = this.props;
+    const {flagged_channels} = this.props;
     return (
       <FlatList
         data={flagged_channels}
@@ -90,10 +86,10 @@ const mapStateToProps = state => ({
   ...getFlagged(state),
 });
 const mapDispatchToProps = {
-  setActiveFocusChannel
+  setActiveFocusChannel,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Flagged);

@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  DrawerItems,
-  ScrollView,
-  SafeAreaView
-} from 'react-navigation';
+import {DrawerItems, ScrollView, SafeAreaView} from 'react-navigation';
 
 const LoggedInDrawer = props => (
   <ScrollView>
