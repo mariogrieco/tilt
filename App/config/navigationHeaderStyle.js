@@ -12,21 +12,19 @@ export const stackHeader = {
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   headerTitleStyle: {
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
-    fontFamily: 'SFProDisplay-Bold'
+    fontFamily: 'SFProDisplay-Bold',
     // letterSpacing: -0.43
   },
-  headerTintColor: '#0E141E'
-
+  headerTintColor: '#0E141E',
 };
 
 export const headerForScreenWithTabs = {
-
   headerStyle: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -36,11 +34,11 @@ export const headerForScreenWithTabs = {
       height: 0,
     },
     elevation: 0,
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFF',
   },
   headerTitleStyle: {
     fontSize: 18,
     fontFamily: 'SFProDisplay-Bold',
   },
-  headerTintColor: '#0e141e'
+  headerTintColor: '#0e141e',
 };

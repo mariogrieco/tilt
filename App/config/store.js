@@ -1,11 +1,10 @@
-import { applyMiddleware, createStore, compose } from 'redux';
+import {applyMiddleware, createStore, compose} from 'redux';
 import thunk from 'redux-thunk';
-import AsyncStorage from '@react-native-community/async-storage'; 
-import { persistStore, persistReducer } from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
+import {persistStore, persistReducer} from 'redux-persist';
 // import logger from 'redux-logger';
-import Sync from './SyncApp'
+import Sync from './SyncApp';
 import reducers from '../reducers';
-
 
 let store = null;
 // Middleware: Redux Persist Config
@@ -15,8 +14,7 @@ const persistConfig = {
   // Storage Method (React Native)
   storage: AsyncStorage,
   // Whitelist (Save Specific Reducers)
-  blacklist: [
-  ],
+  blacklist: [],
   // Blacklist (Don't Save Specific Reducers)
   whitelist: [
     'watchlist',
@@ -30,7 +28,7 @@ const persistConfig = {
     'signUp',
     'modal',
     'users',
-    'displayUserProfile'
+    'displayUserProfile',
   ],
 };
 
@@ -44,11 +42,13 @@ export default (() => {
     store = createStore(
       persistedReducer,
       {},
-      compose(applyMiddleware(
-        // require('redux-immutable-state-invariant').default(),
-        thunk,
-        // logger,
-      ))
+      compose(
+        applyMiddleware(
+          // require('redux-immutable-state-invariant').default(),
+          thunk,
+          // logger,
+        ),
+      ),
     );
     Sync.init(store.dispatch);
   }
