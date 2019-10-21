@@ -396,7 +396,7 @@ export class PureParsedText extends Component {
   }
 
   getShrugPattern() {
-    return /(Shrug)+/gi;
+    return /-(Shrug)-+/gi;
   }
 
   renderShrug(text) {
