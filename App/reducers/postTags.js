@@ -5,39 +5,51 @@ import {
 
 const initialState = [
   {
+    name: 'Bullish',
     trigger: '-Bullish-',
   },
   {
+    name: 'Bearish',
     trigger: '-Bearish-',
   },
   {
+    name: 'YOLO',
     trigger: '-YOLO-',
   },
   {
+    name: 'Shitpost',
     trigger: '-Shitpost-',
   },
   {
+    name: 'Discussion',
     trigger: '-Discussion-',
   },
   {
+    name: 'Gain',
     trigger: '-Gain-',
   },
   {
+    name: 'Loss',
     trigger: '-Loss-',
   },
   {
+    name: 'Stocks',
     trigger: '-Stocks-',
   },
   {
+    name: 'Options',
     trigger: '-Options-',
   },
   {
+    name: 'Futures',
     trigger: '-Futures-',
   },
   {
+    name: 'Cryptos',
     trigger: '-Cryptos-',
   },
   {
+    name: '¯\\_(ツ)_/¯',
     trigger: '-Shrug-',
   },
   // {
