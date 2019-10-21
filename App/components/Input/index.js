@@ -195,7 +195,7 @@ class Input extends React.Component {
           });
           this.blurInput();
           this.clearState();
-          this.closeComands();
+          this.closeCommands();
         }
       },
     );
@@ -367,7 +367,7 @@ class Input extends React.Component {
     return nextUsers;
   }
 
-  filterComands() {
+  filterCommands() {
     const commands = this.props.commands.filter(command => {
       const stringComand = `/${command.trigger.toLowerCase()}`;
       const inputValue = this.state.messageText
@@ -379,7 +379,7 @@ class Input extends React.Component {
       return true;
     });
     if (commands.length === 0) {
-      this.closeComands();
+      this.closeCommands();
     }
     return commands;
   }
@@ -421,16 +421,16 @@ class Input extends React.Component {
     );
   }
 
-  executeComands = trigger => {
+  executeCommands = trigger => {
     try {
       this.setState({
         messageText: trigger,
       });
-      this.closeComands();
+      this.closeCommands();
     } catch (ex) {}
   };
 
-  closeComands() {
+  closeCommands() {
     this.setState({
       showComandOptions: false,
     });
@@ -440,11 +440,11 @@ class Input extends React.Component {
     return (
       <View style={styles.showOptionsView}>
         <ScrollView>
-          {this.filterComands().map((data, index) => (
+          {this.filterCommands().map((data, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
               onPress={() => {
-                this.executeComands(data.trigger);
+                this.executeCommands(data.trigger);
               }}>
               <View style={styles.commandContainer} key={index}>
                 <Text style={styles.commandExec}>{data.trigger}</Text>
