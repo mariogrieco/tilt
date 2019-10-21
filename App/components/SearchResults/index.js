@@ -97,7 +97,6 @@ export class SearchResults extends PureComponent {
             keyExtractor={this.keyExtractor}
             renderItem={this.renderItem}
             ListEmptyComponent={this.renderLoading}
-            keyboardDismissMode="on-drag"
           />
           {/* {loading && <ActivityIndicator size="large" color="rgba(63, 184, 127, 1)" />} */}
         </ScrollView>

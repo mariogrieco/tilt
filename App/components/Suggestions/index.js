@@ -66,7 +66,6 @@ export default class index extends PureComponent {
           renderItem={this.renderItem}
           renderSeparator={this.renderSeparator}
           keyExtractor={this.keyExtractor}
-          keyboardDismissMode="on-drag"
         />
       </View>
     );

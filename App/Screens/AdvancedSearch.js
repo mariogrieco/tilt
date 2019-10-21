@@ -360,7 +360,6 @@ export class AdvancedSearch extends Component {
             renderItem={this.renderItem}
             keyExtractor={this.keyExtractor}
             ItemSeparatorComponent={this.renderSeparator}
-            keyboardDismissMode="on-drag"
           />
         </View>
         <SearchResults
