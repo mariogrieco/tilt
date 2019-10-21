@@ -146,7 +146,7 @@ class CryptoRoom extends React.PureComponent {
             </View>
           )}
           removeClippedSubviews={Platform.OS === 'android'}
-          swipeEnabled={false}
+          //swipeEnabled={false}
         />
       </View>
     );
