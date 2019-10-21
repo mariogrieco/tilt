@@ -384,7 +384,7 @@ const mapStateToProps = state => ({
     .map(channel => {
       return {
         ...channel,
-        isDolar: isChannelCreatorAdmin(state, channel.id),
+        isDollar: isChannelCreatorAdmin(state, channel.id),
       };
     })
     .valueSeq()
