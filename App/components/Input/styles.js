@@ -92,7 +92,7 @@ export default StyleSheet.create({
     marginTop: -5,
   },
   leftElements: {
-    flex: 0.225,
+    flex: 0.35,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

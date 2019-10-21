@@ -47,6 +47,7 @@ const dolarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
 
 const AT = require('../../../assets/images/at/at.png');
+const TAGS = require('../../../assets/images/tags/tag.png');
 const FILE = require('../../../assets/images/file/file.png');
 // const FILE_DISABLED = require('../../../assets/images/file_disabled/file_disabled.png');
 const PHOTO = require('../../../assets/images/photo/photo.png');
@@ -143,6 +144,14 @@ class Input extends React.Component {
         };
       });
     } else if (value === 2) {
+      this.setState({
+        showComandOptions: !this.state.showComandOptions,
+        showMentionsOptions: false,
+        // showDolarTags: false,
+        filterMentionBuffer: [],
+        mentionsCount: 0,
+      });
+    } else if (value === 3) {
       this.setState({
         showComandOptions: !this.state.showComandOptions,
         showMentionsOptions: false,
@@ -1196,6 +1205,11 @@ class Input extends React.Component {
               underlayColor="rgba(63, 184, 127, 0.2)"
               onPress={() => this.showOptionsView(2)}>
               <Image source={SLASH} />
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor="rgba(63, 184, 127, 0.2)"
+              onPress={() => this.showOptionsView(3)}>
+              <Image source={TAGS} />
             </TouchableHighlight>
           </View>
           <View style={[styles.rightElements]}>
