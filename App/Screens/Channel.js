@@ -184,8 +184,6 @@ class Channel extends React.Component {
     headerRight: (
       <View
         style={{
-          paddingHorizontal: 15,
-          paddingVertical: 13,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -193,11 +191,12 @@ class Channel extends React.Component {
         {!navigation.getParam('pm', '') && (
           <Fragment>
             <TouchableOpacity
+              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
               onPress={() => navigation.navigate('AdvancedSearch')}>
               <Image source={SEARCH} />
             </TouchableOpacity>
-            <View style={{width: 20}} />
             <TouchableOpacity
+              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
               onPress={() => navigation.navigate('ChannelInfo')}>
               <Image source={MENU} />
             </TouchableOpacity>
