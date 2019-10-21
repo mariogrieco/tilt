@@ -47,7 +47,7 @@ const dolarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
 
 const AT = require('../../../assets/images/at/at.png');
-const TAGS = require('../../../assets/images/tags/tag.png');
+const POST_TAGS = require('../../../assets/images/tags/tag.png');
 const FILE = require('../../../assets/images/file/file.png');
 // const FILE_DISABLED = require('../../../assets/images/file_disabled/file_disabled.png');
 const PHOTO = require('../../../assets/images/photo/photo.png');
@@ -1209,7 +1209,7 @@ class Input extends React.Component {
             <TouchableHighlight
               underlayColor="rgba(63, 184, 127, 0.2)"
               onPress={() => this.showOptionsView(3)}>
-              <Image source={TAGS} />
+              <Image source={POST_TAGS} />
             </TouchableHighlight>
           </View>
           <View style={[styles.rightElements]}>
