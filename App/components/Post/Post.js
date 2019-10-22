@@ -92,7 +92,9 @@ class Post extends React.Component {
   }
 
   onDislike = () => {
-    if (this.state.loadingDislike) return null;
+    if (this.state.loadingDislike) {
+      return null;
+    }
     const reactions = this.getReactions();
     this.setState(
       {
@@ -118,7 +120,9 @@ class Post extends React.Component {
   };
 
   onEyes = () => {
-    if (this.state.loadingEye) return null;
+    if (this.state.loadingEye) {
+      return null;
+    }
     this.setState(
       {
         loadingEye: true,
@@ -143,7 +147,9 @@ class Post extends React.Component {
   };
 
   onRocket = () => {
-    if (this.state.loadingRocket) return null;
+    if (this.state.loadingRocket) {
+      return null;
+    }
     this.setState(
       {
         loadingRocket: true,
@@ -168,7 +174,9 @@ class Post extends React.Component {
   };
 
   onLaughs = () => {
-    if (this.state.loadingLaughts) return null;
+    if (this.state.loadingLaughts) {
+      return null;
+    }
     this.setState(
       {
         loadingLaughts: true,
@@ -193,7 +201,9 @@ class Post extends React.Component {
   };
 
   onSadFace = () => {
-    if (this.state.loadingSadFace) return null;
+    if (this.state.loadingSadFace) {
+      return null;
+    }
     this.setState(
       {
         loadingSadFace: true,
@@ -218,7 +228,9 @@ class Post extends React.Component {
   };
 
   onLikes = () => {
-    if (this.state.loadingLike) return null;
+    if (this.state.loadingLike) {
+      return null;
+    }
     this.setState(
       {
         loadingLike: true,
@@ -290,7 +302,9 @@ class Post extends React.Component {
 
   jumpTo = async () => {
     const {channel, postId, jumpToAction} = this.props;
-    if (!channel) return null;
+    if (!channel) {
+      return null;
+    }
     this.props.setActiveFocusChannel(channel.id);
     const r = await jumpToAction(channel.id, postId, 0, 10);
     NavigationService.navigate('Channel', {
@@ -521,8 +535,10 @@ class Post extends React.Component {
                 ? () => {}
                 : this.handleNavigationToProfile
             }>
-            <Text style={[styles.username]}>
-              {typeIsSystem ? 'System' : username}{' '}
+            <Text>
+              <Text style={[styles.username]}>
+                {typeIsSystem ? 'System' : username}{' '}
+              </Text>
               <Text style={styles.timespan}>
                 {extendedDateFormat
                   ? moment(createdAt).format('M/D/YY, h:mm A')

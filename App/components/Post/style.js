@@ -1,4 +1,5 @@
 import StyleSheet from 'react-native-extended-stylesheet';
+import Platform from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -141,7 +142,7 @@ export default StyleSheet.create({
     elevation: 0,
   },
   timespan: {
-    fontSize: 13,
+    fontSize: Platform.OS === 'ios' ? 14 : 13,
     letterSpacing: 0.1,
     color: '#8E8E95',
     fontFamily: 'SFProDisplay-Regular',
