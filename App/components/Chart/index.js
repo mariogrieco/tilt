@@ -1,9 +1,10 @@
 import React, {lazy, Suspense} from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, View, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Description from '../ChartViewTopDescription';
 import CandleSection from '../CandleSection';
 import {ChartBanner} from '../AdBanner';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 
 const DepthSection = lazy(() => import('../DepthSection'));
 
@@ -24,8 +25,8 @@ class Chart extends React.PureComponent {
     } = this.props;
     const {selectedChart} = this.state;
     return (
-      <View style={{flex: 1, paddingBottom: 20}}>
-        <View style={{flex: 0.23}}>
+      <View style={{flex: 1, paddingBottom: Platform.OS === 'ios' ? ifIphoneX(10, 0) : 0}}>
+        <View style={{flex: Platform.OS === 'ios' ? 0.15 : 0.18}}>
           <Description onToggle={this.handleToggle} />
         </View>
         {selectedChart === 'left' ? (
@@ -45,9 +46,9 @@ class Chart extends React.PureComponent {
             <DepthSection symbol={symbol} />
           </Suspense>
         )}
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <ChartBanner />
-        </View>
+        {/*<View style={{flexDirection: 'row', justifyContent: 'center'}}>*/}
+        {/*  <ChartBanner />*/}
+        {/*</View>*/}
       </View>
     );
   }

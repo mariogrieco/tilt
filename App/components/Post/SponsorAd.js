@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {SponsorBanner} from '../AdBanner';
+import {SponsoredBanner} from '../AdBanner';
 
 import styles from './style';
 
@@ -15,7 +15,7 @@ export default class SponsorAd extends React.Component {
         <Text style={[styles.text, {marginBottom: 10}]}>
           A message form our sponsors.
         </Text>
-        <SponsorBanner />
+        <SponsoredBanner />
       </View>
     );
   }
