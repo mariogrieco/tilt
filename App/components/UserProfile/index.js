@@ -149,7 +149,9 @@ class UserProfile extends React.PureComponent {
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
         style={{flex: 1, backgroundColor: '#f6f7f9'}}
-        initialNumToRender={10}
+        initialNumToRender={8}
+        removeClippedSubviews
+        updateCellsBatchingPeriod={150}
       />
     );
   }
@@ -172,7 +174,7 @@ const mapStateToProps = (state, props) => {
   }
 
   if (user) {
-    const userPosts = getAllPostByUserId(state, user.id);
+    const userPosts = getAllPostByUserId(state, props);
     const channelMentions = getChannelDisplayNameAsDictionary(state);
 
     return {
