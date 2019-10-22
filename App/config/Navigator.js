@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
+import {useScreens} from 'react-native-screens';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -39,6 +40,8 @@ const PROFILE_FOCUS = require('../../assets/images/profile_focus/profile.png');
 const PROFILE_UNFOCUS = require('../../assets/images/profile_unfocus/profile.png');
 const MESSAGES_FOCUS = require('../../assets/images/message_black/envelope.png');
 const MESSAGES_UNFOCUS = require('../../assets/images/messages-gray/envelope.png');
+
+useScreens();
 
 const HomeStack = createStackNavigator(
   {
