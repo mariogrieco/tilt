@@ -77,6 +77,15 @@ function reduceReactions(metadata) {
   };
 }
 
+const MemoUrlPreview = React.memo(({text}) => (
+  <RNUrlPreview
+    text={text}
+    containerStyle={styles.linkContainer}
+    titleStyle={[styles.text, styles.mediumText]}
+    descriptionStyle={styles.textLink}
+  />
+));
+
 class Post extends React.Component {
   state = {
     loadingLike: false,
@@ -447,17 +456,10 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        <RNUrlPreview
-          text={message}
-          containerStyle={styles.linkContainer}
-          titleStyle={[styles.text, styles.mediumText]}
-          descriptionStyle={styles.textLink}
-        />
+        <MemoUrlPreview text={message} />
       </>
     );
   };
-
-  renderSponsorAd = () => <SponsorAd />;
 
   render() {
     const {
@@ -546,7 +548,7 @@ class Post extends React.Component {
               </Text>
             </Text>
           </TouchableOpacity>
-          {isSponsorUser ? this.renderSponsorAd() : this.renderMessage()}
+          {isSponsorUser ? <SponsorAd /> : this.renderMessage()}
           <Reactions
             reactions={reactions}
             disableInteractions={disableInteractions}
