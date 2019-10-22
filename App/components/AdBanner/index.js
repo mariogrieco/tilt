@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native';
 import firebase from 'react-native-firebase';
 import adMob from '../../config/adMob';
 
@@ -69,14 +70,16 @@ export class StatBanner extends React.PureComponent {
 export class SponsorBanner extends React.PureComponent {
   render() {
     return (
-      <Banner
-        size="MEDIUM_RECTANGLE"
-        unitId={adMob.sponsor}
-        request={request.build()}
-        // onAdLoaded={() => {
-        // console.log('Advert loaded');
-        // }}
-      />
+      <View style={{height: 250, width: 300}}>
+        <Banner
+          size="MEDIUM_RECTANGLE"
+          unitId={adMob.sponsor}
+          request={request.build()}
+          // onAdLoaded={() => {
+          // console.log('Advert loaded');
+          // }}
+        />
+      </View>
     );
   }
 }
