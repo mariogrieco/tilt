@@ -453,6 +453,7 @@ class Input extends React.Component {
               underlayColor="#17C491"
               onPress={() => {
                 this.interpolateStrToMessage(`${user.username}`, '@');
+                this.closeMentions();
               }}>
               <View style={styles.mentions}>
                 <Image
@@ -546,7 +547,7 @@ class Input extends React.Component {
     )}${type}${str.trim()}${messageText.slice(
       iterableEnd,
       messageText.length,
-    )}`;
+    )} `;
     this.setState({
       messageText: nextState,
     });
