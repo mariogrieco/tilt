@@ -20,7 +20,7 @@ import ImagePicker from 'react-native-image-picker';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
 import prettyBytes from 'pretty-bytes';
-import parserFactory from 'emogeez-parser';
+import themeTags from '../../themes/custom-tags';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
 import {createPost, updatePost} from '../../actions/posts';
@@ -40,13 +40,14 @@ import {
 
 import Client4 from '../../api/MattermostClient';
 
-const {store, replacer, matcher} = parserFactory();
+// const {store, replacer, matcher} = parserFactory();
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
 
 const AT = require('../../../assets/images/at/at.png');
+const POST_TAGS = require('../../../assets/images/tags/tag.png');
 const FILE = require('../../../assets/images/file/file.png');
 // const FILE_DISABLED = require('../../../assets/images/file_disabled/file_disabled.png');
 const PHOTO = require('../../../assets/images/photo/photo.png');
@@ -111,8 +112,9 @@ class Input extends React.Component {
     messageText: '',
     showMentionsOptions: false,
     showCommandOptions: false,
-    showTags: false,
+    showHashTags: false,
     loading: false,
+    showTags: false,
     showDollarTags: false,
     mentionsCount: 0,
     selection: {
@@ -129,6 +131,60 @@ class Input extends React.Component {
     filesIds: [],
     uploadDocument: null,
     fileLoaders: [],
+    textTags: [
+      {
+        text: 'Bullish',
+        style: themeTags.Bullish,
+      },
+      {
+        text: 'Bearish',
+        style: themeTags.Bearish,
+      },
+      {
+        text: 'YOLO',
+        style: themeTags.Yolo,
+      },
+      {
+        text: 'Shitpost',
+        style: themeTags.Shitpost,
+      },
+      {
+        text: 'Discussion',
+        style: themeTags.Discussion,
+      },
+      {
+        text: 'Satire',
+        style: themeTags.Satire,
+      },
+      {
+        text: 'Gain',
+        style: themeTags.Gain,
+      },
+      {
+        text: 'Loss',
+        style: themeTags.Loss,
+      },
+      {
+        text: 'Stocks',
+        style: themeTags.Stocks,
+      },
+      {
+        text: 'Options',
+        style: themeTags.Options,
+      },
+      {
+        text: 'Futures',
+        style: themeTags.Futures,
+      },
+      {
+        text: 'Cryptos',
+        style: themeTags.Cryptos,
+      },
+      {
+        text: 'Shrug',
+        style: themeTags.Shrug,
+      },
+    ],
   };
 
   showOptionsView = value => {
@@ -551,7 +607,12 @@ class Input extends React.Component {
   }
 
   checkForMentionsOrTags() {
-    const {messageText, selection, showMentionsOptions, showTags} = this.state;
+    const {
+      messageText,
+      selection,
+      showMentionsOptions,
+      showHashTags,
+    } = this.state;
 
     if (messageText.trim() === '') {
       this.closeMentions();
@@ -578,14 +639,14 @@ class Input extends React.Component {
       mentions = true;
       this.setState({
         showMentionsOptions: true,
-        showTags: false,
+        showHashTags: false,
         showDollarTags: false,
         filerTagBuffer: [],
       });
     } else if (nextTagMatch.includes('#') || this.determineIfOpenTags()) {
       tags = true;
       this.setState({
-        showTags: true,
+        showHashTags: true,
         showMentionsOptions: false,
         showDollarTags: false,
         filterMentionBuffer: [],
@@ -594,7 +655,7 @@ class Input extends React.Component {
       dollarTags = true;
       this.setState({
         showDollarTags: true,
-        showTags: false,
+        showHashTags: false,
         showMentionsOptions: false,
         filerDollarTagBuffer: [],
       });
@@ -723,7 +784,7 @@ class Input extends React.Component {
 
   closeTags() {
     this.setState({
-      showTags: false,
+      showHashTags: false,
       filerTagBuffer: [],
     });
   }
@@ -1087,17 +1148,68 @@ class Input extends React.Component {
     );
   }
 
+  closeTextTags = () => {
+    this.setState({
+      showTags: false,
+    });
+  };
+
+  openTextTags = () => {
+    this.setState({
+      showTags: !this.state.showTags,
+    });
+  };
+
+  interpolateTextTag = str => {
+    const {selection, messageText} = this.state;
+    this.setState({
+      messageText: `${messageText.slice(
+        0,
+        selection.start,
+      )}-${str}- ${messageText.slice(selection.start, messageText.length)}`,
+      showTags: false,
+    });
+  };
+
+  renderTextTag() {
+    return (
+      <View style={styles.showOptionsView}>
+        <ScrollView>
+          <TouchableHighlight
+            underlayColor="#17C491"
+            onPress={this.closeTextTags}>
+            <View style={styles.commandTagContainer} key={'none'}>
+              <Text style={styles.customTagNoneTextStyle}>None</Text>
+            </View>
+          </TouchableHighlight>
+          {this.state.textTags.map((tag, index) => (
+            <TouchableHighlight
+              underlayColor="#17C491"
+              onPress={() => {
+                this.interpolateTextTag(tag.text);
+              }}>
+              <View style={styles.commandTagContainer} key={index}>
+                <Text style={[tag.style]}>{tag.text}</Text>
+              </View>
+            </TouchableHighlight>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
+
   render() {
     const {placeholder, loggedUserPicture, isPrivateChannel} = this.props;
     const {
       messageText,
       showMentionsOptions,
       showCommandOptions,
-      showTags,
+      showHashTags,
       uploadImages,
       uploadVideos,
       uploadDocument,
       showDollarTags,
+      showTags,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -1105,8 +1217,9 @@ class Input extends React.Component {
           !isPrivateChannel &&
           this.getMentionsComponent()}
         {showCommandOptions && this.getCommandComponent()}
-        {showTags && this.getTagComponent()}
+        {showHashTags && this.getTagComponent()}
         {showDollarTags && this.getDollarTagsComponent()}
+        {showTags && this.renderTextTag()}
         <View style={{flexDirection: 'row'}}>
           <ProfilePicture loggedUserPicture={loggedUserPicture} />
           <View
@@ -1196,6 +1309,11 @@ class Input extends React.Component {
               underlayColor="rgba(63, 184, 127, 0.2)"
               onPress={() => this.showOptionsView(2)}>
               <Image source={SLASH} />
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor="rgba(63, 184, 127, 0.2)"
+              onPress={this.openTextTags}>
+              <Image source={POST_TAGS} />
             </TouchableHighlight>
           </View>
           <View style={[styles.rightElements]}>
