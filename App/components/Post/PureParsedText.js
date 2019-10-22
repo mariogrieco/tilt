@@ -357,7 +357,7 @@ export class PureParsedText extends Component {
   }
 
   renderBullish(text) {
-    return <Text style={styles.bullishText}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Bullish}>{text.replace(/-/g, ' ')}</Text>;
   }
 
   getBearishPattern() {
@@ -365,7 +365,7 @@ export class PureParsedText extends Component {
   }
 
   renderBearish(text) {
-    return <Text style={styles.bearishText}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Bearish}>{text.replace(/-/g, ' ')}</Text>;
   }
 
   getBoldPattern() {

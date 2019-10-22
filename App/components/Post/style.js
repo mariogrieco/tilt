@@ -19,18 +19,6 @@ export default StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
   },
-  bullishText: {
-    color: '#17C491',
-    backgroundColor: 'rgba(23, 196, 145, 0.1)',
-    fontFamily: 'SFProDisplay-Medium',
-    textTransform: 'capitalize',
-  },
-  bearishText: {
-    color: '#FC3E30',
-    backgroundColor: 'rgba(252, 62, 48, 0.1)',
-    fontFamily: 'SFProDisplay-Medium',
-    textTransform: 'capitalize',
-  },
   boldText: {
     fontFamily: 'SFProDisplay-Bold',
   },

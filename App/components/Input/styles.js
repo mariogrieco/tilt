@@ -80,7 +80,12 @@ export default StyleSheet.create({
     color: '#0e141e',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
+    letterSpacing: 0.1,
+  },
+  customTagNoneTextStyle: {
+    color: '#0e141e',
+    fontFamily: 'SFProDisplay-Bold',
+    fontSize: 16,
     letterSpacing: 0.1,
   },
   rightElements: {

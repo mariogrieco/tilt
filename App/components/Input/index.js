@@ -133,46 +133,58 @@ class Input extends React.Component {
     fileLoaders: [],
     textTags: [
       {
-        text: 'Yolo',
-        style: themeTags.Yolo
+        text: 'Bullish',
+        style: themeTags.Bullish,
       },
       {
-        text: 'Loss',
-        style: themeTags.Loss
+        text: 'Bearish',
+        style: themeTags.Bearish,
       },
       {
-        text: 'Gain',
-        style: themeTags.Gain
+        text: 'YOLO',
+        style: themeTags.Yolo,
       },
       {
         text: 'Shitpost',
-        style: themeTags.Shitpost
-      },
-      {
-        text: 'Stocks',
-        style: themeTags.Stocks
-      },
-      {
-        text: 'Options',
-        style: themeTags.Options
-      },
-      {
-        text: 'Cryptos',
-        style: themeTags.Cryptos
+        style: themeTags.Shitpost,
       },
       {
         text: 'Discussion',
-        style: themeTags.Discussion
-      },
-      {
-        text: 'Futures',
-        style: themeTags.Futures
+        style: themeTags.Discussion,
       },
       {
         text: 'Satire',
-        style: themeTags.Satire
+        style: themeTags.Satire,
       },
-    ]
+      {
+        text: 'Gain',
+        style: themeTags.Gain,
+      },
+      {
+        text: 'Loss',
+        style: themeTags.Loss,
+      },
+      {
+        text: 'Stocks',
+        style: themeTags.Stocks,
+      },
+      {
+        text: 'Options',
+        style: themeTags.Options,
+      },
+      {
+        text: 'Futures',
+        style: themeTags.Futures,
+      },
+      {
+        text: 'Cryptos',
+        style: themeTags.Cryptos,
+      },
+      {
+        text: 'Shrug',
+        style: themeTags.Shrug,
+      },
+    ],
   };
 
   showOptionsView = value => {
@@ -191,14 +203,6 @@ class Input extends React.Component {
         showCommandOptions: !this.state.showCommandOptions,
         showMentionsOptions: false,
         // showDollarTags: false,
-        filterMentionBuffer: [],
-        mentionsCount: 0,
-      });
-    } else if (value === 3) {
-      this.setState({
-        showComandOptions: !this.state.showComandOptions,
-        showMentionsOptions: false,
-        // showDolarTags: false,
         filterMentionBuffer: [],
         mentionsCount: 0,
       });
@@ -603,7 +607,12 @@ class Input extends React.Component {
   }
 
   checkForMentionsOrTags() {
-    const {messageText, selection, showMentionsOptions, showHashTags} = this.state;
+    const {
+      messageText,
+      selection,
+      showMentionsOptions,
+      showHashTags,
+    } = this.state;
 
     if (messageText.trim() === '') {
       this.closeMentions();
@@ -1141,58 +1150,52 @@ class Input extends React.Component {
 
   closeTextTags = () => {
     this.setState({
-      showTags: false
+      showTags: false,
     });
-  }
+  };
 
   openTextTags = () => {
     this.setState({
-      showTags: true
+      showTags: !this.state.showTags,
     });
-  }
+  };
 
-  interpolateTextTag = (str) => {
-    const {
-      selection,
-      messageText
-    } = this.state;
+  interpolateTextTag = str => {
+    const {selection, messageText} = this.state;
     this.setState({
-      messageText: `${messageText.slice(0, selection.start)} -${str}- ${messageText.slice(selection.start, messageText.length)}`,
-      showTags: false
+      messageText: `${messageText.slice(
+        0,
+        selection.start,
+      )}-${str}- ${messageText.slice(selection.start, messageText.length)}`,
+      showTags: false,
     });
-  }
+  };
 
-  renderTextTag () {
+  renderTextTag() {
     return (
       <View style={styles.showOptionsView}>
         <ScrollView>
           <TouchableHighlight
-              underlayColor="#17C491"
-              onPress={this.closeTextTags}
-            >
-              <View style={styles.commandTagContainer} key={'none'}>
-                <Text style={styles.customTagTextStyle}>
-                  None
-                </Text>
-              </View>
-            </TouchableHighlight>
+            underlayColor="#17C491"
+            onPress={this.closeTextTags}>
+            <View style={styles.commandTagContainer} key={'none'}>
+              <Text style={styles.customTagNoneTextStyle}>None</Text>
+            </View>
+          </TouchableHighlight>
           {this.state.textTags.map((tag, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
               onPress={() => {
-                this.interpolateTextTag(tag.text)
-              }}
-            >
+                this.interpolateTextTag(tag.text);
+              }}>
               <View style={styles.commandTagContainer} key={index}>
-                <Text style={[tag.style, styles.customTagTextStyle]}>
-                  {tag.text}
-                </Text>
+                <Text style={[tag.style]}>{tag.text}</Text>
               </View>
             </TouchableHighlight>
           ))}
         </ScrollView>
       </View>
-    )
+    );
   }
 
   render() {
@@ -1206,7 +1209,7 @@ class Input extends React.Component {
       uploadVideos,
       uploadDocument,
       showDollarTags,
-      showTags
+      showTags,
     } = this.state;
     return (
       <View style={styles.container}>
