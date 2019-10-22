@@ -78,12 +78,14 @@ function reduceReactions(metadata) {
 }
 
 const MemoUrlPreview = React.memo(({text}) => (
-  <RNUrlPreview
-    text={text}
-    containerStyle={styles.linkContainer}
-    titleStyle={[styles.text, styles.mediumText]}
-    descriptionStyle={styles.textLink}
-  />
+  <View style={{height: 140, maxHeight: 150}}>
+    <RNUrlPreview
+      text={text}
+      containerStyle={styles.linkContainer}
+      titleStyle={[styles.text, styles.mediumText]}
+      descriptionStyle={styles.textLink}
+    />
+  </View>
 ));
 
 class Post extends React.Component {
@@ -420,6 +422,12 @@ class Post extends React.Component {
         : false;
     const files =
       metadata && metadata.files && metadata.files ? metadata.files : [];
+
+    const REGEX = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/g;
+    const hasUrlForPreview = Boolean(
+      message && message.match(REGEX) && message.match(REGEX)[0],
+    );
+
     return (
       <>
         <TouchableOpacity
@@ -456,7 +464,7 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        <MemoUrlPreview text={message} />
+        {hasUrlForPreview && <MemoUrlPreview text={message} />}
       </>
     );
   };
