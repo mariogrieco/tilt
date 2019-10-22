@@ -446,35 +446,29 @@ class Input extends React.Component {
 
   getMentionsComponent() {
     return (
-      <View style={styles.showOptionsView}>
-        <ScrollView>
-          {this.filterUsers().map((user, index) => (
-            <TouchableHighlight
-              underlayColor="#17C491"
-              onPress={() => {
-                this.interpolateStrToMessage(`${user.username}`, '@');
-                this.closeMentions();
-              }}>
-              <View style={styles.mentions}>
-                <Image
-                  style={styles.mentionsProfileImage}
-                  source={{
-                    uri: getUserProfilePicture(
-                      user.id,
-                      user.last_picture_update,
-                    ),
-                  }}
-                />
-                <Text
-                  style={[styles.commandContainer, styles.mentionsColor]}
-                  key={index}>
-                  @{user.username}
-                </Text>
-              </View>
-            </TouchableHighlight>
-          ))}
-        </ScrollView>
-      </View>
+      <ScrollView style={styles.showOptionsView}>
+        {this.filterUsers().map((user, index) => (
+          <TouchableHighlight
+            underlayColor="#17C491"
+            onPress={() => {
+              this.interpolateStrToMessage(`${user.username}`, '@');
+            }}>
+            <View style={styles.mentions}>
+              <Image
+                style={styles.mentionsProfileImage}
+                source={{
+                  uri: getUserProfilePicture(user.id, user.last_picture_update),
+                }}
+              />
+              <Text
+                style={[styles.commandContainer, styles.mentionsColor]}
+                key={index}>
+                @{user.username}
+              </Text>
+            </View>
+          </TouchableHighlight>
+        ))}
+      </ScrollView>
     );
   }
 
@@ -1299,12 +1293,16 @@ class Input extends React.Component {
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.leftElements}>
-            {!isPrivateChannel && (
+            {!isPrivateChannel ? (
               <TouchableHighlight
                 underlayColor="rgba(63, 184, 127, 0.2)"
                 onPress={() => this.showOptionsView(1)}>
                 <Image source={AT} />
               </TouchableHighlight>
+            ) : (
+              <View style={{opacity: 0.5}}>
+                <Image source={AT} />
+              </View>
             )}
             <TouchableHighlight
               underlayColor="rgba(63, 184, 127, 0.2)"
@@ -1330,7 +1328,6 @@ class Input extends React.Component {
               disabled={uploadImages.length !== 0 || !!uploadDocument}>
               <Image source={VIDEO_THIN} style={styles.inputOption} />
             </TouchableHighlight>
-
             <TouchableHighlight
               onPress={this.handleDocumentUpload}
               underlayColor="rgba(63, 184, 127, 0.2)"

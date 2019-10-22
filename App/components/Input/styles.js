@@ -19,9 +19,9 @@ export default StyleSheet.create({
     paddingBottom: 0,
   },
   mentionsProfileImage: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     flex: 0,
   },
   mentionsColor: {
