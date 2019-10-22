@@ -18,6 +18,7 @@ import {getUsersNames} from '../../selectors/getUsersNames';
 import {Emoji} from '../../utils/TiltEmoji';
 
 import styles from './style';
+import themeTags from '../../themes/custom-tags';
 
 // const boldPattern = /\*\*([^*][\w\W][^*]*)\*\*/gm;
 // const italicPattern = /(\s_|^_)(?=\S)([\s\S]*?\S)_(?![_\S])/gm;
@@ -409,11 +410,7 @@ export class PureParsedText extends Component {
 
   renderYOLO(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(252, 199, 59, 0.7)',
-        }}>
+      <Text style={themeTags.Yolo}>
         {text.toUpperCase().replace(/-/g, ' ')}
       </Text>
     );
@@ -425,12 +422,7 @@ export class PureParsedText extends Component {
 
   renderLoss(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(252, 62, 48, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Loss}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -442,12 +434,7 @@ export class PureParsedText extends Component {
 
   renderGain(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(23, 196, 145, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Gain}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -459,12 +446,7 @@ export class PureParsedText extends Component {
 
   renderShitpost(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(139, 87, 42, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.ShitPost}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -476,12 +458,7 @@ export class PureParsedText extends Component {
 
   renderStocks(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(16, 115, 240, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Stocks}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -493,12 +470,7 @@ export class PureParsedText extends Component {
 
   renderOptions(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(109, 98, 229, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Options}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -510,12 +482,7 @@ export class PureParsedText extends Component {
 
   renderCryptos(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(255, 74, 0, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Cryptos}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -527,12 +494,7 @@ export class PureParsedText extends Component {
 
   renderDiscussion(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(39, 156, 211, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Discussion}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -544,12 +506,7 @@ export class PureParsedText extends Component {
 
   renderFutures(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(255, 96, 126, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Futures}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
@@ -561,12 +518,7 @@ export class PureParsedText extends Component {
 
   renderSatire(text) {
     return (
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Medium',
-          backgroundColor: 'rgba(142, 142, 147, 0.7)',
-          textTransform: 'capitalize',
-        }}>
+      <Text style={themeTags.Satire}>
         {text.replace(/-/g, ' ')}
       </Text>
     );
