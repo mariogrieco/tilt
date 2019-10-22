@@ -44,9 +44,9 @@ class History extends React.PureComponent {
     const {data} = this.props;
     return (
       <View>
-        <View style={{alignItems: 'center', paddingTop: 11}}>
-          <HistoryBanner />
-        </View>
+        {/*<View style={{alignItems: 'center', paddingTop: 11}}>*/}
+        {/*  <HistoryBanner />*/}
+        {/*</View>*/}
         <View style={[styles.headerContainer, styles.container]}>
           <View style={{flexDirection: 'row'}}>
             <Text style={[styles.header, {flex: 1}]}>Amount</Text>
