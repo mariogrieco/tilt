@@ -17,7 +17,7 @@ export const getHashTagChannelsNames = state => {
   return allData.sort((a, b) => b.length - a.length);
 };
 
-export const getDolarChannelNames = state => {
+export const getDollarChannelNames = state => {
   const keys = getKeys(state.channelsNames);
   const allData = keys
     .filter(key => {

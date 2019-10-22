@@ -11,7 +11,7 @@ import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusCh
 import CodePost from '../CodePost';
 import {
   getHashTagChannelsNames,
-  getDolarChannelNames,
+  getDollarChannelNames,
 } from '../../selectors/getChannelNames';
 import {getUsersNames} from '../../selectors/getUsersNames';
 
@@ -54,7 +54,7 @@ export class PureParsedText extends Component {
       if (disableUserPattern) {
         return [
           {
-            pattern: this.getChannelDolarPattern(),
+            pattern: this.getChannelDollarPattern(),
             style: styles.channelPatter,
             onPress: this.onChannelPress.bind(this),
             renderText: this.renderTextD,
@@ -95,7 +95,7 @@ export class PureParsedText extends Component {
       }
       return [
         {
-          pattern: this.getChannelDolarPattern(),
+          pattern: this.getChannelDollarPattern(),
           style: styles.channelPatter,
           onPress: this.onChannelPress.bind(this),
           renderText: this.renderTextD,
@@ -341,9 +341,9 @@ export class PureParsedText extends Component {
     return new RegExp(`#(${(channelsNames || []).join('|')})\\b`);
   }
 
-  getChannelDolarPattern() {
-    const {channelDolarNames} = this.props;
-    return new RegExp(`\\$(${(channelDolarNames || []).join('|')})\\b`);
+  getChannelDollarPattern() {
+    const {channelDollarNames} = this.props;
+    return new RegExp(`\\$(${(channelDollarNames || []).join('|')})\\b`);
   }
 
   getMentionPatter() {
@@ -659,12 +659,12 @@ const mapStateToProps = state => {
       disableUserMention: getIsCurrentFocusChannelPrivate(state),
       channelsNames: getHashTagChannelsNames(state),
       usernames: getUsersNames(state),
-      channelDolarNames: getDolarChannelNames(state),
+      channelDollarNames: getDollarChannelNames(state),
     };
   }
   return {
     disableUserMention: false,
-    channelDolarNames: getDolarChannelNames(state),
+    channelDollarNames: getDollarChannelNames(state),
     channelsNames: getHashTagChannelsNames(state),
     usernames: getUsersNames(state),
   };

@@ -14,7 +14,7 @@ export default class index extends PureComponent {
       }}
       style={styles.channelName}>
       <Text style={styles.channelText}>
-        {item.isDolar ? '$' : '#'}
+        {item.isDollar ? '$' : '#'}
         {item.name}
       </Text>
     </TouchableHighlight>

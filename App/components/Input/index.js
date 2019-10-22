@@ -26,7 +26,7 @@ import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusCh
 import {createPost, updatePost} from '../../actions/posts';
 import {
   getHashTagChannelsNames,
-  getDolarChannelNames,
+  getDollarChannelNames,
 } from '../../selectors/getChannelNames';
 import ProfilePicture from './profile_picture';
 import styles from './styles';
@@ -43,7 +43,7 @@ import Client4 from '../../api/MattermostClient';
 const {store, replacer, matcher} = parserFactory();
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
-const dolarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
+const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
 
 const AT = require('../../../assets/images/at/at.png');
@@ -111,20 +111,20 @@ class Input extends React.Component {
   state = {
     messageText: '',
     showMentionsOptions: false,
-    showComandOptions: false,
+    showCommandOptions: false,
     showTags: false,
     loading: false,
-    showDolarTags: false,
+    showDollarTags: false,
     mentionsCount: 0,
     selection: {
       start: 0,
       end: 0,
     },
-    filerDolarTagBuffer: [],
+    filerDollarTagBuffer: [],
     filterMentionBuffer: [],
     filerTagBuffer: [],
     iterableInit: 0,
-    iteralbeEnd: 0,
+    iterableEnd: 0,
     uploadImages: [],
     uploadVideos: [],
     filesIds: [],
@@ -138,16 +138,16 @@ class Input extends React.Component {
         const {showMentionsOptions, filterMentionBuffer} = prevState;
         return {
           showMentionsOptions: !showMentionsOptions,
-          showComandOptions: false,
+          showCommandOptions: false,
           filterMentionBuffer: !showMentionsOptions ? filterMentionBuffer : [],
           mentionsCount: !showMentionsOptions ? this.state.mentionsCount : 0,
         };
       });
     } else if (value === 2) {
       this.setState({
-        showComandOptions: !this.state.showComandOptions,
+        showCommandOptions: !this.state.showCommandOptions,
         showMentionsOptions: false,
-        // showDolarTags: false,
+        // showDollarTags: false,
         filterMentionBuffer: [],
         mentionsCount: 0,
       });
@@ -162,7 +162,7 @@ class Input extends React.Component {
     }
   };
 
-  isComand() {
+  isCommand() {
     return this.state.messageText.trim()[0] === '/';
   }
 
@@ -170,7 +170,7 @@ class Input extends React.Component {
     if (this.state.loading) {
       return false;
     }
-    if (this.isComand()) {
+    if (this.isCommand()) {
       this.sendCommandMessage();
     } else if (this.props.editable) {
       this.sendEditableMessage();
@@ -204,7 +204,7 @@ class Input extends React.Component {
           });
           this.blurInput();
           this.clearState();
-          this.closeComands();
+          this.closeCommands();
         }
       },
     );
@@ -285,11 +285,11 @@ class Input extends React.Component {
   onChangeMessage = value => {
     if (value.charAt(0) === '/') {
       this.setState({
-        showComandOptions: true,
+        showCommandOptions: true,
       });
     } else {
       this.setState({
-        showComandOptions: false,
+        showCommandOptions: false,
       });
     }
 
@@ -301,11 +301,11 @@ class Input extends React.Component {
     );
   };
 
-  filterDolarTags() {
-    const nextTags = this.props.channelDolarTagNames.filter(tag => {
+  filterDollarTags() {
+    const nextTags = this.props.channelDollarTagNames.filter(tag => {
       const userString = `$${tag.toLowerCase()}`;
-      const indexFocus = this.state.currentDolarTagTextFocused;
-      const inputValue = this.state.filerDolarTagBuffer;
+      const indexFocus = this.state.currentDollarTagTextFocused;
+      const inputValue = this.state.filerDollarTagBuffer;
       if (
         inputValue &&
         inputValue[indexFocus] &&
@@ -324,7 +324,7 @@ class Input extends React.Component {
     if (nextTags.length !== 0) {
       return nextTags;
     }
-    this.closeDolarTags();
+    this.closeDollarTags();
     return nextTags;
   }
 
@@ -376,19 +376,19 @@ class Input extends React.Component {
     return nextUsers;
   }
 
-  filterComands() {
+  filterCommands() {
     const commands = this.props.commands.filter(command => {
-      const stringComand = `/${command.trigger.toLowerCase()}`;
+      const stringCommand = `/${command.trigger.toLowerCase()}`;
       const inputValue = this.state.messageText
         ? this.state.messageText.toLowerCase()
         : '';
       if (this.state.messageText.length > 1) {
-        return stringComand.match(inputValue);
+        return stringCommand.match(inputValue);
       }
       return true;
     });
     if (commands.length === 0) {
-      this.closeComands();
+      this.closeCommands();
     }
     return commands;
   }
@@ -430,18 +430,18 @@ class Input extends React.Component {
     );
   }
 
-  executeComands = trigger => {
+  executeCommands = trigger => {
     try {
       this.setState({
         messageText: trigger,
       });
-      this.closeComands();
+      this.closeCommands();
     } catch (ex) {}
   };
 
-  closeComands() {
+  closeCommands() {
     this.setState({
-      showComandOptions: false,
+      showCommandOptions: false,
     });
   }
 
@@ -449,11 +449,11 @@ class Input extends React.Component {
     return (
       <View style={styles.showOptionsView}>
         <ScrollView>
-          {this.filterComands().map((data, index) => (
+          {this.filterCommands().map((data, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
               onPress={() => {
-                this.executeComands(data.trigger);
+                this.executeCommands(data.trigger);
               }}>
               <View style={styles.commandContainer} key={index}>
                 <Text style={styles.commandExec}>{data.trigger}</Text>
@@ -489,7 +489,7 @@ class Input extends React.Component {
   interpolateStrToMessage(str, type) {
     const {
       iterableInit,
-      iteralbeEnd,
+      iterableEnd,
       messageText,
       // selection
     } = this.state;
@@ -497,7 +497,7 @@ class Input extends React.Component {
       0,
       iterableInit,
     )}${type}${str.trim()}${messageText.slice(
-      iteralbeEnd,
+      iterableEnd,
       messageText.length,
     )}`;
     this.setState({
@@ -505,7 +505,7 @@ class Input extends React.Component {
     });
     this.closeTags();
     this.closeMentions();
-    this.closeDolarTags();
+    this.closeDollarTags();
   }
 
   determineIfOpenMentions() {
@@ -523,15 +523,15 @@ class Input extends React.Component {
     return currentIndex !== null;
   }
 
-  determineIfOpenDolarTags() {
+  determineIfOpenDollarTags() {
     const {selection, messageText} = this.state;
-    const patt = dolarTagRegx;
-    const matches = messageText.match(dolarTagRegx);
+    const patt = dollarTagRegx;
+    const matches = messageText.match(dollarTagRegx);
     const startCursor = selection.start;
     let currentIndex = null;
     while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
-        iteralbeEnd = patt.lastIndex;
+        iterableEnd = patt.lastIndex;
         iterableInit = match.index;
         currentIndex = matches.indexOf(match[0]);
         break;
@@ -549,7 +549,7 @@ class Input extends React.Component {
     let currentIndex = null;
     while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
-        iteralbeEnd = patt.lastIndex;
+        iterableEnd = patt.lastIndex;
         iterableInit = match.index;
         currentIndex = matches.indexOf(match[0]);
         break;
@@ -565,7 +565,7 @@ class Input extends React.Component {
     if (messageText.trim() === '') {
       this.closeMentions();
       this.closeTags();
-      this.closeDolarTags();
+      this.closeDollarTags();
       return null;
     }
 
@@ -581,14 +581,14 @@ class Input extends React.Component {
 
     let tags = false;
     let mentions = false;
-    let dolarTags = false;
+    let dollarTags = false;
 
     if (nexMentionstMatch.includes('@') || this.determineIfOpenMentions()) {
       mentions = true;
       this.setState({
         showMentionsOptions: true,
         showTags: false,
-        showDolarTags: false,
+        showDollarTags: false,
         filerTagBuffer: [],
       });
     } else if (nextTagMatch.includes('#') || this.determineIfOpenTags()) {
@@ -596,21 +596,21 @@ class Input extends React.Component {
       this.setState({
         showTags: true,
         showMentionsOptions: false,
-        showDolarTags: false,
+        showDollarTags: false,
         filterMentionBuffer: [],
       });
-    } else if (nextTagMatch.includes('$') || this.determineIfOpenDolarTags()) {
-      dolarTags = true;
+    } else if (nextTagMatch.includes('$') || this.determineIfOpenDollarTags()) {
+      dollarTags = true;
       this.setState({
-        showDolarTags: true,
+        showDollarTags: true,
         showTags: false,
         showMentionsOptions: false,
-        filerDolarTagBuffer: [],
+        filerDollarTagBuffer: [],
       });
     } else if (nextTagMatch.includes(' ')) {
       this.closeMentions();
       this.closeTags();
-      this.closeDolarTags();
+      this.closeDollarTags();
     }
 
     // find rgex and index for each posible case only mentions or #
@@ -618,7 +618,7 @@ class Input extends React.Component {
       const restOfMatchs = messageText.match(mentionsRegx);
       const {
         iterableInit,
-        iteralbeEnd,
+        iterableEnd,
         currentIndex,
       } = this.calculateCurrentMentionFocus(selection, restOfMatchs);
 
@@ -626,13 +626,13 @@ class Input extends React.Component {
         filterMentionBuffer: restOfMatchs,
         currentMentionTextFocused: currentIndex,
         iterableInit,
-        iteralbeEnd,
+        iterableEnd,
       });
     } else if (tags) {
       const restOfMatchs = messageText.match(tagRegx);
       const {
         iterableInit,
-        iteralbeEnd,
+        iterableEnd,
         currentIndex,
       } = this.calculateCurrentTagFocus(selection, restOfMatchs);
 
@@ -640,35 +640,35 @@ class Input extends React.Component {
         filerTagBuffer: restOfMatchs,
         currentTagTextFocused: currentIndex,
         iterableInit,
-        iteralbeEnd,
+        iterableEnd,
       });
-    } else if (dolarTags) {
-      const restOfMatchs = messageText.match(dolarTagRegx);
+    } else if (dollarTags) {
+      const restOfMatchs = messageText.match(dollarTagRegx);
       const {
         iterableInit,
-        iteralbeEnd,
+        iterableEnd,
         currentIndex,
-      } = this.calculateCurrentDolarTagFocus(selection, restOfMatchs);
+      } = this.calculateCurrentDollarTagFocus(selection, restOfMatchs);
       this.setState({
-        filerDolarTagBuffer: restOfMatchs,
-        currentDolarTagTextFocused: currentIndex,
+        filerDollarTagBuffer: restOfMatchs,
+        currentDollarTagTextFocused: currentIndex,
         iterableInit,
-        iteralbeEnd,
+        iterableEnd,
       });
     }
   }
 
-  calculateCurrentDolarTagFocus(selections, matches = []) {
-    const patt = dolarTagRegx;
+  calculateCurrentDollarTagFocus(selections, matches = []) {
+    const patt = dollarTagRegx;
     const startCursor = selections.start;
     const {messageText} = this.state;
     let currentIndex = null;
     let iterableInit = 0;
-    let iteralbeEnd = 0;
+    let iterableEnd = 0;
 
     while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
-        iteralbeEnd = patt.lastIndex;
+        iterableEnd = patt.lastIndex;
         iterableInit = match.index;
         currentIndex = matches.indexOf(match[0]);
         break;
@@ -677,7 +677,7 @@ class Input extends React.Component {
 
     return {
       currentIndex: currentIndex || 0,
-      iteralbeEnd,
+      iterableEnd,
       iterableInit,
     };
   }
@@ -688,11 +688,11 @@ class Input extends React.Component {
     const {messageText} = this.state;
     let currentIndex = null;
     let iterableInit = 0;
-    let iteralbeEnd = 0;
+    let iterableEnd = 0;
 
     while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
-        iteralbeEnd = patt.lastIndex;
+        iterableEnd = patt.lastIndex;
         iterableInit = match.index;
         currentIndex = matches.indexOf(match[0]);
         break;
@@ -701,7 +701,7 @@ class Input extends React.Component {
 
     return {
       currentIndex: currentIndex || 0,
-      iteralbeEnd,
+      iterableEnd,
       iterableInit,
     };
   }
@@ -712,11 +712,11 @@ class Input extends React.Component {
     const {messageText} = this.state;
     let currentIndex = null;
     let iterableInit = 0;
-    let iteralbeEnd = 0;
+    let iterableEnd = 0;
 
     while ((match = patt.exec(messageText))) {
       if (startCursor <= patt.lastIndex && match.index <= startCursor) {
-        iteralbeEnd = patt.lastIndex;
+        iterableEnd = patt.lastIndex;
         iterableInit = match.index;
         currentIndex = matches.indexOf(match[0]);
         break;
@@ -725,7 +725,7 @@ class Input extends React.Component {
 
     return {
       currentIndex: currentIndex || 0,
-      iteralbeEnd,
+      iterableEnd,
       iterableInit,
     };
   }
@@ -737,10 +737,10 @@ class Input extends React.Component {
     });
   }
 
-  closeDolarTags() {
+  closeDollarTags() {
     this.setState({
-      showDolarTags: false,
-      filerDolarTagBuffer: [],
+      showDollarTags: false,
+      filerDollarTagBuffer: [],
     });
   }
 
@@ -1076,11 +1076,11 @@ class Input extends React.Component {
     );
   };
 
-  getDolarTagsComponent() {
+  getDollarTagsComponent() {
     return (
       <View style={styles.showOptionsView}>
         <ScrollView>
-          {this.filterDolarTags().map((name, index) => (
+          {this.filterDollarTags().map((name, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
               onPress={() =>
@@ -1101,21 +1101,21 @@ class Input extends React.Component {
     const {
       messageText,
       showMentionsOptions,
-      showComandOptions,
+      showCommandOptions,
       showTags,
       uploadImages,
       uploadVideos,
       uploadDocument,
-      showDolarTags,
+      showDollarTags,
     } = this.state;
     return (
       <View style={styles.container}>
         {showMentionsOptions &&
           !isPrivateChannel &&
           this.getMentionsComponent()}
-        {showComandOptions && this.getCommandComponent()}
+        {showCommandOptions && this.getCommandComponent()}
         {showTags && this.getTagComponent()}
-        {showDolarTags && this.getDolarTagsComponent()}
+        {showDollarTags && this.getDollarTagsComponent()}
         <View style={{flexDirection: 'row'}}>
           <ProfilePicture loggedUserPicture={loggedUserPicture} />
           <View
@@ -1258,7 +1258,7 @@ const mapStateToProps = state => ({
     .filter(key => !state.sponsored.includes(key))
     .map(key => (state.users.data[key] ? state.users.data[key] : {})),
   channelTagNames: getHashTagChannelsNames(state), // state.channelsTagNames
-  channelDolarTagNames: getDolarChannelNames(state),
+  channelDollarTagNames: getDollarChannelNames(state),
   loggedUserPicture: state.login.user
     ? getUserProfilePicture(
         state.login.user.id,
