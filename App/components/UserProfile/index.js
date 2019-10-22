@@ -174,7 +174,7 @@ const mapStateToProps = (state, props) => {
   }
 
   if (user) {
-    const userPosts = getAllPostByUserId(state, props);
+    const userPosts = getAllPostByUserId(state, user.id);
     const channelMentions = getChannelDisplayNameAsDictionary(state);
 
     return {
