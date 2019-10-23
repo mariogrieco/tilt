@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Text, View, TouchableOpacity} from 'react-native';
+import {FlatList, Text, View, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
 import getPrivateMessagesChnnelsList from '../../selectors/getPrivateMessagesChnnelsList';
 import Post from '../Post/Post';
@@ -8,6 +8,8 @@ import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import styles from './styles';
 import parser from '../../utils/parse_display_name';
 import Separator from '../Separator';
+
+const SATELLITE = require('../../../assets/images/satellite/satellite.png');
 
 class PrivateMessages extends React.Component {
   parseDisplayName(str = '') {
@@ -57,6 +59,15 @@ class PrivateMessages extends React.Component {
     );
   };
 
+  renderEmptyList = () => (
+    <View style={styles.emptyContainer}>
+      <Image source={SATELLITE} />
+      <Text style={styles.emptyText}>
+        Your inbox is empty. It's time to send your first direct message.
+      </Text>
+    </View>
+  );
+
   render() {
     const {privateChanels} = this.props;
 
@@ -68,6 +79,7 @@ class PrivateMessages extends React.Component {
         keyExtractor={item => item.id}
         style={styles.listContainer}
         renderItem={this.renderItem}
+        ListEmptyComponent={this.renderEmptyList}
         extraData={allPosts}
       />
     );

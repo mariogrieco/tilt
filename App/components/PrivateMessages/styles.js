@@ -13,4 +13,22 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 10,
   },
+  emptyContainer: {
+    paddingTop: '10rem',
+    paddingLeft: 20,
+    paddingRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+  },
+  emptyText: {
+    paddingTop: 20,
+    fontSize: 15,
+    letterSpacing: 0.1,
+    fontFamily: 'SFProDisplay-Regular',
+    color: '#8E8E95',
+    textAlign: 'center',
+    paddingHorizontal: 15,
+  },
 });
