@@ -11,7 +11,7 @@ import RNUrlPreview from 'react-native-url-preview';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import SponsorAd from './SponsorAd';
+import SponsoredAd from './SponsoredAd';
 import {jumpToAction} from '../../actions/advancedSearch';
 import {navigateIfExists} from '../../actions/channels';
 import {removeReaction, addReaction} from '../../actions/reactions';
@@ -35,7 +35,7 @@ import styles from './style';
 const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
 const TILT_SYSTEM_LOGO = require('../../../assets/images/tilt-logo/tilt-logo.png');
 
-const sponsorId = 'jk5osmydatgt5kaahkeheprk6e';
+const sponsoredId = 'jk5osmydatgt5kaahkeheprk6e';
 
 function reduceReactions(metadata) {
   let likes = 0;
@@ -488,11 +488,11 @@ class Post extends React.Component {
       userId,
       jumpTo,
       disableInteractions,
-      sponsorIds,
+      sponsoredIds,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
-    const isSponsorUser = sponsorIds.includes(userId);
+    const isSponsoredUser = sponsoredIds.includes(userId);
     const profilePictureUrl = getUserProfilePicture(
       userId,
       last_picture_update,
@@ -541,7 +541,7 @@ class Post extends React.Component {
         <View style={styles.rightSide}>
           <TouchableOpacity
             onPress={
-              disableInteractions || isSponsorUser
+              disableInteractions || isSponsoredUser
                 ? () => {}
                 : this.handleNavigationToProfile
             }>
@@ -556,7 +556,7 @@ class Post extends React.Component {
               </Text>
             </Text>
           </TouchableOpacity>
-          {isSponsorUser ? <SponsorAd /> : this.renderMessage()}
+          {isSponsoredUser ? <SponsoredAd /> : this.renderMessage()}
           <Reactions
             reactions={reactions}
             disableInteractions={disableInteractions}
@@ -586,7 +586,7 @@ Post.defaultProps = {
 const mapStateToProps = (state, props) => ({
   loggedUser: state.login.user ? state.login.user.username : '',
   me: state.login.user ? state.login.user.id : null,
-  sponsorIds: state.sponsored,
+  sponsoredIds: state.sponsored,
 });
 
 const mapDispatchToProps = {

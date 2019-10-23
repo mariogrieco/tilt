@@ -4,15 +4,15 @@ import {SponsoredBanner} from '../AdBanner';
 
 import styles from './style';
 
-const SponsorAd = () => {
+const SponsoredAd = () => {
   return (
     <View>
       <Text style={[styles.text, {marginBottom: 10}]}>
         A message form our sponsors.
       </Text>
-      <SponsorBanner />
+      <SponsoredBanner />
     </View>
   );
 };
 
-export default React.memo(SponsorAd);
+export default React.memo(SponsoredAd);
