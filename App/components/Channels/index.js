@@ -135,9 +135,10 @@ class Channels extends React.Component {
         data={channels}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
-        // initialNumToRender={22}
+        initialNumToRender={8}
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
+        removeClippedSubviews
       />
     );
   }

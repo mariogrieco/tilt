@@ -77,6 +77,17 @@ function reduceReactions(metadata) {
   };
 }
 
+const MemoUrlPreview = React.memo(({text}) => (
+  <View style={{height: 120, maxHeight: 120, marginBottom: 10}}>
+    <RNUrlPreview
+      text={text}
+      containerStyle={styles.linkContainer}
+      titleStyle={[styles.text, styles.mediumText]}
+      descriptionStyle={styles.textLink}
+    />
+  </View>
+));
+
 class Post extends React.Component {
   state = {
     loadingLike: false,
@@ -411,6 +422,12 @@ class Post extends React.Component {
         : false;
     const files =
       metadata && metadata.files && metadata.files ? metadata.files : [];
+
+    const REGEX = /(http(s?):\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})/gi;
+    const hasUrlForPreview = Boolean(
+      message && message.match(REGEX) && message.match(REGEX)[0],
+    );
+
     return (
       <>
         <TouchableOpacity
@@ -447,17 +464,10 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        <RNUrlPreview
-          text={message}
-          containerStyle={styles.linkContainer}
-          titleStyle={[styles.text, styles.mediumText]}
-          descriptionStyle={styles.textLink}
-        />
+        {hasUrlForPreview && <MemoUrlPreview text={message} />}
       </>
     );
   };
-
-  renderSponsorAd = () => <SponsorAd />;
 
   render() {
     const {
@@ -546,7 +556,7 @@ class Post extends React.Component {
               </Text>
             </Text>
           </TouchableOpacity>
-          {isSponsorUser ? this.renderSponsorAd() : this.renderMessage()}
+          {isSponsorUser ? <SponsorAd /> : this.renderMessage()}
           <Reactions
             reactions={reactions}
             disableInteractions={disableInteractions}

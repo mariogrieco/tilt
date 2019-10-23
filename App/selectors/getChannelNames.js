@@ -1,84 +1,119 @@
+import {createSelector} from 'reselect';
 import getKeys from 'lodash/keys';
-import parser from '../utils/parse_display_name';
-import isChannelCreatorAdmin from './isChannelCreatorAdmin';
+import {isChannelCreatorAdmin} from './isChannelCreatorAdmin';
 
-export const getHashTagChannelsNames = state => {
-  const keys = getKeys(state.channelsNames);
-  const allData = keys
-    .filter(key => {
-      const isAdmin = isChannelCreatorAdmin(state, state.channelsNames[key].id);
-      return (
-        !isAdmin &&
-        state.channelsNames[key].type === 'O' &&
-        !!state.channelsNames[key].format_name
-      );
-    })
-    .map(key => state.channelsNames[key].format_name);
-  return allData.sort((a, b) => b.length - a.length);
-};
+const channelNamesSelector = state => state.channelsNames;
+const mapChannelsSelector = state => state.mapChannels;
+const myChannelsMapSelector = state => state.myChannelsMap;
+const usersSelector = state => state.users;
 
-export const getDollarChannelNames = state => {
-  const keys = getKeys(state.channelsNames);
-  const allData = keys
-    .filter(key => {
-      const isAdmin = isChannelCreatorAdmin(state, state.channelsNames[key].id);
-      return (
-        state.channelsNames[key].type === 'O' &&
-        isAdmin &&
-        !!state.channelsNames[key].format_name
-      );
-    })
-    .map(key => state.channelsNames[key].format_name);
-  return allData.sort((a, b) => b.length - a.length);
-};
+export const getHashTagChannelsNames = createSelector(
+  [
+    channelNamesSelector,
+    mapChannelsSelector,
+    myChannelsMapSelector,
+    usersSelector,
+  ],
+  (channelsNames, mapChannels, myChannelsMap, users) => {
+    console.log('llamado calculo de hashtags en PureParser');
+    const keys = getKeys(channelsNames);
+    const allData = keys
+      .filter(key => {
+        const isAdmin = isChannelCreatorAdmin(
+          mapChannels,
+          myChannelsMap,
+          users,
+          channelsNames[key].id,
+        );
+        return (
+          !isAdmin &&
+          channelsNames[key].type === 'O' &&
+          !!channelsNames[key].format_name
+        );
+      })
+      .map(key => channelsNames[key].format_name);
+    return allData.sort((a, b) => b.length - a.length);
+  },
+);
 
-export const getMychannelsNames = state => {
-  const names = state.myChannelsMap
-    .filter(({type}) => type === 'O')
-    .map(({display_name}) => parser(display_name))
-    .valueSeq()
-    .toJS();
-  return names.sort((a, b) => b.length - a.length);
-};
+export const getDollarChannelNames = createSelector(
+  [
+    channelNamesSelector,
+    mapChannelsSelector,
+    myChannelsMapSelector,
+    usersSelector,
+  ],
+  (channelsNames, mapChannels, myChannelsMap, users) => {
+    console.log('llamado calculo de dollars en PureParser');
+    const keys = getKeys(channelsNames);
+    const allData = keys
+      .filter(key => {
+        const isAdmin = isChannelCreatorAdmin(
+          mapChannels,
+          myChannelsMap,
+          users,
+          channelsNames[key].id,
+        );
+        return (
+          isAdmin &&
+          channelsNames[key].type === 'O' &&
+          !!channelsNames[key].format_name
+        );
+      })
+      .map(key => channelsNames[key].format_name);
+    return allData.sort((a, b) => b.length - a.length);
+  },
+);
 
-export const getChannelById = (state, channelId) => {
-  const result = state.mapChannels.find(channel => channel.id === channelId);
-  if (result) return result.display_name;
-  return '';
-};
+export const getChannelDisplayNameAsDictionary = createSelector(
+  [
+    channelNamesSelector,
+    mapChannelsSelector,
+    myChannelsMapSelector,
+    usersSelector,
+  ],
+  (channelsNames, mapChannels, myChannelsMap, users) => {
+    const dollarChannels = {};
+    const hashtagChannels = {};
+    const keys = getKeys(channelsNames);
+    keys
+      .filter(key => {
+        const isAdmin = isChannelCreatorAdmin(
+          mapChannels,
+          myChannelsMap,
+          users,
+          channelsNames[key].id,
+        );
+        return (
+          channelsNames[key].type === 'O' &&
+          isAdmin &&
+          !!channelsNames[key].format_name
+        );
+      })
+      .forEach(key => {
+        dollarChannels[key] = channelsNames[key].format_name;
+      });
 
-export const getChannelDisplayNameAsDictionary = state => {
-  const dollarChannels = {};
-  const hashtagChannels = {};
-  const keys = getKeys(state.channelsNames);
-  keys
-    .filter(key => {
-      const isAdmin = isChannelCreatorAdmin(state, state.channelsNames[key].id);
-      return (
-        state.channelsNames[key].type === 'O' &&
-        isAdmin &&
-        !!state.channelsNames[key].format_name
-      );
-    })
-    .forEach(key => {
-      dollarChannels[key] = state.channelsNames[key].format_name;
-    });
-
-  keys
-    .filter(key => {
-      const isAdmin = isChannelCreatorAdmin(state, state.channelsNames[key].id);
-      return (
-        state.channelsNames[key].type === 'O' &&
-        !isAdmin &&
-        !!state.channelsNames[key].format_name
-      );
-    })
-    .forEach(key => {
-      hashtagChannels[key] = state.channelsNames[key].format_name;
-    });
-
-  return {
-    dollarChannels,
-    hashtagChannels,
-  };
-};
+    keys
+      .filter(key => {
+        const isAdmin = isChannelCreatorAdmin(
+          mapChannels,
+          myChannelsMap,
+          users,
+          channelsNames[key].id,
+        );
+        return (
+          channelsNames[key].type === 'O' &&
+          !isAdmin &&
+          !!channelsNames[key].format_name
+        );
+      })
+      .forEach(key => {
+        hashtagChannels[key] = channelsNames[key].format_name;
+      });
+    return {
+      hashtagChannels,
+      dollarChannels,
+    };
+  },
+);

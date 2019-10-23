@@ -219,6 +219,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 0,
     paddingLeft: 0,
+    height: '100%',
   },
   textLink: {
     fontFamily: 'SFProDisplay-Regular',

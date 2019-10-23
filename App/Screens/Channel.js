@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  // FlatList,
+  FlatList,
   ActivityIndicator,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -16,7 +16,6 @@ import {
   withNavigation,
   SafeAreaView,
 } from 'react-navigation';
-import {FlatList} from 'react-native-gesture-handler';
 import isEqual from 'lodash/isEqual';
 import findIndex from 'lodash/findIndex';
 import GoBack from '../components/GoBack';
@@ -615,9 +614,12 @@ class Channel extends React.Component {
           onScrollEndDrag={this._setScrollPosition}
           onMomentumScrollEnd={this._setScrollPosition}
           extraData={posts}
-          initialNumToRender={10}
+          initialNumToRender={8}
           viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.35}}
           keyboardDismissMode="on-drag"
+          maxToRenderPerBatch={5}
+          updateCellsBatchingPeriod={150}
+          removeClippedSubviews
         />
         {activeJumpLabel && this.renderJumpLabel()}
 
