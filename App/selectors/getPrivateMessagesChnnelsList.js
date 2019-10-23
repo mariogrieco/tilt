@@ -1,6 +1,5 @@
 // import _ from 'lodash';
 import {createSelector} from 'reselect';
-import {getFavoriteChannelById} from './getFavoriteChannels';
 import filterPostBy from './filterPostBy';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -11,6 +10,8 @@ const loggedUserId = state =>
 const myChannelsMapSelector = state => state.myChannelsMap;
 const postsOrders = state => state.posts.orders;
 const usersDataSelector = state => state.users.data;
+const preferencesSelector = state =>
+  state.preferences.filter(pre => pre.category === 'favorite_channel');
 
 const getPrivateMessagesChnnelsList = createSelector(
   [
@@ -19,8 +20,9 @@ const getPrivateMessagesChnnelsList = createSelector(
     myChannelsMapSelector,
     postsOrders,
     usersDataSelector,
+    preferencesSelector,
   ],
-  (entities, myId, myChannelsMap, orders, usersData) => {
+  (entities, myId, myChannelsMap, orders, usersData, preferences) => {
     const data = [];
     myChannelsMap
       .filter(({type}) => type === 'D')
@@ -48,7 +50,7 @@ const getPrivateMessagesChnnelsList = createSelector(
               })
               .filter(post => filterPostBy(post)),
             creator: {},
-            fav: false,
+            fav: preferences.find(fav => fav.name === channel.id),
             activeUsers: channel.name.split('__'),
           });
         } else {

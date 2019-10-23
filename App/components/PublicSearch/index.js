@@ -107,9 +107,9 @@ const mapStateToProps = state => {
     );
     mapChannelsColors[channel.id] = channel.titleColor;
   });
-  const sponsorIds = state.sponsored;
+  const sponsoredIds = state.sponsored;
   const usersWithOutSponsored = Object.values(users.data).filter(
-    user => !sponsorIds.includes(user.id),
+    user => !sponsoredIds.includes(user.id),
   );
 
   channels = concat(searchResult, channels);
