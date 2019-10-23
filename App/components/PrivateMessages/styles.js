@@ -19,12 +19,11 @@ export default StyleSheet.create({
     paddingRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    flexWrap: 'wrap',
     flexDirection: 'column',
   },
   emptyText: {
     paddingTop: 20,
-    fontSize: 15,
+    fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
     color: '#8E8E95',
