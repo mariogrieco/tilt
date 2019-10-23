@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import {getFavoriteChannelById} from './getFavoriteChannels';
 import filterPostBy from './filterPostBy';
 
 const lastViewedSelector = state => state.lastViewed;
@@ -7,6 +6,8 @@ const entitiesSelector = state => state.posts.entities;
 const myChannelsMapSelector = state => state.myChannelsMap;
 const ordersSelector = state => state.posts.orders;
 const usersDataSelector = state => state.users.data;
+const preferencesSelector = state =>
+  state.preferences.filter(pre => pre.category === 'favorite_channel');
 
 const getChnnelsList = createSelector(
   [
@@ -15,8 +16,9 @@ const getChnnelsList = createSelector(
     myChannelsMapSelector,
     ordersSelector,
     usersDataSelector,
+    preferencesSelector,
   ],
-  (lastViewed, entities, myChannelsMap, orders, data) => {
+  (lastViewed, entities, myChannelsMap, orders, data, preferences) => {
     let channels = [];
 
     myChannelsMap
@@ -43,7 +45,7 @@ const getChnnelsList = createSelector(
             ...channel,
             posts,
             creator: data[channel.creator_id] || {},
-            fav: null,
+            fav: preferences.find(fav => fav.name === channel.id),
             activeUsers: {},
             titleColor,
           });
