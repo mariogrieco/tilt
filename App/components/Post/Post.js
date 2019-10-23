@@ -78,7 +78,7 @@ function reduceReactions(metadata) {
 }
 
 const MemoUrlPreview = React.memo(({text}) => (
-  <View style={{height: 110, maxHeight: 110}}>
+  <View style={{height: 120, maxHeight: 120, marginBottom: 10}}>
     <RNUrlPreview
       text={text}
       containerStyle={styles.linkContainer}
