@@ -101,7 +101,7 @@ class CryptoRoom extends React.PureComponent {
         this.props.setActiveFocusChannel(result.id);
       }
     } catch (err) {
-      alert(`err here: ${err.message || err}`);
+      alert(`${err.message || err}`);
     }
     return null;
   }
