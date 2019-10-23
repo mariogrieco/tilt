@@ -19,9 +19,9 @@ export default StyleSheet.create({
     paddingBottom: 0,
   },
   mentionsProfileImage: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     flex: 0,
   },
   mentionsColor: {
@@ -80,7 +80,12 @@ export default StyleSheet.create({
     color: '#0e141e',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
+    letterSpacing: 0.1,
+  },
+  customTagNoneTextStyle: {
+    color: '#0e141e',
+    fontFamily: 'SFProDisplay-Bold',
+    fontSize: 16,
     letterSpacing: 0.1,
   },
   rightElements: {
@@ -92,7 +97,7 @@ export default StyleSheet.create({
     marginTop: -5,
   },
   leftElements: {
-    flex: 0.225,
+    flex: 0.35,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

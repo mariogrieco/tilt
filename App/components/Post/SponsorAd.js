@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {SponsorBanner} from '../AdBanner';
+import {SponsoredBanner} from '../AdBanner';
 
 import styles from './style';
 

@@ -52,7 +52,7 @@ export class HistoryBanner extends React.PureComponent {
   }
 }
 
-export class StatBanner extends React.PureComponent {
+export class StatsBanner extends React.PureComponent {
   render() {
     return (
       <Banner
@@ -67,7 +67,7 @@ export class StatBanner extends React.PureComponent {
   }
 }
 
-export class SponsorBanner extends React.PureComponent {
+export class SponsoredBanner extends React.PureComponent {
   render() {
     return (
       <View style={{height: 250, width: 300}}>

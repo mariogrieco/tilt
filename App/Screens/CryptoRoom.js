@@ -67,9 +67,9 @@ class CryptoRoom extends React.PureComponent {
     routes: [
       {key: 'chat', title: 'CHAT'},
       {key: 'charts', title: 'CHART'},
+      {key: 'stat', title: 'STATS'},
       {key: 'book', title: 'BOOK'},
       {key: 'history', title: 'TRADES'},
-      {key: 'stat', title: 'STATS'},
     ],
   };
 

@@ -18,7 +18,11 @@ const renderItem = ({item}) => (
         {parseFloat(item.bid.qty)}
       </Text>
       <View
-        style={{flex: 0.2, alignItems: 'flex-start', justifyContent: 'center'}}>
+        style={{
+          paddingHorizontal: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <Image source={CROSS} />
       </View>
       <Text
@@ -32,7 +36,11 @@ const renderItem = ({item}) => (
           {flex: 1, textAlign: 'center', color: '#FC3E30'},
         ]}>{`${parseFloat(item.ask.price)}`}</Text>
       <View
-        style={{flex: 0.2, alignItems: 'flex-end', justifyContent: 'center'}}>
+        style={{
+          paddingHorizontal: 10,
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+        }}>
         <Image source={CROSS} />
       </View>
       <Text style={[styles.listItem, {flex: 0.8, textAlign: 'right'}]}>
@@ -92,9 +100,9 @@ class Book extends React.PureComponent {
     const {hasData, books} = this.props;
     return (
       <View>
-        <View style={{alignItems: 'center', paddingTop: 11}}>
-          <BookBanner />
-        </View>
+        {/*<View style={{alignItems: 'center', paddingTop: 11}}>*/}
+        {/*  <BookBanner />*/}
+        {/*</View>*/}
         <View style={[styles.headerContainer, styles.container]}>
           <Text style={[styles.header, {textAlign: 'left'}]}>Size</Text>
           <Text style={[styles.header, {textAlign: 'center'}]}>Bid</Text>

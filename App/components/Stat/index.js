@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, ScrollView, Text, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {StatBanner} from '../AdBanner';
+import {StatsBanner} from '../AdBanner';
 import Separator from '../Separator';
 import Circle from '../Circle';
 import styles from './styles';
@@ -35,10 +35,7 @@ const Stat = ({
     lastQty,
   },
 }) => (
-  <View>
-    <View style={{alignItems: 'center', paddingTop: 11}}>
-      <StatBanner />
-    </View>
+  <ScrollView>
     <View style={[styles.header, styles.container]}>
       <View>
         <View style={[styles.row, {justifyContent: 'flex-start'}]}>
@@ -90,7 +87,10 @@ const Stat = ({
         <Separator />
       </View>
     </View>
-  </View>
+    <View style={{alignItems: 'center', paddingTop: 40}}>
+      <StatsBanner />
+    </View>
+  </ScrollView>
 );
 
 const mapStateToProps = ({watchlist: {selectedSymbol}}) => ({selectedSymbol});
