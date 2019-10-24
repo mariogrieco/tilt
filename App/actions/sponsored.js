@@ -9,11 +9,13 @@ export const getLastSponsored = () => async dispatch => {
     const str = await Client4.getSponsored();
     if (str) {
       if (str.trim().length > 0) {
-        dispatch({
-          type: GET_SPONSORED_SUCCESS,
-          payload: str,
-        });
-        setNewSponsored(str);
+        if (!str.match('error')) {
+          dispatch({
+            type: GET_SPONSORED_SUCCESS,
+            payload: str,
+          });
+          setNewSponsored(str);
+        }
         return str;
       }
     }

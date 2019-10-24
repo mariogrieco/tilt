@@ -1,8 +1,8 @@
 import {Client4} from 'mattermost-redux/client';
 import axios from 'axios';
 
-export const baseUrl = 'https://community.tiltchat.com';
-export const baseServicesUrl = 'https://community.tiltchat.com/services';
+export const baseUrl = 'https://staging.tiltchat.com';
+export const baseServicesUrl = 'https://staging.tiltchat.com/services';
 
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
@@ -30,6 +30,15 @@ Client4.createUser = ({
 Client4.getSponsored = async () => {
   try {
     const {data} = await axios.get(`${baseServicesUrl}/sponsored`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.getAdminCreators = async () => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/admin-creators`);
     return data;
   } catch (ex) {
     return Promise.reject(ex);

@@ -41,6 +41,7 @@ import postMedia from './postMedia';
 import sponsored from './sponsored';
 import mapChannels from './MapChannels';
 import myChannelsMap from './MyChannelsMap';
+import adminCreators from './adminCreators';
 
 export default combineReducers({
   flagged,
@@ -85,5 +86,6 @@ export default combineReducers({
   archivedChannels,
   mapChannels,
   myChannelsMap,
+  adminCreators,
   // client4Error
 });

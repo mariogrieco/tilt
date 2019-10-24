@@ -2,7 +2,7 @@ import {
   SET_NEW_SPONSORED_STRING,
   // GET_SPONSORED_ERROR,
   // GET_SPONSORED_SUCCESS
-} from '../actions/sponsored';
+} from '../actions/adminCreators';
 
 const initialState = 'jk5osmydatgt5kaahkeheprk6e,';
 
