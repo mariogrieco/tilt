@@ -147,6 +147,7 @@ class Verification extends React.Component {
   }
 
   setCode = code => {
+    console.log('state code ', code);
     this.setState({
       code,
     });
@@ -227,6 +228,10 @@ class Verification extends React.Component {
                   codeInputFieldStyle={styles.underlineStyleBase}
                   codeInputHighlightStyle={styles.underlineStyleHighLighted}
                   onCodeFilled={this.setCode}
+                  onCodeChanged={_code => {
+                    this.setState({code: _code});
+                  }}
+                  autoFocusOnLoad
                 />
               ) : (
                 <LoadingSpinner />
