@@ -61,7 +61,7 @@ const getChnnelsList = createSelector(
         }
       });
 
-    return orderBy(channels, ['fav'], ['asc']);
+    return orderBy(channels, ['fav', 'name'], ['asc']);
   },
 );
 
