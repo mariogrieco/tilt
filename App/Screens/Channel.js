@@ -614,7 +614,7 @@ class Channel extends React.Component {
           onScrollEndDrag={this._setScrollPosition}
           onMomentumScrollEnd={this._setScrollPosition}
           extraData={posts}
-          initialNumToRender={8}
+          initialNumToRender={50}
           viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.35}}
           keyboardDismissMode="on-drag"
           maxToRenderPerBatch={5}

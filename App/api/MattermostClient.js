@@ -1,8 +1,8 @@
 import {Client4} from 'mattermost-redux/client';
 import axios from 'axios';
 
-export const baseUrl = 'https://staging.tiltchat.com';
-export const baseServicesUrl = 'https://staging.tiltchat.com/services';
+export const baseUrl = 'https://community.tiltchat.com';
+export const baseServicesUrl = 'https://community.tiltchat.com/services';
 
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);

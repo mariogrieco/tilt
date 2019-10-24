@@ -12,7 +12,7 @@ import Client4 from '../api/MattermostClient';
 import {loginSuccess, loginFailed} from './../actions/login';
 import {setNewSponsored, GET_SPONSORED_ERROR} from '../actions/sponsored';
 import {
-  getAdminCreator,
+  setNewAdminCreators,
   GET_NEW_ADMIN_CREATOR_ERROR,
 } from '../actions/adminCreators';
 
@@ -52,7 +52,7 @@ const sync = async (dispatch, callback) => {
         if (str) {
           if (str.trim().length > 0) {
             if (!str.match('error')) {
-              dispatch(getAdminCreator(str));
+              dispatch(setNewAdminCreators(str));
             }
           }
         }

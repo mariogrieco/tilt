@@ -1,6 +1,6 @@
 import {SET_NEW_ADMIN_CREATORS} from '../actions/adminCreators';
 
-const initialState = '1kthux5ahbrfxc5md56way6q7o,';
+const initialState = 'jk5osmydatgt5kaahkeheprk6e,';
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {
