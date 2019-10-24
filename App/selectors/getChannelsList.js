@@ -1,3 +1,4 @@
+import orderBy from 'lodash/orderBy';
 import {createSelector} from 'reselect';
 import filterPostBy from './filterPostBy';
 
@@ -60,7 +61,7 @@ const getChnnelsList = createSelector(
         }
       });
 
-    return channels;
+    return orderBy(channels, ['fav', 'name'], ['asc']);
   },
 );
 
