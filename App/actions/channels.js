@@ -194,9 +194,9 @@ export const navigateIfExists = channelDisplayName => async (
           // eslint-disable-next-line no-alert
           alert('This symbol does not exist.');
         } else if (needAdminCredentials && isAdmin) {
-          showNativeAlert();
+          showNativeAlert(channelDisplayName);
         } else if (!needAdminCredentials){
-          showNativeAlert();
+          showNativeAlert(channelDisplayName);
         }
       }
     } catch (e) {
