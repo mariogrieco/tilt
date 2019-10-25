@@ -1,5 +1,6 @@
 export default (state, channel_id) => {
   let channel = null;
+  let adminList = state.adminCreators;
 
   if (state.mapChannels.has(channel_id)) {
     channel = state.mapChannels.get(channel_id);
@@ -14,7 +15,7 @@ export default (state, channel_id) => {
     if (!creator) return false; // default channel and other does not .
     const user = state.users.data[creator];
     if (!user) return false;
-    if (user && user.roles.includes('system_admin')) return true;
+    if (user && adminList.includes(user.id)) return true;
   }
   return false;
 };
@@ -24,6 +25,7 @@ export const isChannelCreatorAdmin = (
   myChannelsMap,
   users,
   channel_id,
+  adminList,
 ) => {
   let channel = null;
 
@@ -40,7 +42,7 @@ export const isChannelCreatorAdmin = (
     if (!creator) return false; // default channel and other does not .
     const user = users.data[creator];
     if (!user) return false;
-    if (user && user.roles.includes('system_admin')) return true;
+    if (user && adminList.includes(user.id)) return true;
   }
   return false;
 };

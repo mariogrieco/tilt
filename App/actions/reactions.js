@@ -6,6 +6,33 @@ export const ADD_REACTION_ERROR = 'ADD_REACTIONS_ERROR';
 export const REMOVE_REACTION_SUCESS = 'REMOVE_REACTION_SUCESS';
 export const REMOVE_REACTION_ERROR = 'REMOVE_REACTION_ERROR';
 
+export const GET_REACTIONS_FOR_USER_SUCCES = 'GET_REACTIONS_FOR_USER_SUCCES';
+export const GET_REACTIONS_FOR_USER_ERROR = 'GET_REACTIONS_FOR_USER_ERROR';
+
+export const getReactionsForUser = userId => async dispatch => {
+  try {
+    const reactions = await Client4.getReactionsForUser(userId);
+    console.log('reactions: ', reactions);
+    dispatch(getReactionsForUserSucess(reactions));
+    return reactions;
+  } catch (ex) {
+    dispatch(getReactionsForUserError(ex));
+    return Promise.reject(ex.message);
+  }
+};
+
+export const getReactionsForUserSucess = reaction => ({
+  type: GET_REACTIONS_FOR_USER_SUCCES,
+  payload: reaction,
+});
+
+export const getReactionsForUserError = err => ({
+  type: GET_REACTIONS_FOR_USER_ERROR,
+  payload: err,
+});
+
+// end temp
+
 export const addReaction = (userId, postId, emojiName) => async dispatch => {
   try {
     const r = await Client4.addReaction(userId, postId, emojiName);

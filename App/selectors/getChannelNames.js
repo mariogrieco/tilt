@@ -6,6 +6,7 @@ const channelNamesSelector = state => state.channelsNames;
 const mapChannelsSelector = state => state.mapChannels;
 const myChannelsMapSelector = state => state.myChannelsMap;
 const usersSelector = state => state.users;
+const adminCreatorsSelector = state => state.adminCreators;
 
 export const getHashTagChannelsNames = createSelector(
   [
@@ -13,8 +14,9 @@ export const getHashTagChannelsNames = createSelector(
     mapChannelsSelector,
     myChannelsMapSelector,
     usersSelector,
+    adminCreatorsSelector,
   ],
-  (channelsNames, mapChannels, myChannelsMap, users) => {
+  (channelsNames, mapChannels, myChannelsMap, users, adminCreators) => {
     console.log('llamado calculo de hashtags en PureParser');
     const keys = getKeys(channelsNames);
     const allData = keys
@@ -24,6 +26,7 @@ export const getHashTagChannelsNames = createSelector(
           myChannelsMap,
           users,
           channelsNames[key].id,
+          adminCreators,
         );
         return (
           !isAdmin &&
@@ -42,8 +45,9 @@ export const getDollarChannelNames = createSelector(
     mapChannelsSelector,
     myChannelsMapSelector,
     usersSelector,
+    adminCreatorsSelector,
   ],
-  (channelsNames, mapChannels, myChannelsMap, users) => {
+  (channelsNames, mapChannels, myChannelsMap, users, adminCreators) => {
     console.log('llamado calculo de dollars en PureParser');
     const keys = getKeys(channelsNames);
     const allData = keys
@@ -53,6 +57,7 @@ export const getDollarChannelNames = createSelector(
           myChannelsMap,
           users,
           channelsNames[key].id,
+          adminCreators,
         );
         return (
           isAdmin &&
@@ -71,8 +76,9 @@ export const getChannelDisplayNameAsDictionary = createSelector(
     mapChannelsSelector,
     myChannelsMapSelector,
     usersSelector,
+    adminCreatorsSelector,
   ],
-  (channelsNames, mapChannels, myChannelsMap, users) => {
+  (channelsNames, mapChannels, myChannelsMap, users, adminCreators) => {
     const dollarChannels = {};
     const hashtagChannels = {};
     const keys = getKeys(channelsNames);
@@ -83,6 +89,7 @@ export const getChannelDisplayNameAsDictionary = createSelector(
           myChannelsMap,
           users,
           channelsNames[key].id,
+          adminCreators,
         );
         return (
           channelsNames[key].type === 'O' &&
@@ -101,6 +108,7 @@ export const getChannelDisplayNameAsDictionary = createSelector(
           myChannelsMap,
           users,
           channelsNames[key].id,
+          adminCreators,
         );
         return (
           channelsNames[key].type === 'O' &&

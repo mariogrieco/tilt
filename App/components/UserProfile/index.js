@@ -6,6 +6,7 @@ import {getAllPostByUserId} from '../../selectors/getUserById';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import {getChannelDisplayNameAsDictionary} from '../../selectors/getChannelNames';
 import {createDirectChannel} from '../../actions/channels';
+import ReactionSummary from '../ReactionSummary'
 import styles from './styles';
 
 const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
@@ -19,6 +20,7 @@ export const Header = ({
   imageUrl,
   isSelfProfile,
   createDirectChannel,
+  userId
 }) => (
   <View style={styles.headerContainer}>
     <View style={{flexDirection: 'row', marginBottom: 15}}>
@@ -51,9 +53,9 @@ export const Header = ({
         </View>
       )}
     </View>
-
     <Text style={styles.description}>{description}</Text>
     <Text style={styles.posts}>Posts</Text>
+    <ReactionSummary userId={userId} />
   </View>
 );
 
@@ -86,6 +88,7 @@ class UserProfile extends React.PureComponent {
         username={user ? user.username : ''}
         description={user.position}
         imageUrl={pictureProfileUrl}
+        userId={user.id}
         isSelfProfile={isSelfProfile}
         createDirectChannel={this.createDirectChannel}
       />
@@ -121,8 +124,6 @@ class UserProfile extends React.PureComponent {
           type={post.type}
           replies={post.replies}
           edit_at={post.edit_at}
-          // channelsNames={channelsNames}
-          // usernames={usersNames}
           showLoggedUserProfile={!isSelfProfile}
         />
       </View>
@@ -149,7 +150,7 @@ class UserProfile extends React.PureComponent {
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
         style={{flex: 1, backgroundColor: '#f6f7f9'}}
-        initialNumToRender={8}
+        initialNumToRender={50}
         removeClippedSubviews
         updateCellsBatchingPeriod={150}
       />

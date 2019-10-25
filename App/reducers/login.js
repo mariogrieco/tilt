@@ -7,6 +7,9 @@ import {
 } from '../actions/login';
 import {CREATE_USER_SUCESS} from '../actions/signup';
 import {USER_UPDATED_SUCCESS} from '../actions/users';
+import {
+  GET_REACTIONS_FOR_USER_SUCCES
+} from '../actions/reactions';
 import {mergeWith, isEmpty} from 'lodash';
 import NavigationService from '../config/NavigationService';
 import moment from 'moment';
@@ -15,6 +18,7 @@ const initialState = {
   isLogin: false,
   modalActive: false,
   user: null,
+  reactions: []
 };
 
 function customizer(objValue, srcValue) {
@@ -43,6 +47,13 @@ const login = (state = initialState, action) => {
   }
 
   switch (action.type) {
+    case GET_REACTIONS_FOR_USER_SUCCES: {
+      console.log(action.payload);
+      return {
+        ...state,
+        reactions: action.payload,
+      };
+    }
     case USER_UPDATED_SUCCESS: {
       if (!state.user) {
         return state;

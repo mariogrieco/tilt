@@ -4,7 +4,7 @@ import {
   // GET_SPONSORED_SUCCESS
 } from '../actions/sponsored';
 
-const initialState = 'jk5osmydatgt5kaahkeheprk6e,';
+const initialState = 'bcbwo17xxpnx8pj6ecfk1pbgco,';
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {

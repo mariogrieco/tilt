@@ -11,6 +11,10 @@ import {getFlagged} from '../actions/flagged';
 import Client4 from '../api/MattermostClient';
 import {loginSuccess, loginFailed} from './../actions/login';
 import {setNewSponsored, GET_SPONSORED_ERROR} from '../actions/sponsored';
+import {
+  setNewAdminCreators,
+  GET_NEW_ADMIN_CREATOR_ERROR,
+} from '../actions/adminCreators';
 
 import moment from 'moment';
 
@@ -28,15 +32,34 @@ const sync = async (dispatch, callback) => {
     await dispatch(getFlagged());
     Client4.getSponsored()
       .then(str => {
-        if (!!str) {
+        if (str) {
           if (str.trim().length > 0) {
-            dispatch(setNewSponsored(str));
+            if (!str.match('error')) {
+              dispatch(setNewSponsored(str));
+            }
           }
         }
       })
       .catch(ex => {
         dispatch({
           type: GET_SPONSORED_ERROR,
+          payload: ex,
+        });
+      });
+
+    Client4.getAdminCreators()
+      .then(str => {
+        if (str) {
+          if (str.trim().length > 0) {
+            if (!str.match('error')) {
+              dispatch(setNewAdminCreators(str));
+            }
+          }
+        }
+      })
+      .catch(ex => {
+        dispatch({
+          type: GET_NEW_ADMIN_CREATOR_ERROR,
           payload: ex,
         });
       });
