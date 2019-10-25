@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "814440893450",
+    "firebase_url": "https://tilt-d6461.firebaseio.com",
+    "project_id": "tilt-d6461",
+    "storage_bucket": "tilt-d6461.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814440893450:android:4bbac29cbbf7d959",
+        "android_client_info": {
+          "package_name": "com.tiltclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814440893450-pf2rkjlq18p0ftad013rmrsr15s1b20c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6WaOPap0Yj6PkoKzcPSUGiuG3GUpqkfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814440893450-pf2rkjlq18p0ftad013rmrsr15s1b20c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "814440893450-41k7gu3tohvbuskhb7bhqge759ak8luo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jellifin.tilt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
