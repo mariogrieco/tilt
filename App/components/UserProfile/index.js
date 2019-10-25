@@ -6,7 +6,7 @@ import {getAllPostByUserId} from '../../selectors/getUserById';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import {getChannelDisplayNameAsDictionary} from '../../selectors/getChannelNames';
 import {createDirectChannel} from '../../actions/channels';
-import ReactionSummary from '../ReactionSummary'
+import ReactionSummary from '../ReactionSummary';
 import styles from './styles';
 
 const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
@@ -20,7 +20,7 @@ export const Header = ({
   imageUrl,
   isSelfProfile,
   createDirectChannel,
-  userId
+  userId,
 }) => (
   <View style={styles.headerContainer}>
     <View style={{flexDirection: 'row', marginBottom: 15}}>
