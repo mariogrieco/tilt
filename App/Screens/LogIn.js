@@ -124,7 +124,7 @@ class LogIn extends React.Component {
     loading: false,
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.modal.resetPasswordModal !== this.state.isModalVisible) {
       this.setState({
         isModalVisible: nextProps.modal.resetPasswordModal,

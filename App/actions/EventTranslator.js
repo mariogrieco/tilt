@@ -1,13 +1,25 @@
 import store from '../config/store';
 import {addPostTo, removeFromPost, editPost} from './posts';
 import {getChannelById, channelUpdated, deleteChannelSucess} from './channels';
+import {removedReaction, addedReaction} from './reactions';
 import {userUpdatedSuccess, getNewUser} from './users';
 
 import moment from 'moment';
 
 const eventsDispatched = data => {
-  console.log(data.event);
   switch (data.event) {
+    case 'reaction_added': {
+      const reaction = JSON.parse(data.data.reaction);
+      return store.dispatch(
+        addedReaction(reaction.emoji_name, reaction.user_id),
+      );
+    }
+    case 'reaction_removed': {
+      const reaction = JSON.parse(data.data.reaction);
+      return store.dispatch(
+        removedReaction(reaction.emoji_name, reaction.user_id),
+      );
+    }
     case 'posted': {
       const post = JSON.parse(data.data.post);
       return store.dispatch(addPostTo(post));

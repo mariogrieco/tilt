@@ -246,7 +246,7 @@ class Channel extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.offset) {
       if (
         nextProps.posts.length > 0 &&
