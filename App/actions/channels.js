@@ -208,8 +208,8 @@ export const navigateIfExists = channelDisplayName => async (
 
 function showNativeAlert(channelDisplayName) {
   Alert.alert(
-    'This channel does not exist.',
-    'Would you like to create this channel?',
+    '',
+    'This channel does not exist. Would you like to create this channel?',
     [
       {
         text: 'Cancel',
