@@ -93,7 +93,6 @@ export class ReactionSummary extends Component {
   }
 
   render() {
-    console.log(this.props.total);
     return (
       <View style={styles.container}>
         {Object.keys(this.state).map(key => {
@@ -113,10 +112,10 @@ const mapStateToProps = (state, props) => ({
   reactions: state.reactions[props.userId] ? state.reactions[props.userId] : [],
   firstLoad: state.reactions[props.userId],
   total: state.reactions[props.userId]
-    ? state.reactions[props.userId].reduce((a, b) => {
-      console.log(a.sum, b.sum);
-      return a.sum + b.sum;
-    })
+    ? state.reactions[props.userId].reduce((t, b) => {
+        // eslint-disable-next-line radix
+        return (t.sum ? parseInt(t.sum) : t) + parseInt(b.sum);
+      })
     : 0,
 });
 
