@@ -363,7 +363,7 @@ export class PureParsedText extends Component {
   }
 
   renderBullish(text) {
-    return <Text style={themeTags.Bullish}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Bullish}>{text.replace(/-/g, '')}</Text>;
   }
 
   getBearishPattern() {
@@ -371,7 +371,7 @@ export class PureParsedText extends Component {
   }
 
   renderBearish(text) {
-    return <Text style={themeTags.Bearish}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Bearish}>{text.replace(/-/g, '')}</Text>;
   }
 
   getBoldPattern() {
@@ -417,7 +417,7 @@ export class PureParsedText extends Component {
   renderYOLO(text) {
     return (
       <Text style={themeTags.Yolo}>
-        {text.toUpperCase().replace(/-/g, ' ')}
+        {text.toUpperCase().replace(/-/g, '')}
       </Text>
     );
   }
@@ -427,7 +427,7 @@ export class PureParsedText extends Component {
   }
 
   renderLoss(text) {
-    return <Text style={themeTags.Loss}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Loss}>{text.replace(/-/g, '')}</Text>;
   }
 
   getGainPattern() {
@@ -435,7 +435,7 @@ export class PureParsedText extends Component {
   }
 
   renderGain(text) {
-    return <Text style={themeTags.Gain}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Gain}>{text.replace(/-/g, '')}</Text>;
   }
 
   getShitpostPattern() {
@@ -443,7 +443,7 @@ export class PureParsedText extends Component {
   }
 
   renderShitpost(text) {
-    return <Text style={themeTags.Shitpost}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Shitpost}>{text.replace(/-/g, '')}</Text>;
   }
 
   getStocksPattern() {
@@ -451,7 +451,7 @@ export class PureParsedText extends Component {
   }
 
   renderStocks(text) {
-    return <Text style={themeTags.Stocks}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Stocks}>{text.replace(/-/g, '')}</Text>;
   }
 
   getOptionsPattern() {
@@ -459,7 +459,7 @@ export class PureParsedText extends Component {
   }
 
   renderOptions(text) {
-    return <Text style={themeTags.Options}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Options}>{text.replace(/-/g, '')}</Text>;
   }
 
   getCryptosPattern() {
@@ -467,7 +467,7 @@ export class PureParsedText extends Component {
   }
 
   renderCryptos(text) {
-    return <Text style={themeTags.Cryptos}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Cryptos}>{text.replace(/-/g, '')}</Text>;
   }
 
   getDiscussionPattern() {
@@ -475,7 +475,7 @@ export class PureParsedText extends Component {
   }
 
   renderDiscussion(text) {
-    return <Text style={themeTags.Discussion}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Discussion}>{text.replace(/-/g, '')}</Text>;
   }
 
   getFuturesPattern() {
@@ -483,7 +483,7 @@ export class PureParsedText extends Component {
   }
 
   renderFutures(text) {
-    return <Text style={themeTags.Futures}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Futures}>{text.replace(/-/g, '')}</Text>;
   }
 
   getSatirePattern() {
@@ -491,7 +491,7 @@ export class PureParsedText extends Component {
   }
 
   renderSatire(text) {
-    return <Text style={themeTags.Satire}>{text.replace(/-/g, ' ')}</Text>;
+    return <Text style={themeTags.Satire}>{text.replace(/-/g, '')}</Text>;
   }
 
   getQuotePattern() {
