@@ -1,4 +1,5 @@
 import Client4 from '../api/MattermostClient';
+
 import NavigationService from './../config/NavigationService';
 
 export const GET_USERS_SUCESS = 'GET_USERS_SUCESS';
@@ -30,7 +31,6 @@ export const onUser = username => (dispatch, getState) => {
     if (formatName === username) {
       const me = getState().login.user;
       if (me && me.id === currentUser.id) {
-        // dispatch(setCurrentDisplayUserProfile(me.id));
         NavigationService.navigate('LoggedIn');
       } else {
         dispatch(setCurrentDisplayUserProfile(currentUser.id));

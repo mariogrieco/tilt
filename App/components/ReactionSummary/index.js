@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {getReactionsForUser} from '../../actions/reactions';
 import {connect} from 'react-redux';
+import isEqual from 'lodash/isEqual';
 
 import styles from './styles';
 
@@ -15,13 +16,17 @@ import SadFace from '../IconStore/SadFace';
 
 export class ReactionSummary extends Component {
   state = {
-    '+1': 0,
-    '-1': 0,
-    frowning_face: 0,
-    joy: 0,
-    rocket: 0,
-    eyes: 0,
+    '+1': '',
+    '-1': '',
+    frowning_face: '',
+    joy: '',
+    rocket: '',
+    eyes: '',
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
+  }
 
   setReactionsState(reactions) {
     reactions.forEach(reaction => {
@@ -31,18 +36,23 @@ export class ReactionSummary extends Component {
     });
   }
 
-  componentWillUnmount() {
-    if (this.navigationListener) {
-      this.navigationListener.remove();
-    }
-  }
-
   componentDidMount() {
     const {navigation} = this.props;
+    this.setReactionsState(this.props.reactions);
 
     this.navigationListener = navigation.addListener('didFocus', () => {
       this.getReactionsForUser();
     });
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setReactionsState(nextProps.reactions);
+  }
+
+  componentWillUnmount() {
+    if (this.navigationListener) {
+      this.navigationListener.remove();
+    }
   }
 
   getReactionsForUser = async () => {
@@ -74,14 +84,23 @@ export class ReactionSummary extends Component {
     }
   }
 
+  renderSum(value) {
+    const {firstLoad} = this.props;
+    if (!firstLoad) {
+      return value;
+    }
+    return value === '' ? 0 : value;
+  }
+
   render() {
+    console.log(this.props.total);
     return (
       <View style={styles.container}>
         {Object.keys(this.state).map(key => {
           return (
             <View style={styles.reactionContainer} key={key}>
               {this.getCurrentReaction(key)}
-              <Text style={styles.sum}>{this.state[key]} </Text>
+              <Text style={styles.sum}>{this.renderSum(this.state[key])}</Text>
             </View>
           );
         })}
@@ -90,8 +109,15 @@ export class ReactionSummary extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  // reactions: state.login ? state.login.reactions : [],
+const mapStateToProps = (state, props) => ({
+  reactions: state.reactions[props.userId] ? state.reactions[props.userId] : [],
+  firstLoad: state.reactions[props.userId],
+  total: state.reactions[props.userId]
+    ? state.reactions[props.userId].reduce((a, b) => {
+      console.log(a.sum, b.sum);
+      return a.sum + b.sum;
+    })
+    : 0,
 });
 
 const mapDispatchToProps = {
