@@ -115,7 +115,7 @@ const mapStateToProps = (state, props) => ({
     ? state.reactions[props.userId].reduce((t, b) => {
         // eslint-disable-next-line radix
         return (t.sum ? parseInt(t.sum) : t) + parseInt(b.sum);
-      })
+      }, 0)
     : 0,
 });
 
