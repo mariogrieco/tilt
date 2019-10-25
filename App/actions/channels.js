@@ -1,3 +1,6 @@
+
+import {Alert} from 'react-native';
+
 import Client4 from '../api/MattermostClient';
 import {getPostsForChannel} from './posts';
 import {setActiveFocusChannel} from './AppNavigation';
@@ -182,7 +185,32 @@ export const navigateIfExists = channelDisplayName => async (
         dispatch(getChannelsSucess([r.channel]));
         dispatch(openModal(r.channel.id));
       } else {
-        // channelDisplayName[0] === '$' else ..
+        const needAdminCredentials = channelDisplayName[0] === '$';
+        const isAdmin = false;
+        if (needAdminCredentials && isAdmin) {
+          alert('This symbol does not exist.');
+        } else {
+          Alert.alert('This channel does not exist.',
+            'Would you like to create this channel?',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => {
+                  alert('cancel');
+                },
+                style: 'cancel',
+              },
+              {
+                text: 'Yes',
+                onPress: () => {
+                  alert('Yes');
+                },
+                style: 'default',
+              },
+            ],
+            {cancelable: false},
+          );
+        }
       }
     } catch (e) {
       alert(e);

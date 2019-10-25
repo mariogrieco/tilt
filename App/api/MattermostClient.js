@@ -63,9 +63,11 @@ Client4.getReactionsForUser = async userID => {
 //   }
 // };
 
-Client4.getChannelByName = async name => {
+Client4.getChannelByName = async (name, delete_at = 0) => {
   try {
-    const {data} = await axios.get(`${baseServicesUrl}/channel?name=${name}`);
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel?name=${name}&delete_at=${delete_at}`,
+    );
     return data;
   } catch (ex) {
     return Promise.reject(ex);
