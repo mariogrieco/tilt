@@ -45,6 +45,15 @@ Client4.getAdminCreators = async () => {
   }
 };
 
+Client4.getReactionsForUser = async userID => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/reactions/${userID}`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
 export default Client4;
 
 export const setToken = token => {

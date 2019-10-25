@@ -76,6 +76,7 @@ export const getChannelDisplayNameAsDictionary = createSelector(
     mapChannelsSelector,
     myChannelsMapSelector,
     usersSelector,
+    adminCreatorsSelector,
   ],
   (channelsNames, mapChannels, myChannelsMap, users, adminCreators) => {
     const dollarChannels = {};
