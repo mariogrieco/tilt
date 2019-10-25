@@ -90,6 +90,7 @@ class Channels extends React.Component {
     if (loadingData && isAuth) {
       return (
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             flex: 1,
             justifyContent: 'center',

@@ -13,6 +13,8 @@ import {
 } from '../actions/channels';
 import {SEARCH_CHANNELS_SUCCESS} from '../actions/search';
 
+import fix_name_if_need from '../utils/fix_name_if_need';
+
 // import parser from '../../App/utils/parse_display_name';
 
 import mergeWith from 'lodash/mergeWith';
@@ -40,6 +42,7 @@ function setFormatedNames(channels) {
   keys(channels).forEach(key => {
     if (channels[key]) {
       channels[key].format_name = channels[key].name;
+      channels[key] = fix_name_if_need(channels[key]);
     }
   });
   return channels;

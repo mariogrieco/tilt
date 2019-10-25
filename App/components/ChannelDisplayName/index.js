@@ -66,14 +66,7 @@ class ChannelDisplayName extends Component {
   }
 
   getHeader() {
-    const {
-      name,
-      create_at,
-      members,
-      fav,
-      titleColor,
-      isfromAdmin,
-    } = this.props;
+    const {name, create_at, members, fav, titleColor, isfromAdmin} = this.props;
 
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
 
