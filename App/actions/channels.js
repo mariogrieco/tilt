@@ -185,38 +185,50 @@ export const navigateIfExists = channelDisplayName => async (
         dispatch(getChannelsSucess([r.channel]));
         dispatch(openModal(r.channel.id));
       } else {
+        const state = getState();
         const needAdminCredentials = channelDisplayName[0] === '$';
-        const isAdmin = false;
-        if (needAdminCredentials && isAdmin) {
+        const meId =
+          state.login && state.login.user ? state.login.user.id : 'null';
+        const isAdmin = state.adminCreators.includes(meId);
+        if (needAdminCredentials && !isAdmin) {
+          // eslint-disable-next-line no-alert
           alert('This symbol does not exist.');
-        } else {
-          Alert.alert('This channel does not exist.',
-            'Would you like to create this channel?',
-            [
-              {
-                text: 'Cancel',
-                onPress: () => {
-                  alert('cancel');
-                },
-                style: 'cancel',
-              },
-              {
-                text: 'Yes',
-                onPress: () => {
-                  alert('Yes');
-                },
-                style: 'default',
-              },
-            ],
-            {cancelable: false},
-          );
+        } else if (needAdminCredentials && isAdmin) {
+          showNativeAlert();
+        } else if (!needAdminCredentials){
+          showNativeAlert();
         }
       }
     } catch (e) {
+      // eslint-disable-next-line no-alert
       alert(e);
     }
   }
 };
+
+function showNativeAlert(channelDisplayName) {
+  Alert.alert(
+    'This channel does not exist.',
+    'Would you like to create this channel?',
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          NavigationService.navigate('CreateChannel', {
+            active_name: channelDisplayName.replace('$', '').replace('#', ''),
+          });
+        },
+        style: 'default',
+      },
+    ],
+    {cancelable: false},
+  );
+}
 
 function getViewChannelSchema(channelId, userId, value) {
   return {
