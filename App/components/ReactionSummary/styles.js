@@ -3,8 +3,7 @@ import StyleSheet from 'react-native-extended-stylesheet';
 export default StyleSheet.create({
   sum: {
     fontSize: 14,
-    fontFamily: 'SFProDisplay',
-    fontWeight: 'bold',
+    fontFamily: 'SFProDisplay-Bold',
     paddingTop: 5,
   },
   reactionContainer: {
