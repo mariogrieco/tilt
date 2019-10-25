@@ -30,11 +30,11 @@ const getPrivateMessagesChnnelsList = createSelector(
       .forEach(channel => {
         const channelData = cloneDeep(orders[channel.id]);
         if (channelData && channelData.order) {
-          if (channel.type === 'D') {
-            const userId = channel.display_name
+          if (channel.type === 'D' && channel.name.match('__')) {
+            const userId = channel.name
               .replace(`${myId}`, '')
               .replace('__', '');
-            channel.display_name = usersData[userId]
+            channel.name = usersData[userId]
               ? usersData[userId].username
               : '';
           }
@@ -51,7 +51,7 @@ const getPrivateMessagesChnnelsList = createSelector(
               .filter(post => filterPostBy(post)),
             creator: {},
             fav: preferences.find(fav => fav.name === channel.id),
-            activeUsers: channel.display_name.split('__'),
+            activeUsers: channel.name.split('__'),
           });
         } else {
           data.push({

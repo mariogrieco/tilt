@@ -5,6 +5,12 @@ function fix_name_if_need(channel) {
       name: channel.name.replace('11', ''),
     };
   }
+  if (channel && channel.name && channel.name.match('town-square')) {
+    return {
+      ...channel,
+      name: 'welcome',
+    };
+  }
   return channel;
 }
 
