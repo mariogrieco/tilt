@@ -118,7 +118,7 @@ class Channels extends React.Component {
         channel={item}
         fav={item.fav}
         members={channelStatsGroup[item.id] || 0}
-        display_name={item.display_name}
+        name={item.name}
         create_at={item.create_at}
         key={item.id}
         channel_id={item.id}

@@ -14,7 +14,7 @@ const FIRE = require('../../../assets/images/fire/fire.png');
 export default class ChannelHeader extends PureComponent {
   render() {
     const {
-      display_name,
+      name,
       create_at,
       members,
       fav,
@@ -26,8 +26,8 @@ export default class ChannelHeader extends PureComponent {
       <View style={styles.headerContainer}>
         <Text style={styles.text}>
           {!pm
-            ? `${isAdminCreator ? '$' : '#'} ${display_name}`
-            : `@${display_name}`}
+            ? `${isAdminCreator ? '$' : '#'} ${name}`
+            : `@${name}`}
           {'  '}
         </Text>
         {!pm && (

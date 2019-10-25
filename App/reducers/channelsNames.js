@@ -11,8 +11,9 @@ import {
   GET_MY_CHANNEL_BY_ID_SUCCESS,
   GET_MY_CHANNELS_SUCESS,
 } from '../actions/channels';
+import {SEARCH_CHANNELS_SUCCESS} from '../actions/search';
 
-import parser from '../../App/utils/parse_display_name';
+// import parser from '../../App/utils/parse_display_name';
 
 import mergeWith from 'lodash/mergeWith';
 import keys from 'lodash/keys';
@@ -38,7 +39,7 @@ const initialState = {
 function setFormatedNames(channels) {
   keys(channels).forEach(key => {
     if (channels[key]) {
-      channels[key].format_name = parser(channels[key].display_name || '');
+      channels[key].format_name = channels[key].name;
     }
   });
   return channels;
@@ -46,6 +47,16 @@ function setFormatedNames(channels) {
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {
+    case SEARCH_CHANNELS_SUCCESS: {
+      if (!payload || payload.length === 0) {
+        return state;
+      }
+      const nextState = cloneDeep(state);
+      payload.forEach(channel => {
+        nextState[channel.id] = channel;
+      });
+      return setFormatedNames(nextState);
+    }
     case GET_CHANNEL_BY_NAME_SUCCESS:
     case CREATE_CHANNEL_SUCESS:
     case GET_CHANNEL_BY_ID_SUCCESS: {

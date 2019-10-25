@@ -171,7 +171,7 @@ class Channel extends React.Component {
           onPress={() => navigation.dispatch(NavigationActions.back())}
         />
         <ChannelHeader
-          display_name={navigation.getParam('display_name', '')}
+          name={navigation.getParam('name', '')}
           create_at={navigation.getParam('create_at', '')}
           members={navigation.getParam('members', '')}
           fav={navigation.getParam('fav', '')}
@@ -588,7 +588,7 @@ class Channel extends React.Component {
     } = this.props;
     const {scrollLabel} = this.state;
     const title =
-      channel.display_name || navigation.getParam('display_name', '');
+      channel.name || navigation.getParam('name', '');
     const placeholder = this.getPlaceHolder(title);
     const flagCount = this.props.flagCount || this.state.flagCount;
 

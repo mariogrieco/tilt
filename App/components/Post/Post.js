@@ -319,7 +319,7 @@ class Post extends React.Component {
     this.props.setActiveFocusChannel(channel.id);
     const r = await jumpToAction(channel.id, postId, 0, 10);
     NavigationService.navigate('Channel', {
-      display_name: this.parseDisplayName(channel.display_name),
+      name: channel.name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,

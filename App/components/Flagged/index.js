@@ -13,7 +13,7 @@ const MOON = require('../../../assets/images/flagged_moon/flagged_moon.png');
 
 class Flagged extends React.PureComponent {
   renderItem = ({item: channel}) => {
-    const channelName = this.parseName(channel.display_name);
+    const channelName = channel.name;
     return (
       <View style={{backgroundColor: '#fff'}}>
         <TouchableOpacity
@@ -21,7 +21,7 @@ class Flagged extends React.PureComponent {
           onPress={() => {
             this.props.setActiveFocusChannel(channel.id);
             NavigationService.navigate('Channel', {
-              display_name: channelName,
+              name: channelName,
               members: channel.members,
               create_at: channel.create_at,
               fav: channel.fav,

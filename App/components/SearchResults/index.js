@@ -28,7 +28,7 @@ export class SearchResults extends PureComponent {
   }
 
   getChannelDisplayItem = item => {
-    const name = item.channel ? this.parseName(item.channel.display_name) : '';
+    const name = item.channel ? item.channel.name : '';
     return (
       <TouchableOpacity onPress={this.navegateIfExists(name)}>
         <Text style={styles.channelTitle}>

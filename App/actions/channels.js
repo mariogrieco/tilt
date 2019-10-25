@@ -56,8 +56,8 @@ export const UPDATE_CHANNEL_HEADER_ERROR = 'UPDATE_CHANNEL_HEADER_ERROR';
 export const UPDATE_PURPOSE_SUCCESS = 'UPDATE_PURPOSE_SUCCESS';
 export const UPDATE_PURPOSE_ERROR = 'UPDATE_PURPOSE_ERROR';
 
-export const UPDATE_DISPLAY_NAME_SUCCESS = 'UPDATE_DISPLAY_NAME_SUCCESS';
-export const UPDATE_DISPLAY_NAME_ERROR = 'UPDATE_DISPLAY_NAME_ERROR';
+export const UPDATE_NAME_SUCCESS = 'UPDATE_NAME_SUCCESS';
+export const UPDATE_NAME_ERROR = 'UPDATE_NAME_ERROR';
 
 export const CHANNEL_UPDATED_SUCCESS = 'CHANNEL_UPDATED_SUCCESS';
 
@@ -119,7 +119,7 @@ export const patchChannel = (channelId, channelPatch) => async dispatch => {
     const response = await Client4.patchChannel(channelId, {
       purpose: channelPatch.purpose,
       header: channelPatch.header,
-      display_name: name,
+      name: name,
     });
     dispatch(patchChannelSucess(response));
     return response;
@@ -139,27 +139,10 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-// export const navigateIfExistsUsingId = channelId => (dispatch, getState) => {
-//   const myChannels = getState().myChannels;
-//   getState().channels.forEach((item) => {
-//     if (item.id === channelId) {
-//       const joined = myChannels.find(channel => channel.id === item.id);
-//       if (joined) {
-//         dispatch(setActiveFocusChannel(item.id));
-//         NavigationService.navigate('Channel', {
-// display_name: parser(item.display_name),
-//           create_at: item.create_at,
-//           members: item.members,
-//           fav: getFavoriteChannelById(getState(), item.id)
-//         });
-//       } else {
-//         dispatch(openModal(item.id));
-//       }
-//     }
-//   });
-// };
-
-export const navigateIfExists = channelDisplayName => (dispatch, getState) => {
+export const navigateIfExists = channelDisplayName => async (
+  dispatch,
+  getState,
+) => {
   const MyMapChannel = getState().myChannelsMap;
   const myChannels = getState()
     .myChannelsMap.valueSeq()
@@ -167,17 +150,18 @@ export const navigateIfExists = channelDisplayName => (dispatch, getState) => {
   const channels = getState()
     .mapChannels.valueSeq()
     .toJS();
-
+  let exists = false;
   [...channels, ...myChannels].forEach(item => {
-    const formatName = parser(item.display_name);
+    const formatName = item.name;
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
     ) {
+      exists = true;
       const joined = MyMapChannel.get(item.id);
       if (joined) {
         dispatch(setActiveFocusChannel(item.id));
         NavigationService.navigate('Channel', {
-          display_name: formatName,
+          name: formatName,
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(getState(), item.id),
@@ -189,6 +173,21 @@ export const navigateIfExists = channelDisplayName => (dispatch, getState) => {
       }
     }
   });
+  if (!exists) {
+    try {
+      const r = await Client4.getChannelByName(
+        channelDisplayName.replace('$', '').replace('#', ''),
+      );
+      if (r.channel) {
+        dispatch(getChannelsSucess([r.channel]));
+        dispatch(openModal(r.channel.id));
+      } else {
+        // channelDisplayName[0] === '$' else ..
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
 };
 
 function getViewChannelSchema(channelId, userId, value) {
@@ -302,7 +301,7 @@ export const verifyChannelUpdates = post => dispatch => {
     }
     case 'system_displayname_change': {
       return dispatch({
-        type: UPDATE_DISPLAY_NAME_SUCCESS,
+        type: UPDATE_NAME_SUCCESS,
         payload: post,
       });
     }
@@ -565,7 +564,7 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
     }
     dispatch(setActiveFocusChannel(channel.id));
     NavigationService.navigate('Channel', {
-      display_name: getState().users.data[userId]
+      name: getState().users.data[userId]
         ? getState().users.data[userId].username
         : '',
       create_at: channel.create_at,

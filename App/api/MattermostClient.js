@@ -63,6 +63,16 @@ Client4.getReactionsForUser = async userID => {
 //   }
 // };
 
+Client4.getChannelByName = async name => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/channel?name=${name}`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+
 export default Client4;
 
 export const setToken = token => {
