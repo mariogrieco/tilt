@@ -70,11 +70,11 @@ export class ReactionSummary extends Component {
       case 'eyes':
         return <Eyes />;
       case 'frowning_face':
-        return <Laughs />;
+        return <SadFace />;
       case 'rocket':
         return <Rocket />;
       case 'joy':
-        return <SadFace />;
+        return <Laughs />;
       case '-1':
         return <Dislike />;
       case '+1':
