@@ -43,7 +43,9 @@ const myChannels = (state = initialState, action) => {
       return nextState;
     }
     case REMOVE_FROM_CHANNEL_SUCESS: {
-      if (state.has(action.payload)) state.delete(action.payload);
+      if (state.has(action.payload)) {
+        return state.remove(action.payload);
+      }
       return state;
     }
     case GET_MY_CHANNEL_BY_ID_SUCCESS: {
