@@ -43,9 +43,11 @@ class PrivateMessages extends React.Component {
               {`@${channelName}`}
             </Text>
             {channel.unreadMessagesCount > 0 && (
-              <Text style={styles.unreadMessages}>
-                {channel.unreadMessagesCount}
-              </Text>
+              <View style={styles.unreadMessages}>
+                <Text style={styles.unreadText}>
+                  {channel.unreadMessagesCount}
+                </Text>
+              </View>
             )}
           </View>
           {lastPost && (

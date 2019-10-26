@@ -1,4 +1,5 @@
 import StyleSheet from 'react-native-extended-stylesheet';
+import Platform from 'react-native';
 
 export default StyleSheet.create({
   listContainer: {
@@ -30,17 +31,19 @@ export default StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 15,
   },
-  unreadMessages: {
+  unreadText: {
     fontFamily: 'SFProDisplay-Medium',
     color: '#fff',
+    fontSize: 13,
+    letterSpacing: 0.1,
+  },
+  unreadMessages: {
     marginLeft: 10,
-    borderRadius: 20,
-    paddingHorizontal: 7.5,
-    paddingVertical: 2,
+    borderRadius: 12,
+    paddingHorizontal: 8,
     backgroundColor: '#17C491',
-    width: 28,
     height: 24,
-    textAlign: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
