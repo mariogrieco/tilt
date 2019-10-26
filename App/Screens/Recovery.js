@@ -303,6 +303,10 @@ class Recovery extends PureComponent {
                 codeInputFieldStyle={styles.underlineStyleBase}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
                 onCodeFilled={this.setCode}
+                onCodeChanged={_code => {
+                  this.setState({code: _code});
+                }}
+                autoFocusOnLoad
               />
             </View>
           </DismissKeyboard>

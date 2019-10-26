@@ -4,7 +4,6 @@ import {
   GET_REACTIONS_FOR_USER_SUCCES,
 } from '../actions/reactions';
 
-
 const initialState = {
   user_id: [],
 };

@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Linking,
   Alert,
+  StyleSheet,
 } from 'react-native';
 import {connect} from 'react-redux';
 import Modal from 'react-native-modal';
@@ -16,6 +17,11 @@ import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {hidePostMediaBox, closedPostMediaBox} from '../../actions/posts';
 import Client4 from '../../api/MattermostClient';
 
+const styles = StyleSheet.create({
+  modalContent: {
+    marginHorizontal: 0,
+  },
+});
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight =
   Platform.OS === 'ios'
@@ -59,6 +65,7 @@ const PostMediaModal = ({postMedia, closedModal, hideModal}) => {
   };
   return (
     <Modal
+      style={styles.modalContent}
       isVisible={postMedia.isVisible}
       deviceWidth={deviceWidth}
       deviceHeight={deviceHeight}
@@ -70,10 +77,10 @@ const PostMediaModal = ({postMedia, closedModal, hideModal}) => {
       animationOut="slideOutDown"
       hideModalContentWhileAnimating
       useNativeDriver
-      backdropColor="#000"
+      backdropColor="#111823"
       backdropOpacity={1}
       onBackdropPress={hideModal}
-      animationInTiming={200}
+      animationInTiming={100}
       animationOutTiming={200}>
       <SafeAreaView style={{flex: 1}}>
         <View style={{flex: 1, position: 'relative'}}>

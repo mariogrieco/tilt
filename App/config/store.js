@@ -30,6 +30,7 @@ const persistConfig = {
     'users',
     'displayUserProfile',
     'teams',
+    'preferences',
   ],
 };
 
