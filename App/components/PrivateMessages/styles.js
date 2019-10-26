@@ -30,4 +30,17 @@ export default StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 15,
   },
+  unreadMessages: {
+    fontFamily: 'SFProDisplay-Medium',
+    color: '#fff',
+    marginLeft: 10,
+    borderRadius: 20,
+    paddingHorizontal: 7.5,
+    paddingVertical: 2,
+    backgroundColor: '#17C491',
+    width: 28,
+    height: 24,
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
 });

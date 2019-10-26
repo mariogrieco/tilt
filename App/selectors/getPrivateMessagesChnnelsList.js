@@ -4,6 +4,7 @@ import filterPostBy from './filterPostBy';
 
 import cloneDeep from 'lodash/cloneDeep';
 
+const lastViewedSelector = state => state.lastViewed;
 const entitiesSelector = state => state.posts.entities;
 const loggedUserId = state =>
   state.login && state.login.user ? state.login.user.id : '';
@@ -21,8 +22,17 @@ const getPrivateMessagesChnnelsList = createSelector(
     postsOrders,
     usersDataSelector,
     preferencesSelector,
+    lastViewedSelector,
   ],
-  (entities, myId, myChannelsMap, orders, usersData, preferences) => {
+  (
+    entities,
+    myId,
+    myChannelsMap,
+    orders,
+    usersData,
+    preferences,
+    lastViewed,
+  ) => {
     const data = [];
     myChannelsMap
       .filter(({type}) => type === 'D')
@@ -38,20 +48,33 @@ const getPrivateMessagesChnnelsList = createSelector(
               ? usersData[userId].username
               : '';
           }
+          let titleColor = '';
+          let unreadMessagesCount = 0;
+          const posts = channelData.order.map(key => {
+            if (filterPostBy(entities[key])) {
+              if (
+                entities[key] &&
+                (entities[key].create_at > lastViewed[channel.id] ||
+                  entities[key].edit_at > lastViewed[channel.id])
+              ) {
+                titleColor = '#17C491';
+                unreadMessagesCount++;
+              }
+            }
+            const post = entities[key] || {};
+            return {
+              ...post,
+              user: usersData[post.user_id] || {},
+            };
+          });
           data.push({
             ...channel,
-            posts: [...channelData.order]
-              .map(key => {
-                const post = entities[key] || {};
-                return {
-                  ...post,
-                  user: usersData[post.user_id] || {},
-                };
-              })
-              .filter(post => filterPostBy(post)),
+            posts: posts,
             creator: {},
             fav: preferences.find(fav => fav.name === channel.id),
             activeUsers: channel.name.split('__'),
+            titleColor,
+            unreadMessagesCount,
           });
         } else {
           data.push({

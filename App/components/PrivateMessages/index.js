@@ -20,7 +20,7 @@ class PrivateMessages extends React.Component {
     const lastPost = channel.posts[0];
     const channelName = this.parseDisplayName(channel.display_name);
     return (
-      <View style={{backgroundColor: '#fff'}}>
+      <View style={{backgroundColor: '#fff', paddingTop: 10}}>
         <TouchableOpacity
           activeOpacity={1}
           key={channel.id}
@@ -34,7 +34,20 @@ class PrivateMessages extends React.Component {
               pm: true,
             });
           }}>
-          <Text style={styles.channelName}>{`@${channelName}`}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text
+              style={[
+                styles.channelName,
+                channel.titleColor ? {color: channel.titleColor} : {},
+              ]}>
+              {`@${channelName}`}
+            </Text>
+            {channel.unreadMessagesCount > 0 && (
+              <Text style={styles.unreadMessages}>
+                {channel.unreadMessagesCount}
+              </Text>
+            )}
+          </View>
           {lastPost && (
             <Post
               postId={lastPost.id}
