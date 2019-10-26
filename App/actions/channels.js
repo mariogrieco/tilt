@@ -178,7 +178,7 @@ export const navigateIfExists = channelDisplayName => async (
   });
   if (!exists) {
     try {
-      const r = await Client4.getChannelByName(
+      const r = await Client4.getChannelByNameService(
         channelDisplayName.replace('$', '').replace('#', ''),
       );
       if (r.channel) {
@@ -239,10 +239,10 @@ function getViewChannelSchema(channelId, userId, value) {
   };
 }
 
-export const getChannelByName = channelName => async dispatch => {
+export const getChannelByName = channelName => async (dispatch, getState) => {
   try {
     const channel = await Client4.getChannelByName(
-      'k1df69t1ibryue11z5wd4n48nr',
+      getState().teams.default_team_id,
       channelName,
     );
     if (channel) {
