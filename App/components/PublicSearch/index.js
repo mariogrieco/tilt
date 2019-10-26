@@ -35,7 +35,7 @@ class PublicSearch extends React.Component {
     const {currentToggleSelected} = this.state;
 
     return (
-      <ScrollView>
+      <ScrollView keyboardDismissMode="on-drag">
         <View
           style={{
             width: '57%',
