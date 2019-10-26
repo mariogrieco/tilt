@@ -333,6 +333,7 @@ class Post extends React.Component {
       if (file.mime_type === 'image/gif') {
         return (
           <TouchableOpacity
+            activeOpacity={1}
             key={file.id}
             onPress={() =>
               this.props.showPostMediaBox({
@@ -350,6 +351,7 @@ class Post extends React.Component {
       }
       return (
         <TouchableOpacity
+          activeOpacity={1}
           key={file.id}
           onPress={() =>
             this.props.showPostMediaBox({
@@ -431,6 +433,7 @@ class Post extends React.Component {
     return (
       <>
         <TouchableOpacity
+          activeOpacity={1}
           onPress={disableInteractions ? () => {} : this.onReply}>
           {!imageUrl && (
             <View
@@ -454,6 +457,7 @@ class Post extends React.Component {
         </TouchableOpacity>
         {imageUrl && (
           <TouchableOpacity
+            activeOpacity={1}
             onPress={() =>
               this.props.showPostMediaBox({uri: imageUrl, type: 'image'})
             }>
@@ -512,6 +516,7 @@ class Post extends React.Component {
         )}
         {jumpTo && (
           <TouchableOpacity
+            activeOpacity={1}
             style={styles.jumpContainer}
             onPress={disableInteractions ? () => {} : this.jumpTo}>
             <View>
