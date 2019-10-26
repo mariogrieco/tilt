@@ -13,9 +13,11 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   input: {
+    width: '100%',
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
     padding: 1,
+    textAlign: 'left',
   },
 });

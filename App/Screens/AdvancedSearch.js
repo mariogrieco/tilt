@@ -66,6 +66,7 @@ export class AdvancedSearch extends Component {
           letterSpacing: 0.1,
           fontFamily: 'SFProDisplay-Regular',
           padding: 1,
+          width: '100%',
         }}
         placeholderText="Search for a word"
         placeholderTextColor="#8E8E95"
@@ -234,7 +235,9 @@ export class AdvancedSearch extends Component {
   }
 
   _fetch = () => {
-    if (this.state.queryStr && this.state.queryStr.trim() === '') return null;
+    if (this.state.queryStr && this.state.queryStr.trim() === '') {
+      return null;
+    }
     this.setState(
       {
         loading: true,

@@ -108,9 +108,9 @@ class PublicChat extends React.Component {
       () => {
         navigation.setParams({
           isSearching: text !== '',
-          searchValue: text.toLowerCase(),
+          searchValue: text,
         });
-        return {searchValue: text.toLowerCase()};
+        return {searchValue: text};
       },
       () => {
         this.searchFor(text);

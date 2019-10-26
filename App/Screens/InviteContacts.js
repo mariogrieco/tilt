@@ -243,7 +243,9 @@ class InviteContacts extends React.PureComponent {
     }
 
     // eslint-disable-next-line prefer-destructuring
-    if (contact.phoneNumbers[0]) number = contact.phoneNumbers[0].number;
+    if (contact.phoneNumbers[0]) {
+      number = contact.phoneNumbers[0].number;
+    }
 
     return (
       <React.Fragment>
@@ -323,6 +325,7 @@ class InviteContacts extends React.PureComponent {
               letterSpacing: 0.1,
               fontFamily: 'SFProDisplay-Regular',
               padding: 1,
+              width: '100%',
             }}
             placeholderText="Search for a name or number"
             placeholderTextColor="#8E8E95"
