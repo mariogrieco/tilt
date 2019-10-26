@@ -4,7 +4,7 @@ import {GET_TEAMS_SUCCESS} from '../actions/teams';
 
 const initialState = {
   ids: [],
-  default_team_id: null,
+  default_team_id: 'k1df69t1ibryue11z5wd4n48nr',
 };
 
 const teams = (state = initialState, action) => {
