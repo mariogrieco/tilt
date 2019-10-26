@@ -588,7 +588,6 @@ class Channel extends React.Component {
       activeJumpLabel,
       isArchived,
     } = this.props;
-    console.log(channel);
     const {scrollLabel} = this.state;
     const placeholder = this.getPlaceHolder();
     const flagCount = this.props.flagCount || this.state.flagCount;

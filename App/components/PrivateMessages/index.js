@@ -18,7 +18,7 @@ class PrivateMessages extends React.Component {
 
   renderItem = ({item: channel}) => {
     const lastPost = channel.posts[0];
-    const channelName = channel.name;
+    const channelName = channel.show_name;
     return (
       <View style={{backgroundColor: '#fff'}}>
         <TouchableOpacity

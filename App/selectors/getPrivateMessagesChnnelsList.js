@@ -34,7 +34,7 @@ const getPrivateMessagesChnnelsList = createSelector(
             const userId = channel.name
               .replace(`${myId}`, '')
               .replace('__', '');
-            channel.name = usersData[userId]
+            channel.show_name = usersData[userId]
               ? usersData[userId].username
               : '';
           }

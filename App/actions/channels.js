@@ -588,11 +588,10 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
   try {
     dispatch(clearjumpToAction());
     const meId = getState().login.user.id;
-    const comparator = `${userId}__${meId}`;
-
-    let channel = getState().mapChannels.find(channel => {
-      if (comparator.includes(channel.name)) {
-        return channel;
+    const comparator = `${userId}`;
+    let channel = getState().myChannelsMap.find(_channel => {
+      if (_channel.name.includes(comparator)) {
+        return _channel;
       }
       return false;
     });
