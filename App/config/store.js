@@ -29,6 +29,7 @@ const persistConfig = {
     'modal',
     'users',
     'displayUserProfile',
+    'teams',
   ],
 };
 
