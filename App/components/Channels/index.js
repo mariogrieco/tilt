@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {View, ActivityIndicator, FlatList, Text} from 'react-native';
+import {View, ActivityIndicator, FlatList, Text, Platform} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import {withNavigation} from 'react-navigation';
 // import Post from '../Post/Post';
@@ -139,7 +139,7 @@ class Channels extends React.Component {
         initialNumToRender={8}
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
-        removeClippedSubviews
+        removeClippedSubviews={Platform.OS === 'android'}
       />
     );
   }
