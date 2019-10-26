@@ -18,12 +18,14 @@ import Immutable from 'immutable';
 
 const initialState = new Immutable.Map({});
 
+import fix_name_if_need from '../utils/fix_name_if_need';
+
 const channels = (state = initialState, action) => {
   switch (action.type) {
     case GET_CHANNELS_SUCESS: {
       let nextState = state;
       action.payload.forEach(element => {
-        nextState = nextState.set(element.id, element);
+        nextState = nextState.set(element.id, fix_name_if_need(element));
       });
       return nextState;
     }
@@ -32,12 +34,12 @@ const channels = (state = initialState, action) => {
     }
     case GET_CHANNEL_BY_ID_SUCCESS: {
       const channel = action.payload;
-      return state.set(channel.id, channel);
+      return state.set(channel.id, fix_name_if_need(channel));
     }
     case GET_CHANNEL_BY_NAME_SUCCESS: {
       let nextState = state;
       const channel = action.payload;
-      nextState = nextState.set(channel.id, channel);
+      nextState = nextState.set(channel.id, fix_name_if_need(channel));
       return nextState;
     }
     case UPDATE_CHANNEL_HEADER_SUCCESS: {
@@ -74,7 +76,7 @@ const channels = (state = initialState, action) => {
       const channel = action.payload;
       if (state.has(channel.id)) {
         const current = Immutable.mergeDeep(state.get(channel.id), channel);
-        return state.set(channel.id, current);
+        return state.set(channel.id, fix_name_if_need(current));
       }
       return state;
     }
@@ -90,7 +92,7 @@ const channels = (state = initialState, action) => {
       if (!action.payload || action.payload.length === 0) return state;
       let nextState = state;
       action.payload.forEach(channel => {
-        nextState = nextState.set(channel.id, channel);
+        nextState = nextState.set(channel.id, fix_name_if_need(channel));
       });
       return nextState;
     }

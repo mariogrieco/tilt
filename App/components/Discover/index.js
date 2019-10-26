@@ -49,7 +49,7 @@ class Discover extends React.Component {
     return (
       <ChannelDisplayName
         showMembersLabel={false}
-        display_name={item.name}
+        name={item.name}
         key={item.id}
         create_at={item.create_at}
         channel_id={item.id}

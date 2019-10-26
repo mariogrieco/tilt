@@ -9,10 +9,10 @@ import {clearjumpToAction} from '../../actions/advancedSearch';
 import {Emojis} from '../../utils/emojis';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
 import CodePost from '../CodePost';
-import {
-  getHashTagChannelsNames,
-  getDollarChannelNames,
-} from '../../selectors/getChannelNames';
+// import {
+//   getHashTagChannelsNames,
+//   getDollarChannelNames,
+// } from '../../selectors/getChannelNames';
 import {getUsersNames} from '../../selectors/getUsersNames';
 
 import {Emoji} from '../../utils/TiltEmoji';
@@ -344,13 +344,11 @@ export class PureParsedText extends Component {
   }
 
   getChannelTagPatter() {
-    const {channelsNames} = this.props;
-    return new RegExp(`#(${(channelsNames || []).join('|')})\\b`);
+    return /\#[\w\-]+/;
   }
 
   getChannelDollarPattern() {
-    const {channelDollarNames} = this.props;
-    return new RegExp(`\\$(${(channelDollarNames || []).join('|')})\\b`);
+    return /\$[\w\-]+/;
   }
 
   getMentionPatter() {
@@ -579,15 +577,15 @@ const mapStateToProps = state => {
   if (hasChannelFocus) {
     return {
       disableUserMention: getIsCurrentFocusChannelPrivate(state),
-      channelsNames: getHashTagChannelsNames(state),
+      // channelsNames: getHashTagChannelsNames(state),
       usernames: getUsersNames(state),
-      channelDollarNames: getDollarChannelNames(state),
+      // channelDollarNames: getDollarChannelNames(state),
     };
   }
   return {
     disableUserMention: false,
-    channelDollarNames: getDollarChannelNames(state),
-    channelsNames: getHashTagChannelsNames(state),
+    // channelDollarNames: getDollarChannelNames(state),
+    // channelsNames: getHashTagChannelsNames(state),
     usernames: getUsersNames(state),
   };
 };

@@ -90,6 +90,7 @@ class Channels extends React.Component {
     if (loadingData && isAuth) {
       return (
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             flex: 1,
             justifyContent: 'center',
@@ -118,7 +119,7 @@ class Channels extends React.Component {
         channel={item}
         fav={item.fav}
         members={channelStatsGroup[item.id] || 0}
-        display_name={item.display_name}
+        name={item.name}
         create_at={item.create_at}
         key={item.id}
         channel_id={item.id}

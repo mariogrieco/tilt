@@ -31,10 +31,10 @@ export const getHashTagChannelsNames = createSelector(
         return (
           !isAdmin &&
           channelsNames[key].type === 'O' &&
-          !!channelsNames[key].format_name
+          !!channelsNames[key].name
         );
       })
-      .map(key => channelsNames[key].format_name);
+      .map(key => channelsNames[key].name);
     return allData.sort((a, b) => b.length - a.length);
   },
 );
@@ -62,10 +62,10 @@ export const getDollarChannelNames = createSelector(
         return (
           isAdmin &&
           channelsNames[key].type === 'O' &&
-          !!channelsNames[key].format_name
+          !!channelsNames[key].name
         );
       })
-      .map(key => channelsNames[key].format_name);
+      .map(key => channelsNames[key].name);
     return allData.sort((a, b) => b.length - a.length);
   },
 );
@@ -94,11 +94,11 @@ export const getChannelDisplayNameAsDictionary = createSelector(
         return (
           channelsNames[key].type === 'O' &&
           isAdmin &&
-          !!channelsNames[key].format_name
+          !!channelsNames[key].name
         );
       })
       .forEach(key => {
-        dollarChannels[key] = channelsNames[key].format_name;
+        dollarChannels[key] = channelsNames[key].name;
       });
 
     keys
@@ -113,11 +113,11 @@ export const getChannelDisplayNameAsDictionary = createSelector(
         return (
           channelsNames[key].type === 'O' &&
           !isAdmin &&
-          !!channelsNames[key].format_name
+          !!channelsNames[key].name
         );
       })
       .forEach(key => {
-        hashtagChannels[key] = channelsNames[key].format_name;
+        hashtagChannels[key] = channelsNames[key].name;
       });
     return {
       hashtagChannels,

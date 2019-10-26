@@ -171,7 +171,7 @@ class Channel extends React.Component {
           onPress={() => navigation.dispatch(NavigationActions.back())}
         />
         <ChannelHeader
-          display_name={navigation.getParam('display_name', '')}
+          name={navigation.getParam('name', '')}
           create_at={navigation.getParam('create_at', '')}
           members={navigation.getParam('members', '')}
           fav={navigation.getParam('fav', '')}
@@ -562,10 +562,13 @@ class Channel extends React.Component {
 
   getItemLayout = (data, index) => ({length: 0, offset: 73 * index, index});
 
-  getPlaceHolder(title) {
-    const {navigation} = this.props;
+  getPlaceHolder() {
+    const {navigation, channel} = this.props;
     const isAdminCreator = navigation.getParam('isAdminCreator', '');
     const isPrivateMessage = navigation.getParam('pm', '');
+    const title = isPrivateMessage
+      ? navigation.getParam('name', '')
+      : channel.name;
 
     if (isAdminCreator) {
       return `Write to $${parseChannelMention(title)}`;
@@ -583,15 +586,11 @@ class Channel extends React.Component {
       channel,
       posts,
       activeJumpLabel,
-      navigation,
       isArchived,
     } = this.props;
     const {scrollLabel} = this.state;
-    const title =
-      channel.display_name || navigation.getParam('display_name', '');
-    const placeholder = this.getPlaceHolder(title);
+    const placeholder = this.getPlaceHolder();
     const flagCount = this.props.flagCount || this.state.flagCount;
-
     return (
       <SafeAreaView
         forceInset={{top: 'never', bottom: 'always'}}

@@ -166,10 +166,14 @@ class CreateChannel extends React.Component {
   };
 
   componentDidMount() {
+    const active_name = this.props.navigation.getParam('active_name', null);
     this.props.navigation.setParams({
       onCreate: this.onCreate,
       modalCreate: this.modalCreate,
     });
+    if (active_name) {
+      this.onChangeTitle(active_name);
+    }
   }
 
   modalCreate = () => {
@@ -179,8 +183,6 @@ class CreateChannel extends React.Component {
         loading: true,
       },
       async () => {
-        console.log(this.state);
-        console.log('######################');
         const {title, header, purpose} = this.state;
         if (title !== null && header !== null) {
           try {

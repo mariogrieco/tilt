@@ -30,11 +30,11 @@ const getPrivateMessagesChnnelsList = createSelector(
       .forEach(channel => {
         const channelData = cloneDeep(orders[channel.id]);
         if (channelData && channelData.order) {
-          if (channel.type === 'D') {
+          if (channel.type === 'D' && channel.name.match('__')) {
             const userId = channel.name
               .replace(`${myId}`, '')
               .replace('__', '');
-            channel.display_name = usersData[userId]
+            channel.show_name = usersData[userId]
               ? usersData[userId].username
               : '';
           }

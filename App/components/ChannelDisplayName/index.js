@@ -24,10 +24,10 @@ class ChannelDisplayName extends Component {
   };
 
   onPress = () => {
-    const {channel_id, display_name, channel, isfromAdmin} = this.props;
+    const {channel_id, name, channel, isfromAdmin} = this.props;
     this.props.setActiveFocusChannel(channel_id);
     NavigationService.navigate('Channel', {
-      display_name: this.parseDisplayName(display_name),
+      name: name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
@@ -66,14 +66,7 @@ class ChannelDisplayName extends Component {
   }
 
   getHeader() {
-    const {
-      display_name,
-      create_at,
-      members,
-      fav,
-      titleColor,
-      isfromAdmin,
-    } = this.props;
+    const {name, create_at, members, fav, titleColor, isfromAdmin} = this.props;
 
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
 
@@ -81,7 +74,7 @@ class ChannelDisplayName extends Component {
       <View style={styles.headerContainer}>
         <Text style={[styles.header, titleColor ? {color: titleColor} : {}]}>
           <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text>{' '}
-          {this.parseDisplayName(display_name)}{' '}
+          {name}{' '}
         </Text>
         <View style={styles.icon}>
           {diff && <Image source={NEW} />}

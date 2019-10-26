@@ -1,3 +1,6 @@
+
+import {Alert} from 'react-native';
+
 import Client4 from '../api/MattermostClient';
 import {getPostsForChannel} from './posts';
 import {setActiveFocusChannel} from './AppNavigation';
@@ -56,8 +59,8 @@ export const UPDATE_CHANNEL_HEADER_ERROR = 'UPDATE_CHANNEL_HEADER_ERROR';
 export const UPDATE_PURPOSE_SUCCESS = 'UPDATE_PURPOSE_SUCCESS';
 export const UPDATE_PURPOSE_ERROR = 'UPDATE_PURPOSE_ERROR';
 
-export const UPDATE_DISPLAY_NAME_SUCCESS = 'UPDATE_DISPLAY_NAME_SUCCESS';
-export const UPDATE_DISPLAY_NAME_ERROR = 'UPDATE_DISPLAY_NAME_ERROR';
+export const UPDATE_NAME_SUCCESS = 'UPDATE_NAME_SUCCESS';
+export const UPDATE_NAME_ERROR = 'UPDATE_NAME_ERROR';
 
 export const CHANNEL_UPDATED_SUCCESS = 'CHANNEL_UPDATED_SUCCESS';
 
@@ -119,7 +122,7 @@ export const patchChannel = (channelId, channelPatch) => async dispatch => {
     const response = await Client4.patchChannel(channelId, {
       purpose: channelPatch.purpose,
       header: channelPatch.header,
-      display_name: name,
+      name: name,
     });
     dispatch(patchChannelSucess(response));
     return response;
@@ -139,27 +142,10 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-// export const navigateIfExistsUsingId = channelId => (dispatch, getState) => {
-//   const myChannels = getState().myChannels;
-//   getState().channels.forEach((item) => {
-//     if (item.id === channelId) {
-//       const joined = myChannels.find(channel => channel.id === item.id);
-//       if (joined) {
-//         dispatch(setActiveFocusChannel(item.id));
-//         NavigationService.navigate('Channel', {
-// display_name: parser(item.display_name),
-//           create_at: item.create_at,
-//           members: item.members,
-//           fav: getFavoriteChannelById(getState(), item.id)
-//         });
-//       } else {
-//         dispatch(openModal(item.id));
-//       }
-//     }
-//   });
-// };
-
-export const navigateIfExists = channelDisplayName => (dispatch, getState) => {
+export const navigateIfExists = channelDisplayName => async (
+  dispatch,
+  getState,
+) => {
   const MyMapChannel = getState().myChannelsMap;
   const myChannels = getState()
     .myChannelsMap.valueSeq()
@@ -167,17 +153,18 @@ export const navigateIfExists = channelDisplayName => (dispatch, getState) => {
   const channels = getState()
     .mapChannels.valueSeq()
     .toJS();
-
+  let exists = false;
   [...channels, ...myChannels].forEach(item => {
-    const formatName = parser(item.display_name);
+    const formatName = item.name;
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
     ) {
+      exists = true;
       const joined = MyMapChannel.get(item.id);
       if (joined) {
         dispatch(setActiveFocusChannel(item.id));
         NavigationService.navigate('Channel', {
-          display_name: formatName,
+          name: formatName,
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(getState(), item.id),
@@ -189,7 +176,59 @@ export const navigateIfExists = channelDisplayName => (dispatch, getState) => {
       }
     }
   });
+  if (!exists) {
+    try {
+      const r = await Client4.getChannelByNameService(
+        channelDisplayName.replace('$', '').replace('#', ''),
+      );
+      if (r.channel) {
+        dispatch(getChannelsSucess([r.channel]));
+        dispatch(openModal(r.channel.id));
+      } else {
+        const state = getState();
+        const needAdminCredentials = channelDisplayName[0] === '$';
+        const meId =
+          state.login && state.login.user ? state.login.user.id : 'null';
+        const isAdmin = state.adminCreators.includes(meId);
+        if (needAdminCredentials && !isAdmin) {
+          // eslint-disable-next-line no-alert
+          alert('This symbol does not exist.');
+        } else if (needAdminCredentials && isAdmin) {
+          showNativeAlert(channelDisplayName);
+        } else if (!needAdminCredentials){
+          showNativeAlert(channelDisplayName);
+        }
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-alert
+      alert(e);
+    }
+  }
 };
+
+function showNativeAlert(channelDisplayName) {
+  Alert.alert(
+    '',
+    'This channel does not exist. Would you like to create this channel?',
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          NavigationService.navigate('CreateChannel', {
+            active_name: channelDisplayName.replace('$', '').replace('#', ''),
+          });
+        },
+        style: 'default',
+      },
+    ],
+    {cancelable: false},
+  );
+}
 
 function getViewChannelSchema(channelId, userId, value) {
   return {
@@ -200,10 +239,10 @@ function getViewChannelSchema(channelId, userId, value) {
   };
 }
 
-export const getChannelByName = channelName => async dispatch => {
+export const getChannelByName = channelName => async (dispatch, getState) => {
   try {
     const channel = await Client4.getChannelByName(
-      'k1df69t1ibryue11z5wd4n48nr',
+      getState().teams.default_team_id,
       channelName,
     );
     if (channel) {
@@ -302,7 +341,7 @@ export const verifyChannelUpdates = post => dispatch => {
     }
     case 'system_displayname_change': {
       return dispatch({
-        type: UPDATE_DISPLAY_NAME_SUCCESS,
+        type: UPDATE_NAME_SUCCESS,
         payload: post,
       });
     }
@@ -549,11 +588,10 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
   try {
     dispatch(clearjumpToAction());
     const meId = getState().login.user.id;
-    const comparator = `${userId}__${meId}`;
-
-    let channel = getState().mapChannels.find(channel => {
-      if (comparator.includes(channel.name)) {
-        return channel;
+    const comparator = `${userId}`;
+    let channel = getState().myChannelsMap.find(_channel => {
+      if (_channel.name.includes(comparator)) {
+        return _channel;
       }
       return false;
     });
@@ -565,7 +603,7 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
     }
     dispatch(setActiveFocusChannel(channel.id));
     NavigationService.navigate('Channel', {
-      display_name: getState().users.data[userId]
+      name: getState().users.data[userId]
         ? getState().users.data[userId].username
         : '',
       create_at: channel.create_at,

@@ -18,7 +18,7 @@ class PrivateMessages extends React.Component {
 
   renderItem = ({item: channel}) => {
     const lastPost = channel.posts[0];
-    const channelName = this.parseDisplayName(channel.display_name);
+    const channelName = channel.show_name;
     return (
       <View style={{backgroundColor: '#fff'}}>
         <TouchableOpacity
@@ -27,7 +27,7 @@ class PrivateMessages extends React.Component {
           onPress={() => {
             this.props.setActiveFocusChannel(channel.id);
             NavigationService.navigate('Channel', {
-              display_name: channelName,
+              name: channelName,
               create_at: channel.create_at,
               members: channel.members,
               fav: channel.fav,
