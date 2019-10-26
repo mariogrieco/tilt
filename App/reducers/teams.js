@@ -16,11 +16,11 @@ const teams = (state = initialState, action) => {
     // };
     // }
     case GET_TEAMS_SUCCESS: {
+      const team = action.payload.find(_team => _team.name === 'default');
       return {
         ...state,
         ids: action.payload,
-        default_team_id: action.payload.find(team => team.name === 'default')
-          .id,
+        default_team_id: team ? team.id : state.default_team_id,
       };
     }
     default:
