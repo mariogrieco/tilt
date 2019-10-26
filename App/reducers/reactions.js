@@ -8,11 +8,29 @@ const initialState = {
   user_id: [],
 };
 
+function normalizePayload(reactions) {
+  const current_reactions = [
+    '+1',
+    '-1',
+    'frowning_face',
+    'joy',
+    'rocket',
+    'eyes',
+  ];
+  return current_reactions.map(key => {
+    const match = reactions.find(r => r.EmojiName === key);
+    if (match) {
+      return match;
+    }
+    return {EmojiName: key, sum: 0};
+  });
+}
+
 const reactions = (state = initialState, action) => {
   switch (action.type) {
     case GET_REACTIONS_FOR_USER_SUCCES: {
       return {
-        [action.payload.userId]: action.payload.reactions,
+        [action.payload.userId]: normalizePayload(action.payload.reactions),
       };
     }
     case REMOVED_REACTION: {
@@ -27,6 +45,7 @@ const reactions = (state = initialState, action) => {
             if (nextState[userId][index]) {
               nextState[userId][index].sum = nextReactions.sum;
             }
+            return true;
           }
         });
       }

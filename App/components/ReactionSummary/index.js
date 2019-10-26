@@ -18,8 +18,8 @@ export class ReactionSummary extends Component {
   state = {
     '+1': '',
     '-1': '',
-    frowning_face: '',
     joy: '',
+    frowning_face: '',
     rocket: '',
     eyes: '',
   };
