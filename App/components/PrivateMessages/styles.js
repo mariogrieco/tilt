@@ -11,7 +11,7 @@ export default StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     paddingLeft: 10,
-    paddingTop: 10,
+    // paddingTop: 10,
   },
   emptyContainer: {
     paddingTop: '10rem',
