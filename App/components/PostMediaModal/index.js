@@ -70,7 +70,7 @@ const PostMediaModal = ({postMedia, closedModal, hideModal}) => {
       animationOut="slideOutDown"
       hideModalContentWhileAnimating
       useNativeDriver
-      backdropColor="#000"
+      backdropColor="#111823"
       backdropOpacity={1}
       onBackdropPress={hideModal}
       animationInTiming={200}
