@@ -61,6 +61,7 @@ export class AdvancedSearch extends Component {
     headerLeft: (
       <SearchBar
         handleRef={navigation.getParam('refInput', null)}
+        // eslint-disable-next-line react-native/no-inline-styles
         inputStyle={{
           fontSize: 16,
           letterSpacing: 0.1,
@@ -78,12 +79,14 @@ export class AdvancedSearch extends Component {
     ),
     headerRight: (
       <TouchableOpacity
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           paddingHorizontal: 15,
           paddingBottom: 8,
         }}
         onPress={() => navigation.goBack()}>
         <Text
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             color: '#0e141e',
             fontSize: 16,
@@ -243,17 +246,19 @@ export class AdvancedSearch extends Component {
         loading: true,
       },
       async () => {
+        // eslint-disable-next-line no-shadow
         const {searchPostsWithParams} = this.props;
         const {queryStr} = this.state;
         try {
           const r = await searchPostsWithParams(queryStr, 0);
-          console.log('result: ', r);
         } catch (err) {
           // alert(err);
         } finally {
-          this.setState({
-            loading: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loading: false,
+            });
+          }, 0);
         }
       },
     );
@@ -346,12 +351,7 @@ export class AdvancedSearch extends Component {
   };
 
   render() {
-    const {
-      posts,
-      usernames,
-      channelsNames,
-      // users
-    } = this.props;
+    const {posts} = this.props;
     const {loading, activeMentionBox, activeChannelBox} = this.state;
     return (
       <View style={{flex: 1}}>
@@ -365,34 +365,48 @@ export class AdvancedSearch extends Component {
             ItemSeparatorComponent={this.renderSeparator}
           />
         </View>
-        <SearchResults
-          posts={posts}
-          // usernames={usernames}
-          loading={loading}
-          // channelsNames={channelsNames}
-        />
+        <SearchResults posts={posts} loading={loading} />
         {/* <RecentSearches /> */}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  ...getAdvancedSearchList(state),
-  users: state.users.keys.map(key =>
-    state.users.data[key] ? state.users.data[key] : {},
-  ),
-  channels: state.myChannelsMap
-    .filter(({type}) => type === 'O')
-    .map(channel => {
-      return {
-        ...channel,
-        isDollar: isChannelCreatorAdmin(state, channel.id),
-      };
-    })
-    .valueSeq()
-    .toJS(),
-});
+const mapStateToProps = state => {
+  const whoIam = state.login.user ? state.login.user.id : null; 
+  return {
+    ...getAdvancedSearchList(state),
+    users: state.users.keys.map(key =>
+      state.users.data[key] ? state.users.data[key] : {},
+    ),
+    channels: state.myChannelsMap
+      .filter(({type}) => type === 'O')
+      .map(channel => {
+        return {
+          ...channel,
+          pm: channel.type === 'D',
+          show_name:
+            channel.type === 'D'
+              ? parseNameIfValid(
+                  state.users.data[
+                    channel.name.replace(whoIam, '').replace('__', '')
+                  ],
+                )
+              : channel.name,
+          isDollar: isChannelCreatorAdmin(state, channel.id),
+        };
+      })
+      .valueSeq()
+      .toJS(),
+  }
+};
+
+function parseNameIfValid (user) {
+  if (!user) {
+    return null;
+  }
+  return user.username;
+}
 
 const mapDispatchToProps = {
   searchPostsWithParams,

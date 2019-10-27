@@ -146,30 +146,38 @@ export const navigateIfExists = channelDisplayName => async (
   dispatch,
   getState,
 ) => {
-  const MyMapChannel = getState().myChannelsMap;
-  const myChannels = getState()
-    .myChannelsMap.valueSeq()
-    .toJS();
-  const channels = getState()
-    .mapChannels.valueSeq()
-    .toJS();
+  const state = getState();
+  const MyMapChannel = state.myChannelsMap;
+  const myChannels = state.myChannelsMap.valueSeq().toJS();
+  const channels = state.mapChannels.valueSeq().toJS();
+  const whoIam = state.login.user ? state.login.user.id : null;
+  const users = state.users;
   let exists = false;
+
   [...channels, ...myChannels].forEach(item => {
-    const formatName = item.name;
+    let formatName = item.name;
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
     ) {
       exists = true;
       const joined = MyMapChannel.get(item.id);
       if (joined) {
+        const isPM = joined.type === 'D';
+        if (isPM) {
+          formatName = formatName.replace(whoIam, '').replace('__', '');
+          formatName = users.data[formatName]
+            ? users.data[formatName].username
+            : '';
+        }
         dispatch(setActiveFocusChannel(item.id));
         NavigationService.navigate('Channel', {
           name: formatName,
           create_at: item.create_at,
           members: item.members,
-          fav: getFavoriteChannelById(getState(), item.id),
+          fav: getFavoriteChannelById(state, item.id),
           focusOn: false,
           isAdminCreator: channelDisplayName[0] === '$',
+          pm: isPM,
         });
       } else {
         dispatch(openModal(item.id));
@@ -185,11 +193,8 @@ export const navigateIfExists = channelDisplayName => async (
         dispatch(getChannelsSucess([r.channel]));
         dispatch(openModal(r.channel.id));
       } else {
-        const state = getState();
         const needAdminCredentials = channelDisplayName[0] === '$';
-        const meId =
-          state.login && state.login.user ? state.login.user.id : 'null';
-        const isAdmin = state.adminCreators.includes(meId);
+        const isAdmin = state.adminCreators.includes(whoIam);
         if (needAdminCredentials && !isAdmin) {
           // eslint-disable-next-line no-alert
           alert('This symbol does not exist.');

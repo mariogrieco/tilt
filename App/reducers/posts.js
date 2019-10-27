@@ -98,12 +98,10 @@ const posts = (state = initialState, action) => {
           const nextPage = elm.page;
           nextPageOrder[elm.page] = elm.order;
 
-          // console.log('orders ###############################');
           let nextOrder = [];
           nextPageOrder.forEach(orders => {
             nextOrder = concat(nextOrder, uniq(orders));
           });
-          // console.log('orders ###############################');
 
           elm.order.forEach(key => {
             nextState.entities[key] = cloneDeep(elm.posts[key]);

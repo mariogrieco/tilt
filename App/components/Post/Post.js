@@ -312,18 +312,28 @@ class Post extends React.Component {
   }
 
   jumpTo = async () => {
-    const {channel, postId, jumpToAction} = this.props;
+    const {channel, postId, jumpToAction, me, users} = this.props;
     if (!channel) {
       return null;
     }
     this.props.setActiveFocusChannel(channel.id);
     const r = await jumpToAction(channel.id, postId, 0, 10);
+    const isPm = channel.type === 'D';
+    let show_name = channel.name;
+
+    if (isPm) {
+      show_name = show_name.replace(me, '').replace('__', '');
+      show_name = users[show_name] ? users[show_name].username : '';
+    }
+
     NavigationService.navigate('Channel', {
-      name: channel.name,
+      name: show_name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
       focusOn: postId,
+      pm: isPm,
+      isAdminCreator: channel.isDollar,
     });
   };
 
@@ -592,6 +602,7 @@ const mapStateToProps = (state, props) => ({
   loggedUser: state.login.user ? state.login.user.username : '',
   me: state.login.user ? state.login.user.id : null,
   sponsoredIds: state.sponsored,
+  users: state.users.data,
 });
 
 const mapDispatchToProps = {
