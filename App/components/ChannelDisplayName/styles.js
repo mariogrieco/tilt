@@ -24,10 +24,13 @@ export default StyleSheet.create({
   hashtag: {
     // color: '#8E8E95'
   },
-  icon: {
+  icons: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  icon: {
+    marginHorizontal: 2,
   },
   headerContainer: {
     paddingTop: '0.25rem',
@@ -61,5 +64,20 @@ export default StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.2,
     fontFamily: 'SFProDisplay-Bold',
+  },
+  unreadText: {
+    fontFamily: 'SFProDisplay-Medium',
+    color: '#fff',
+    fontSize: 13,
+    letterSpacing: 0.1,
+  },
+  unreadMessages: {
+    marginLeft: 10,
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    backgroundColor: '#17C491',
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
