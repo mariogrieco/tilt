@@ -1198,7 +1198,7 @@ class Input extends React.Component {
       placeholder,
       loggedUserPicture,
       isPrivateChannel,
-      readOnlyChannel,
+      isReadOnlyChannel,
     } = this.props;
     const {
       messageText,
@@ -1229,7 +1229,7 @@ class Input extends React.Component {
               dataDetectorTypes="all"
               value={messageText}
               placeholder={
-                readOnlyChannel ? 'This channel is read-only' : placeholder
+                isReadOnlyChannel ? 'This channel is read-only' : placeholder
               }
               style={styles.input}
               ref={this.refInput}
@@ -1239,7 +1239,7 @@ class Input extends React.Component {
               multiline
               underlineColorAndroid="transparent"
               allowFontScaling
-              editable={!readOnlyChannel}
+              editable={!isReadOnlyChannel}
             />
           </View>
         </View>
@@ -1347,7 +1347,7 @@ class Input extends React.Component {
               <Image source={FILE} style={styles.inputOption} />
             </TouchableHighlight>
             <TouchableOpacity>
-              {this.isDisable() ? (
+              {this.isDisable() || isReadOnlyChannel ? (
                 <Text style={[styles.button, styles.disabled]}>Send</Text>
               ) : (
                 <Text style={styles.button} onPress={this.send}>
@@ -1376,7 +1376,7 @@ const mapStateToProps = state => ({
       )
     : '',
   isPrivateChannel: getIsCurrentFocusChannelPrivate(state),
-  readOnlyChannel:
+  isReadOnlyChannel:
     state.appNavigation.active_channel_id === 'z6ber8kptif9zc3os7gsxuxguc'
       ? !state.login.user.roles.includes('admin')
       : false,
