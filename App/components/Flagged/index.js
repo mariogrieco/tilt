@@ -13,25 +13,30 @@ const MOON = require('../../../assets/images/flagged_moon/flagged_moon.png');
 
 class Flagged extends React.PureComponent {
   renderItem = ({item: channel}) => {
-    const channelName = channel.name;
+    const channelName = `${channel.prefix}${channel.show_name}`;
     return (
+      // eslint-disable-next-line react-native/no-inline-styles
       <View style={{backgroundColor: '#fff'}}>
         <TouchableOpacity
           style={styles.channelTitleContainer}
           onPress={() => {
             this.props.setActiveFocusChannel(channel.id);
             NavigationService.navigate('Channel', {
-              name: channelName,
+              name: channelName
+                .replace('$', '')
+                .replace('#', '')
+                .replace('@', ''),
               members: channel.members,
               create_at: channel.create_at,
               fav: channel.fav,
+              pm: channel.type === 'D',
             });
           }}>
           <Text
             style={[
               styles.channelTitle,
               {paddingTop: 5},
-            ]}>{`#${channelName}`}</Text>
+            ]}>{channelName}</Text>
         </TouchableOpacity>
         {channel.flagged.map(post => (
           <Post
@@ -44,8 +49,6 @@ class Flagged extends React.PureComponent {
             createdAt={post.create_at}
             edit_at={post.edit_at}
             type={post.type}
-            // channelsNames={channelsNames}
-            // usernames={usersNames}
             extendedDateFormat
           />
         ))}
