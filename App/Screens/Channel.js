@@ -310,20 +310,20 @@ class Channel extends React.Component {
     return match;
   }
 
-  async findIndexById(id) {
-    const {stop} = this.props;
-    try {
-      let match = this._findIndex(id);
-      while (match === null && !stop) {
-        await this._fetchMore();
-        match = this._findIndex(id);
-      }
-      return match || 0;
-    } catch (err) {
-      return 0;
-    }
-    return match;
-  }
+  // async findIndexById(id) {
+  //   const {stop} = this.props;
+  //   try {
+  //     let match = this._findIndex(id);
+  //     while (match === null && !stop) {
+  //       await this._fetchMore();
+  //       match = this._findIndex(id);
+  //     }
+  //     return match || 0;
+  //   } catch (err) {
+  //     return 0;
+  //   }
+  //   return match;
+  // }
 
   checkFocusedPost = async () => {
     const {navigation} = this.props;

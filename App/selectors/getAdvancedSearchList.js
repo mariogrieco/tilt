@@ -6,6 +6,7 @@ const getAdvancedSearchList = state => {
   const {users} = state;
   const {order, posts} = state.advancedSearch;
   const {myChannelsMap} = state;
+  const whoIam = state.login.user ? state.login.user.id : null;
   return {
     posts: order
       .map(key => {
@@ -14,6 +15,16 @@ const getAdvancedSearchList = state => {
         post.channel = myChannelsMap.has(post.channel_id)
           ? myChannelsMap.get(post.channel_id)
           : {};
+        post.pm = post.channel.type === 'D';
+        if (post.pm) {
+          const user =
+            users.data[
+              post.channel.name.replace(whoIam, '').replace('__', '')
+            ] || {};
+          post.channel.show_name = user.username;
+        } else {
+          post.channel.show_name = post.channel.name;
+        }
         return {
           ...post,
           isDollar: isChannelCreatorAdmin(state, post.channel_id),

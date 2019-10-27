@@ -10,12 +10,12 @@ export default class index extends PureComponent {
     <TouchableHighlight
       underlayColor="#17C491"
       onPress={() => {
-        this.props.onChannel(item.name);
+        this.props.onChannel(item.show_name);
       }}
       style={styles.channelName}>
       <Text style={styles.channelText}>
-        {item.isDollar ? '$' : '#'}
-        {item.name}
+        {item.pm ? '@' : item.isDollar ? '$' : '#'}
+        {item.show_name}
       </Text>
     </TouchableHighlight>
   );
