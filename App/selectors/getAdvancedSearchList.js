@@ -25,9 +25,10 @@ const getAdvancedSearchList = state => {
         } else {
           post.channel.show_name = post.channel.name;
         }
+        post.channel.isDollar = isChannelCreatorAdmin(state, post.channel_id);
         return {
           ...post,
-          isDollar: isChannelCreatorAdmin(state, post.channel_id),
+          isDollar: post.channel.isDollar,
         };
       })
       .filter(post => filterPostBy(post) && post.channel),

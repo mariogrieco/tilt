@@ -333,7 +333,7 @@ class Post extends React.Component {
       fav: channel.fav,
       focusOn: postId,
       pm: isPm,
-      isAdminCreator: isPm ? false : channel.isDollar,
+      isAdminCreator: channel.isDollar,
     });
   };
 

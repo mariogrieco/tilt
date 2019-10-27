@@ -250,7 +250,6 @@ export class AdvancedSearch extends Component {
         const {queryStr} = this.state;
         try {
           const r = await searchPostsWithParams(queryStr, 0);
-          console.log('result: ', r);
         } catch (err) {
           // alert(err);
         } finally {
