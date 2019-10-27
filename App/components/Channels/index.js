@@ -124,6 +124,7 @@ class Channels extends React.Component {
         key={item.id}
         channel_id={item.id}
         titleColor={item.titleColor}
+        unreadMessagesCount={item.unreadMessagesCount}
       />
     );
   };

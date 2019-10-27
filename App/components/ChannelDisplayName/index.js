@@ -66,22 +66,54 @@ class ChannelDisplayName extends Component {
   }
 
   getHeader() {
-    const {name, create_at, members, fav, titleColor, isfromAdmin} = this.props;
+    const {
+      name,
+      create_at,
+      members,
+      fav,
+      titleColor,
+      isfromAdmin,
+      unreadMessagesCount,
+    } = this.props;
 
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
 
     return (
       <View style={styles.headerContainer}>
         <Text style={[styles.header, titleColor ? {color: titleColor} : {}]}>
-          <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text>{' '}
-          {name}{' '}
+          <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text> {name}{' '}
         </Text>
-        <View style={styles.icon}>
-          {diff && <Image source={NEW} />}
-          {!diff && members > 10000 && <Image source={FIRE} />}
-          {!diff && members > 100000 && <Image source={CHANNEL_ROCKET} />}
-          {!diff && members > 1000000 && <Image source={GOAT} />}
-          {fav && <Image source={STAR} />}
+        <View style={styles.icons}>
+          {diff && (
+            <View style={styles.icon}>
+              <Image source={NEW} />
+            </View>
+          )}
+          {!diff && members > 10000 && (
+            <View style={styles.icon}>
+              <Image source={FIRE} />
+            </View>
+          )}
+          {!diff && members > 100000 && (
+            <View style={styles.icon}>
+              <Image source={CHANNEL_ROCKET} />
+            </View>
+          )}
+          {!diff && members > 1000000 && (
+            <View style={styles.icon}>
+              <Image source={GOAT} />
+            </View>
+          )}
+          {fav && (
+            <View style={styles.icon}>
+              <Image source={STAR} />
+            </View>
+          )}
+          {unreadMessagesCount > 0 && (
+            <View style={[styles.unreadMessages]}>
+              <Text style={styles.unreadText}>{unreadMessagesCount}</Text>
+            </View>
+          )}
         </View>
       </View>
     );
