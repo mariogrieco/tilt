@@ -54,7 +54,7 @@ export const Header = ({
       )}
     </View>
     <Text style={styles.description}>{description}</Text>
-    <Text style={styles.posts}>Posts</Text>
+    <Text style={styles.posts}>Posts & Reactions</Text>
     <ReactionSummary userId={userId} />
   </View>
 );

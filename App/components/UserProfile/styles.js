@@ -46,11 +46,11 @@ export default StyleSheet.create({
   },
   posts: {
     fontFamily: 'SFProDisplay-Bold',
-    fontSize: 16,
+    fontSize: 15,
     letterSpacing: 0.1,
     marginTop: 20,
     marginBottom: 10,
-    color: '#0e141e',
+    color: '#585C63',
   },
   emptyContainer: {
     paddingTop: 100,
