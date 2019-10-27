@@ -1194,7 +1194,12 @@ class Input extends React.Component {
   }
 
   render() {
-    const {placeholder, loggedUserPicture, isPrivateChannel} = this.props;
+    const {
+      placeholder,
+      loggedUserPicture,
+      isPrivateChannel,
+      readOnlyChannel,
+    } = this.props;
     const {
       messageText,
       showMentionsOptions,
@@ -1223,7 +1228,9 @@ class Input extends React.Component {
               keyboardType="default"
               dataDetectorTypes="all"
               value={messageText}
-              placeholder={placeholder}
+              placeholder={
+                readOnlyChannel ? 'This channel is read-only' : placeholder
+              }
               style={styles.input}
               ref={this.refInput}
               onSelectionChange={this.onSelectionChange}
@@ -1232,6 +1239,7 @@ class Input extends React.Component {
               multiline
               underlineColorAndroid="transparent"
               allowFontScaling
+              editable={!readOnlyChannel}
             />
           </View>
         </View>
@@ -1368,6 +1376,10 @@ const mapStateToProps = state => ({
       )
     : '',
   isPrivateChannel: getIsCurrentFocusChannelPrivate(state),
+  readOnlyChannel:
+    state.appNavigation.active_channel_id === 'z6ber8kptif9zc3os7gsxuxguc'
+      ? !state.login.user.roles.includes('admin')
+      : false,
 });
 
 const mapDisptchToProps = {
