@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, Text, Image, TouchableOpacity} from 'react-native';
+import {View, FlatList, Text, Image, TouchableOpacity, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Post from '../Post/Post';
 import {getAllPostByUserId} from '../../selectors/getUserById';
@@ -7,6 +7,7 @@ import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import {getChannelDisplayNameAsDictionary} from '../../selectors/getChannelNames';
 import {createDirectChannel} from '../../actions/channels';
 import ReactionSummary from '../ReactionSummary';
+import PostsSummary from '../PostsSummary';
 import styles from './styles';
 
 const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
@@ -54,7 +55,7 @@ export const Header = ({
       )}
     </View>
     <Text style={styles.description}>{description}</Text>
-    <Text style={styles.posts}>Posts & Reactions</Text>
+    <PostsSummary userId={userId} />
     <ReactionSummary userId={userId} />
   </View>
 );
@@ -151,7 +152,7 @@ class UserProfile extends React.PureComponent {
         renderItem={this.renderItem}
         style={{flex: 1, backgroundColor: '#f6f7f9'}}
         initialNumToRender={50}
-        removeClippedSubviews
+        removeClippedSubviews={Platform.OS === 'android'}
         updateCellsBatchingPeriod={150}
       />
     );

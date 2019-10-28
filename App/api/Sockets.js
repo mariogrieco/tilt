@@ -1,8 +1,8 @@
 import wsClient from 'mattermost-redux/client/websocket_client';
 import store from '../config/store';
 import Sync from '../config/SyncApp';
-
 import EventTranslator from '../actions/EventTranslator';
+import {socketURL} from './MattermostClient';
 
 wsClient.setConnectingCallback(() => {
   console.log('setConnectingCallback');
@@ -33,7 +33,7 @@ const init = () => {
   try {
     wsClient.close(true);
     wsClient.initialize('', {
-      connectionUrl: 'wss://community.tiltchat.com/api/v4/websocket',
+      connectionUrl: socketURL,
       forceConnection: true,
     });
   } catch (ex) {
