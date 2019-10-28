@@ -7,6 +7,7 @@ import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import {getChannelDisplayNameAsDictionary} from '../../selectors/getChannelNames';
 import {createDirectChannel} from '../../actions/channels';
 import ReactionSummary from '../ReactionSummary';
+import PostsSummary from '../PostsSummary';
 import styles from './styles';
 
 const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
@@ -54,7 +55,7 @@ export const Header = ({
       )}
     </View>
     <Text style={styles.description}>{description}</Text>
-    <Text style={styles.posts}>Posts & Reactions</Text>
+    <PostsSummary userId={userId} />
     <ReactionSummary userId={userId} />
   </View>
 );
