@@ -4,6 +4,7 @@ import {withNavigation} from 'react-navigation';
 import {getReactionsForUser} from '../../actions/reactions';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import num_format from '../../utils/numberFormat';
 
 import styles from './styles';
 
@@ -89,7 +90,7 @@ export class ReactionSummary extends Component {
     if (!firstLoad) {
       return value;
     }
-    return value === '' ? 0 : value;
+    return value === '' ? 0 : num_format(value);
   }
 
   render() {

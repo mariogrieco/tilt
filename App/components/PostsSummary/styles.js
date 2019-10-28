@@ -11,5 +11,6 @@ export default StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     color: '#0e141e',
+    textTransform: 'uppercase',
   },
 });

@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {getPostCount} from '../../actions/postCount';
+import num_format from '../../utils/numberFormat';
 
 import styles from './styles';
 
@@ -32,12 +33,13 @@ export class PostsSummary extends PureComponent {
 
   render() {
     const {countForUser, current} = this.props;
-    console.log('countForUser:', current);
     return (
       <View>
         <Text style={styles.posts}>
-          <Text style={styles.bold}>{countForUser} </Text>
-          Posts
+          <Text style={styles.bold}>
+            {countForUser ? num_format(countForUser) : ' '}
+          </Text>
+          {' '}Posts
         </Text>
       </View>
     );
