@@ -7,7 +7,7 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Platform,
 } from 'react-native';
 import moment from 'moment';
 import StyleSheet from 'react-native-extended-stylesheet';
@@ -644,7 +644,7 @@ class Channel extends React.Component {
           keyboardDismissMode="on-drag"
           maxToRenderPerBatch={5}
           updateCellsBatchingPeriod={150}
-          removeClippedSubviews
+          removeClippedSubviews={Platform.OS === 'android'}
         />
         {activeJumpLabel && this.renderJumpLabel()}
 

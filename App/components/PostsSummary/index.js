@@ -38,8 +38,8 @@ export class PostsSummary extends PureComponent {
         <Text style={styles.posts}>
           <Text style={styles.bold}>
             {countForUser ? num_format(countForUser) : ' '}
-          </Text>
-          {' '}Posts
+          </Text>{' '}
+          Posts & Reactions
         </Text>
       </View>
     );

@@ -13,21 +13,12 @@ const FIRE = require('../../../assets/images/fire/fire.png');
 
 export default class ChannelHeader extends PureComponent {
   render() {
-    const {
-      name,
-      create_at,
-      members,
-      fav,
-      pm,
-      isAdminCreator,
-    } = this.props;
+    const {name, create_at, members, fav, pm, isAdminCreator} = this.props;
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
     return (
       <View style={styles.headerContainer}>
         <Text style={styles.text}>
-          {!pm
-            ? `${isAdminCreator ? '$' : '#'} ${name}`
-            : `@${name}`}
+          {!pm ? `${isAdminCreator ? '$' : '#'} ${name}` : `@${name}`}
           {'  '}
         </Text>
         {!pm && (

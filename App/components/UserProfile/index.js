@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, Text, Image, TouchableOpacity} from 'react-native';
+import {View, FlatList, Text, Image, TouchableOpacity, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Post from '../Post/Post';
 import {getAllPostByUserId} from '../../selectors/getUserById';
@@ -152,7 +152,7 @@ class UserProfile extends React.PureComponent {
         renderItem={this.renderItem}
         style={{flex: 1, backgroundColor: '#f6f7f9'}}
         initialNumToRender={50}
-        removeClippedSubviews
+        removeClippedSubviews={Platform.OS === 'android'}
         updateCellsBatchingPeriod={150}
       />
     );
