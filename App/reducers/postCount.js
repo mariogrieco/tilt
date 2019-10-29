@@ -13,12 +13,22 @@ export default (state = initialState, {type, payload}) => {
           : 0,
       };
     case ADD_POST_TO_SUCCESS:
-      return {
-        ...state,
-        [payload.user_id]: state[payload.user_id]
-          ? ++state[payload.user_id]
-          : 1,
-      };
+      if (
+        [
+          '',
+          'system_header_change',
+          'system_purpose_change',
+          'system_displayname_change',
+        ].includes(payload.type)
+      ) {
+        return {
+          ...state,
+          [payload.user_id]: state[payload.user_id]
+            ? ++state[payload.user_id]
+            : 1,
+        };
+      }
+      return state;
     case GET_POST_COUNT_SUCCESS:
       return {...state, [payload.userId]: payload.data};
 
