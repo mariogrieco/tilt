@@ -81,12 +81,12 @@ export const removeReactionsError = err => ({
 });
 
 
-export const removedReaction = (emojiName, userId) => ({
+export const removedReaction = (emojiName, user_id, post_id) => ({
   type: REMOVED_REACTION,
-  payload: {emojiName, userId},
+  payload: {emojiName, user_id, post_id},
 });
 
-export const addedReaction = (emojiName, userId) => ({
+export const addedReaction = (emojiName, user_id, post_id) => ({
   type: ADDED_REACTION,
-  payload: {emojiName, userId},
+  payload: {emojiName, user_id, post_id},
 });

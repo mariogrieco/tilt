@@ -11,13 +11,17 @@ const eventsDispatched = data => {
     case 'reaction_added': {
       const reaction = JSON.parse(data.data.reaction);
       return store.dispatch(
-        addedReaction(reaction.emoji_name, reaction.user_id),
+        addedReaction(reaction.emoji_name, reaction.user_id, reaction.post_id),
       );
     }
     case 'reaction_removed': {
       const reaction = JSON.parse(data.data.reaction);
       return store.dispatch(
-        removedReaction(reaction.emoji_name, reaction.user_id),
+        removedReaction(
+          reaction.emoji_name,
+          reaction.user_id,
+          reaction.post_id,
+        ),
       );
     }
     case 'posted': {
