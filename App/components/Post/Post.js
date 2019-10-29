@@ -122,9 +122,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingDislike: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingDislike: false,
+            });
+          }, 0);
         }
       },
     );
@@ -149,9 +151,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingEye: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingEye: false,
+            });
+          }, 0);
         }
       },
     );
@@ -176,9 +180,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingRocket: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingRocket: false,
+            });
+          }, 0);
         }
       },
     );
@@ -203,9 +209,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingLaughts: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingLaughts: false,
+            });
+          }, 0);
         }
       },
     );
@@ -230,9 +238,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingSadFace: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingSadFace: false,
+            });
+          }, 0);
         }
       },
     );
@@ -257,9 +267,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingLike: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingLike: false,
+            });
+          }, 0);
         }
       },
     );
