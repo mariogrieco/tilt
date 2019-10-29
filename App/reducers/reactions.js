@@ -31,46 +31,46 @@ const reactions = (state = initialState, action) => {
         [action.payload.userId]: normalizePayload(action.payload.reactions),
       };
     }
-    case REMOVED_REACTION: {
-      const {emojiName, user_id, post_id} = action.payload;
-      const nextState = {...state};
-      if (nextState[user_id]) {
-        nextState[user_id].find((reaction, index) => {
-          const nextReactions = {...reaction};
-          if (
-            reaction.EmojiName === emojiName &&
-            nextState[`${post_id}-added-${emojiName}`]
-          ) {
-            nextReactions.sum -= 1;
-            nextReactions.sum = nextReactions.sum <= 0 ? 0 : nextReactions.sum;
-            if (nextState[user_id][index]) {
-              nextState[user_id][index].sum = nextReactions.sum;
-              nextState[`${post_id}-added-${emojiName}`] = false;
-            }
-            return true;
-          }
-        });
-      }
-      return nextState;
-    }
-    case ADDED_REACTION: {
-      const {emojiName, user_id, post_id} = action.payload;
-      const nextState = {...state};
-      if (nextState[user_id]) {
-        nextState[user_id].find((reaction, index) => {
-          const nextReactions = {...reaction};
-          if (reaction.EmojiName === emojiName) {
-            if (nextState[user_id][index]) {
-              if (!nextState[`${post_id}-added-${emojiName}`]) {
-                nextState[user_id][index].sum = ++nextReactions.sum;
-              }
-              nextState[`${post_id}-added-${emojiName}`] = true;
-            }
-          }
-        });
-      }
-      return nextState;
-    }
+    // case REMOVED_REACTION: {
+    //   const {emojiName, user_id, post_id} = action.payload;
+    //   const nextState = {...state};
+    //   if (nextState[user_id]) {
+    //     nextState[user_id].find((reaction, index) => {
+    //       const nextReactions = {...reaction};
+    //       if (
+    //         reaction.EmojiName === emojiName &&
+    //         nextState[`${post_id}-added-${emojiName}`]
+    //       ) {
+    //         nextReactions.sum -= 1;
+    //         nextReactions.sum = nextReactions.sum <= 0 ? 0 : nextReactions.sum;
+    //         if (nextState[user_id][index]) {
+    //           nextState[user_id][index].sum = nextReactions.sum;
+    //           nextState[`${post_id}-added-${emojiName}`] = false;
+    //         }
+    //         return true;
+    //       }
+    //     });
+    //   }
+    //   return nextState;
+    // }
+    // case ADDED_REACTION: {
+    //   const {emojiName, user_id, post_id} = action.payload;
+    //   const nextState = {...state};
+    //   if (nextState[user_id]) {
+    //     nextState[user_id].find((reaction, index) => {
+    //       const nextReactions = {...reaction};
+    //       if (reaction.EmojiName === emojiName) {
+    //         if (nextState[user_id][index]) {
+    //           if (!nextState[`${post_id}-added-${emojiName}`]) {
+    //             nextState[user_id][index].sum = ++nextReactions.sum;
+    //           }
+    //           nextState[`${post_id}-added-${emojiName}`] = true;
+    //         }
+    //       }
+    //     });
+    //   }
+    //   return nextState;
+    // }
     default: {
       return state;
     }

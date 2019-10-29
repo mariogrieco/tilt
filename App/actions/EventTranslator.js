@@ -3,7 +3,7 @@ import {addPostTo, removeFromPost, editPost} from './posts';
 import {getChannelById, channelUpdated, deleteChannelSucess} from './channels';
 import {removedReaction, addedReaction} from './reactions';
 import {userUpdatedSuccess, getNewUser} from './users';
-
+import {getReactionsForUser} from './reactions'
 import moment from 'moment';
 
 const eventsDispatched = data => {
@@ -34,7 +34,10 @@ const eventsDispatched = data => {
     }
     case 'post_edited': {
       const post = JSON.parse(data.data.post);
-      return store.dispatch(editPost(post));
+      return Promise.all([
+        store.dispatch(getReactionsForUser(post.user_id)),
+        store.dispatch(editPost(post)),
+      ]);
     }
     case 'direct_added': {
       const {channel_id} = data.broadcast;
