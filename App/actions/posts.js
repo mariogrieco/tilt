@@ -47,6 +47,13 @@ export const SHOW_POST_MEDIA_BOX = 'SHOW_POST_MEDIA_BOX';
 export const HIDE_POST_MEDIA_BOX = 'HIDE_POST_MEDIA_BOX';
 export const CLOSED_POST_MEDIA_BOX = 'CLOSED_POST_MEDIA_BOX';
 
+export const REMOVE_POST_REDUCER_BY_CHANNEL_ID = 'REMOVE_POST_REDUCER_BY_CHANNEL_ID';
+
+export const removePostFromChannelId = channel_id => ({
+  type: REMOVE_POST_REDUCER_BY_CHANNEL_ID,
+  payload: channel_id,
+});
+
 function getFlagSchema(postId, userId) {
   return [
     {

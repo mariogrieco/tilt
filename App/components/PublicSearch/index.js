@@ -35,7 +35,7 @@ class PublicSearch extends React.Component {
     const {currentToggleSelected} = this.state;
 
     return (
-      <ScrollView>
+      <ScrollView keyboardDismissMode="on-drag">
         <View
           style={{
             width: '57%',
@@ -59,7 +59,7 @@ class PublicSearch extends React.Component {
                   show
                   channel={channel}
                   members={channelStatsGroup[channel.id] || 0}
-                  display_name={channel.display_name}
+                  name={channel.name}
                   create_at={channel.create_at}
                   key={channel.id}
                   channel_id={channel.id}

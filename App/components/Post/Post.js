@@ -122,9 +122,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingDislike: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingDislike: false,
+            });
+          }, 0);
         }
       },
     );
@@ -149,9 +151,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingEye: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingEye: false,
+            });
+          }, 0);
         }
       },
     );
@@ -176,9 +180,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingRocket: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingRocket: false,
+            });
+          }, 0);
         }
       },
     );
@@ -203,9 +209,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingLaughts: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingLaughts: false,
+            });
+          }, 0);
         }
       },
     );
@@ -230,9 +238,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingSadFace: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingSadFace: false,
+            });
+          }, 0);
         }
       },
     );
@@ -257,9 +267,11 @@ class Post extends React.Component {
         } catch (ex) {
           alert(ex);
         } finally {
-          this.setState({
-            loadingLike: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              loadingLike: false,
+            });
+          }, 0);
         }
       },
     );
@@ -312,18 +324,28 @@ class Post extends React.Component {
   }
 
   jumpTo = async () => {
-    const {channel, postId, jumpToAction} = this.props;
+    const {channel, postId, jumpToAction, me, users} = this.props;
     if (!channel) {
       return null;
     }
     this.props.setActiveFocusChannel(channel.id);
     const r = await jumpToAction(channel.id, postId, 0, 10);
+    const isPm = channel.type === 'D';
+    let show_name = channel.name;
+
+    if (isPm) {
+      show_name = show_name.replace(me, '').replace('__', '');
+      show_name = users[show_name] ? users[show_name].username : '';
+    }
+
     NavigationService.navigate('Channel', {
-      display_name: this.parseDisplayName(channel.display_name),
+      name: show_name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
       focusOn: postId,
+      pm: isPm,
+      isAdminCreator: channel.isDollar,
     });
   };
 
@@ -333,6 +355,7 @@ class Post extends React.Component {
       if (file.mime_type === 'image/gif') {
         return (
           <TouchableOpacity
+            activeOpacity={1}
             key={file.id}
             onPress={() =>
               this.props.showPostMediaBox({
@@ -350,6 +373,7 @@ class Post extends React.Component {
       }
       return (
         <TouchableOpacity
+          activeOpacity={1}
           key={file.id}
           onPress={() =>
             this.props.showPostMediaBox({
@@ -431,6 +455,7 @@ class Post extends React.Component {
     return (
       <>
         <TouchableOpacity
+          activeOpacity={1}
           onPress={disableInteractions ? () => {} : this.onReply}>
           {!imageUrl && (
             <View
@@ -454,6 +479,7 @@ class Post extends React.Component {
         </TouchableOpacity>
         {imageUrl && (
           <TouchableOpacity
+            activeOpacity={1}
             onPress={() =>
               this.props.showPostMediaBox({uri: imageUrl, type: 'image'})
             }>
@@ -512,6 +538,7 @@ class Post extends React.Component {
         )}
         {jumpTo && (
           <TouchableOpacity
+            activeOpacity={1}
             style={styles.jumpContainer}
             onPress={disableInteractions ? () => {} : this.jumpTo}>
             <View>
@@ -587,6 +614,7 @@ const mapStateToProps = (state, props) => ({
   loggedUser: state.login.user ? state.login.user.username : '',
   me: state.login.user ? state.login.user.id : null,
   sponsoredIds: state.sponsored,
+  users: state.users.data,
 });
 
 const mapDispatchToProps = {

@@ -2,14 +2,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import concat from 'lodash/concat';
 import keys from 'lodash/keys';
 import {
-  // GET_POST_ERROR,
   GET_POST_SUCESS,
   GET_POST_FOR_CHANNEL_SUCCESS,
-  // ADD_POST_TO_ERROR,
   ADD_POST_TO_SUCCESS,
   REMOVE_FROM_POST_SUCCESS,
   EDIT_POST_SUCCESS,
+  REMOVE_POST_REDUCER_BY_CHANNEL_ID,
 } from '../actions/posts';
+import {REMOVE_FROM_CHANNEL_SUCESS} from '../actions/channels';
 import {LOGOUT_SUCESS} from '../actions/login';
 // import initialState from '../config/initialState/posts';
 import uniq from 'lodash/uniq';
@@ -31,6 +31,25 @@ const initialState = {
 
 const posts = (state = initialState, action) => {
   switch (action.type) {
+    case REMOVE_POST_REDUCER_BY_CHANNEL_ID:
+    case REMOVE_FROM_CHANNEL_SUCESS: {
+      const channel_id = action.payload;
+      const nextState = cloneDeep(state);
+      delete nextState.orders[channel_id];
+      const nextEntities = {};
+      const nextKeys = Object.keys(nextState.entities).filter(key => {
+        return nextState.entities[key].channel_id !== channel_id;
+      });
+      nextKeys.forEach(key => {
+        nextEntities[key] = nextState.entities[key];
+      });
+
+      nextState.keys = nextKeys;
+      nextState.entities = nextEntities;
+
+      nextState.orders[channel_id] = undefined;
+      return nextState;
+    }
     case LOGOUT_SUCESS: {
       return {
         keys: [],
@@ -98,12 +117,10 @@ const posts = (state = initialState, action) => {
           const nextPage = elm.page;
           nextPageOrder[elm.page] = elm.order;
 
-          // console.log('orders ###############################');
           let nextOrder = [];
           nextPageOrder.forEach(orders => {
             nextOrder = concat(nextOrder, uniq(orders));
           });
-          // console.log('orders ###############################');
 
           elm.order.forEach(key => {
             nextState.entities[key] = cloneDeep(elm.posts[key]);

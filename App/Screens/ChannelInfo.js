@@ -25,6 +25,7 @@ import {
   removeFromChannel,
   deleteChannel,
 } from '../actions/channels';
+import {removePostFromChannelId} from '../actions/posts';
 import {
   handleUrlPress,
   handleConvertedUrlPress,
@@ -406,6 +407,7 @@ class ChannelInfo extends React.Component {
             this.props.user_id,
             this.props.channel_id,
           );
+          // await this.props.removePostFromChannelId(this.props.channel_id);
           navigation.navigate('PublicChat');
         } catch (err) {
           alert(err);
@@ -652,6 +654,7 @@ const mapDispatchToProps = {
   archiveChannelActive,
   setCurrentDisplayUserProfile,
   deleteChannel,
+  removePostFromChannelId,
 };
 
 export default connect(

@@ -9,6 +9,8 @@ import Rocket from '../IconStore/Rocket';
 import SadFace from '../IconStore/SadFace';
 import Reply from '../IconStore/Reply';
 
+import num_format from '../../utils/numberFormat';
+
 import styles from './styles';
 
 export default class Feedback extends PureComponent {
@@ -44,7 +46,7 @@ export default class Feedback extends PureComponent {
         style={[styles.emojiReactions, borderLess ? styles.borderLess : {}]}
         onPress={onPress}>
         {this.getFace()}
-        <Text style={styles.emojiReactionsText}>{size}</Text>
+        <Text style={styles.emojiReactionsText}>{' '}{num_format(size)}{' '}</Text>
       </TouchableOpacity>
     );
   }

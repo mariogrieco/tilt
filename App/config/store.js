@@ -10,7 +10,7 @@ let store = null;
 // Middleware: Redux Persist Config
 const persistConfig = {
   // Root?
-  key: 'BC0X2',
+  key: 'BC1X3',
   // Storage Method (React Native)
   storage: AsyncStorage,
   // Whitelist (Save Specific Reducers)
@@ -29,6 +29,13 @@ const persistConfig = {
     'modal',
     'users',
     'displayUserProfile',
+    'teams',
+    'preferences',
+    'channels',
+    'reactions',
+    // 'mapChannels',
+    // 'myChannelsMap',
+    'adminCreators',
   ],
 };
 

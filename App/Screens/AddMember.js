@@ -56,6 +56,7 @@ const Email = ({onTextChange, onFocus, onBlur, placeHolder, value}) => (
       onFocus={onFocus}
       onBlur={onBlur}
       value={value}
+      autoCapitalize="none"
     />
   </View>
 );

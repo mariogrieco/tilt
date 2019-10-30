@@ -7,7 +7,7 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Platform,
 } from 'react-native';
 import moment from 'moment';
 import StyleSheet from 'react-native-extended-stylesheet';
@@ -171,7 +171,7 @@ class Channel extends React.Component {
           onPress={() => navigation.dispatch(NavigationActions.back())}
         />
         <ChannelHeader
-          display_name={navigation.getParam('display_name', '')}
+          name={navigation.getParam('name', '')}
           create_at={navigation.getParam('create_at', '')}
           members={navigation.getParam('members', '')}
           fav={navigation.getParam('fav', '')}
@@ -246,7 +246,7 @@ class Channel extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.offset) {
       if (
         nextProps.posts.length > 0 &&
@@ -310,20 +310,20 @@ class Channel extends React.Component {
     return match;
   }
 
-  async findIndexById(id) {
-    const {stop} = this.props;
-    try {
-      let match = this._findIndex(id);
-      while (match === null && !stop) {
-        await this._fetchMore();
-        match = this._findIndex(id);
-      }
-      return match || 0;
-    } catch (err) {
-      return 0;
-    }
-    return match;
-  }
+  // async findIndexById(id) {
+  //   const {stop} = this.props;
+  //   try {
+  //     let match = this._findIndex(id);
+  //     while (match === null && !stop) {
+  //       await this._fetchMore();
+  //       match = this._findIndex(id);
+  //     }
+  //     return match || 0;
+  //   } catch (err) {
+  //     return 0;
+  //   }
+  //   return match;
+  // }
 
   checkFocusedPost = async () => {
     const {navigation} = this.props;
@@ -378,17 +378,6 @@ class Channel extends React.Component {
     } else {
       return (
         <View>
-          {this.state.loadingSpiner && !this.props.stop && (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: 15,
-              }}>
-              <ActivityIndicator size="large" color="#17C491" />
-            </View>
-          )}
           {this.renderSeparator(createdAt)}
         </View>
       );
@@ -484,22 +473,27 @@ class Channel extends React.Component {
     return false;
   }
 
-  _onEndReached = () => {
-    if (this.props.activeJumpLabel) {
-      return true;
+  _onEndReached = ({distanceFromEnd}) => {
+    if (distanceFromEnd <= 0) {
+      if (this.props.activeJumpLabel) {
+        return true;
+      }
+      if (this.state.loadingSpiner) {
+        return false;
+      }
+      if (this.props.stop) {
+        return this.setState({loadingSpiner: false});
+      }
+
+      if (!this.state.loadingSpiner) {
+        this.setState(
+          {
+            loadingSpiner: true,
+          },
+          this._fetchMore,
+        );
+      }
     }
-    if (this.state.loadingSpiner) {
-      return false;
-    }
-    if (this.props.stop) {
-      return this.setState({loadingSpiner: false});
-    }
-    this.setState(
-      {
-        loadingSpiner: true,
-      },
-      this._fetchMore,
-    );
   };
 
   async _fetchMore(pagination) {
@@ -509,9 +503,11 @@ class Channel extends React.Component {
     } catch (err) {
       alert(err);
     } finally {
-      this.setState({
-        loadingSpiner: false,
-      });
+      setTimeout(() => {
+        this.setState({
+          loadingSpiner: false,
+        });
+      }, 0);
     }
   }
 
@@ -562,10 +558,13 @@ class Channel extends React.Component {
 
   getItemLayout = (data, index) => ({length: 0, offset: 73 * index, index});
 
-  getPlaceHolder(title) {
-    const {navigation} = this.props;
+  getPlaceHolder() {
+    const {navigation, channel} = this.props;
     const isAdminCreator = navigation.getParam('isAdminCreator', '');
     const isPrivateMessage = navigation.getParam('pm', '');
+    const title = isPrivateMessage
+      ? navigation.getParam('name', '')
+      : channel.name;
 
     if (isAdminCreator) {
       return `Write to $${parseChannelMention(title)}`;
@@ -578,20 +577,45 @@ class Channel extends React.Component {
     return `Write to #${parseChannelMention(title)}`;
   }
 
-  render() {
-    const {
-      channel,
-      posts,
-      activeJumpLabel,
-      navigation,
-      isArchived,
-    } = this.props;
-    const {scrollLabel} = this.state;
-    const title =
-      channel.display_name || navigation.getParam('display_name', '');
-    const placeholder = this.getPlaceHolder(title);
-    const flagCount = this.props.flagCount || this.state.flagCount;
+  renderLoadingItem = () => {
+    if (this.state.loadingSpiner && !this.props.stop) {
+      return (
+        <View
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 15,
+            minHeight: 150,
+            maxHeight: 150,
+            height: 150,
+          }}>
+          <ActivityIndicator size="large" color="#17C491" />
+        </View>
+      );
+    }
+    return (
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 15,
+          minHeight: 150,
+          maxHeight: 150,
+          height: 150,
+        }}
+      />
+    );
+  };
 
+  render() {
+    const {channel, posts, activeJumpLabel, isArchived} = this.props;
+    const {scrollLabel} = this.state;
+    const placeholder = this.getPlaceHolder();
+    const flagCount = this.props.flagCount || this.state.flagCount;
     return (
       <SafeAreaView
         forceInset={{top: 'never', bottom: 'always'}}
@@ -604,22 +628,23 @@ class Channel extends React.Component {
           />
         )}
         <FlatList
+          ListFooterComponent={this.renderLoadingItem}
           ref={this.scrollView}
           data={posts}
           inverted
           renderItem={this._renderItem}
           onEndReached={this._onEndReached}
-          onEndReachedThreshold={0.35}
+          onEndReachedThreshold={0}
           keyExtractor={this._keyExtractor}
           onScrollEndDrag={this._setScrollPosition}
           onMomentumScrollEnd={this._setScrollPosition}
           extraData={posts}
           initialNumToRender={50}
-          viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.35}}
+          viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
           keyboardDismissMode="on-drag"
           maxToRenderPerBatch={5}
           updateCellsBatchingPeriod={150}
-          removeClippedSubviews
+          removeClippedSubviews={Platform.OS === 'android'}
         />
         {activeJumpLabel && this.renderJumpLabel()}
 

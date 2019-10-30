@@ -23,30 +23,26 @@ export class SearchResults extends PureComponent {
 
   navegateIfExists(displayName) {
     return () => {
-      this.props.navigateIfExists(`#${displayName}`);
+      this.props.navigateIfExists(`${displayName}`);
     };
   }
 
   getChannelDisplayItem = item => {
-    const name = item.channel ? this.parseName(item.channel.display_name) : '';
+    const name = item.channel ? item.channel.show_name : '';
+    const realName = item.channel ? item.channel.name : '';
     return (
-      <TouchableOpacity onPress={this.navegateIfExists(name)}>
+      <TouchableOpacity onPress={this.navegateIfExists(realName)}>
         <Text style={styles.channelTitle}>
-          {item.isDollar ? '$' : '#'}
+          {item.pm ? '@' : item.isDollar ? '$' : '#'}
           {name}
         </Text>
       </TouchableOpacity>
     );
   };
 
-  parseName(name = '') {
-    return parser(name);
-  }
-
   renderItem = ({item}) => (
     <View style={{backgroundColor: '#fff'}}>
       <View style={[styles.channelTitleContainer, {paddingTop: 10}]}>
-        {/* <SeparatorContainer noPadding createdAt={item.create_at} /> */}
         {this.getChannelDisplayItem(item)}
       </View>
       <Post
@@ -58,10 +54,7 @@ export class SearchResults extends PureComponent {
         username={item.user ? item.user.username : ''}
         channel={item.channel}
         createdAt={item.create_at}
-        // replies={item.replies}
         edit_at={item.edit_at}
-        // channelsNames={this.props.channelsNames}
-        // usernames={this.props.usernames}
         type={item.type}
         disableDots
         jumpTo
@@ -72,12 +65,13 @@ export class SearchResults extends PureComponent {
   );
 
   renderLoading = () => {
-    if (!this.props.loading)
+    if (!this.props.loading) {
       return (
         <View>
           <Text />
         </View>
       );
+    }
     return <ActivityIndicator size="large" color="#17C491" />;
   };
 
@@ -93,12 +87,10 @@ export class SearchResults extends PureComponent {
           <FlatList
             data={loading ? [] : posts}
             extraData={loading ? [] : posts}
-            // inverted
             keyExtractor={this.keyExtractor}
             renderItem={this.renderItem}
             ListEmptyComponent={this.renderLoading}
           />
-          {/* {loading && <ActivityIndicator size="large" color="rgba(63, 184, 127, 1)" />} */}
         </ScrollView>
       </View>
     );

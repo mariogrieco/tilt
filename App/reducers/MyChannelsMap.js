@@ -14,6 +14,7 @@ import {
 } from '../actions/channels';
 import {IS_SIGN_UP} from '../actions/signup';
 import {LOGOUT_SUCESS} from '../actions/login';
+import fix_name_if_need from '../utils/fix_name_if_need';
 
 import Immutable from 'immutable';
 
@@ -24,7 +25,7 @@ const myChannels = (state = initialState, action) => {
     case GET_MY_CHANNELS_SUCESS: {
       let nextState = state;
       action.payload.forEach(element => {
-        nextState = nextState.set(element.id, element);
+        nextState = nextState.set(element.id, fix_name_if_need(element));
       });
       return nextState;
     }
@@ -35,20 +36,25 @@ const myChannels = (state = initialState, action) => {
       return initialState;
     }
     case ADD_TO_CHANNEL_SUCESS: {
-      return state.set(action.payload.id, action.payload);
+      return state.set(action.payload.id, fix_name_if_need(action.payload));
     }
     case CREATE_CHANNEL_SUCESS: {
       let nextState = state;
-      nextState = state.set(action.payload.id, action.payload);
+      nextState = state.set(
+        action.payload.id,
+        fix_name_if_need(action.payload),
+      );
       return nextState;
     }
     case REMOVE_FROM_CHANNEL_SUCESS: {
-      if (state.has(action.payload)) state.delete(action.payload);
+      if (state.has(action.payload)) {
+        return state.remove(action.payload);
+      }
       return state;
     }
     case GET_MY_CHANNEL_BY_ID_SUCCESS: {
       const {channel} = action.payload;
-      return state.set(channel.id, channel);
+      return state.set(channel.id, fix_name_if_need(channel));
     }
     case UPDATE_PURPOSE_SUCCESS: {
       const channelID = action.payload.channel_id;
@@ -84,7 +90,7 @@ const myChannels = (state = initialState, action) => {
       const channel = action.payload;
       if (state.has(channel.id)) {
         const current = Immutable.mergeDeep(state.get(channel.id), channel);
-        return state.set(channel.id, current);
+        return state.set(channel.id, fix_name_if_need(current));
       }
       return state;
     }

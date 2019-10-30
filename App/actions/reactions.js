@@ -9,11 +9,18 @@ export const REMOVE_REACTION_ERROR = 'REMOVE_REACTION_ERROR';
 export const GET_REACTIONS_FOR_USER_SUCCES = 'GET_REACTIONS_FOR_USER_SUCCES';
 export const GET_REACTIONS_FOR_USER_ERROR = 'GET_REACTIONS_FOR_USER_ERROR';
 
+export const ADDED_REACTION = 'ADDED_REACTION';
+export const REMOVED_REACTION = 'REMOVED_REACTION';
+
 export const getReactionsForUser = userId => async dispatch => {
   try {
     const reactions = await Client4.getReactionsForUser(userId);
-    console.log('reactions: ', reactions);
-    dispatch(getReactionsForUserSucess(reactions));
+    dispatch(
+      getReactionsForUserSucess({
+        reactions,
+        userId,
+      }),
+    );
     return reactions;
   } catch (ex) {
     dispatch(getReactionsForUserError(ex));
@@ -21,17 +28,15 @@ export const getReactionsForUser = userId => async dispatch => {
   }
 };
 
-export const getReactionsForUserSucess = reaction => ({
+export const getReactionsForUserSucess = payload => ({
   type: GET_REACTIONS_FOR_USER_SUCCES,
-  payload: reaction,
+  payload,
 });
 
 export const getReactionsForUserError = err => ({
   type: GET_REACTIONS_FOR_USER_ERROR,
   payload: err,
 });
-
-// end temp
 
 export const addReaction = (userId, postId, emojiName) => async dispatch => {
   try {
@@ -73,4 +78,15 @@ export const removeReactionsSucess = reaction => ({
 export const removeReactionsError = err => ({
   type: REMOVE_REACTION_ERROR,
   payload: err,
+});
+
+
+export const removedReaction = (emojiName, user_id, post_id) => ({
+  type: REMOVED_REACTION,
+  payload: {emojiName, user_id, post_id},
+});
+
+export const addedReaction = (emojiName, user_id, post_id) => ({
+  type: ADDED_REACTION,
+  payload: {emojiName, user_id, post_id},
 });

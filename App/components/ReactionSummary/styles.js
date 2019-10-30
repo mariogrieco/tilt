@@ -7,6 +7,7 @@ export default StyleSheet.create({
     letterSpacing: 0.1,
     paddingTop: 5,
     textAlign: 'center',
+    textTransform: 'uppercase',
   },
   reactionContainer: {
     alignItems: 'center',

@@ -15,6 +15,7 @@ export default StyleSheet.create({
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
     padding: 1,
+    width: '100%',
   },
   headerRight: {
     marginRight: 15,

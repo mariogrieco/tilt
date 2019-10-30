@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Image, Dimensions, View} from 'react-native';
+import {TouchableOpacity, Image, Dimensions, View, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -12,8 +12,7 @@ import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
-const PLUS = require('../../assets/images/plus/plus.png');
-const CLOSE = require('../../assets/images/close/shape.png');
+const TILT_ROCKET = require('../../assets/images/tilt_rocket/tiltRoceket.png');
 
 const {width} = Dimensions.get('window');
 
@@ -54,7 +53,7 @@ class PublicChat extends React.Component {
           inputStyle={styles.input}
           placeholderText="Search for a channel or username"
           placeholderTextColor="#8E8E95"
-          growPercentage={0.85}
+          growPercentage={0.79}
           onChangeText={navigation.getParam('onSearch', () => {})}
           inputValue={navigation.getParam('searchValue', '')}
         />
@@ -69,13 +68,21 @@ class PublicChat extends React.Component {
           });
           navigation.getParam('onSearch', () => {})('');
         }}>
-        <Image source={CLOSE} />
+        <Text
+          style={{
+            color: '#0E141E',
+            fontFamily: 'SFProDisplay-Medium',
+            fontSize: 16,
+            letterSpacing: 0.1,
+          }}>
+          Cancel
+        </Text>
       </TouchableOpacity>
     ) : (
       <TouchableOpacity
-        style={{paddingHorizontal: 15, paddingBottom: 8}}
+        style={{paddingHorizontal: 15}}
         onPress={() => navigation.navigate('CreateChannel')}>
-        <Image source={PLUS} />
+        <Image source={TILT_ROCKET} />
       </TouchableOpacity>
     ),
   });
@@ -108,9 +115,9 @@ class PublicChat extends React.Component {
       () => {
         navigation.setParams({
           isSearching: text !== '',
-          searchValue: text.toLowerCase(),
+          searchValue: text,
         });
-        return {searchValue: text.toLowerCase()};
+        return {searchValue: text};
       },
       () => {
         this.searchFor(text);

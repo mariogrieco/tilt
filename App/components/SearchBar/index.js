@@ -53,7 +53,7 @@ class SearchBar extends React.Component {
           containerStyle,
         ]}>
         <View style={styles.searchContainer}>
-          <View style={{paddingRight: 6}}>
+          <View style={{marginRight: 6}}>
             <Image source={SEARCH_ICON} />
           </View>
           <TextInput
@@ -65,6 +65,8 @@ class SearchBar extends React.Component {
             defaultValue=""
             onSelectionChange={onSelectionChange}
             value={inputValue}
+            autoCapitalize="none"
+            autoCorrect={false}
           />
         </View>
       </Animated.View>

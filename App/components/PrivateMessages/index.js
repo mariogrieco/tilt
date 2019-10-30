@@ -18,23 +18,38 @@ class PrivateMessages extends React.Component {
 
   renderItem = ({item: channel}) => {
     const lastPost = channel.posts[0];
-    const channelName = this.parseDisplayName(channel.display_name);
+    const channelName = channel.show_name;
     return (
-      <View style={{backgroundColor: '#fff'}}>
+      <View style={{backgroundColor: '#fff', paddingTop: 10}}>
         <TouchableOpacity
           activeOpacity={1}
           key={channel.id}
           onPress={() => {
             this.props.setActiveFocusChannel(channel.id);
             NavigationService.navigate('Channel', {
-              display_name: channelName,
+              name: channelName,
               create_at: channel.create_at,
               members: channel.members,
               fav: channel.fav,
               pm: true,
             });
           }}>
-          <Text style={styles.channelName}>{`@${channelName}`}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text
+              style={[
+                styles.channelName,
+                channel.titleColor ? {color: channel.titleColor} : {},
+              ]}>
+              {`@${channelName}`}
+            </Text>
+            {channel.unreadMessagesCount > 0 && (
+              <View style={styles.unreadMessages}>
+                <Text style={styles.unreadText}>
+                  {channel.unreadMessagesCount}
+                </Text>
+              </View>
+            )}
+          </View>
           {lastPost && (
             <Post
               postId={lastPost.id}

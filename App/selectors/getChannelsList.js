@@ -29,6 +29,7 @@ const getChnnelsList = createSelector(
         const channelData = orders[channel.id];
         if (channelData && channelData.order) {
           let titleColor = '#0E141E';
+          let unreadMessagesCount = 0;
           const posts = channelData.order.map(key => {
             if (!!lastViewed[channel.id] && filterPostBy(entities[key])) {
               if (
@@ -37,6 +38,7 @@ const getChnnelsList = createSelector(
                   entities[key].edit_at > lastViewed[channel.id])
               ) {
                 titleColor = '#17C491';
+                unreadMessagesCount++;
               }
             }
             return entities[key];
@@ -49,6 +51,7 @@ const getChnnelsList = createSelector(
             fav: preferences.find(fav => fav.name === channel.id),
             activeUsers: {},
             titleColor,
+            unreadMessagesCount,
           });
         } else {
           channels.push({

@@ -58,7 +58,7 @@ export class ChannelJoinModalAlert extends Component {
   redirect(channel) {
     this.props.setActiveFocusChannel(channel.id);
     NavigationService.navigate('Channel', {
-      display_name: channel.display_name,
+      name: channel.name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
@@ -99,7 +99,9 @@ export class ChannelJoinModalAlert extends Component {
     const {channel} = this.props;
     Alert.alert(
       'Join Channel',
-      `You are not a member of #${channel.display_name}. Would you like to join the channel?`,
+      `You are not a member of ${
+        channel.name
+      }. Would you like to join the channel?`,
       [
         {
           text: 'Cancel',
@@ -122,12 +124,9 @@ export class ChannelJoinModalAlert extends Component {
 }
 
 const mapStateToProps = state => {
-  const channel = state.mapChannels.find(
-    _channel => state.channelJoinModalAlert.channelId === _channel.id,
-  );
+  const channel = state.mapChannels.get(state.channelJoinModalAlert.channelId);
   if (channel) {
     channel.fav = getFavoriteChannelById(state, channel.id);
-    channel.display_name = parser(channel.display_name);
   }
   return {
     open: !!channel,
