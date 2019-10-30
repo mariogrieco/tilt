@@ -1,6 +1,14 @@
 import React from 'react';
-import {View, FlatList, Text, Image, TouchableOpacity, Platform} from 'react-native';
+import {
+  View,
+  FlatList,
+  Text,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {connect} from 'react-redux';
+import moment from 'moment';
 import Post from '../Post/Post';
 import {getAllPostByUserId} from '../../selectors/getUserById';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
@@ -12,6 +20,7 @@ import styles from './styles';
 
 const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
 const LANDER = require('../../../assets/images/lunar-module/lunar-module.png');
+const CALENDAR = require('../../../assets/images/calendar/001-calendar-1.png');
 
 export const Header = ({
   firstName,
@@ -22,6 +31,7 @@ export const Header = ({
   isSelfProfile,
   createDirectChannel,
   userId,
+  createAt,
 }) => (
   <View style={styles.headerContainer}>
     <View style={{flexDirection: 'row', marginBottom: 15}}>
@@ -55,6 +65,23 @@ export const Header = ({
       )}
     </View>
     <Text style={styles.description}>{description}</Text>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 11,
+      }}>
+      <Image source={CALENDAR} style={{marginRight: 5}} />
+      <Text
+        style={{
+          fontFamily: 'SFProDisplay-Regular',
+          fontSize: 15,
+          letterSpacing: 0.1,
+          color: '#585C63',
+        }}>
+        Joined {moment(createAt).format('MMMM YYYY')}
+      </Text>
+    </View>
     <PostsSummary userId={userId} />
     <ReactionSummary userId={userId} />
   </View>
@@ -92,6 +119,7 @@ class UserProfile extends React.PureComponent {
         userId={user.id}
         isSelfProfile={isSelfProfile}
         createDirectChannel={this.createDirectChannel}
+        createAt={user.create_at}
       />
     );
   };
