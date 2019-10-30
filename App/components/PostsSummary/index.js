@@ -1,13 +1,18 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {getPostCount} from '../../actions/postCount';
 import num_format from '../../utils/numberFormat';
+import isEqual from 'lodash/isEqual';
 
 import styles from './styles';
 
-export class PostsSummary extends PureComponent {
+export class PostsSummary extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(nextProps, this.props);
+  }
+
   componentWillUnmount() {
     if (this.navigationListener) {
       this.navigationListener.remove();
@@ -32,7 +37,7 @@ export class PostsSummary extends PureComponent {
   }
 
   render() {
-    const {countForUser, current} = this.props;
+    const {countForUser} = this.props;
     return (
       <View>
         <Text style={styles.posts}>
