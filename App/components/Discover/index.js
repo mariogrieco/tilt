@@ -4,7 +4,8 @@ import {FlatList, ActivityIndicator} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import getJoinChannelsList from '../../selectors/getJoinChannelsList';
 import ChannelDisplayName from '../ChannelDisplayName';
-import {setChannelPaginator, getChannels} from '../../actions/channels';
+// import {setChannelPaginator, getChannels} from '../../actions/channels';
+import {getHashtagChannels} from '../../actions/HashtagChannelsPaginator';
 
 class Discover extends React.Component {
   state = {
@@ -22,18 +23,11 @@ class Discover extends React.Component {
       },
       async () => {
         try {
-          const {
-            setChannelPaginator,
-            getChannels,
-            current_page,
-            stop,
-          } = this.props;
-          if (stop) return null;
-          const result = await getChannels(current_page + 1);
-          setChannelPaginator({
-            current_page: current_page + 1,
-            stop: result.length === 0 ? true : false,
-          });
+          const {page, stop} = this.props;
+          if (stop) {
+            return null;
+          }
+          await this.props.getHashtagChannels(page);
         } catch (ex) {
           alert(ex.message || ex);
         } finally {
@@ -44,6 +38,10 @@ class Discover extends React.Component {
       },
     );
   };
+
+  componentDidMount() {
+    this._fetchMore();
+  }
 
   renderItem({item}) {
     return (
@@ -83,14 +81,11 @@ class Discover extends React.Component {
 
 const mapStateToProps = state => ({
   channels: getJoinChannelsList(state),
-  current_page: state.channelsPaginator.current_page,
-  stop: state.channelsPaginator.stop,
+  current_page: state.hashtagChannelsPaginator.page,
+  stop: state.hashtagChannelsPaginator.stop,
 });
 
 export default connect(
   mapStateToProps,
-  {
-    setChannelPaginator,
-    getChannels,
-  },
+  {getHashtagChannels},
 )(Discover);

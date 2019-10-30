@@ -1,7 +1,6 @@
 import {
   GET_CHANNELS_SUCESS,
   GET_CHANNEL_BY_ID_SUCCESS,
-  // CREATE_CHANNEL_SUCESS,
   UPDATE_CHANNEL_HEADER_SUCCESS,
   UPDATE_PURPOSE_SUCCESS,
   UPDATE_DISPLAY_NAME_SUCCESS,
@@ -10,6 +9,7 @@ import {
   ADD_TO_CHANNEL_SUCESS,
   DELETE_CHANNEL_SUCCESS,
 } from '../actions/channels';
+import {GET_PAGE_SUCCESS} from '../actions/HashtagChannelsPaginator';
 import {IS_SIGN_UP} from '../actions/signup';
 import {LOGOUT_SUCESS} from '../actions/login';
 import {SEARCH_CHANNELS_SUCCESS} from '../actions/search';
@@ -25,6 +25,13 @@ const channels = (state = initialState, action) => {
     case GET_CHANNELS_SUCESS: {
       let nextState = state;
       action.payload.forEach(element => {
+        nextState = nextState.set(element.id, fix_name_if_need(element));
+      });
+      return nextState;
+    }
+    case GET_PAGE_SUCCESS: {
+      let nextState = state;
+      action.payload.channels.forEach(element => {
         nextState = nextState.set(element.id, fix_name_if_need(element));
       });
       return nextState;
