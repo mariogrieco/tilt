@@ -27,7 +27,7 @@ class ChannelOptionalView extends React.PureComponent {
     return (
       <View style={{flex: 1}}>
         {!onMychannel && channel && <JoinBigBtn onJoin={this.handleJoin} />}
-        {onMychannel && <Channel displayAs="tab" />}
+        {onMychannel && <Channel isDollar displayAs="tab" />}
         {!onMychannel && !channel && !!active_channel_id && (
           <Text>
             Unable to find an existing channel for the current symbol.
