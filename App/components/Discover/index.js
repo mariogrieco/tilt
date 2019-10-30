@@ -77,7 +77,6 @@ class Discover extends React.Component {
   render() {
     const {channels} = this.props;
     const {loading} = this.state;
-    console.log(channels.length);
     return (
       <Fragment>
         <FlatList
