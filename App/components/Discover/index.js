@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {FlatList, ActivityIndicator} from 'react-native';
+import {FlatList, ActivityIndicator, Platform} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import getJoinChannelsList from '../../selectors/getJoinChannelsList';
 import ChannelDisplayName from '../ChannelDisplayName';
@@ -16,7 +16,11 @@ class Discover extends React.Component {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
-  _fetchMore = () => {
+  _fetchMore = ({distanceFromEnd}) => {
+    if (distanceFromEnd > 0) {
+      return false;
+    }
+
     this.setState(
       {
         loading: true,
@@ -27,7 +31,8 @@ class Discover extends React.Component {
           if (stop) {
             return null;
           }
-          await this.props.getHashtagChannels(page);
+          const channels = await this.props.getHashtagChannels(page);
+          console.log(channels);
         } catch (ex) {
           alert(ex.message || ex);
         } finally {
@@ -40,7 +45,7 @@ class Discover extends React.Component {
   };
 
   componentDidMount() {
-    this._fetchMore();
+    this._fetchMore({distanceFromEnd: 0});
   }
 
   renderItem({item}) {
@@ -71,7 +76,11 @@ class Discover extends React.Component {
           viewabilityConfig={{viewAreaCoveragePercentThreshold: 35}}
           initialNumToRender={22}
           onEndReached={this._fetchMore}
-          onEndReachedThreshold={0.35}
+          onEndReachedThreshold={0}
+          keyboardDismissMode="on-drag"
+          updateCellsBatchingPeriod={150}
+          maxToRenderPerBatch={5}
+          removeClippedSubviews={Platform.OS === 'android'}
         />
         {loading && <ActivityIndicator size="large" color="#17C491" />}
       </Fragment>
@@ -81,7 +90,7 @@ class Discover extends React.Component {
 
 const mapStateToProps = state => ({
   channels: getJoinChannelsList(state),
-  current_page: state.hashtagChannelsPaginator.page,
+  page: state.hashtagChannelsPaginator.page,
   stop: state.hashtagChannelsPaginator.stop,
 });
 
