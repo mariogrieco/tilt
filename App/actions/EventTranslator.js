@@ -1,7 +1,8 @@
 import store from '../config/store';
-import {addPostTo, removeFromPost, editPost} from './posts';
+import {addPostTo, removeFromPost, editPost, removePostFromChannelId} from './posts';
 import {getChannelById, channelUpdated, deleteChannelSucess} from './channels';
 import {removedReaction, addedReaction} from './reactions';
+import {getPostCount} from './postCount';
 import {userUpdatedSuccess, getNewUser} from './users';
 import {getReactionsForUser} from './reactions'
 import moment from 'moment';
@@ -26,7 +27,10 @@ const eventsDispatched = data => {
     }
     case 'posted': {
       const post = JSON.parse(data.data.post);
-      return store.dispatch(addPostTo(post));
+      return Promise.all([
+        store.dispatch(getPostCount(post.user_id)),
+        store.dispatch(addPostTo(post)),
+      ]);
     }
     case 'post_deleted': {
       const post = JSON.parse(data.data.post);
@@ -61,11 +65,14 @@ const eventsDispatched = data => {
     }
     case 'channel_deleted': {
       const {channel_id} = data.data;
-      return store.dispatch(
-        deleteChannelSucess({
-          channelId: channel_id,
-        }),
-      );
+      return Promise.all([
+        store.dispatch(removePostFromChannelId(channel_id)),
+        store.dispatch(
+          deleteChannelSucess({
+            channelId: channel_id,
+          }),
+        ),
+      ]);
     }
     default:
       // console.log(data)
