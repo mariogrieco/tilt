@@ -259,6 +259,7 @@ class EditProfile extends React.PureComponent {
             placeholder="Share something unique about yourself."
             onChangeText={this.onPositionChange}
             multiline
+            autoCapitalize="none"
           />
           <Separator />
         </KeyboardAvoidingView>

@@ -127,6 +127,7 @@ class PasswordReset extends React.Component {
                   this.setState({username});
                 }}
                 style={styles.placeholders}
+                autoCapitalize="none"
               />
               <InputSeparator />
             </View>

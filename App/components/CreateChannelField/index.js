@@ -27,6 +27,7 @@ export const Input = ({onChangeText, placeHolder, style, value}) => (
     multiline
     style={[styles.fieldContainer, styles.input, style]}
     placeholderTextColor="#8E8E95"
+    autoCapitalize="none"
   />
 );
 

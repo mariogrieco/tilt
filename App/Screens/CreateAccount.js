@@ -173,6 +173,7 @@ class CreateAccount extends React.Component {
               }}
               placeholder="Email"
               style={styles.placeholders}
+              autoCapitalize="none"
             />
             <InputSeparator />
 
@@ -183,6 +184,7 @@ class CreateAccount extends React.Component {
               }}
               placeholder="Username"
               style={styles.placeholders}
+              autoCapitalize="none"
             />
             <InputSeparator />
 
