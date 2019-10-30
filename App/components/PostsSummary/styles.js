@@ -4,7 +4,7 @@ export default StyleSheet.create({
   posts: {
     color: '#585C63',
     paddingTop: 15,
-    fontFamily: 'SFProDisplay-Medium',
+    fontFamily: 'SFProDisplay-Regular',
     fontSize: 15,
     letterSpacing: 0.1,
   },

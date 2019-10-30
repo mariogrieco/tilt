@@ -559,8 +559,8 @@ class Channel extends React.Component {
   getItemLayout = (data, index) => ({length: 0, offset: 73 * index, index});
 
   getPlaceHolder() {
-    const {navigation, channel} = this.props;
-    const isAdminCreator = navigation.getParam('isAdminCreator', '');
+    const {navigation, channel, isDollar} = this.props;
+    const isAdminCreator = navigation.getParam('isAdminCreator', '') || isDollar;
     const isPrivateMessage = navigation.getParam('pm', '');
     const title = isPrivateMessage
       ? navigation.getParam('name', '')
