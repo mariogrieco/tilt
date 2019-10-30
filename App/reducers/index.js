@@ -43,6 +43,7 @@ import mapChannels from './MapChannels';
 import myChannelsMap from './MyChannelsMap';
 import adminCreators from './adminCreators';
 import postCount from './postCount';
+import hashtagChannelsPaginator from './HashtagChannelsPaginator';
 
 export default combineReducers({
   flagged,
@@ -89,5 +90,6 @@ export default combineReducers({
   myChannelsMap,
   adminCreators,
   postCount,
+  hashtagChannelsPaginator,
   // client4Error
 });

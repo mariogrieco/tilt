@@ -1,10 +1,15 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {FlatList, ActivityIndicator} from 'react-native';
+import {FlatList, ActivityIndicator, Platform} from 'react-native';
 import isEqual from 'lodash/isEqual';
+import {withNavigation} from 'react-navigation';
 import getJoinChannelsList from '../../selectors/getJoinChannelsList';
 import ChannelDisplayName from '../ChannelDisplayName';
-import {setChannelPaginator, getChannels} from '../../actions/channels';
+// import {setChannelPaginator, getChannels} from '../../actions/channels';
+import {
+  getHashtagChannels,
+  getPageOnFocus,
+} from '../../actions/HashtagChannelsPaginator';
 
 class Discover extends React.Component {
   state = {
@@ -15,25 +20,35 @@ class Discover extends React.Component {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
-  _fetchMore = () => {
+  componentWillUnmount() {
+    if (this.navigationListener) {
+      this.navigationListener.remove();
+    }
+  }
+
+  componentDidMount() {
+    const {navigation} = this.props;
+
+    this.navigationListener = navigation.addListener('didFocus', () => {
+      this.props.getPageOnFocus();
+    });
+    this.props.getPageOnFocus();
+  }
+
+  _fetchMore = ({distanceFromEnd}) => {
+    if (distanceFromEnd < 0) return null;
     this.setState(
       {
         loading: true,
       },
       async () => {
         try {
-          const {
-            setChannelPaginator,
-            getChannels,
-            current_page,
-            stop,
-          } = this.props;
-          if (stop) return null;
-          const result = await getChannels(current_page + 1);
-          setChannelPaginator({
-            current_page: current_page + 1,
-            stop: result.length === 0 ? true : false,
-          });
+          const {page, stop} = this.props;
+          if (stop) {
+            return null;
+          }
+          const channels = await this.props.getHashtagChannels(page);
+          console.log(channels);
         } catch (ex) {
           alert(ex.message || ex);
         } finally {
@@ -70,10 +85,14 @@ class Discover extends React.Component {
           extraData={channels}
           keyExtractor={channel => channel.id}
           renderItem={this.renderItem}
-          viewabilityConfig={{viewAreaCoveragePercentThreshold: 35}}
-          initialNumToRender={22}
+          viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.15}}
+          initialNumToRender={50}
           onEndReached={this._fetchMore}
-          onEndReachedThreshold={0.35}
+          onEndReachedThreshold={0.15}
+          keyboardDismissMode="on-drag"
+          updateCellsBatchingPerio={150}
+          maxToRenderPerBatch={5}
+          removeClippedSubviews={Platform.OS === 'android'}
         />
         {loading && <ActivityIndicator size="large" color="#17C491" />}
       </Fragment>
@@ -83,14 +102,13 @@ class Discover extends React.Component {
 
 const mapStateToProps = state => ({
   channels: getJoinChannelsList(state),
-  current_page: state.channelsPaginator.current_page,
-  stop: state.channelsPaginator.stop,
+  page: state.hashtagChannelsPaginator.page,
+  stop: state.hashtagChannelsPaginator.stop,
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    setChannelPaginator,
-    getChannels,
-  },
-)(Discover);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    {getHashtagChannels, getPageOnFocus},
+  )(Discover),
+);
