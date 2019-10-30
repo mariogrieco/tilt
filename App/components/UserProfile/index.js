@@ -75,8 +75,9 @@ export const Header = ({
       <Text
         style={{
           fontFamily: 'SFProDisplay-Regular',
-          fontSize: 16,
-          color: '#585c63',
+          fontSize: 15,
+          letterSpacing: 0.1,
+          color: '#585C63',
         }}>
         Joined {moment(createAt).format('MMMM YYYY')}
       </Text>
