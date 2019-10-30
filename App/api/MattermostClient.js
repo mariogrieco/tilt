@@ -85,6 +85,16 @@ Client4.getChannelByNameService = async (name, delete_at = 0) => {
   }
 };
 
+Client4.getHashtagChannels = async (page, per_page) => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/public?page=${page}&per_page=${per_page}`,
+    );
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
 
 export default Client4;
 
