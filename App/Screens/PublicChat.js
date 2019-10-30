@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'rgba(16, 115, 240, 0.75)',
     height: 3,
   },
+  searchContainer: {
+    marginLeft: 0,
+  },
 });
 
 class PublicChat extends React.Component {
@@ -48,16 +51,14 @@ class PublicChat extends React.Component {
     title: '',
     ...headerForScreenWithTabs,
     headerLeft: (
-      <View style={styles.searchContainer}>
-        <SearchBar
-          inputStyle={styles.input}
-          placeholderText="Search for a channel or username"
-          placeholderTextColor="#8E8E95"
-          growPercentage={0.79}
-          onChangeText={navigation.getParam('onSearch', () => {})}
-          inputValue={navigation.getParam('searchValue', '')}
-        />
-      </View>
+      <SearchBar
+        inputStyle={styles.input}
+        placeholderText="Search for a channel or username"
+        placeholderTextColor="#8E8E95"
+        growPercentage={0.78}
+        onChangeText={navigation.getParam('onSearch', () => {})}
+        inputValue={navigation.getParam('searchValue', '')}
+      />
     ),
     headerRight: navigation.getParam('isSearching', false) ? (
       <TouchableOpacity
