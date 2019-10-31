@@ -1,5 +1,6 @@
 import React from 'react';
-import {FlatList, Text, View, TouchableOpacity, Image} from 'react-native';
+import {FlatList, Text, View, Image} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import getPrivateMessagesChnnelsList from '../../selectors/getPrivateMessagesChnnelsList';
 import Post from '../Post/Post';
@@ -20,57 +21,56 @@ class PrivateMessages extends React.Component {
     const lastPost = channel.posts[0];
     const channelName = channel.show_name;
     return (
-      <View style={{backgroundColor: '#fff', paddingTop: 10}}>
-        <TouchableOpacity
-          activeOpacity={1}
-          key={channel.id}
-          onPress={() => {
-            this.props.setActiveFocusChannel(channel.id);
-            NavigationService.navigate('Channel', {
-              name: channelName,
-              create_at: channel.create_at,
-              members: channel.members,
-              fav: channel.fav,
-              pm: true,
-            });
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text
-              style={[
-                styles.channelName,
-                channel.titleColor ? {color: channel.titleColor} : {},
-              ]}>
-              {`@${channelName}`}
-            </Text>
-            {channel.unreadMessagesCount > 0 && (
-              <View style={styles.unreadMessages}>
-                <Text style={styles.unreadText}>
-                  {channel.unreadMessagesCount}
-                </Text>
-              </View>
-            )}
-          </View>
-          {lastPost && (
-            <Post
-              postId={lastPost.id}
-              userId={lastPost.user ? lastPost.user.id : ''}
-              last_picture_update={lastPost.user.last_picture_update}
-              key={lastPost.id}
-              message={lastPost.message}
-              username={lastPost.user ? lastPost.user.username : ''}
-              metadata={lastPost.metadata}
-              createdAt={lastPost.create_at}
-              edit_at={lastPost.edit_at}
-              type={lastPost.type}
-              isPM
-              disableInteractions
-              extendedDateFormat
-              disableDots
-            />
+      <TouchableOpacity
+        activeOpacity={1}
+        key={channel.id}
+        onPress={() => {
+          this.props.setActiveFocusChannel(channel.id);
+          NavigationService.navigate('Channel', {
+            name: channelName,
+            create_at: channel.create_at,
+            members: channel.members,
+            fav: channel.fav,
+            pm: true,
+          });
+        }}
+        style={{backgroundColor: '#fff', paddingTop: 10}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={[
+              styles.channelName,
+              channel.titleColor ? {color: channel.titleColor} : {},
+            ]}>
+            {`@${channelName}`}
+          </Text>
+          {channel.unreadMessagesCount > 0 && (
+            <View style={styles.unreadMessages}>
+              <Text style={styles.unreadText}>
+                {channel.unreadMessagesCount}
+              </Text>
+            </View>
           )}
-          <Separator />
-        </TouchableOpacity>
-      </View>
+        </View>
+        {lastPost && (
+          <Post
+            postId={lastPost.id}
+            userId={lastPost.user ? lastPost.user.id : ''}
+            last_picture_update={lastPost.user.last_picture_update}
+            key={lastPost.id}
+            message={lastPost.message}
+            username={lastPost.user ? lastPost.user.username : ''}
+            metadata={lastPost.metadata}
+            createdAt={lastPost.create_at}
+            edit_at={lastPost.edit_at}
+            type={lastPost.type}
+            isPM
+            disableInteractions
+            extendedDateFormat
+            disableDots
+          />
+        )}
+        <Separator />
+      </TouchableOpacity>
     );
   };
 
