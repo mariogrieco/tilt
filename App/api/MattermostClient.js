@@ -1,9 +1,9 @@
 import {Client4} from 'mattermost-redux/client';
 import axios from 'axios';
 
-export let baseUrl = 'https://community.tiltchat.com';
-export let baseServicesUrl = 'https://community.tiltchat.com/services';
-export let socketURL = 'wss://community.tiltchat.com/api/v4/websocket';
+export let baseUrl;
+export let baseServicesUrl;
+export let socketURL;
 
 const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
@@ -12,6 +12,10 @@ if (IS_DEV_ENV) {
   baseUrl = 'https://staging.tiltchat.com';
   baseServicesUrl = 'https://staging.tiltchat.com/services';
   socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
+} else {
+  baseUrl = 'https://community.tiltchat.com';
+  baseServicesUrl = 'https://community.tiltchat.com/services';
+  socketURL = 'wss://community.tiltchat.com/api/v4/websocket';
 }
 
 Client4.setUrl(baseUrl);
