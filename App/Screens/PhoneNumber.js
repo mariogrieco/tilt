@@ -138,6 +138,7 @@ class PhoneNumber extends React.Component {
                   withCallingCodeButton
                   withCallingCode
                   withCurrency={false}
+                  withAlphaFilter
                   onSelect={country =>
                     this.setState(state => {
                       return {
