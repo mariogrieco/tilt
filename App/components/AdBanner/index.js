@@ -69,10 +69,11 @@ export class StatsBanner extends React.PureComponent {
 
 export class SponsoredBanner extends React.PureComponent {
   render() {
+    const {isRepost} = this.props;
     return (
       <View style={{height: 250, width: 300}}>
         <Banner
-          size="MEDIUM_RECTANGLE"
+          size={isRepost ? "270x225" : "MEDIUM_RECTANGLE"}
           unitId={adMob.sponsor}
           request={request.build()}
           // onAdLoaded={() => {

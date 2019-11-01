@@ -584,7 +584,7 @@ class Post extends React.Component {
                 </Text>
               </Text>
             </TouchableOpacity>
-            {isSponsoredUser ? <SponsoredAd /> : this.renderMessage()}
+            {isSponsoredUser ? <SponsoredAd isRepost={isRepost} /> : this.renderMessage()}
             {repost && !isRepost && (
               <Repost
                 postId={repost.id}

@@ -4,13 +4,15 @@ import {SponsoredBanner} from '../AdBanner';
 
 import styles from './style';
 
-const SponsoredAd = () => {
+const SponsoredAd = ({
+  isRepost,
+}) => {
   return (
     <View>
       <Text style={[styles.text, {marginBottom: 10}]}>
         A message form our sponsors.
       </Text>
-      <SponsoredBanner />
+      <SponsoredBanner isRepost={isRepost} />
     </View>
   );
 };
