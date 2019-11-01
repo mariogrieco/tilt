@@ -86,7 +86,7 @@ class PhoneNumber extends React.Component {
 
   navigationToVerification = async () => {
     const {navigation} = this.props;
-    const {phoneNumber} = this.state;
+    const {formattedNumber, phoneNumber} = this.state;
     if (!phoneNumber) {
       Alert.alert(EMPTY_WARNING);
     } else if (phoneNumber.length === 10) {
@@ -95,7 +95,7 @@ class PhoneNumber extends React.Component {
         return;
       }
       try {
-        await this.props.getVerificationCode(`+1${phoneNumber}`);
+        await this.props.getVerificationCode(`${formattedNumber}`);
         navigation.navigate('Verification');
       } catch (ex) {
         alert(ex);
