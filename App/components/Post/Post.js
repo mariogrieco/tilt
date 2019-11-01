@@ -500,19 +500,14 @@ class Post extends React.Component {
 
   render() {
     const {
-      // postId,
       username,
-      // me,
       last_picture_update,
       metadata,
       createdAt,
-      // usernames,
-      // post,
       type,
       thread,
       replies,
       extendedDateFormat,
-      // channelsNames,
       disableDots,
       userId,
       jumpTo,
@@ -542,7 +537,7 @@ class Post extends React.Component {
               </TouchableOpacity>
             </View>
           )}
-          {jumpTo && (
+          {jumpTo && !isRepost && (
             <TouchableOpacity
               activeOpacity={1}
               style={styles.jumpContainer}
