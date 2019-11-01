@@ -60,7 +60,9 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onDeleteMessage = () => {
-    if (this.state.loadingDelete) {return null;}
+    if (this.state.loadingDelete) {
+      return null;
+    }
 
     this.setState(
       {
@@ -98,7 +100,9 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onFlagMessage = () => {
-    if (this.state.loadingDelete) {return null;}
+    if (this.state.loadingDelete) {
+      return null;
+    }
 
     this.setState(
       {
@@ -169,7 +173,9 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onUnFlagMessage = () => {
-    if (this.state.loadingDelete) {return null;}
+    if (this.state.loadingDelete) {
+      return null;
+    }
 
     this.setState(
       {
@@ -215,20 +221,20 @@ class PostBottomActions extends React.PureComponent {
             </TouchableOpacity>
           </React.Fragment>
         )}
-        {postActions.options.showRepost && (
-          <TouchableOpacity style={styles.button} onPress={this.onRepost}>
-            <View style={styles.iconButton}>
-              <Image source={REPOST} />
-            </View>
-            <Text style={styles.textButton}>Repost</Text>
-          </TouchableOpacity>
-        )}
         {!postActions.options.hideReply && (
           <TouchableOpacity style={styles.button} onPress={this.onReplyMessage}>
             <View style={styles.iconButton}>
               <Image source={REPLY} />
             </View>
             <Text style={styles.textButton}>Reply</Text>
+          </TouchableOpacity>
+        )}
+        {postActions.options.showRepost && (
+          <TouchableOpacity style={styles.button} onPress={this.onRepost}>
+            <View style={styles.iconButton}>
+              <Image source={REPOST} />
+            </View>
+            <Text style={styles.textButton}>Repost</Text>
           </TouchableOpacity>
         )}
 
@@ -269,8 +275,12 @@ class PostBottomActions extends React.PureComponent {
   evaluateShow() {
     const {hidePriority} = this.state;
     const {show} = this.props;
-    if (show && !hidePriority) {return true;}
-    if (show && hidePriority) {return false;}
+    if (show && !hidePriority) {
+      return true;
+    }
+    if (show && hidePriority) {
+      return false;
+    }
     return show;
   }
 
@@ -292,7 +302,7 @@ class PostBottomActions extends React.PureComponent {
           style={[
             {
               width: '100%',
-              height: Platform.OS === 'ios' ? 200 : 250,
+              height: Platform.OS === 'ios' ? 330 : 340,
               backgroundColor: '#fff',
               borderRadius: 12,
               overflow: 'hidden',
