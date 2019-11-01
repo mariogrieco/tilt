@@ -60,7 +60,7 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onDeleteMessage = () => {
-    if (this.state.loadingDelete) return null;
+    if (this.state.loadingDelete) {return null;}
 
     this.setState(
       {
@@ -98,7 +98,7 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onFlagMessage = () => {
-    if (this.state.loadingDelete) return null;
+    if (this.state.loadingDelete) {return null;}
 
     this.setState(
       {
@@ -169,7 +169,7 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onUnFlagMessage = () => {
-    if (this.state.loadingDelete) return null;
+    if (this.state.loadingDelete) {return null;}
 
     this.setState(
       {
@@ -269,8 +269,8 @@ class PostBottomActions extends React.PureComponent {
   evaluateShow() {
     const {hidePriority} = this.state;
     const {show} = this.props;
-    if (show && !hidePriority) return true;
-    if (show && hidePriority) return false;
+    if (show && !hidePriority) {return true;}
+    if (show && hidePriority) {return false;}
     return show;
   }
 
@@ -292,19 +292,22 @@ class PostBottomActions extends React.PureComponent {
           style={[
             {
               width: '100%',
-              height: Platform.OS === 'ios' ? 290 : 300,
+              height: Platform.OS === 'ios' ? 200 : 250,
               backgroundColor: '#fff',
               borderRadius: 12,
               overflow: 'hidden',
             },
             postActions.userId !== me
-              ? {height: Platform.OS === 'ios' ? 205 : 215}
+              ? {height: Platform.OS === 'ios' ? 245 : 255}
               : {},
             postActions.options.hideReply === true
               ? {height: Platform.OS === 'ios' ? 200 : 210}
               : {},
             postActions.options.hideReply === true && postActions.userId !== me
               ? {height: Platform.OS === 'ios' ? 160 : 170}
+              : {},
+            postActions.userId !== me && !postActions.options.showRepost
+              ? {height: Platform.OS === 'ios' ? 200 : 210}
               : {},
           ]}>
           {this.renderBottomSheetHeader()}
