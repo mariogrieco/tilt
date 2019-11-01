@@ -401,6 +401,7 @@ class Channel extends React.Component {
       <View>
         {this.getSeparator(item.create_at, index)}
         <Post
+          allowRepost
           postId={item.id}
           userId={item.user.id}
           last_picture_update={item.user.last_picture_update}

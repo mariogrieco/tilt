@@ -17,6 +17,7 @@ import {
   hidePostActions,
   resetPostActions,
 } from '../../actions/posts';
+import {setRepostActiveOnInput} from '../../actions/repost';
 import {setFlagged, removeFlagged} from '../../actions/flagged';
 import {postReply} from '../../actions/reply';
 import {
@@ -35,6 +36,7 @@ const REPLY = require('../../../assets/images/reply/reply.png');
 const FLAG = require('../../../assets/images/flag/flag.png');
 // const COPY_LINK = require('../../../assets/images/link/link.png');
 const COPY_TEXT = require('../../../assets/images/copy/copy.png');
+const REPOST = require('../../../assets/images/repost/repost.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -159,6 +161,13 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
+  onRepost = () => {
+    const {postActions} = this.props;
+    const base_post_id = postActions.options.showRepost;
+    this.props.setRepostActiveOnInput(base_post_id);
+    this.props.hidePostActions();
+  };
+
   onUnFlagMessage = () => {
     if (this.state.loadingDelete) return null;
 
@@ -205,6 +214,14 @@ class PostBottomActions extends React.PureComponent {
               </Text>
             </TouchableOpacity>
           </React.Fragment>
+        )}
+        {postActions.options.showRepost && (
+          <TouchableOpacity style={styles.button} onPress={this.onRepost}>
+            <View style={styles.iconButton}>
+              <Image source={REPOST} />
+            </View>
+            <Text style={styles.textButton}>Repost</Text>
+          </TouchableOpacity>
         )}
         {!postActions.options.hideReply && (
           <TouchableOpacity style={styles.button} onPress={this.onReplyMessage}>
@@ -324,6 +341,7 @@ const mapDispatchToProps = {
   setActiveEditPostId,
   hidePostActions,
   resetPostActions,
+  setRepostActiveOnInput,
 };
 
 export default connect(

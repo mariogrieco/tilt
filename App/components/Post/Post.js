@@ -30,12 +30,12 @@ import DocumentSample from '../DocumentSample';
 import VideoSample from '../VideoSample';
 import parser from '../../utils/parse_display_name';
 import Reactions from './Reactions';
+import Repost from '../Repost';
+import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
 import styles from './style';
 
 const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
 const TILT_SYSTEM_LOGO = require('../../../assets/images/tilt-logo/tilt-logo.png');
-
-const sponsoredId = 'jk5osmydatgt5kaahkeheprk6e';
 
 function reduceReactions(metadata) {
   let likes = 0;
@@ -315,8 +315,12 @@ class Post extends React.Component {
   };
 
   onPostPress = () => {
-    const {showPostActions, postId, userId, isReply, isPM} = this.props;
-    showPostActions(userId, postId, {hideReply: isReply, isPM});
+    const {postId, userId, isReply, isPM, allowRepost} = this.props;
+    this.props.showPostActions(userId, postId, {
+      hideReply: isReply,
+      isPM,
+      showRepost: allowRepost ? postId : null,
+    });
   };
 
   parseDisplayName(str = '') {
@@ -350,7 +354,6 @@ class Post extends React.Component {
   };
 
   renderFile(file) {
-    // CLient4.getFilePublicLink(file.id).then(response => console.log(response))
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
         return (
@@ -515,6 +518,8 @@ class Post extends React.Component {
       jumpTo,
       disableInteractions,
       sponsoredIds,
+      isRepost,
+      repost,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -524,80 +529,98 @@ class Post extends React.Component {
       last_picture_update,
     );
     return (
-      <View style={styles.container}>
-        {!typeIsSystem && !disableDots && (
-          <View style={styles.dotContainer}>
-            <TouchableOpacity
-              style={[styles.dotContainer]}
-              onPress={disableInteractions ? () => {} : this.onPostPress}>
-              <View style={styles.dot} />
-              <View style={styles.dot} />
-              <View style={styles.dot} />
-            </TouchableOpacity>
-          </View>
-        )}
-        {jumpTo && (
-          <TouchableOpacity
-            activeOpacity={1}
-            style={styles.jumpContainer}
-            onPress={disableInteractions ? () => {} : this.jumpTo}>
-            <View>
-              <Text
-                style={{
-                  color: '#17C491',
-                  fontFamily: 'SFProDisplay-Medium',
-                  fontSize: 16,
-                  letterSpacing: 0.1,
-                }}>
-                Jump
-              </Text>
+      <>
+        <View style={[styles.container, repost ? styles.noMargin : {}]}>
+          {!typeIsSystem && !disableDots && !isRepost && (
+            <View style={styles.dotContainer}>
+              <TouchableOpacity
+                style={[styles.dotContainer]}
+                onPress={disableInteractions ? () => {} : this.onPostPress}>
+                <View style={styles.dot} />
+                <View style={styles.dot} />
+                <View style={styles.dot} />
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        )}
-        <View style={styles.leftSideContainer}>
-          <View>
-            <Image
-              style={[styles.profileImage, {resizeMode: 'cover'}]}
-              source={
-                typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
-              }
-            />
+          )}
+          {jumpTo && (
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.jumpContainer}
+              onPress={disableInteractions ? () => {} : this.jumpTo}>
+              <View>
+                <Text
+                  style={{
+                    color: '#17C491',
+                    fontFamily: 'SFProDisplay-Medium',
+                    fontSize: 16,
+                    letterSpacing: 0.1,
+                  }}>
+                  Jump
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          <View style={styles.leftSideContainer}>
+            <View>
+              <Image
+                style={[styles.profileImage, {resizeMode: 'cover'}]}
+                source={
+                  typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                }
+              />
+            </View>
+            {thread && <View style={styles.threadSeparator} />}
           </View>
-          {thread && <View style={styles.threadSeparator} />}
-        </View>
-        <View style={styles.rightSide}>
-          <TouchableOpacity
-            onPress={
-              disableInteractions || isSponsoredUser
-                ? () => {}
-                : this.handleNavigationToProfile
-            }>
-            <Text>
-              <Text style={[styles.username]}>
-                {typeIsSystem ? 'System' : username}{' '}
+          <View style={styles.rightSide}>
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
+              <Text>
+                <Text style={[styles.username]}>
+                  {typeIsSystem ? 'System' : username}{' '}
+                </Text>
+                <Text style={styles.timespan}>
+                  {extendedDateFormat
+                    ? moment(createdAt).format('M/D/YY, h:mm A')
+                    : moment(createdAt).format('h:mm A')}
+                </Text>
               </Text>
-              <Text style={styles.timespan}>
-                {extendedDateFormat
-                  ? moment(createdAt).format('M/D/YY, h:mm A')
-                  : moment(createdAt).format('h:mm A')}
-              </Text>
-            </Text>
-          </TouchableOpacity>
-          {isSponsoredUser ? <SponsoredAd /> : this.renderMessage()}
-          <Reactions
-            reactions={reactions}
-            disableInteractions={disableInteractions}
-            onLikes={this.onLikes}
-            onDislike={this.onDislike}
-            onLaughs={this.onLaughs}
-            onSadFace={this.onSadFace}
-            onRocket={this.onRocket}
-            onEyes={this.onEyes}
-            onReply={this.onReply}
-            replies={replies}
-          />
+            </TouchableOpacity>
+            {isSponsoredUser ? <SponsoredAd /> : this.renderMessage()}
+            {repost && !isRepost && (
+              <Repost
+                postId={repost.id}
+                message={repost.message}
+                metadata={repost.metadata}
+                create_at={repost.created_at}
+                replies={repost.replies}
+                edit_at={repost.edit_at}
+                type={repost.type}
+                userId={repost.user.id}
+                last_picture_update={repost.user.last_picture_update}
+                username={repost.user.username}
+              />
+            )}
+            {!isRepost && (
+              <Reactions
+                reactions={reactions}
+                disableInteractions={disableInteractions}
+                onLikes={this.onLikes}
+                onDislike={this.onDislike}
+                onLaughs={this.onLaughs}
+                onSadFace={this.onSadFace}
+                onRocket={this.onRocket}
+                onEyes={this.onEyes}
+                onReply={this.onReply}
+                replies={replies}
+              />
+            )}
+          </View>
         </View>
-      </View>
+      </>
     );
   }
 }
@@ -615,6 +638,7 @@ const mapStateToProps = (state, props) => ({
   me: state.login.user ? state.login.user.id : null,
   sponsoredIds: state.sponsored,
   users: state.users.data,
+  repost: getRepostIfneeded(state, props.postId),
 });
 
 const mapDispatchToProps = {
