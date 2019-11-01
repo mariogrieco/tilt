@@ -315,11 +315,13 @@ class Post extends React.Component {
   };
 
   onPostPress = () => {
-    const {postId, userId, isReply, isPM, allowRepost} = this.props;
+    const {postId, userId, isReply, isPM, allowRepost, repost} = this.props;
     this.props.showPostActions(userId, postId, {
       hideReply: isReply,
       isPM,
-      showRepost: allowRepost ? postId : null,
+      showRepost: postId,
+      showRepostNoRequieredRedirect:
+        repost && !allowRepost ? repost.channel_id : null,
     });
   };
 
@@ -584,7 +586,11 @@ class Post extends React.Component {
                 </Text>
               </Text>
             </TouchableOpacity>
-            {isSponsoredUser ? <SponsoredAd isRepost={isRepost} /> : this.renderMessage()}
+            {isSponsoredUser ? (
+              <SponsoredAd isRepost={isRepost} />
+            ) : (
+              this.renderMessage()
+            )}
             {repost && !isRepost && (
               <Repost
                 postId={repost.id}

@@ -19,6 +19,8 @@ export default StyleSheet.create({
   button: {
     paddingVertical: 12,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   iconButton: {
     marginRight: 10,

@@ -4,9 +4,7 @@ import {SponsoredBanner} from '../AdBanner';
 
 import styles from './style';
 
-const SponsoredAd = ({
-  isRepost,
-}) => {
+const SponsoredAd = ({isRepost}) => {
   return (
     <View>
       <Text style={[styles.text, {marginBottom: 10}]}>
@@ -17,4 +15,6 @@ const SponsoredAd = ({
   );
 };
 
-export default React.memo(SponsoredAd);
+export default React.memo(SponsoredAd, () => {
+  return false;
+});

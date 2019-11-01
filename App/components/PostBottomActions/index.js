@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   Clipboard,
-  Platform,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Dimensions from 'react-native-extra-dimensions-android';
@@ -26,8 +25,9 @@ import {
 } from '../../actions/AppNavigation';
 import ReactionsGroup from '../ReactionsGroup';
 import getPostById from '../../selectors/getPostById';
-
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import NavigationService from '../../config/NavigationService';
+import {navigateIfExists} from '../../actions/channels';
 import styles from './styles';
 
 const EDIT = require('../../../assets/images/edit/edit.png');
@@ -154,7 +154,11 @@ class PostBottomActions extends React.PureComponent {
       <View
         style={[
           styles.headerContainer,
-          {justifyContent: 'space-around', alignItems: 'center'},
+          {
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            backgroundColor: 'white',
+          },
         ]}>
         <ReactionsGroup
           onReaction={hidePostActions}
@@ -168,7 +172,12 @@ class PostBottomActions extends React.PureComponent {
   onRepost = () => {
     const {postActions} = this.props;
     const base_post_id = postActions.options.showRepost;
+    const requiredChannelId = postActions.options.showRepostNoRequieredRedirect;
     this.props.setRepostActiveOnInput(base_post_id);
+    if (requiredChannelId) {
+      this.props.setActiveFocusChannel(requiredChannelId);
+      this.props.navigateIfExists(null, requiredChannelId);
+    }
     this.props.hidePostActions();
   };
 
@@ -200,7 +209,10 @@ class PostBottomActions extends React.PureComponent {
   renderBottomSheetContent = () => {
     const {postActions, me, isFlagged} = this.props;
     return (
-      <View style={[styles.contentContainer]}>
+      <View style={[styles.contentContainer, {
+        backgroundColor: 'white',
+        height: 'auto'
+      }]}>
         {postActions.userId === me && (
           <React.Fragment>
             <TouchableOpacity style={styles.button}>
@@ -299,27 +311,13 @@ class PostBottomActions extends React.PureComponent {
         hideModalContentWhileAnimating
         useNativeDriver>
         <View
-          style={[
-            {
+          style={{
+              height: 'auto',
               width: '100%',
-              height: Platform.OS === 'ios' ? 330 : 340,
-              backgroundColor: '#fff',
+              backgroundColor: 'transparent',
               borderRadius: 12,
               overflow: 'hidden',
-            },
-            postActions.userId !== me
-              ? {height: Platform.OS === 'ios' ? 245 : 255}
-              : {},
-            postActions.options.hideReply === true
-              ? {height: Platform.OS === 'ios' ? 200 : 210}
-              : {},
-            postActions.options.hideReply === true && postActions.userId !== me
-              ? {height: Platform.OS === 'ios' ? 160 : 170}
-              : {},
-            postActions.userId !== me && !postActions.options.showRepost
-              ? {height: Platform.OS === 'ios' ? 200 : 210}
-              : {},
-          ]}>
+          }}>
           {this.renderBottomSheetHeader()}
           {this.renderBottomSheetContent()}
         </View>
@@ -355,6 +353,8 @@ const mapDispatchToProps = {
   hidePostActions,
   resetPostActions,
   setRepostActiveOnInput,
+  setActiveFocusChannel,
+  navigateIfExists,
 };
 
 export default connect(

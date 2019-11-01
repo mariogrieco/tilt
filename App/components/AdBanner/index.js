@@ -71,14 +71,12 @@ export class SponsoredBanner extends React.PureComponent {
   render() {
     const {isRepost} = this.props;
     return (
+      // eslint-disable-next-line react-native/no-inline-styles
       <View style={{height: 250, width: 300}}>
         <Banner
-          size={isRepost ? "270x225" : "MEDIUM_RECTANGLE"}
+          size={isRepost ? '270x225' : 'MEDIUM_RECTANGLE'}
           unitId={adMob.sponsor}
           request={request.build()}
-          // onAdLoaded={() => {
-          // console.log('Advert loaded');
-          // }}
         />
       </View>
     );
