@@ -32,6 +32,7 @@ import {setViewChannel} from '../actions/channels';
 import {setActiveFocusChannel} from '../actions/AppNavigation';
 import parseChannelMention from '../utils/parseChannelMention';
 import {channelScreen, channelTab} from '../utils/keyboardHelper';
+import {setRepostActiveOnInput} from '../actions/repost';
 
 const styles = StyleSheet.create({
   footer: {
@@ -244,7 +245,16 @@ class Channel extends React.Component {
         scrollLabel: true,
       });
     }
+
+    this.navigationListenerBlur = this.props.navigation.addListener(
+      'willBlur',
+      this.clear,
+    );
   }
+
+  clear = () => {
+    this.props.setRepostActiveOnInput(null);
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.offset) {
@@ -282,6 +292,10 @@ class Channel extends React.Component {
 
     if (this.navigationListener) {
       this.navigationListener.remove();
+    }
+
+    if (this.navigationListenerBlur) {
+      this.navigationListenerBlur.remove();
     }
 
     this.setState({
@@ -342,7 +356,7 @@ class Channel extends React.Component {
               this.setState({
                 currentFocusId: null,
               });
-            }, 6000);
+            }, 0);
           },
         );
       } catch (err) {
@@ -714,6 +728,7 @@ const mapDispatchToProps = {
   setViewChannel,
   setActiveFocusChannel,
   clearjumpToAction,
+  setRepostActiveOnInput,
 };
 
 export default withNavigation(

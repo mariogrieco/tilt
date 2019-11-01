@@ -129,7 +129,6 @@ class PostBottomActions extends React.PureComponent {
   onCopyLinkToMessage = () => {
     const {id} = this.props.postData;
     const str = Client4.getPostRoute(id);
-    // alert(str);
     this._clipboard(str);
     this.props.hidePostActions();
   };
