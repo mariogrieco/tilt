@@ -11,6 +11,7 @@ import {
 import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
+import CountryPicker from 'react-native-country-picker-modal';
 import Form from '../components/Form';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     fontFamily: 'SFProDisplay-Regular',
     color: '$textColor',
     textAlign: 'center',
-    paddingBottom: 13,
+    paddingBottom: 5,
   },
   inputContainer: {
     flex: 1,
@@ -75,6 +76,12 @@ class PhoneNumber extends React.Component {
 
   state = {
     phoneNumber: '',
+    country: {
+      cca2: 'US',
+      name: 'United States',
+      callingCode: ['1'],
+    },
+    formattedNumber: '+1',
   };
 
   navigationToVerification = async () => {
@@ -125,16 +132,35 @@ class PhoneNumber extends React.Component {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <TextInput
-                  editable={false}
-                  value="+1"
-                  style={[styles.placeholders, {paddingRight: 10}]}
+                <CountryPicker
+                  countryCode={this.state.country.cca2}
+                  withFilter
+                  withCallingCodeButton
+                  withCallingCode
+                  withCurrency={false}
+                  onSelect={country =>
+                    this.setState(state => {
+                      return {
+                        country,
+                        formattedNumber: `+${country.callingCode[0] || ''}${
+                          state.phoneNumber
+                        }`,
+                      };
+                    })
+                  }
                 />
                 <TextInput
                   keyboardType="number-pad"
                   maxLength={10}
                   onChangeText={number => {
-                    this.setState({phoneNumber: number});
+                    this.setState(state => {
+                      return {
+                        phoneNumber: number,
+                        formattedNumber: `+${
+                          state.country.callingCode[0]
+                        }${number}`,
+                      };
+                    });
                   }}
                   placeholder="Enter your phone number"
                   style={[styles.placeholders]}
