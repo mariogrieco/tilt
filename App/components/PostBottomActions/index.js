@@ -313,7 +313,7 @@ class PostBottomActions extends React.PureComponent {
           style={{
               height: 'auto',
               width: '100%',
-              backgroundColor: 'transparent',
+              backgroundColor: 'white',
               borderRadius: 12,
               overflow: 'hidden',
           }}>
