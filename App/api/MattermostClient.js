@@ -26,15 +26,17 @@ Client4.createUser = ({
   username,
   password,
   phone,
+  callingCode,
   firstName,
   lastName,
 }) => {
-  return axios.post(`${baseServicesUrl}/users`, {
+  return axios.post(`${baseServicesUrl}/users/v2`, {
     user: {
       email,
       username,
       password,
       phone,
+      callingCode,
       firstName,
       lastName,
     },

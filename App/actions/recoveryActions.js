@@ -11,11 +11,12 @@ export const UPDATE_PASSWORD_ERROR = 'UPDATE_PASSWORD_ERROR';
 export const getVerificationCode = ({
   username,
   phoneNumber,
+  callingCode,
 }) => async dispatch => {
   try {
-    const r = await axios.post(`${baseServicesUrl}/recovery`, {
+    const r = await axios.post(`${baseServicesUrl}/recovery/v2`, {
       username,
-      phoneNumber,
+      phoneNumber: `${callingCode}${phoneNumber}`,
     });
     dispatch({
       type: RECOVERY_REQUEST_SUCCESS,
