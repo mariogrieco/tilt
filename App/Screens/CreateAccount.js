@@ -83,14 +83,15 @@ class CreateAccount extends React.Component {
 
   navigationToHome = async () => {
     const {username, email, password, firstName, lastName} = this.state;
-    const phone = this.props.phoneOnVerification;
+    const {phoneOnVerification, callingCode} = this.props;
     if (username && this.validateEmail(email) && password) {
       try {
         const {user} = await this.props.createUser(
           username,
           email,
           password,
-          phone,
+          phoneOnVerification,
+          callingCode,
           firstName,
           lastName,
         );
@@ -225,6 +226,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   phoneOnVerification: state.codeVerification.phoneNumber,
+  callingCode: state.codeVerification.callingCode,
   token: state.codeVerification.code,
 });
 
