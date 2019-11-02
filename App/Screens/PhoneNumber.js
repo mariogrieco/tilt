@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     color: '$textColor',
     textAlign: 'center',
     paddingLeft: Platform.OS === 'ios' ? 10 : 0,
-    paddingBottom: Platform.OS === 'ios' ? 0 : 5,
   },
   inputContainer: {
     flex: 1,
@@ -134,7 +133,7 @@ class PhoneNumber extends React.Component {
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  paddingBottom: 5,
+                  paddingBottom: 13,
                 }}>
                 <CountryPicker
                   countryCode={this.state.country.cca2}

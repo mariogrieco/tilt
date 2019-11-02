@@ -32,8 +32,15 @@ const styles = StyleSheet.create({
     fontFamily: 'SFProDisplay-Regular',
     color: '$textColor',
     textAlign: 'center',
-    paddingLeft: Platform.OS === 'ios' ? 10 : 0,
-    paddingBottom: Platform.OS === 'ios' ? 0 : 5,
+    paddingBottom: 13,
+    marginTop: Platform.OS === 'ios' ? '2.8rem' : '1.2rem',
+  },
+  phoneNumber: {
+    fontSize: 16,
+    fontFamily: 'SFProDisplay-Regular',
+    color: '$textColor',
+    textAlign: 'center',
+    paddingLeft: 10,
   },
   inputContainer: {
     flex: 1,
@@ -122,7 +129,7 @@ class PasswordReset extends React.Component {
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  paddingBottom: 5,
+                  paddingBottom: 13,
                 }}>
                 <CountryPicker
                   countryCode={this.state.country.cca2}
@@ -140,7 +147,7 @@ class PasswordReset extends React.Component {
                     this.setState({phoneNumber: _phoneNumber});
                   }}
                   placeholder="Enter your phone number"
-                  style={[styles.placeholders]}
+                  style={[styles.phoneNumber]}
                   value={this.state.phoneNumber}
                 />
               </View>
