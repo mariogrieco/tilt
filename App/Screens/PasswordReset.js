@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import CountryPicker from 'react-native-country-picker-modal';
 import Form from '../components/Form';
 import {resetPasswordModal} from '../actions/modal';
 import {resetPassword} from '../actions/login';
@@ -28,12 +29,18 @@ const DismissKeyboard = ({children}) => (
 const styles = StyleSheet.create({
   placeholders: {
     fontSize: 16,
-    letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
-    color: '#585C63',
+    color: '$textColor',
     textAlign: 'center',
     paddingBottom: 13,
     marginTop: Platform.OS === 'ios' ? '2.8rem' : '1.2rem',
+  },
+  phoneNumber: {
+    fontSize: 16,
+    fontFamily: 'SFProDisplay-Regular',
+    color: '$textColor',
+    textAlign: 'center',
+    paddingLeft: 10,
   },
   inputContainer: {
     flex: 1,
@@ -67,7 +74,12 @@ class PasswordReset extends React.Component {
 
   state = {
     username: '',
-    phone: '',
+    phoneNumber: '',
+    country: {
+      cca2: 'US',
+      name: 'United States',
+      callingCode: ['1'],
+    },
   };
 
   validateEmail = email => {
@@ -81,10 +93,11 @@ class PasswordReset extends React.Component {
 
   navitationToUserReset = async () => {
     try {
-      const {username, phone} = this.state;
+      const {username, phoneNumber, country} = this.state;
       await this.props.getVerificationCode({
         username,
-        phoneNumber: phone,
+        phoneNumber,
+        callingCode: country.callingCode[0],
       });
       // this.props.resetPasswordModal(true);
       this.props.navigation.navigate('Recovery');
@@ -111,15 +124,33 @@ class PasswordReset extends React.Component {
               </Text>
             </View>
             <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="Phone Number"
-                onChangeText={phone => {
-                  this.setState({phone});
-                }}
-                style={styles.placeholders}
-                maxLength={13}
-                keyboardType="number-pad"
-              />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingBottom: 13,
+                }}>
+                <CountryPicker
+                  countryCode={this.state.country.cca2}
+                  withFilter
+                  withCallingCodeButton
+                  withCallingCode
+                  withCurrency={false}
+                  withAlphaFilter
+                  onSelect={country => this.setState({country})}
+                />
+                <TextInput
+                  keyboardType="number-pad"
+                  maxLength={10}
+                  onChangeText={_phoneNumber => {
+                    this.setState({phoneNumber: _phoneNumber});
+                  }}
+                  placeholder="Enter your phone number"
+                  style={[styles.phoneNumber]}
+                  value={this.state.phoneNumber}
+                />
+              </View>
               <InputSeparator />
               <TextInput
                 placeholder="Username"

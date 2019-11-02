@@ -14,6 +14,7 @@ export const createUser = (
   email,
   password,
   phone,
+  callingCode,
   firstName,
   lastName,
 ) => async dispatch => {
@@ -23,6 +24,7 @@ export const createUser = (
       username,
       password,
       phone,
+      callingCode,
       firstName,
       lastName,
     });

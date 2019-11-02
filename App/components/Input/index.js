@@ -269,9 +269,14 @@ class Input extends React.Component {
         try {
           const {post} = this.props;
           const parsedValue = Emoji.parse(this.state.messageText);
+          let file_ids = [];
+          if (post.metadata.files) {
+            file_ids = post.metadata.files.map(({id}) => id);
+          }
           await this.props.updatePost({
             ...post,
             message: parsedValue,
+            file_ids,
           });
         } catch (ex) {
           alert(ex.message || ex);
