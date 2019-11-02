@@ -216,7 +216,7 @@ class Verification extends React.Component {
                 Enter the 6-digit verification code sent to{' '}
               </Text>
               <Text style={styles.textBold}>
-                {codeVerification.phoneNumber}
+                {`+${codeVerification.callingCode}${codeVerification.phoneNumber}`}
               </Text>
             </View>
             <View style={styles.inputContainer}>

@@ -8,14 +8,21 @@ export const CODE_REQUEST_ERROR = 'CODE_REQUEST_ERROR';
 export const USER_VERIFICATION_SUCCESS = 'USER_VERIFICATION_SUCCESS';
 export const USER_VERIFICATION_ERROR = 'USER_VERIFICATION_ERROR';
 
-export const getVerificationCode = phoneNumber => async dispatch => {
+export const getVerificationCode = (
+  phoneNumber,
+  callingCode,
+) => async dispatch => {
   try {
-    const result = await axios.post(`${baseServicesUrl}/sms`, {phoneNumber});
+    const result = await axios.post(`${baseServicesUrl}/sms/v2`, {
+      phoneNumber,
+      callingCode,
+    });
     dispatch({
       type: CODE_REQUEST_SUCCESS,
       payload: {
         code: result.data.code,
         phoneNumber,
+        callingCode,
         hasData: true,
       },
     });

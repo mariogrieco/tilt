@@ -73,7 +73,6 @@ class PasswordReset extends React.Component {
       name: 'United States',
       callingCode: ['1'],
     },
-    formattedNumber: '+1',
   };
 
   validateEmail = email => {
@@ -87,10 +86,11 @@ class PasswordReset extends React.Component {
 
   navitationToUserReset = async () => {
     try {
-      const {username, formattedNumber} = this.state;
+      const {username, phoneNumber, country} = this.state;
       await this.props.getVerificationCode({
         username,
-        formattedNumber,
+        phoneNumber,
+        callingCode: country.callingCode[0],
       });
       // this.props.resetPasswordModal(true);
       this.props.navigation.navigate('Recovery');
@@ -131,29 +131,13 @@ class PasswordReset extends React.Component {
                   withCallingCode
                   withCurrency={false}
                   withAlphaFilter
-                  onSelect={country =>
-                    this.setState(state => {
-                      return {
-                        country,
-                        formattedNumber: `+${country.callingCode[0] || ''}${
-                          state.phoneNumber
-                        }`,
-                      };
-                    })
-                  }
+                  onSelect={country => this.setState({country})}
                 />
                 <TextInput
                   keyboardType="number-pad"
                   maxLength={10}
-                  onChangeText={number => {
-                    this.setState(state => {
-                      return {
-                        phoneNumber: number,
-                        formattedNumber: `+${
-                          state.country.callingCode[0]
-                        }${number}`,
-                      };
-                    });
+                  onChangeText={_phoneNumber => {
+                    this.setState({phoneNumber: _phoneNumber});
                   }}
                   placeholder="Enter your phone number"
                   style={[styles.placeholders]}

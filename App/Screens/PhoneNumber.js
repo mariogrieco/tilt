@@ -82,12 +82,11 @@ class PhoneNumber extends React.Component {
       name: 'United States',
       callingCode: ['1'],
     },
-    formattedNumber: '+1',
   };
 
   navigationToVerification = async () => {
     const {navigation} = this.props;
-    const {formattedNumber, phoneNumber} = this.state;
+    const {phoneNumber, country} = this.state;
     if (!phoneNumber) {
       Alert.alert(EMPTY_WARNING);
     } else if (phoneNumber.length === 10) {
@@ -96,7 +95,10 @@ class PhoneNumber extends React.Component {
         return;
       }
       try {
-        await this.props.getVerificationCode(`${formattedNumber}`);
+        await this.props.getVerificationCode(
+          phoneNumber,
+          country.callingCode[0],
+        );
         navigation.navigate('Verification');
       } catch (ex) {
         alert(ex);
@@ -141,30 +143,14 @@ class PhoneNumber extends React.Component {
                   withCallingCode
                   withCurrency={false}
                   withAlphaFilter
-                  onSelect={country =>
-                    this.setState(state => {
-                      return {
-                        country,
-                        formattedNumber: `+${country.callingCode[0] || ''}${
-                          state.phoneNumber
-                        }`,
-                      };
-                    })
-                  }
+                  onSelect={country => this.setState({country})}
                 />
                 <TextInput
                   keyboardType="number-pad"
                   maxLength={10}
-                  onChangeText={number => {
-                    this.setState(state => {
-                      return {
-                        phoneNumber: number,
-                        formattedNumber: `+${
-                          state.country.callingCode[0]
-                        }${number}`,
-                      };
-                    });
-                  }}
+                  onChangeText={_phoneNumber =>
+                    this.setState({phoneNumber: _phoneNumber})
+                  }
                   placeholder="Enter your phone number"
                   style={[styles.placeholders]}
                   value={phoneNumber}
