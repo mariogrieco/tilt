@@ -17,6 +17,7 @@ export const getVerificationCode = ({
     const r = await axios.post(`${baseServicesUrl}/recovery/v2`, {
       username,
       phoneNumber,
+      callingCode,
     });
     dispatch({
       type: RECOVERY_REQUEST_SUCCESS,
