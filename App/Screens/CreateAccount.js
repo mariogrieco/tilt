@@ -141,7 +141,7 @@ class CreateAccount extends React.Component {
         <View style={{flex: 1, marginVertical: 0}}>
           <Form
             canSend={canSend}
-            textButton="Continue"
+            textButton="Sign Up"
             navigationTo={this.navigationToHome}
             keyboardVerticalOffset={
               Platform.OS === 'ios' ? ifIphoneX(95, 80) : 0

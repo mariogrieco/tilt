@@ -119,8 +119,8 @@ class PasswordReset extends React.Component {
             }>
             <View style={styles.textContainer}>
               <Text style={styles.textBold}>
-                Enter email and username you used to sign
-                up. We will send you a code to verify.
+                Enter the email and username you used to sign up. We will send
+                you a code to verify.
               </Text>
             </View>
             <View style={styles.inputContainer}>
