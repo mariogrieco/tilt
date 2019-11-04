@@ -107,7 +107,6 @@ export default StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Bold',
-    marginBottom: 4,
   },
   edited: {
     fontSize: 14,
@@ -153,7 +152,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    paddingTop: 10,
+    marginTop: 10,
     paddingBottom: '0.5rem',
     flexWrap: 'wrap',
     // paddingLeft: '0.9375rem',
@@ -168,7 +167,6 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   imageUrlContainer: {
-    paddingTop: 10,
     height: '15rem',
     width: '100%',
     borderRadius: '0.3125rem',
@@ -177,11 +175,11 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   rightSide: {
-    paddingTop: 10,
+    marginTop: 10,
     width: '85.5%',
   },
   leftSideContainer: {
-    paddingTop: 10,
+    marginTop: 10,
     flexDirection: 'column',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',

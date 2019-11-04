@@ -668,7 +668,8 @@ class Channel extends React.Component {
         ) : (
           <KeyboardAvoidingView
             keyboardVerticalOffset={this.keyboardConfig.offset}
-            behavior={this.keyboardConfig.behavior}>
+            behavior={this.keyboardConfig.behavior}
+            >
             <Input placeholder={placeholder} channelId={channel.id} />
           </KeyboardAvoidingView>
         )}
