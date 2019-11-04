@@ -490,7 +490,7 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        {hasUrlForPreview && <MemoUrlPreview text={message} />}
+        {hasUrlForPreview && !imageUrl && <MemoUrlPreview text={message} />}
       </>
     );
   };
