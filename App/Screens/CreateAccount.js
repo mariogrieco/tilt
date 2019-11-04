@@ -17,7 +17,7 @@ import {verificateUser} from '../actions/codeVerification';
 import {getTeams, addToTeam} from '../actions/teams';
 import {isLogin, createUserAccessToken, login} from '../actions/login';
 import {getChannels, getMyChannels} from '../actions/channels';
-import {createUser} from '../actions/signup';
+import {client4CreateUser} from '../actions/signup';
 import {
   // getProfilesInChannels,
   getProfilesInGroupChannels,
@@ -83,29 +83,28 @@ class CreateAccount extends React.Component {
 
   navigationToHome = async () => {
     const {username, email, password, firstName, lastName} = this.state;
-    const {phoneOnVerification, callingCode} = this.props;
+    // const {phoneOnVerification, callingCode} = this.props;
     if (username && this.validateEmail(email) && password) {
       try {
-        const {user} = await this.props.createUser(
+        const {user} = await this.props.client4CreateUser({
           username,
           email,
           password,
-          phoneOnVerification,
-          callingCode,
-          firstName,
-          lastName,
-        );
+          first_name: firstName,
+          last_name: lastName,
+        });
         await this.props.login(password, username);
         const teams = await this.props.getTeams();
-        await this.props.addToTeam(teams[teams.length - 1].id, user.id);
-        const preferences = await this.props.getMyPreferences();
+        const default_team_id = teams.find(({name}) => name === 'default');
+        await this.props.addToTeam(default_team_id.id, user.id);
+        await this.props.getMyPreferences();
         await this.props.getFlagged();
         this.getPostChannelsAndUsersData();
         this.props.modalActive(true);
         this.props.isLogin(true);
         this.props.navigation.navigate('Home');
       } catch (ex) {
-        alert(ex);
+        alert(ex.message);
       }
     }
   };
@@ -142,7 +141,7 @@ class CreateAccount extends React.Component {
         <View style={{flex: 1, marginVertical: 0}}>
           <Form
             canSend={canSend}
-            textButton="Continue"
+            textButton="Sign Up"
             navigationTo={this.navigationToHome}
             keyboardVerticalOffset={
               Platform.OS === 'ios' ? ifIphoneX(95, 80) : 0
@@ -210,7 +209,7 @@ class CreateAccount extends React.Component {
 const mapDispatchToProps = {
   modalActive,
   isLogin,
-  createUser,
+  client4CreateUser,
   createUserAccessToken,
   verificateUser,
   login,

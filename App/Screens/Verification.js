@@ -213,7 +213,7 @@ class Verification extends React.Component {
             }>
             <View style={styles.textContainerModal}>
               <Text style={styles.textBold}>
-                Enter the 6-digit verification code sent to{' '}
+                Please enter the 6-digit verification code sent to your email.
               </Text>
               <Text style={styles.textBold}>
                 {`+${codeVerification.callingCode}${codeVerification.phoneNumber}`}

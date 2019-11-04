@@ -8,30 +8,26 @@ export const RECOVERY_REQUEST_ERROR = 'RECOVERY_REQUEST_ERROR';
 export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
 export const UPDATE_PASSWORD_ERROR = 'UPDATE_PASSWORD_ERROR';
 
-export const getVerificationCode = ({
-  username,
-  phoneNumber,
-  callingCode,
-}) => async dispatch => {
+export const getVerificationCode = ({username, email}) => async dispatch => {
   try {
-    const r = await axios.post(`${baseServicesUrl}/recovery/v2`, {
+    const r = await axios.post(`${baseServicesUrl}/recovery/using-email`, {
       username,
-      phoneNumber: `${callingCode}${phoneNumber}`,
+      email,
     });
     dispatch({
       type: RECOVERY_REQUEST_SUCCESS,
       payload: {
         token: r.data.token,
-        phoneNumber,
+        email,
       },
     });
     return r.data;
-  } catch ({response}) {
+  } catch (ex) {
     dispatch({
       type: RECOVERY_REQUEST_ERROR,
-      payload: response.data,
+      payload: ex.response.data,
     });
-    return Promise.reject(response.data.message);
+    return Promise.reject(ex.response.data);
   }
 };
 

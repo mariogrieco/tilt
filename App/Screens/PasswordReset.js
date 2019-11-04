@@ -75,6 +75,7 @@ class PasswordReset extends React.Component {
   state = {
     username: '',
     phoneNumber: '',
+    email: '',
     country: {
       cca2: 'US',
       name: 'United States',
@@ -93,16 +94,15 @@ class PasswordReset extends React.Component {
 
   navitationToUserReset = async () => {
     try {
-      const {username, phoneNumber, country} = this.state;
+      const {username, email} = this.state;
       await this.props.getVerificationCode({
         username,
-        phoneNumber,
-        callingCode: country.callingCode[0],
+        email,
       });
       // this.props.resetPasswordModal(true);
       this.props.navigation.navigate('Recovery');
     } catch (err) {
-      alert(err);
+      alert(err.message);
     }
   };
 
@@ -119,8 +119,8 @@ class PasswordReset extends React.Component {
             }>
             <View style={styles.textContainer}>
               <Text style={styles.textBold}>
-                Enter the 10-digit phone number and username you used to sign
-                up. We will send you a code to verify.
+                Enter the email and username you used to sign up. We will send
+                you a code to verify.
               </Text>
             </View>
             <View style={styles.inputContainer}>
@@ -131,24 +131,13 @@ class PasswordReset extends React.Component {
                   alignItems: 'center',
                   paddingBottom: 13,
                 }}>
-                <CountryPicker
-                  countryCode={this.state.country.cca2}
-                  withFilter
-                  withCallingCodeButton
-                  withCallingCode
-                  withCurrency={false}
-                  withAlphaFilter
-                  onSelect={country => this.setState({country})}
-                />
                 <TextInput
-                  keyboardType="number-pad"
-                  maxLength={10}
-                  onChangeText={_phoneNumber => {
-                    this.setState({phoneNumber: _phoneNumber});
+                  onChangeText={_email => {
+                    this.setState({email: _email});
                   }}
-                  placeholder="Enter your phone number"
+                  placeholder="Enter your email"
                   style={[styles.phoneNumber]}
-                  value={this.state.phoneNumber}
+                  value={this.state.email}
                 />
               </View>
               <InputSeparator />
