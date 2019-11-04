@@ -25,9 +25,9 @@ export const getVerificationCode = ({username, email}) => async dispatch => {
   } catch (ex) {
     dispatch({
       type: RECOVERY_REQUEST_ERROR,
-      payload: ex || ex.response.data,
+      payload: ex.response.data,
     });
-    return Promise.reject(ex.message);
+    return Promise.reject(ex.response.data);
   }
 };
 

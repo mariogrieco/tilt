@@ -102,7 +102,7 @@ class PasswordReset extends React.Component {
       // this.props.resetPasswordModal(true);
       this.props.navigation.navigate('Recovery');
     } catch (err) {
-      alert(err);
+      alert(err.message);
     }
   };
 
