@@ -1,17 +1,16 @@
-
 import {Platform} from 'react-native';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 
 const isIOS = Platform.OS === 'ios';
-const behavior = isIOS ? 'position' : 'padding';
+const behavior = isIOS ? 'position' : 'position';
 
-export const channelScreen = {
-  offset: isIOS ? ifIphoneX(136, -108) : -160,
+export const channelTab = {
+  offset: isIOS ? ifIphoneX(136, 108) : -90,
   behavior,
 };
 
-export const channelTab = {
-  offset: isIOS ? ifIphoneX(88, 60) : -110,
+export const channelScreen = {
+  offset: isIOS ? ifIphoneX(88, 60) : -140,
   behavior,
 };
 
@@ -19,3 +18,4 @@ export default {
   channelScreen,
   channelTab,
 };
+
