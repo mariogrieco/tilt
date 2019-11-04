@@ -1,10 +1,15 @@
 import store from '../config/store';
-import {addPostTo, removeFromPost, editPost, removePostFromChannelId} from './posts';
+import {
+  addPostTo,
+  removeFromPost,
+  editPost,
+  removePostFromChannelId,
+} from './posts';
 import {getChannelById, channelUpdated, deleteChannelSucess} from './channels';
 import {removedReaction, addedReaction} from './reactions';
 import {getPostCount} from './postCount';
 import {userUpdatedSuccess, getNewUser} from './users';
-import {getReactionsForUser} from './reactions'
+import {getReactionsForUser} from './reactions';
 import moment from 'moment';
 
 const eventsDispatched = data => {

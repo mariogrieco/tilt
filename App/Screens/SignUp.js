@@ -192,7 +192,7 @@ class SignUp extends React.Component {
 
   goToSignUp = () => {
     this.props.isSignUp(true);
-    this.props.navigation.navigate('PhoneNumber', {title: 'Sign Up'});
+    this.props.navigation.navigate('CreateAccount');
   };
 
   goToLogin = () => {

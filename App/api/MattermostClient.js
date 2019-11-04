@@ -21,7 +21,7 @@ if (IS_DEV_ENV) {
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
 
-Client4.createUser = ({
+Client4.createUserOld = ({
   email,
   username,
   password,

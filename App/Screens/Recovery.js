@@ -292,7 +292,7 @@ class Recovery extends PureComponent {
             <View>
               <View style={styles.textContainerModal}>
                 <Text style={styles.textBold}>
-                  Please enter the 6-digit code sent to{' '}
+                  Please enter the 6-digit verification code sent to your email.
                 </Text>
                 <Text style={styles.textBold}>{recovery.phoneNumber}</Text>
               </View>
