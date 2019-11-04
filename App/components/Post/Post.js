@@ -483,7 +483,6 @@ class Post extends React.Component {
                 onUser={onUser}
                 disableUserPattern={isPM}
               />
-              <Text> </Text>
               {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
             </View>
           )}

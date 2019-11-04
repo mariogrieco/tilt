@@ -165,7 +165,7 @@ export default StyleSheet.create({
     borderRadius: '0.3125rem',
     borderColor: '#DCDCDC',
     borderWidth: StyleSheet.hairlineWidth,
-    marginTop: 10,
+    marginTop: 0,
   },
   imageUrlContainer: {
     paddingTop: 10,
