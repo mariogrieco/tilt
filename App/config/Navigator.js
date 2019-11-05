@@ -31,14 +31,14 @@ import AdvancedSearch from '../Screens/AdvancedSearch';
 import {stackHeader, headerForScreenWithTabs} from './navigationHeaderStyle';
 import StyleSheet from 'react-native-extended-stylesheet';
 
-const POLL_FOCUS = require('../../assets/images/poll_focus/poll.png');
-const POLL_UNFOCUS = require('../../assets/images/poll_unfocus/poll.png');
-const HASHTAG_FOCUS = require('../../assets/images/hashtag_focus/hashtag_focus.png');
-const HASHTAG_UNFOCUS = require('../../assets/images/hashtag_unfocus/hashtag_unfocus.png');
-const PROFILE_FOCUS = require('../../assets/images/profile_focus/profile.png');
-const PROFILE_UNFOCUS = require('../../assets/images/profile_unfocus/profile.png');
-const MESSAGES_FOCUS = require('../../assets/images/message_black/envelope.png');
-const MESSAGES_UNFOCUS = require('../../assets/images/messages-gray/envelope.png');
+const POLL_FOCUS = require('../../assets/themes/light/poll_focus/poll.png');
+const POLL_UNFOCUS = require('../../assets/themes/light/poll_unfocus/poll.png');
+const HASHTAG_FOCUS = require('../../assets/themes/light/hashtag_focus/hashtag_focus.png');
+const HASHTAG_UNFOCUS = require('../../assets/themes/light/hashtag_unfocus/hashtag_unfocus.png');
+const PROFILE_FOCUS = require('../../assets/themes/light/profile_focus/profile.png');
+const PROFILE_UNFOCUS = require('../../assets/themes/light/profile_unfocus/profile.png');
+const MESSAGES_FOCUS = require('../../assets/themes/light/message_black/envelope.png');
+const MESSAGES_UNFOCUS = require('../../assets/themes/light/messages-gray/envelope.png');
 
 const HomeStack = createStackNavigator(
   {
@@ -86,9 +86,6 @@ const SignUpStack = createStackNavigator(
   {
     // headerMode: 'none',
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...headerForScreenWithTabs,
-    },
     navigationOptions: {
       tabBarIcon: ({focused}) =>
         focused ? (

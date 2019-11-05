@@ -12,7 +12,7 @@ export const stackHeader = {
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
   },
   headerTitleStyle: {
     fontSize: 18,
@@ -24,7 +24,9 @@ export const stackHeader = {
   headerTintColor: '#0E141E',
 };
 
-export const headerForScreenWithTabs = {
+//default export
+
+export let headerForScreenWithTabs = {
   headerStyle: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -34,11 +36,33 @@ export const headerForScreenWithTabs = {
       height: 0,
     },
     elevation: 0,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFFF',
   },
   headerTitleStyle: {
     fontSize: 18,
     fontFamily: 'SFProDisplay-Bold',
   },
-  headerTintColor: '#0e141e',
+  headerTintColor: '#0E141E',
 };
+
+//change reference after build
+StyleSheet.subscribe('build', () => {
+  headerForScreenWithTabs = {
+    headerStyle: {
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      elevation: 0,
+      backgroundColor: StyleSheet.value('$backgroundColor'),
+    },
+    headerTitleStyle: {
+      fontSize: 18,
+      fontFamily: 'SFProDisplay-Bold',
+    },
+    headerTintColor: StyleSheet.value('$headerTintColor'),
+  };
+});
