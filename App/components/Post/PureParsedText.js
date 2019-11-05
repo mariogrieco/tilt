@@ -537,9 +537,8 @@ export class PureParsedText extends Component {
       ? {
           width: '100%',
           borderRadius: 4,
-          paddingVertical: 5,
+          paddingVertical: 3,
           paddingHorizontal: 8,
-          marginTop: 10,
           backgroundColor: '#F4F4F4',
           borderColor: '#DCDCDC',
           borderWidth: StyleSheet.hairlineWidth,

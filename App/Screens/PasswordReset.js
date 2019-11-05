@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import CountryPicker from 'react-native-country-picker-modal';
 import Form from '../components/Form';
 import {resetPasswordModal} from '../actions/modal';
 import {resetPassword} from '../actions/login';
@@ -28,12 +29,18 @@ const DismissKeyboard = ({children}) => (
 const styles = StyleSheet.create({
   placeholders: {
     fontSize: 16,
-    letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
-    color: '#585C63',
+    color: '$textColor',
     textAlign: 'center',
     paddingBottom: 13,
     marginTop: Platform.OS === 'ios' ? '2.8rem' : '1.2rem',
+  },
+  phoneNumber: {
+    fontSize: 16,
+    fontFamily: 'SFProDisplay-Regular',
+    color: '$textColor',
+    textAlign: 'center',
+    paddingLeft: 10,
   },
   inputContainer: {
     flex: 1,
@@ -67,7 +74,13 @@ class PasswordReset extends React.Component {
 
   state = {
     username: '',
-    phone: '',
+    phoneNumber: '',
+    email: '',
+    country: {
+      cca2: 'US',
+      name: 'United States',
+      callingCode: ['1'],
+    },
   };
 
   validateEmail = email => {
@@ -81,15 +94,15 @@ class PasswordReset extends React.Component {
 
   navitationToUserReset = async () => {
     try {
-      const {username, phone} = this.state;
+      const {username, email} = this.state;
       await this.props.getVerificationCode({
         username,
-        phoneNumber: phone,
+        email,
       });
       // this.props.resetPasswordModal(true);
       this.props.navigation.navigate('Recovery');
     } catch (err) {
-      alert(err);
+      alert(err.message);
     }
   };
 
@@ -106,20 +119,27 @@ class PasswordReset extends React.Component {
             }>
             <View style={styles.textContainer}>
               <Text style={styles.textBold}>
-                Enter the 10-digit phone number and username you used to sign
-                up. We will send you a code to verify.
+                Enter the email and username you used to sign up. We will send
+                you a code to verify.
               </Text>
             </View>
             <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="Phone Number"
-                onChangeText={phone => {
-                  this.setState({phone});
-                }}
-                style={styles.placeholders}
-                maxLength={13}
-                keyboardType="number-pad"
-              />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingBottom: 13,
+                }}>
+                <TextInput
+                  onChangeText={_email => {
+                    this.setState({email: _email});
+                  }}
+                  placeholder="Enter your email"
+                  style={[styles.phoneNumber]}
+                  value={this.state.email}
+                />
+              </View>
               <InputSeparator />
               <TextInput
                 placeholder="Username"

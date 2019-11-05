@@ -131,8 +131,8 @@ android {
         applicationId "com.tiltclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 5
+        versionName "1.3.0"
         multiDexEnabled true
     }
     splits {
@@ -197,6 +197,7 @@ dependencies {
     implementation "com.google.firebase:firebase-ads:17.2.1"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.1'
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

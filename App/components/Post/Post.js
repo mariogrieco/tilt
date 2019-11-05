@@ -453,9 +453,20 @@ class Post extends React.Component {
       metadata && metadata.files && metadata.files ? metadata.files : [];
 
     const REGEX = /(http(s?):\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})/gi;
-    const hasUrlForPreview = Boolean(
-      message && message.match(REGEX) && message.match(REGEX)[0],
-    );
+
+    let hasUrlForPreview = false;
+
+    if (imageUrl) {
+      hasUrlForPreview = Boolean(
+        message &&
+          message.replace(imageUrl, ' ').match(REGEX) &&
+          message.replace(imageUrl, ' ').match(REGEX)[0],
+      );
+    } else {
+      hasUrlForPreview = Boolean(
+        message && message.match(REGEX) && message.match(REGEX)[0],
+      );
+    }
 
     return (
       <>
@@ -477,7 +488,6 @@ class Post extends React.Component {
                 onUser={onUser}
                 disableUserPattern={isPM}
               />
-              <Text> </Text>
               {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
             </View>
           )}
@@ -495,7 +505,7 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        {hasUrlForPreview && <MemoUrlPreview text={message} />}
+        {hasUrlForPreview && <MemoUrlPreview text={message.replace(imageUrl, ' ')} />}
       </>
     );
   };

@@ -29,6 +29,7 @@
     "react-native": "0.61.2",
     "react-native-charts-wrapper": "^0.5.7",
     "react-native-contacts": "^5.0.4",
+    "react-native-country-picker-modal": "1.5.2",
     "react-native-device-info": "^4.0.1",
     "react-native-document-picker": "^3.2.4",
     "react-native-extended-stylesheet": "^0.12.0",
