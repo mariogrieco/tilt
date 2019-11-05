@@ -10,9 +10,9 @@ export default StyleSheet.create({
     alignItems: 'stretch',
   },
   repostContainer: {
-    paddingLeft: 8,
+    paddingLeft: 10,
     paddingRight: 0,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'stretch',
   },
@@ -171,6 +171,10 @@ export default StyleSheet.create({
     marginTop: 10,
     width: '85.5%',
   },
+  rightSideRepost: {
+    marginTop: 10,
+    width: '100%',
+  },
   leftSideContainer: {
     marginTop: 10,
     flexDirection: 'column',
@@ -219,8 +223,5 @@ export default StyleSheet.create({
     color: '#585C63',
     fontSize: 15,
     letterSpacing: 0.1,
-  },
-  repost: {
-
   },
 });

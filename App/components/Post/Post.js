@@ -581,7 +581,7 @@ class Post extends React.Component {
             </View>
             {thread && <View style={styles.threadSeparator} />}
           </View>
-          <View style={styles.rightSide}>
+          <View style={[isRepost ? styles.rightSideRepost : styles.rightSide]}>
             <TouchableOpacity
               onPress={
                 disableInteractions || isSponsoredUser
