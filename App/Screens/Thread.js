@@ -70,7 +70,7 @@ class Thread extends React.Component {
       <SafeAreaView style={{flex: 1}}>
         <ScrollView
           keyboardDismissMode="on-drag"
-          contentContainerStyle={{paddingTop: 10}}>
+          contentContainerStyle={{paddingTop: 0}}>
           {thread.map(post => (
             <Post
               postId={post.id}

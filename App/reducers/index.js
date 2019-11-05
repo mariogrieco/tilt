@@ -8,11 +8,9 @@ import depth from './depth';
 import login from './login';
 import signUp from './signup';
 import modal from './modal';
-// import channels from './channels';
 import posts from './posts';
 import users from './users';
 import AppNavigation from './AppNavigation';
-// import myChannels from './myChannels';
 import emojis from './emojis';
 import reactions from './reactions';
 import files from './files';
@@ -43,6 +41,7 @@ import mapChannels from './MapChannels';
 import myChannelsMap from './MyChannelsMap';
 import adminCreators from './adminCreators';
 import postCount from './postCount';
+import repost from './repost';
 import hashtagChannelsPaginator from './HashtagChannelsPaginator';
 
 export default combineReducers({
@@ -56,8 +55,7 @@ export default combineReducers({
   login,
   signUp,
   modal,
-  // channels, // Al these Channels for existing teams.
-  // myChannels,
+  repost,
   posts,
   users,
   appNavigation: AppNavigation,
@@ -91,5 +89,4 @@ export default combineReducers({
   adminCreators,
   postCount,
   hashtagChannelsPaginator,
-  // client4Error
 });

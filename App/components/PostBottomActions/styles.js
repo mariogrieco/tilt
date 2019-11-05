@@ -13,12 +13,15 @@ export default StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 14,
-    height: 400,
+    paddingBottom: 10,
     backgroundColor: '#fff',
   },
   button: {
     paddingVertical: 12,
+    paddingRight: 70,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   iconButton: {
     marginRight: 10,

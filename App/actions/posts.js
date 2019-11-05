@@ -143,10 +143,13 @@ export const updatePostError = err => ({
   payload: err,
 });
 
-export const createPost = (message, channelId, root_id, file_ids) => async (
-  dispatch,
-  getState,
-) => {
+export const createPost = (
+  message,
+  channelId,
+  root_id,
+  file_ids,
+  last_post_id_for_repost,
+) => async (dispatch, getState) => {
   root_id = root_id || '';
   try {
     const meId = getState().login.user.id;
@@ -158,6 +161,11 @@ export const createPost = (message, channelId, root_id, file_ids) => async (
       root_id,
       file_ids,
     );
+    if (last_post_id_for_repost) {
+      post.props = {
+        repost: last_post_id_for_repost,
+      };
+    }
     await Client4.createPost(post);
     dispatch(createPostSucess(post));
     return post;
