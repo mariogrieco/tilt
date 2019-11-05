@@ -3,7 +3,7 @@ import {TextInput, Animated, Dimensions, View, Image} from 'react-native';
 import styles from './styles';
 
 const {width} = Dimensions.get('window');
-const SEARCH_ICON = require('../../../assets/images/searchIcon/searchIcon.png');
+const SEARCH_ICON = require('../../../assets/themes/light/searchIcon/searchIcon.png');
 
 class SearchBar extends React.Component {
   state = {

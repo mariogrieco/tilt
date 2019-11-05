@@ -11,12 +11,12 @@ import styles from './styles';
 // import Rocket from '../IconStore/Rocket';
 import isChannelCreatorAdmin from '../../selectors/isChannelCreatorAdmin';
 
-const EARTH = require('../../../assets/images/earth/earth.png');
-const NEW = require('../../../assets/images/new/new.png');
-const GOAT = require('../../../assets/images/goat/goat.png');
-const STAR = require('../../../assets/images/star/star.png');
-const CHANNEL_ROCKET = require('../../../assets/images/channelRocket/channelRocket.png');
-const FIRE = require('../../../assets/images/fire/fire.png');
+const EARTH = require('../../../assets/themes/light/earth/earth.png');
+const NEW = require('../../../assets/themes/light/new/new.png');
+const GOAT = require('../../../assets/themes/light/goat/goat.png');
+const STAR = require('../../../assets/themes/light/star/star.png');
+const CHANNEL_ROCKET = require('../../../assets/themes/light/channelRocket/channelRocket.png');
+const FIRE = require('../../../assets/themes/light/fire/fire.png');
 
 class ChannelDisplayName extends Component {
   state = {

@@ -29,12 +29,12 @@ import getPostById from '../../selectors/getPostById';
 import NavigationService from '../../config/NavigationService';
 import styles from './styles';
 
-const EDIT = require('../../../assets/images/edit/edit.png');
-const DELETE = require('../../../assets/images/delete/trash.png');
-const REPLY = require('../../../assets/images/reply/reply.png');
-const FLAG = require('../../../assets/images/flag/flag.png');
-// const COPY_LINK = require('../../../assets/images/link/link.png');
-const COPY_TEXT = require('../../../assets/images/copy/copy.png');
+const EDIT = require('../../../assets/themes/light/edit/edit.png');
+const DELETE = require('../../../assets/themes/light/delete/trash.png');
+const REPLY = require('../../../assets/themes/light/reply/reply.png');
+const FLAG = require('../../../assets/themes/light/flag/flag.png');
+// const COPY_LINK = require('../../../assets/themes/light/link/link.png');
+const COPY_TEXT = require('../../../assets/themes/light/copy/copy.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');

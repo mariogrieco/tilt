@@ -10,7 +10,7 @@ import styles from './styles';
 import parser from '../../utils/parse_display_name';
 import Separator from '../Separator';
 
-const SATELLITE = require('../../../assets/images/satellite/satellite.png');
+const SATELLITE = require('../../../assets/themes/light/satellite/satellite.png');
 
 class PrivateMessages extends React.Component {
   parseDisplayName(str = '') {

@@ -9,7 +9,7 @@ import {BookBanner} from '../AdBanner';
 import {fetchBooksOnly} from '../../actions/depth';
 import {BOOKS_INTERVAL} from '../../config/refreshIntervals';
 
-const CROSS = require('../../../assets/images/close_gray/shape.png');
+const CROSS = require('../../../assets/themes/light/close_gray/shape.png');
 
 const renderItem = ({item}) => (
   <View>

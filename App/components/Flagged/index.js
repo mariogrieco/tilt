@@ -9,7 +9,7 @@ import styles from './styles';
 import BottomBlockSpaceSmall from '../BottomBlockSpaceSmall';
 import parser from '../../utils/parse_display_name';
 
-const MOON = require('../../../assets/images/flagged_moon/flagged_moon.png');
+const MOON = require('../../../assets/themes/light/flagged_moon/flagged_moon.png');
 
 class Flagged extends React.PureComponent {
   renderItem = ({item: channel}) => {

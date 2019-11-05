@@ -12,19 +12,18 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-// import SplashScreen from 'react-native-smart-splash-screen';
+import assets from '../components/ThemeWrapper/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-
-const LOGO = require('../../assets/images/logo/LogoSignUp.png');
-const GROUPCHAT = require('../../assets/images/groupChat/groupChat.png');
-const MARKETDATA = require('../../assets/images/marketData/marketData.png');
-const PHONE = require('../../assets/images/phone-call/phone-call-button.png');
-const VIDEO = require('../../assets/images/video/video.png');
-const NETWORK = require('../../assets/images/network/network.png');
-const ROBOT = require('../../assets/images/robot/robot.png');
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '$backgroundColor',
+  },
   container: {
     marginTop: '14%',
   },
@@ -73,14 +72,14 @@ const styles = StyleSheet.create({
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
     letterSpacing: 0.1,
-    color: 'white',
+    color: '$buttonTextColor',
     paddingTop: 10,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   leftButton: {
     borderRightWidth: StyleSheet.hairlineWidth,
-    borderRightColor: 'white',
+    borderRightColor: '$backgroundColor',
     borderTopLeftRadius: '$borderRadius',
     borderBottomLeftRadius: '$borderRadius',
     borderTopRightRadius: 0,
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
   },
   rightButton: {
     borderLeftWidth: StyleSheet.hairlineWidth,
-    borderLeftColor: 'white',
+    borderLeftColor: '$backgroundColor',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     borderTopRightRadius: '$borderRadius',
@@ -160,16 +159,7 @@ const Buttons = ({onSignUp, onLogin}) => (
 class SignUp extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.getParam('title', ''),
-    headerStyle: {
-      borderBottomWidth: 0,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 0,
-      },
-      elevation: 0,
-      backgroundColor: '#FFF',
-    },
+    ...headerForScreenWithTabs,
   });
 
   componentDidMount() {
@@ -209,13 +199,9 @@ class SignUp extends React.Component {
   };
 
   render() {
+    const iconsTheme = assets[StyleSheet.value('$theme')];
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.mainContainer}>
         <View style={{flex: 1}}>
           <ScrollView>
             <View style={styles.container}>
@@ -224,7 +210,7 @@ class SignUp extends React.Component {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Image source={LOGO} style={styles.logo} />
+                <Image source={iconsTheme.LOGO} style={styles.logo} />
                 <View style={[styles.signUpToExperienceView, {paddingTop: 10}]}>
                   <Text style={styles.signUpToExperience}>
                     Sign up to experience the best of Tilt
@@ -233,12 +219,27 @@ class SignUp extends React.Component {
               </View>
               <View style={[styles.principalContainer]}>
                 <FeatureGroup>
-                  <Feature icon={GROUPCHAT} text="Chat with traders" />
-                  <Feature icon={PHONE} text="Start and join voice calls" />
-                  <Feature icon={VIDEO} text="Start and join video calls" />
-                  <Feature icon={NETWORK} text="1000s of communities" />
-                  <Feature icon={ROBOT} text="Intelligent bots" />
-                  <Feature icon={MARKETDATA} text="Real-time market data" />
+                  <Feature
+                    icon={iconsTheme.GROUPCHAT}
+                    text="Chat with traders"
+                  />
+                  <Feature
+                    icon={iconsTheme.PHONE}
+                    text="Start and join voice calls"
+                  />
+                  <Feature
+                    icon={iconsTheme.VIDEO}
+                    text="Start and join video calls"
+                  />
+                  <Feature
+                    icon={iconsTheme.NETWORK}
+                    text="1000s of communities"
+                  />
+                  <Feature icon={iconsTheme.ROBOT} text="Intelligent bots" />
+                  <Feature
+                    icon={iconsTheme.MARKETDATA}
+                    text="Real-time market data"
+                  />
                 </FeatureGroup>
               </View>
             </View>

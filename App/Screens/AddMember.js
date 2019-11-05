@@ -17,11 +17,11 @@ import {sendEmailGuestInvitesToChannels} from '../actions/invitations';
 import TopBlockSpace from '../components/TopBlockSpace';
 import GoBack from '../components/GoBack';
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
-const EMAIL = require('../../assets/images/envelope/envelope.png');
-// const GROUP = require('../../assets/images/group/group.png');
-const ADD_MEMBER = require('../../assets/images/add-user/user.png');
-const ANTENNA = require('../../assets/images/radio-antenna/radio-antenna.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const EMAIL = require('../../assets/themes/light/envelope/envelope.png');
+// const GROUP = require('../../assets/themes/light/group/group.png');
+const ADD_MEMBER = require('../../assets/themes/light/add-user/user.png');
+const ANTENNA = require('../../assets/themes/light/radio-antenna/radio-antenna.png');
 
 const validEmailRx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@" ]+)*)|(".+" ))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

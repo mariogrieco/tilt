@@ -33,8 +33,8 @@ import {getStatuses} from '../actions/statuses';
 // } from '../actions/commands';
 import InputSeparator from '../components/InputSeparator';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
-// const EMAIL = require('../../assets/images/message_black/envelope.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
+// const EMAIL = require('../../assets/themes/light/message_black/envelope.png');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

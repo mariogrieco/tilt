@@ -20,8 +20,8 @@ import Form from '../components/Form';
 import GoBack from '../components/GoBack';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
-const LOCKED = require('../../assets/images/locked/locked.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
+const LOCKED = require('../../assets/themes/light/locked/locked.png');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

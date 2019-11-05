@@ -18,9 +18,9 @@ import ReactionSummary from '../ReactionSummary';
 import PostsSummary from '../PostsSummary';
 import styles from './styles';
 
-const MESSAGE = require('../../../assets/images/profile-envelope/profile-envelope.png');
-const LANDER = require('../../../assets/images/lunar-module/lunar-module.png');
-const CALENDAR = require('../../../assets/images/calendar/001-calendar-1.png');
+const MESSAGE = require('../../../assets/themes/light/profile-envelope/profile-envelope.png');
+const LANDER = require('../../../assets/themes/light/lunar-module/lunar-module.png');
+const CALENDAR = require('../../../assets/themes/light/calendar/001-calendar-1.png');
 
 export const Header = ({
   firstName,

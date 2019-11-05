@@ -18,7 +18,7 @@ import InputSeparator from '../components/InputSeparator';
 import {getVerificationCode} from '../actions/codeVerification';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const EMPTY_WARNING =
   'Please enter your 10-digit phone number without spaces, dashes or parenthesis.';

@@ -5,7 +5,7 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import Form from '../components/Form';
 import GoBack from '../components/GoBack';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   placeholders: {

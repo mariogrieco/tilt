@@ -32,7 +32,7 @@ import {getMyPreferences} from '../actions/preferences';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

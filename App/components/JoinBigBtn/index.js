@@ -3,7 +3,7 @@ import {View, Image, Text, TouchableOpacity} from 'react-native';
 
 import styles from './styles';
 
-const JOIN_CHAT = require('../../../assets/images/join-chat/rocket.png');
+const JOIN_CHAT = require('../../../assets/themes/light/join-chat/rocket.png');
 
 const JoinBigBtn = ({onJoin}) => {
   return (

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import styles from './styles';
 
-const PLUS_BOX = require('../../../assets/images/plus-box/plus-box.png');
+const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
 
 export class FilterPopulateItem extends Component {
   static propTypes = {

@@ -10,8 +10,8 @@ import {resetHistories} from '../../actions/history';
 import isEqual from 'lodash/isEqual';
 import styles from './styles';
 
-// const ARROW_UP = require('../../../assets/images/arrow_up/shape.png');
-// const ARROW_DOWN = require('../../../assets/images/arrow_down/shape.png');
+// const ARROW_UP = require('../../../assets/themes/light/arrow_up/shape.png');
+// const ARROW_DOWN = require('../../../assets/themes/light/arrow_down/shape.png');
 
 class CryptoItem extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {

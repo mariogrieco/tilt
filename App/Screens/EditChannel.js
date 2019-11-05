@@ -24,7 +24,7 @@ import Spacer from '../components/Spacer';
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
 
 const styles = StyleSheet.create({
   modal: {

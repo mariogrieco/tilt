@@ -32,8 +32,8 @@ import parser from '../../utils/parse_display_name';
 import Reactions from './Reactions';
 import styles from './style';
 
-const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
-const TILT_SYSTEM_LOGO = require('../../../assets/images/tilt-logo/tilt-logo.png');
+const FILE_NOT_FOUND = require('../../../assets/themes/light/file-not-found/file-not-found.png');
+const TILT_SYSTEM_LOGO = require('../../../assets/themes/light/tilt-logo/tilt-logo.png');
 
 const sponsoredId = 'jk5osmydatgt5kaahkeheprk6e';
 

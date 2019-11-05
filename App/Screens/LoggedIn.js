@@ -7,7 +7,7 @@ import {getChannels, getMyChannels} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
 import {getProfilesInGroupChannels} from '../actions/users';
 
-const MENU = require('../../assets/images/menu-black/menu.png');
+const MENU = require('../../assets/themes/light/menu-black/menu.png');
 
 class LoggedIn extends React.Component {
   static navigationOptions = ({navigation}) => ({

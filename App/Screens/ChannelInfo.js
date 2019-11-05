@@ -41,13 +41,13 @@ import MiddleBlockSpaceSmall from '../components/MiddleBlockSpaceSmall';
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
-const STAR = require('../../assets/images/star-black/star.png');
-// const BELL = require('../../assets/images/bell-black/002-bell.png');
-const MEMBERS = require('../../assets/images/add-friend-black/add-friend.png');
-const EDIT = require('../../assets/images/edit-black/004-edit.png');
-const SIGN_OUT = require('../../assets/images/sign-out-black/005-sign-out-option.png');
-const ARCHIVE = require('../../assets/images/archive/006-box.png');
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const STAR = require('../../assets/themes/light/star-black/star.png');
+// const BELL = require('../../assets/themes/light/bell-black/002-bell.png');
+const MEMBERS = require('../../assets/themes/light/add-friend-black/add-friend.png');
+const EDIT = require('../../assets/themes/light/edit-black/004-edit.png');
+const SIGN_OUT = require('../../assets/themes/light/sign-out-black/005-sign-out-option.png');
+const ARCHIVE = require('../../assets/themes/light/archive/006-box.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
 
 const styles = StyleSheet.create({
   descriptionHeaderContainer: {

@@ -12,9 +12,9 @@ import {
 import {connect} from 'react-redux';
 import styles from './styles';
 
-// const MENU_IMAGE = require('../../../assets/images/menu/menu.png');
-const SEARCH = require('../../../assets/images/search/search.png');
-const SEARCH_ICON = require('../../../assets/images/searchIcon/searchIcon.png');
+// const MENU_IMAGE = require('../../../assets/themes/light/menu/menu.png');
+const SEARCH = require('../../../assets/themes/light/search/search.png');
+const SEARCH_ICON = require('../../../assets/themes/light/searchIcon/searchIcon.png');
 
 const {width} = Dimensions.get('window');
 

@@ -46,24 +46,24 @@ const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
 
-const AT = require('../../../assets/images/at/at.png');
-const POST_TAGS = require('../../../assets/images/tags/tag.png');
-const FILE = require('../../../assets/images/file/file.png');
-// const FILE_DISABLED = require('../../../assets/images/file_disabled/file_disabled.png');
-const PHOTO = require('../../../assets/images/photo/photo.png');
-// const PHOTO_DISABLED = require('../../../assets/images/photo_disabled/photo_disabled.png');
-const VIDEO_THIN = require('../../../assets/images/video_thin/video.png');
-// const VIDEO_THIN_DISABLED = require('../../../assets/images/video_disabled/video_disabled.png');
-const SLASH = require('../../../assets/images/slash/slash.png');
-const DELETE = require('../../../assets/images/delete-image-from-input/blackCircleCancel.png');
-const WORD = require('../../../assets/images/word-file/word.png');
-const PDF = require('../../../assets/images/pdf-file/pdf.png');
-const EXCEL = require('../../../assets/images/excel-file/excel.png');
-const POWERPOINT = require('../../../assets/images/powerpoint-file/powerpoint.png');
-const AUDIO = require('../../../assets/images/audio-file/audio.png');
-const VIDEO = require('../../../assets/images/video-file/video.png');
-const IMAGE = require('../../../assets/images/image-file/image.png');
-const STANDARD_FILE = require('../../../assets/images/standard-file/folder.png');
+const AT = require('../../../assets/themes/light/at/at.png');
+const POST_TAGS = require('../../../assets/themes/light/tags/tag.png');
+const FILE = require('../../../assets/themes/light/file/file.png');
+// const FILE_DISABLED = require('../../../assets/themes/light/file_disabled/file_disabled.png');
+const PHOTO = require('../../../assets/themes/light/photo/photo.png');
+// const PHOTO_DISABLED = require('../../../assets/themes/light/photo_disabled/photo_disabled.png');
+const VIDEO_THIN = require('../../../assets/themes/light/video_thin/video.png');
+// const VIDEO_THIN_DISABLED = require('../../../assets/themes/light/video_disabled/video_disabled.png');
+const SLASH = require('../../../assets/themes/light/slash/slash.png');
+const DELETE = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
+const WORD = require('../../../assets/themes/light/word-file/word.png');
+const PDF = require('../../../assets/themes/light/pdf-file/pdf.png');
+const EXCEL = require('../../../assets/themes/light/excel-file/excel.png');
+const POWERPOINT = require('../../../assets/themes/light/powerpoint-file/powerpoint.png');
+const AUDIO = require('../../../assets/themes/light/audio-file/audio.png');
+const VIDEO = require('../../../assets/themes/light/video-file/video.png');
+const IMAGE = require('../../../assets/themes/light/image-file/image.png');
+const STANDARD_FILE = require('../../../assets/themes/light/standard-file/folder.png');
 
 const getDisplayIconForFile = memoize(extension => {
   if (extension.includes('doc')) {

@@ -12,7 +12,7 @@ import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
-const TILT_ROCKET = require('../../assets/images/tilt_rocket/tiltRoceket.png');
+const TILT_ROCKET = require('../../assets/themes/light/tilt_rocket/tiltRoceket.png');
 
 const {width} = Dimensions.get('window');
 

@@ -17,11 +17,11 @@ import TopBlockSpace from '../components/TopBlockSpace';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 
-const EDIT = require('../../assets/images/tune-black/tune.png');
-const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
-// const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
-const SUPPORT = require('../../assets/images/support/support.png');
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const EDIT = require('../../assets/themes/light/tune-black/tune.png');
+const INVITE_PEOPLE = require('../../assets/themes/light/add-friend-black/add-friend.png');
+// const NOTIFICATIONS = require('../../assets/themes/light/bell-black/002-bell.png');
+const SUPPORT = require('../../assets/themes/light/support/support.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
 
 const styles = StyleSheet.create({
   row: {

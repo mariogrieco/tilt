@@ -9,17 +9,17 @@ import styles from './styles';
 // import RNFS from 'react-native-fs';
 // import RNBackgroundDownloader from 'react-native-background-downloader';
 
-// const DOWNLOAD_FILLED = require('../../../assets/images/download-filled/download-filled.png');
-const DOWNLOAD_UNFILLED = require('../../../assets/images/download-unfilled/download-unfilled.png');
-const EXCEL = require('../../../assets/images/excel-file/excel.png');
-const PDF = require('../../../assets/images/pdf-file/pdf.png');
-const WORD = require('../../../assets/images/word-file/word.png');
-const DOWNLOAD_COMPLETE = require('../../../assets/images/download-complete/completedCheck.png');
-const STANDARD_FILE = require('../../../assets/images/standard-file/folder.png');
-const POWERPOINT = require('../../../assets/images/powerpoint-file/powerpoint.png');
-const AUDIO = require('../../../assets/images/audio-file/audio.png');
-const VIDEO = require('../../../assets/images/video-file/video.png');
-const IMAGE = require('../../../assets/images/image-file/image.png');
+// const DOWNLOAD_FILLED = require('../../../assets/themes/light/download-filled/download-filled.png');
+const DOWNLOAD_UNFILLED = require('../../../assets/themes/light/download-unfilled/download-unfilled.png');
+const EXCEL = require('../../../assets/themes/light/excel-file/excel.png');
+const PDF = require('../../../assets/themes/light/pdf-file/pdf.png');
+const WORD = require('../../../assets/themes/light/word-file/word.png');
+const DOWNLOAD_COMPLETE = require('../../../assets/themes/light/download-complete/completedCheck.png');
+const STANDARD_FILE = require('../../../assets/themes/light/standard-file/folder.png');
+const POWERPOINT = require('../../../assets/themes/light/powerpoint-file/powerpoint.png');
+const AUDIO = require('../../../assets/themes/light/audio-file/audio.png');
+const VIDEO = require('../../../assets/themes/light/video-file/video.png');
+const IMAGE = require('../../../assets/themes/light/image-file/image.png');
 
 export default class DocumentSample extends PureComponent {
   state = {

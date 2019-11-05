@@ -19,10 +19,10 @@ import GoBack from '../components/GoBack';
 import SearchBar from '../components/SearchBar';
 import Separator from '../components/Separator';
 
-const MESSAGE = require('../../assets/images/invite-text/invite-text.png');
-const EMAIL = require('../../assets/images/invite-email/invite-email.png');
-const SHARE = require('../../assets/images/invite-upload/invite-upload.png');
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const MESSAGE = require('../../assets/themes/light/invite-text/invite-text.png');
+const EMAIL = require('../../assets/themes/light/invite-email/invite-email.png');
+const SHARE = require('../../assets/themes/light/invite-upload/invite-upload.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
 
 const textMessage =
   'Start chatting with me on Tilt. Join now at https://4yfnj.app.link/f1zU8qPIyZ';

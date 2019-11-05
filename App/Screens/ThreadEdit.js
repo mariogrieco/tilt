@@ -16,7 +16,7 @@ import {getAllRootsByChannelId} from '../selectors/getAllRootsforPost';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import parser from '../utils/parse_display_name';
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
 
 class Thread extends React.Component {
   static navigationOptions = ({navigation}) => ({

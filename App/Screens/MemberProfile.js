@@ -3,7 +3,7 @@ import {NavigationActions} from 'react-navigation';
 import GoBack from '../components/GoBack';
 import UserProfile from '../components/UserProfile';
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
 
 class MemberProfile extends React.Component {
   static navigationOptions = ({navigation}) => ({

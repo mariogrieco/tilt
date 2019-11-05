@@ -128,9 +128,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
-const SEARCH = require('../../assets/images/search/search.png');
-const MENU = require('../../assets/images/menu-black/menu.png');
+const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const SEARCH = require('../../assets/themes/light/search/search.png');
+const MENU = require('../../assets/themes/light/menu-black/menu.png');
 
 const renderNewSeparator = () => (
   <View style={styles.separator}>

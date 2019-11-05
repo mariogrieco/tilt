@@ -22,7 +22,7 @@ import {updatePassword} from '../actions/recoveryActions';
 import GoBack from '../components/GoBack';
 import Form from '../components/Form';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
