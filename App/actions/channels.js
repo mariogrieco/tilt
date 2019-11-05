@@ -142,7 +142,7 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-export const navigateIfExists = channelDisplayName => async (
+export const navigateIfExists = (channelDisplayName, channel_id) => async (
   dispatch,
   getState,
 ) => {
@@ -153,6 +153,17 @@ export const navigateIfExists = channelDisplayName => async (
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
+
+  if (channel_id && !channelDisplayName) {
+    let channel = null;
+    channel = state.myChannelsMap.get(channel_id);
+    if (!channel) {
+      channel = state.mapChannels.get(channel_id);
+    }
+    if (channel) {
+      channelDisplayName = channel.name;
+    }
+  }
 
   [...channels, ...myChannels].forEach(item => {
     let formatName = item.name;
