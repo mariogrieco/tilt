@@ -9,6 +9,13 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
   },
+  repostContainer: {
+    paddingLeft: 8,
+    paddingRight: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+  },
   url: {
     color: '#017AFE',
   },
@@ -114,20 +121,6 @@ export default StyleSheet.create({
     color: '#8E8E95',
     paddingTop: 3.5,
   },
-  emojiContainer: {
-    paddingTop: 4,
-    borderWidth: 0,
-  },
-  emoji: {
-    width: 22,
-    height: 22,
-    borderWidth: 0,
-    shadowColor: 'rgba(0,0,0, .2)',
-    shadowOffset: {height: 0, width: 0},
-    shadowOpacity: 0, //default is 1
-    shadowRadius: 0, //default is 1,
-    elevation: 0,
-  },
   timespan: {
     fontSize: Platform.OS === 'ios' ? 14 : 13,
     letterSpacing: 0.1,
@@ -188,13 +181,13 @@ export default StyleSheet.create({
   },
   threadSeparator: {
     marginTop: 5,
-    marginLeft: 19.5,
-    width: 3,
+    marginLeft: 19,
+    width: 3.4,
     minHeight: 10,
     height: '100%',
     backgroundColor: '#EBEBEB',
     flex: 5,
-    borderRadius: 1.5,
+    borderRadius: 1.7,
   },
   profileImage: {
     width: 42,
@@ -226,5 +219,8 @@ export default StyleSheet.create({
     color: '#585C63',
     fontSize: 15,
     letterSpacing: 0.1,
+  },
+  repost: {
+
   },
 });

@@ -505,7 +505,9 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        {hasUrlForPreview && <MemoUrlPreview text={message.replace(imageUrl, ' ')} />}
+        {hasUrlForPreview && (
+          <MemoUrlPreview text={message.replace(imageUrl, ' ')} />
+        )}
       </>
     );
   };
@@ -537,7 +539,8 @@ class Post extends React.Component {
     );
     return (
       <>
-        <View style={[styles.container, repost ? styles.noMargin : {}]}>
+        <View
+          style={[isRepost ? styles.repostContainer : styles.container]}>
           {!typeIsSystem && !disableDots && !isRepost && (
             <View style={styles.dotContainer}>
               <TouchableOpacity
