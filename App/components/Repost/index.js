@@ -33,6 +33,7 @@ export class Repost extends PureComponent {
           type={type}
           isPM={false}
           isRepost
+          styles={styles.repost}
         />
       </View>
     );

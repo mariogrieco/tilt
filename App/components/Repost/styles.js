@@ -5,8 +5,8 @@ export default StyleSheet.create({
     // marginBottom: 10,
     // width: '100%',
     marginTop: 10,
-    borderLeftWidth: 3,
+    borderLeftWidth: 3.4,
     borderColor: '#EBEBEB',
-    borderRadius: 1.5,
+    borderRadius: 1.7,
   },
 });
