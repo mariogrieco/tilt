@@ -4,8 +4,9 @@ export default StyleSheet.create({
   container: {
     // marginBottom: 10,
     // width: '100%',
-    marginTop: 5,
-    borderLeftWidth: 1,
-    borderColor: '#d9d8d7',
+    marginTop: 10,
+    borderLeftWidth: 3,
+    borderColor: '#EBEBEB',
+    borderRadius: 1.5,
   },
 });

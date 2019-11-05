@@ -187,13 +187,14 @@ export default StyleSheet.create({
     flex: 0,
   },
   threadSeparator: {
-    marginTop: 0,
-    marginLeft: 19,
+    marginTop: 5,
+    marginLeft: 19.5,
     width: 3,
     minHeight: 10,
     height: '100%',
     backgroundColor: '#EBEBEB',
     flex: 5,
+    borderRadius: 1.5,
   },
   profileImage: {
     width: 42,
