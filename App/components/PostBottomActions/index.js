@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Clipboard,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Clipboard} from 'react-native';
 import Modal from 'react-native-modal';
 import Dimensions from 'react-native-extra-dimensions-android';
 import {connect} from 'react-redux';
@@ -208,10 +202,14 @@ class PostBottomActions extends React.PureComponent {
   renderBottomSheetContent = () => {
     const {postActions, me, isFlagged} = this.props;
     return (
-      <View style={[styles.contentContainer, {
-        backgroundColor: 'white',
-        height: 'auto'
-      }]}>
+      <View
+        style={[
+          styles.contentContainer,
+          {
+            backgroundColor: '#fff',
+            height: 'auto',
+          },
+        ]}>
         {postActions.userId === me && (
           <React.Fragment>
             <TouchableOpacity style={styles.button}>
@@ -311,11 +309,11 @@ class PostBottomActions extends React.PureComponent {
         useNativeDriver>
         <View
           style={{
-              height: 'auto',
-              width: '100%',
-              backgroundColor: 'white',
-              borderRadius: 12,
-              overflow: 'hidden',
+            height: 'auto',
+            width: '100%',
+            backgroundColor: 'white',
+            borderRadius: 12,
+            overflow: 'hidden',
           }}>
           {this.renderBottomSheetHeader()}
           {this.renderBottomSheetContent()}
