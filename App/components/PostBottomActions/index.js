@@ -10,6 +10,7 @@ import {
   hidePostActions,
   resetPostActions,
 } from '../../actions/posts';
+import {reportPostById} from '../../actions/report';
 import {setRepostActiveOnInput} from '../../actions/repost';
 import {setFlagged, removeFlagged} from '../../actions/flagged';
 import {postReply} from '../../actions/reply';
@@ -31,6 +32,8 @@ const FLAG = require('../../../assets/images/flag/flag.png');
 // const COPY_LINK = require('../../../assets/images/link/link.png');
 const COPY_TEXT = require('../../../assets/images/copy/copy.png');
 const REPOST = require('../../../assets/images/repost/repost.png');
+const BLOCK_USER = require('../../../assets/images/block-user/block-user.png');
+const BLOCK_POST = require('../../../assets/images/block-post/block-post.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -261,14 +264,6 @@ class PostBottomActions extends React.PureComponent {
             </Text>
           )}
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.button}> */}
-        {/*  <View style={styles.iconButton}> */}
-        {/*    <Image source={COPY_LINK} /> */}
-        {/*  </View> */}
-        {/*  <Text onPress={this.onCopyLinkToMessage} style={styles.textButton}> */}
-        {/*    Copy Link to Message */}
-        {/*  </Text> */}
-        {/* </TouchableOpacity> */}
         <TouchableOpacity style={styles.button}>
           <View style={styles.iconButton}>
             <Image source={COPY_TEXT} />
@@ -277,7 +272,55 @@ class PostBottomActions extends React.PureComponent {
             Copy Text
           </Text>
         </TouchableOpacity>
+        {postActions.userId !== me && (
+          <>
+            <TouchableOpacity style={styles.button}>
+              <View style={styles.iconButton}>
+                <Image source={BLOCK_POST} />
+              </View>
+              <Text onPress={this.onRepostPost} style={styles.textButton}>
+                Report Post
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <View style={styles.iconButton}>
+                <Image source={BLOCK_USER} />
+              </View>
+              <Text
+                onPress={this.onBlockUser}
+                style={[styles.textButton, styles.blockUser]}>
+                Block User
+              </Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
+    );
+  };
+
+  onBlockUser = () => {};
+
+  onRepostPost = () => {
+    const {postData} = this.props;
+    if (this.state.loading) {
+      return 0;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        try {
+          console.log(postData.id);
+          this.props.reportPostById(postData.id);
+          this.props.hidePostActions();
+        } catch (err) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
     );
   };
 
@@ -352,6 +395,7 @@ const mapDispatchToProps = {
   setRepostActiveOnInput,
   setActiveFocusChannel,
   navigateIfExists,
+  reportPostById,
 };
 
 export default connect(

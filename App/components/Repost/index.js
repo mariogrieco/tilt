@@ -17,9 +17,10 @@ export class Repost extends PureComponent {
       userId,
       last_picture_update,
       username,
+      onPress,
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onPress={onPress}>
         <Post
           postId={postId}
           userId={userId}

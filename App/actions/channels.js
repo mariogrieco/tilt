@@ -142,7 +142,7 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-export const navigateIfExists = (channelDisplayName, channel_id) => async (
+export const navigateIfExists = (channelDisplayName, channel_id, direct) => async (
   dispatch,
   getState,
 ) => {
@@ -210,9 +210,17 @@ export const navigateIfExists = (channelDisplayName, channel_id) => async (
           // eslint-disable-next-line no-alert
           alert('This symbol does not exist.');
         } else if (needAdminCredentials && isAdmin) {
-          showNativeAlert(channelDisplayName);
+          if (direct) {
+            naviteNavigation(channelDisplayName);
+          } else {
+            showNativeAlert(channelDisplayName);
+          }
         } else if (!needAdminCredentials){
-          showNativeAlert(channelDisplayName);
+          if (direct) {
+            naviteNavigation(channelDisplayName);
+          } else {
+            showNativeAlert(channelDisplayName);
+          }
         }
       }
     } catch (e) {
@@ -221,6 +229,12 @@ export const navigateIfExists = (channelDisplayName, channel_id) => async (
     }
   }
 };
+
+function naviteNavigation(channelDisplayName) {
+  NavigationService.navigate('CreateChannel', {
+    active_name: channelDisplayName.replace('$', '').replace('#', ''),
+  });
+}
 
 function showNativeAlert(channelDisplayName) {
   Alert.alert(
@@ -628,6 +642,7 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
       pm: true,
       focusOn: false,
     });
+    return channel;
   } catch (ex) {
     dispatch(createDirectChannelError(ex));
     return Promise.reject(ex.message || ex);

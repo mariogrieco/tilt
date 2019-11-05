@@ -32,6 +32,7 @@ import parser from '../../utils/parse_display_name';
 import Reactions from './Reactions';
 import Repost from '../Repost';
 import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
+import {getReportIfNeeded} from '../../selectors/getReportIfNeeded';
 import styles from './style';
 
 const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
@@ -355,6 +356,14 @@ class Post extends React.Component {
     });
   };
 
+  reportedJump = async () => {
+    const {reported} = this.props;
+    await this.props.navigateIfExists(null, reported.channel_id, true);
+    setTimeout(async () => {
+      await jumpToAction(reported.channel_id, reported.id, 0, 10);
+    });
+  };
+
   renderFile(file) {
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
@@ -442,6 +451,7 @@ class Post extends React.Component {
       onUser,
       disableInteractions,
       isPM,
+      reported,
     } = this.props;
     const typeIsSystem = type.match('system');
 
@@ -529,6 +539,7 @@ class Post extends React.Component {
       sponsoredIds,
       isRepost,
       repost,
+      reported,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -539,8 +550,7 @@ class Post extends React.Component {
     );
     return (
       <>
-        <View
-          style={[isRepost ? styles.repostContainer : styles.container]}>
+        <View style={[isRepost ? styles.repostContainer : styles.container]}>
           {!typeIsSystem && !disableDots && !isRepost && (
             <View style={styles.dotContainer}>
               <TouchableOpacity
@@ -653,6 +663,7 @@ const mapStateToProps = (state, props) => ({
   sponsoredIds: state.sponsored,
   users: state.users.data,
   repost: getRepostIfneeded(state, props.postId),
+  reported: getReportIfNeeded(state, props.postId),
 });
 
 const mapDispatchToProps = {
