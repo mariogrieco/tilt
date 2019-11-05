@@ -1240,7 +1240,7 @@ class Input extends React.Component {
               ref={this.refInput}
               onSelectionChange={this.onSelectionChange}
               onChangeText={this.onChangeMessage}
-              autoCorrect={false}
+              autoCorrect
               multiline
               underlineColorAndroid="transparent"
               allowFontScaling
