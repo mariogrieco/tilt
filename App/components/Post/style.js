@@ -13,8 +13,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 0,
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
+    justifyContent: 'flex-start',
     width: '100%',
   },
   rightSide: {
@@ -26,6 +25,11 @@ export default StyleSheet.create({
   },
   leftSideContainer: {
     paddingRight: 10,
+    //backgroundColor: 'red',
+  },
+  leftSideRepostContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     //backgroundColor: 'red',
   },
   url: {
@@ -134,6 +138,7 @@ export default StyleSheet.create({
     color: '#191919',
     fontSize: 16,
     letterSpacing: 0.1,
+    marginTop: 1.7,
   },
   codeText: {
     fontFamily: 'SFMono-Regular',

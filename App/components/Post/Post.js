@@ -568,40 +568,81 @@ class Post extends React.Component {
             </View>
           </TouchableOpacity>
         )}
-        <View style={styles.leftSideContainer}>
-          <TouchableOpacity
-            onPress={
-              disableInteractions || isSponsoredUser
-                ? () => {}
-                : this.handleNavigationToProfile
-            }>
-            <Image
-              style={[styles.profileImage, {resizeMode: 'cover'}]}
-              source={
-                typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
-              }
-            />
-          </TouchableOpacity>
-          {thread && <View style={styles.threadSeparator} />}
-        </View>
-        <View style={[isRepost ? styles.rightSideRepost : styles.rightSide]}>
-          <TouchableOpacity
-            onPress={
-              disableInteractions || isSponsoredUser
-                ? () => {}
-                : this.handleNavigationToProfile
-            }>
-            <Text>
-              <Text style={[styles.username]}>
-                {typeIsSystem ? 'System' : username}{' '}
+        {!isRepost && (
+          <View style={styles.leftSideContainer}>
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
+              <Image
+                style={[styles.profileImage, {resizeMode: 'cover'}]}
+                source={
+                  typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                }
+              />
+            </TouchableOpacity>
+            {thread && <View style={styles.threadSeparator} />}
+          </View>
+        )}
+        <View style={isRepost ? {} : styles.rightSide}>
+          {!isRepost && (
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
+              <Text>
+                <Text style={[styles.username]}>
+                  {typeIsSystem ? 'System' : username}{' '}
+                </Text>
+                <Text style={styles.timespan}>
+                  {extendedDateFormat
+                    ? moment(createdAt).format('M/D/YY, h:mm A')
+                    : moment(createdAt).format('h:mm A')}
+                </Text>
               </Text>
-              <Text style={styles.timespan}>
-                {extendedDateFormat
-                  ? moment(createdAt).format('M/D/YY, h:mm A')
-                  : moment(createdAt).format('h:mm A')}
-              </Text>
-            </Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
+          {isRepost && (
+            <View style={styles.leftSideRepostContainer}>
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Image
+                  style={[
+                    styles.profileImage,
+                    {resizeMode: 'cover', marginRight: 10},
+                  ]}
+                  source={
+                    typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Text>
+                  <Text style={[styles.username]}>
+                    {typeIsSystem ? 'System' : username}{' '}
+                  </Text>
+                  <Text style={styles.timespan}>
+                    {extendedDateFormat
+                      ? moment(createdAt).format('M/D/YY, h:mm A')
+                      : moment(createdAt).format('h:mm A')}
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
           {isSponsoredUser ? (
             <SponsoredAd isRepost={isRepost} />
           ) : (

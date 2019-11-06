@@ -38,6 +38,7 @@ export default StyleSheet.create({
   separator: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 5,
   },
   separatorText: {
     color: '#0e141e',
