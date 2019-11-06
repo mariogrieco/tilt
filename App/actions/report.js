@@ -6,8 +6,8 @@ export const REPORT_POST_TO_MODERATOR_ERROR = 'REPORT_POST_TO_MODERATOR_ERROR';
 import {createPost} from './posts';
 import {createDirectChannel} from './channels';
 
-// const MODERATOR_USER_ID = 'xcmomnxtji8f7r6atftifs994r';
-const MODERATOR_USER_ID = 'uarbye44df8gze3rnx5n8e3o5h';
+const MODERATOR_USER_ID = 'xcmomnxtji8f7r6atftifs994r';
+// const MODERATOR_USER_ID = 'uarbye44df8gze3rnx5n8e3o5h';
 
 export const reportPostById = post_id => async (dispatch, getState) => {
   try {
