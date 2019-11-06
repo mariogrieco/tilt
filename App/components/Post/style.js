@@ -7,7 +7,7 @@ export default StyleSheet.create({
     paddingRight: 15,
     flexDirection: 'row',
     width: '100%',
-    marginTop: 10,
+    marginVertical: 10,
   },
   repostContainer: {
     paddingLeft: 10,
@@ -19,7 +19,6 @@ export default StyleSheet.create({
   },
   rightSide: {
     width: '88.5%',
-    //backgroundColor: 'blue',
   },
   rightSideRepost: {
     marginTop: 10,
@@ -27,10 +26,6 @@ export default StyleSheet.create({
   },
   leftSideContainer: {
     paddingRight: 10,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
     //backgroundColor: 'red',
   },
   url: {
@@ -149,8 +144,6 @@ export default StyleSheet.create({
     color: '#191919',
     fontSize: 16,
     letterSpacing: 0.1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   codeText: {
     fontFamily: 'SFMono-Regular',
@@ -161,9 +154,7 @@ export default StyleSheet.create({
   feedbackContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    marginTop: 10,
-    paddingBottom: '0.5rem',
+    //alignItems: 'stretch',
     flexWrap: 'wrap',
     // paddingLeft: '0.9375rem',
     // paddingRight: '1rem',
