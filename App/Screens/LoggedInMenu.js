@@ -15,7 +15,6 @@ import DeviceInfo from 'react-native-device-info';
 import GoBack from '../components/GoBack';
 import BlockSpace from '../components/BlockSpace';
 import TopBlockSpace from '../components/TopBlockSpace';
-import BlockedList from '../components/BlockedList';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 
@@ -24,6 +23,7 @@ const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.p
 // const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
 const SUPPORT = require('../../assets/images/support/support.png');
 const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BLOCKED_GREEN = require('../../assets/images/block-user-green/block-user-green.png');
 
 const styles = StyleSheet.create({
   row: {
@@ -95,8 +95,8 @@ class LoggedInMenu extends React.Component {
   };
 
   handleBlocked = () => {
-    // const {navigation} = this.props;
-    // navigation.navigate('BlockedList');
+    const {navigation} = this.props;
+    navigation.navigate('BlockUser');
   };
 
   render() {
@@ -126,6 +126,13 @@ class LoggedInMenu extends React.Component {
         <Separator />
         <TouchableOpacity
           style={[styles.row, styles.button]}
+          onPress={this.handleBlocked}>
+          <Image style={styles.icon} source={BLOCKED_GREEN} />
+          <Text style={styles.buttonText}>Blocked Users</Text>
+        </TouchableOpacity>
+        <Separator />
+        <TouchableOpacity
+          style={[styles.row, styles.button]}
           onPress={this.handleContactSupport}>
           <Image style={styles.icon} source={SUPPORT} />
           <Text style={styles.buttonText}>Contact Support</Text>
@@ -137,7 +144,7 @@ class LoggedInMenu extends React.Component {
           <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
         <Separator />
-        <View
+        {/* <View
           style={[styles.row, styles.button, styles.blockedContainer]}
           onPress={this.handleBlocked}>
           <Text style={[styles.buttonText, styles.logoutText]}>
@@ -145,7 +152,7 @@ class LoggedInMenu extends React.Component {
           </Text>
           <BlockedList />
           <Separator />
-        </View>
+        </View> */}
       </ScrollView>
     );
   }
