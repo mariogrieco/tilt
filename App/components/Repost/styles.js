@@ -8,10 +8,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   repostSeparator: {
-    width: 3.4,
+    width: 3,
     height: '100%',
     backgroundColor: '#EBEBEB',
     flex: 0,
-    borderRadius: 1.7,
+    borderRadius: 1.5,
   },
 });
