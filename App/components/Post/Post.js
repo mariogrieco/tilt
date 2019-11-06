@@ -451,7 +451,7 @@ class Post extends React.Component {
       onUser,
       disableInteractions,
       isPM,
-      reported,
+      // reported,
     } = this.props;
     const typeIsSystem = type.match('system');
 
@@ -549,26 +549,9 @@ class Post extends React.Component {
       last_picture_update,
     );
     return (
-<<<<<<< HEAD
-      <>
-        <View style={[isRepost ? styles.repostContainer : styles.container]}>
-          {!typeIsSystem && !disableDots && !isRepost && (
-            <View style={styles.dotContainer}>
-              <TouchableOpacity
-                style={[styles.dotContainer]}
-                onPress={disableInteractions ? () => {} : this.onPostPress}>
-                <View style={styles.dot} />
-                <View style={styles.dot} />
-                <View style={styles.dot} />
-              </TouchableOpacity>
-            </View>
-          )}
-          {jumpTo && !isRepost && (
-=======
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
         {!typeIsSystem && !disableDots && !isRepost && (
           <View style={styles.dotContainer}>
->>>>>>> b75ecae554583d9e41336289fde0d93315f3a479
             <TouchableOpacity
               style={[styles.dotContainer]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
