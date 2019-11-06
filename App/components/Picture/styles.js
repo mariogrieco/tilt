@@ -27,8 +27,8 @@ export default StyleSheet.create({
     backgroundColor: '#FC3E30',
   },
   camera: {
-    right: 0,
-    bottom: 0,
+    right: -4,
+    bottom: -4,
     position: 'absolute',
     zIndex: 999,
   },
