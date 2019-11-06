@@ -27,7 +27,7 @@ export const stackHeader = {
 
 //default export
 
-export const headerForScreenWithTabsStyle = {
+const headerForScreenWithTabsStyle = {
   headerStyle: {
     borderTopWidth: 0,
     borderBottomWidth: 0,

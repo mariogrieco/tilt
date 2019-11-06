@@ -32,6 +32,7 @@ import {getStatuses} from '../actions/statuses';
 //   getCommandsList
 // } from '../actions/commands';
 import InputSeparator from '../components/InputSeparator';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 // const EMAIL = require('../../assets/themes/light/message_black/envelope.png');
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
 });
 
 class LogIn extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Log In'),
     headerLeft: (
       <GoBack
@@ -115,6 +116,10 @@ class LogIn extends React.Component {
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
+    ...headerForScreenWithTabs({
+      headerStyle: {backgroundColor: screenProps.theme.backgroundPrimary},
+      headerTintColor: screenProps.theme.headerTintColor,
+    }),
   });
 
   state = {
@@ -208,6 +213,7 @@ class LogIn extends React.Component {
   );
 
   render() {
+    const {theme} = this.props;
     return (
       <DismissKeyboard>
         <View style={{flex: 1}}>
@@ -228,8 +234,9 @@ class LogIn extends React.Component {
               onChangeText={username => {
                 this.setState({username});
               }}
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.colorPrimary}]}
               autoCapitalize="none"
+              placeholderTextColor={theme.colorLight}
             />
             <InputSeparator />
             <TextInput
@@ -239,8 +246,9 @@ class LogIn extends React.Component {
               onChangeText={password => {
                 this.setState({password});
               }}
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.colorPrimary}]}
               maxLength={64}
+              placeholderTextColor={theme.colorLight}
             />
             <InputSeparator />
           </Form>
@@ -250,7 +258,10 @@ class LogIn extends React.Component {
   }
 }
 
-const mapStateToProps = ({modal}) => ({modal});
+const mapStateToProps = ({modal, themes}) => ({
+  modal,
+  theme: themes[themes.current],
+});
 
 const mapDispatchToProps = {
   isLogin,
