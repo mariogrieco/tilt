@@ -11,6 +11,7 @@ const loggedUserId = state =>
 const myChannelsMapSelector = state => state.myChannelsMap;
 const postsOrders = state => state.posts.orders;
 const usersDataSelector = state => state.users.data;
+const blockedUsersSelector = state => state.blockedUsers;
 const preferencesSelector = state =>
   state.preferences.filter(pre => pre.category === 'favorite_channel');
 
@@ -23,6 +24,7 @@ const getPrivateMessagesChnnelsList = createSelector(
     usersDataSelector,
     preferencesSelector,
     lastViewedSelector,
+    blockedUsersSelector,
   ],
   (
     entities,
@@ -32,10 +34,11 @@ const getPrivateMessagesChnnelsList = createSelector(
     usersData,
     preferences,
     lastViewed,
+    blockedUsers
   ) => {
     const data = [];
     myChannelsMap
-      .filter(({type}) => type === 'D')
+      .filter(({type, name}) => type === 'D' && !blockedUsers[name.replace('__', '').replace(`${myId}`, '')])
       .valueSeq()
       .forEach(channel => {
         const channelData = cloneDeep(orders[channel.id]);
@@ -66,7 +69,7 @@ const getPrivateMessagesChnnelsList = createSelector(
               ...post,
               user: usersData[post.user_id] || {},
             };
-          });
+          })
           data.push({
             ...channel,
             posts: posts,

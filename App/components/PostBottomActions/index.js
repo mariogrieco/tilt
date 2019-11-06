@@ -13,6 +13,7 @@ import {
 import {reportPostById} from '../../actions/report';
 import {setRepostActiveOnInput} from '../../actions/repost';
 import {setFlagged, removeFlagged} from '../../actions/flagged';
+import {addOrRemoveOne} from '../../actions/blockedUsers';
 import {postReply} from '../../actions/reply';
 import {
   setActiveThreadData,
@@ -298,7 +299,28 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
-  onBlockUser = () => {};
+  onBlockUser = () => {
+    const {postData} = this.props;
+    if (this.state.loading) {
+      return 0;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        try {
+          this.props.addOrRemoveOne(postData.user_id);
+          this.props.hidePostActions();
+        } catch (err) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
+  };
 
   onRepostPost = () => {
     const {postData} = this.props;
@@ -311,7 +333,6 @@ class PostBottomActions extends React.PureComponent {
       },
       () => {
         try {
-          console.log(postData.id);
           this.props.reportPostById(postData.id);
           this.props.hidePostActions();
         } catch (err) {
@@ -344,6 +365,7 @@ class PostBottomActions extends React.PureComponent {
         deviceHeight={H}
         deviceWidth={W}
         onBackdropPress={this.props.hidePostActions}
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{justifyContent: 'center', alignItems: 'center'}}
         onModalHide={this.props.resetPostActions}
         animationInTiming={350}
@@ -351,6 +373,7 @@ class PostBottomActions extends React.PureComponent {
         hideModalContentWhileAnimating
         useNativeDriver>
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             height: 'auto',
             width: '100%',
@@ -396,6 +419,7 @@ const mapDispatchToProps = {
   setActiveFocusChannel,
   navigateIfExists,
   reportPostById,
+  addOrRemoveOne,
 };
 
 export default connect(

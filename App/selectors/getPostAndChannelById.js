@@ -4,6 +4,7 @@ import getAllRootsforPost from './getAllRootsforPost';
 import cloneDeep from 'lodash/cloneDeep';
 
 export default (state, activeLabels) => {
+  const blockedUsers = state.blockedUsers;
   const me = state.login.user ? state.login.user.id : null;
   const {entities} = state.posts;
   const {active_channel_id} = state.appNavigation;
@@ -22,7 +23,8 @@ export default (state, activeLabels) => {
         user: state.users.data[post.user_id] || {},
         replies: getAllRootsforPost(store.order, entities, post.id),
       };
-      if (filterPostBy(data)) {
+
+      if (filterPostBy(data) && !blockedUsers[data.user_id]) {
         if (!activeLabels) {
           return posts.unshift(data);
         } else {

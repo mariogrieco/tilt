@@ -102,6 +102,29 @@ Client4.getHashtagChannels = async (page, per_page) => {
   }
 };
 
+Client4.addOrRemoveOneBlockedUser = async (user_id, blocking_user_id) => {
+  try {
+    const {data} = await axios.post(`${baseServicesUrl}/blocked-user`, {
+      user_id,
+      blocking_user_id,
+    });
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.getBlokedUsers = async user_id => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/blocked-user/${user_id}`,
+    );
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
 export default Client4;
 
 export const setToken = token => {
