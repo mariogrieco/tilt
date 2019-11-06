@@ -273,28 +273,30 @@ class PostBottomActions extends React.PureComponent {
             Copy Text
           </Text>
         </TouchableOpacity>
-        {postActions.userId !== me && !sponsored_id.match(postActions.user_id) && (
-          <>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.iconButton}>
-                <Image source={BLOCK_POST} />
-              </View>
-              <Text onPress={this.onRepostPost} style={styles.textButton}>
-                Report Post
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.iconButton}>
-                <Image source={BLOCK_USER} />
-              </View>
-              <Text
-                onPress={this.onBlockUser}
-                style={[styles.textButton, styles.blockUser]}>
-                Block User
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
+        {postActions &&
+          postActions.userId !== me &&
+          !sponsored_id.match(postActions.userId) && (
+            <>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={BLOCK_POST} />
+                </View>
+                <Text onPress={this.onRepostPost} style={styles.textButton}>
+                  Report Post
+                </Text>
+             </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={BLOCK_USER} />
+                </View>
+                <Text
+                  onPress={this.onBlockUser}
+                  style={[styles.textButton, styles.blockUser]}>
+                  Block User
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
       </View>
     );
   };
