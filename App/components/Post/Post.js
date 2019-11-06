@@ -5,9 +5,11 @@ import {
   Image,
   // ImageBackground,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import RNUrlPreview from 'react-native-url-preview';
 // import CurrentUserStatus from '../CurrentUserStatus'
+import {deletePost} from '../../actions/posts';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -356,12 +358,34 @@ class Post extends React.Component {
     });
   };
 
-  reportedJump = async () => {
-    const {reported} = this.props;
-    await this.props.navigateIfExists(null, reported.channel_id, true);
-    setTimeout(async () => {
-      await jumpToAction(reported.channel_id, reported.id, 0, 10);
-    });
+  deletePost = async () => {
+    const {deleteAction, postId} = this.props;
+    const post_id = deleteAction.id;
+
+    Alert.alert(
+      '',
+      'Are you going to delete this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: async () => {
+            console.log(post_id);
+            console.log(postId);
+            await this.props.deletePost(post_id);
+            await this.props.deletePost(postId);
+          },
+          style: 'default',
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   renderFile(file) {
@@ -522,6 +546,25 @@ class Post extends React.Component {
     );
   };
 
+  renderDelteText() {
+    return (
+      <TouchableOpacity activeOpacity={1} style={styles.jumpContainer} onPress={this.deletePost}>
+        <View>
+          <Text
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              color: '#fc3e30',
+              fontFamily: 'SFProDisplay-Medium',
+              fontSize: 16,
+              letterSpacing: 0.1,
+            }}>
+            delete
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
     const {
       username,
@@ -540,6 +583,9 @@ class Post extends React.Component {
       isRepost,
       repost,
       reported,
+      deleteAction,
+      isAdminUser,
+      postId,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -561,6 +607,7 @@ class Post extends React.Component {
             </TouchableOpacity>
           </View>
         )}
+        {deleteAction && isAdminUser && this.renderDelteText()}
         {jumpTo && !isRepost && (
           <TouchableOpacity
             activeOpacity={1}
@@ -661,9 +708,10 @@ class Post extends React.Component {
           )}
           {repost && !isRepost && (
             <Repost
-              postId={repost.id}
+              postId={postId}
               message={repost.message}
               metadata={repost.metadata}
+              deleteAction={reported}
               create_at={repost.created_at}
               replies={repost.replies}
               edit_at={repost.edit_at}
@@ -703,6 +751,9 @@ Post.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
   loggedUser: state.login.user ? state.login.user.username : '',
+  isAdminUser: state.login.user
+    ? state.login.user.roles.includes('admin')
+    : false,
   me: state.login.user ? state.login.user.id : null,
   sponsoredIds: state.sponsored,
   users: state.users.data,
@@ -721,7 +772,7 @@ const mapDispatchToProps = {
   setActiveFocusChannel,
   jumpToAction,
   showPostMediaBox,
-  // clearjumpToAction
+  deletePost,
 };
 
 export default connect(

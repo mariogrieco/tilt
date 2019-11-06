@@ -19,7 +19,7 @@ export const jumpToAction = (
   perPage = PER_PAGE_DEFAULT,
 ) => async (dispatch, getState) => {
   try {
-    const currentPost = cloneDeep(getState().advancedSearch.posts[postId]);
+    let currentPost = cloneDeep(getState().advancedSearch.posts[postId]);
     const result = {
       order: [],
       posts: {},

@@ -356,7 +356,7 @@ class Channel extends React.Component {
               this.setState({
                 currentFocusId: null,
               });
-            }, 0);
+            }, 6000);
           },
         );
       } catch (err) {

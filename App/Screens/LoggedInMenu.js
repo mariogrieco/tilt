@@ -6,6 +6,7 @@ import {
   Image,
   Linking,
   Platform,
+  View,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
@@ -14,6 +15,7 @@ import DeviceInfo from 'react-native-device-info';
 import GoBack from '../components/GoBack';
 import BlockSpace from '../components/BlockSpace';
 import TopBlockSpace from '../components/TopBlockSpace';
+import BlockedList from '../components/BlockedList';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 
@@ -30,6 +32,14 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     flexDirection: 'row',
     backgroundColor: '#fff',
+  },
+  blockedContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    padding: 0,
+    margin: 0,
+    // width: '100%',
   },
   button: {},
   buttonText: {
@@ -84,6 +94,11 @@ class LoggedInMenu extends React.Component {
     navigation.navigate('InviteContacts');
   };
 
+  handleBlocked = () => {
+    // const {navigation} = this.props;
+    // navigation.navigate('BlockedList');
+  };
+
   render() {
     return (
       <ScrollView
@@ -122,6 +137,15 @@ class LoggedInMenu extends React.Component {
           <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
         <Separator />
+        <View
+          style={[styles.row, styles.button, styles.blockedContainer]}
+          onPress={this.handleBlocked}>
+          <Text style={[styles.buttonText, styles.logoutText]}>
+            Blocked List
+          </Text>
+          <BlockedList />
+          <Separator />
+        </View>
       </ScrollView>
     );
   }

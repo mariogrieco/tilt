@@ -142,10 +142,12 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-export const navigateIfExists = (channelDisplayName, channel_id, direct) => async (
-  dispatch,
-  getState,
-) => {
+export const navigateIfExists = (
+  channelDisplayName,
+  channel_id,
+  direct,
+  props = {},
+) => async (dispatch, getState) => {
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
   const myChannels = state.myChannelsMap.valueSeq().toJS();
@@ -189,6 +191,7 @@ export const navigateIfExists = (channelDisplayName, channel_id, direct) => asyn
           focusOn: false,
           isAdminCreator: channelDisplayName[0] === '$',
           pm: isPM,
+          ...props,
         });
       } else {
         dispatch(openModal(item.id));
@@ -211,13 +214,13 @@ export const navigateIfExists = (channelDisplayName, channel_id, direct) => asyn
           alert('This symbol does not exist.');
         } else if (needAdminCredentials && isAdmin) {
           if (direct) {
-            naviteNavigation(channelDisplayName);
+            naviteNavigation(channelDisplayName, props);
           } else {
             showNativeAlert(channelDisplayName);
           }
         } else if (!needAdminCredentials){
           if (direct) {
-            naviteNavigation(channelDisplayName);
+            naviteNavigation(channelDisplayName, props);
           } else {
             showNativeAlert(channelDisplayName);
           }
@@ -230,9 +233,10 @@ export const navigateIfExists = (channelDisplayName, channel_id, direct) => asyn
   }
 };
 
-function naviteNavigation(channelDisplayName) {
+function naviteNavigation(channelDisplayName, props) {
   NavigationService.navigate('CreateChannel', {
     active_name: channelDisplayName.replace('$', '').replace('#', ''),
+    ...props,
   });
 }
 

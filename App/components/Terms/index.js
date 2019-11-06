@@ -1,14 +1,19 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-
+import {View, Text} from 'react-native';
+import NavigationService from '../../config/NavigationService';
 import styles from './style';
 
-const Terms = ({onTerms}) => {
+const Terms = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
         By signing up, you agree to our
-        <Text onPress={onTerms} style={styles.focusText}>
+        <Text
+          onPress={() => {
+            NavigationService.navigate('TermsWeb');
+          }}
+          style={styles.focusText}>
+          {' '}
           Terms and Conditions
         </Text>
       </Text>

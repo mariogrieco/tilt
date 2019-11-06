@@ -17,7 +17,7 @@ export class Repost extends PureComponent {
       userId,
       last_picture_update,
       username,
-      onPress,
+      deleteAction,
     } = this.props;
     return (
       <View style={styles.container}>
@@ -35,6 +35,7 @@ export class Repost extends PureComponent {
           type={type}
           isPM={false}
           isRepost
+          deleteAction={deleteAction}
           styles={styles.repost}
         />
       </View>
