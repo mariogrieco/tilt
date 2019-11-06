@@ -20,6 +20,7 @@ export class Repost extends PureComponent {
     } = this.props;
     return (
       <View style={styles.container}>
+        <View style={styles.repostSeparator} />
         <Post
           postId={postId}
           userId={userId}

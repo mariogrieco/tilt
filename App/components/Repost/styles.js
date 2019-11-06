@@ -5,8 +5,13 @@ export default StyleSheet.create({
     // marginBottom: 10,
     // width: '100%',
     marginTop: 10,
-    borderLeftWidth: 3.4,
-    borderColor: '#EBEBEB',
+    flexDirection: 'row',
+  },
+  repostSeparator: {
+    width: 3.4,
+    height: '100%',
+    backgroundColor: '#EBEBEB',
+    flex: 0,
     borderRadius: 1.7,
   },
 });

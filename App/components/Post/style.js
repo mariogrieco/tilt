@@ -15,6 +15,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'stretch',
+    width: '100%',
   },
   url: {
     color: '#017AFE',
