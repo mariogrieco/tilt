@@ -19,7 +19,7 @@ export const reportPostById = post_id => async (dispatch, getState) => {
         channel.id,
         undefined,
         [],
-        {reported: post_id, repost: post_id},
+        {reported_by: me.id, reported: post_id, repost: post_id},
       ),
     );
     dispatch(reportPostByIdSucess(posted));
