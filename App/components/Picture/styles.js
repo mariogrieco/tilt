@@ -5,9 +5,9 @@ export default StyleSheet.create({
     position: 'relative',
   },
   pictureContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 120,
+    height: 120,
+    borderRadius: 8,
     overflow: 'hidden',
     // backgroundColor: '#434343',
   },
