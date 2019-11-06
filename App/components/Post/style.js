@@ -18,7 +18,7 @@ export default StyleSheet.create({
     width: '100%',
   },
   rightSide: {
-    width: '85.5%',
+    width: '88.5%',
     //backgroundColor: 'blue',
   },
   rightSideRepost: {
