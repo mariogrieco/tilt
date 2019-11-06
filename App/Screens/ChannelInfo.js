@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 6,
-    backgroundColor: 'red',
   },
   modal: {
     width: '20rem',
