@@ -169,11 +169,7 @@ export const getProfilesInChannels = channels => async dispatch => {
 export const getProfilesInTeam = () => async (dispatch, getState) => {
   try {
     const team_id = getState().teams.default_team_id;
-    const payload = await Client4.getProfilesInTeam(
-      team_id,
-      0,
-      999999999999999999999999999999999999999,
-    );
+    const payload = await Client4.getProfilesInTeam(team_id, 0, 50);
     dispatch(getUsersSucess(payload));
     return payload;
   } catch (ex) {
@@ -184,11 +180,9 @@ export const getProfilesInTeam = () => async (dispatch, getState) => {
 
 export const getProfilesInGroupChannels = () => async (dispatch, getState) => {
   try {
-    // const channels = getState().myChannels.map(({ id }) => id);
-    // const payload = await Client4.getProfilesInChannel('', '', '', '');
-    // dispatch(getUsersSucess(payload));
-    // return payload;
-    dispatch(getProfilesInTeam());
+    const payload = await Client4.getAllUsers();
+    dispatch(getUsersSucess(payload));
+    return payload;
   } catch (ex) {
     dispatch(getUsersError(ex));
     return Promise.reject(ex.message || ex);
