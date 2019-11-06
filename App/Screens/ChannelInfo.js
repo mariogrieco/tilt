@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
   profilePicture: {
     height: 30,
     width: 30,
-    borderRadius: 15,
+    borderRadius: 6,
+    backgroundColor: 'red',
   },
   modal: {
     width: '20rem',
@@ -395,7 +396,9 @@ class ChannelInfo extends React.Component {
   };
 
   handleLeaveChannel = () => {
-    if (this.state.loadingLeave) return null;
+    if (this.state.loadingLeave) {
+      return null;
+    }
     this.setState(
       {
         loadingLeave: true,
