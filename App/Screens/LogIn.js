@@ -43,6 +43,9 @@ const DismissKeyboard = ({children}) => (
   </TouchableWithoutFeedback>
 );
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+  },
   placeholders: {
     fontSize: 16,
     letterSpacing: 0.1,
@@ -216,7 +219,11 @@ class LogIn extends React.Component {
     const {theme} = this.props;
     return (
       <DismissKeyboard>
-        <View style={{flex: 1}}>
+        <View
+          style={[
+            styles.mainContainer,
+            {backgroundColor: theme.backgroundPrimary},
+          ]}>
           {this.state.isModalVisible && this.renderModal()}
           <Form
             canSend

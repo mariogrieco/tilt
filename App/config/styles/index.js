@@ -15,32 +15,13 @@ if (width > 768) {
   rem = 14;
 }
 
-export const DarkTheme = {
-  $theme: 'dark',
-  $rem: rem,
-  $textColor: '#FFFF',
-  $textColorLight: '#585c63',
-  $green: '#17C491',
-  $red: '#FC3E30',
-  $borderRadius: '1.375rem',
-  $backgroundColor: '#040D14',
-  $buttonTextColor: '#040d14',
-  $borderBottomColor: '#353942',
-  $headerTintColor: '#FFF',
-};
-
-export const LightTheme = {
-  $theme: 'light',
+export const defaultConfig = {
   $rem: rem,
   $textColor: '#0e141e',
-  $textColorLight: '#585c63',
+  $textColorLight: '#0e141e',
   $green: '#17C491',
   $red: '#FC3E30',
   $borderRadius: '1.375rem',
-  $backgroundColor: '#FFFF',
-  $buttonTextColor: '#FFF',
-  $borderBottomColor: '#DCDCDC',
-  $headerTintColor: '#0E141E',
 };
 
 export default theme => StyleSheet.build(theme);

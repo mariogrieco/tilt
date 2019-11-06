@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   View,
   Text,
@@ -18,6 +19,7 @@ const Form = ({
   navigationTo,
   keyboardVerticalOffset,
   canSend,
+  theme,
 }) => (
   <SafeAreaView style={{flex: 1, marginBottom: 10}}>
     <View style={{flex: 1}}>
@@ -39,11 +41,14 @@ const Form = ({
           disabled={!canSend}
           style={canSend ? {} : styles.disabled}
           onPress={canSend ? navigationTo : () => ({})}>
-          <Text style={styles.button}>{textButton}</Text>
+          <Text style={[styles.button, {color: theme.buttonTextColor}]}>
+            {textButton}
+          </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   </SafeAreaView>
 );
 
-export default Form;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(Form);
