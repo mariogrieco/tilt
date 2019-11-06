@@ -69,7 +69,7 @@ const getPrivateMessagesChnnelsList = createSelector(
               ...post,
               user: usersData[post.user_id] || {},
             };
-          })
+          });
           data.push({
             ...channel,
             posts: posts,

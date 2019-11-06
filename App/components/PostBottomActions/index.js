@@ -204,7 +204,7 @@ class PostBottomActions extends React.PureComponent {
   };
 
   renderBottomSheetContent = () => {
-    const {postActions, me, isFlagged} = this.props;
+    const {postActions, me, isFlagged, sponsored_id} = this.props;
     return (
       <View
         style={[
@@ -273,7 +273,7 @@ class PostBottomActions extends React.PureComponent {
             Copy Text
           </Text>
         </TouchableOpacity>
-        {postActions.userId !== me && (
+        {postActions.userId !== me && !sponsored_id.match(postActions.user_id) && (
           <>
             <TouchableOpacity style={styles.button}>
               <View style={styles.iconButton}>
@@ -403,6 +403,7 @@ const mapStateToProps = state => ({
   me: state.login.user ? state.login.user.id : null,
   postData: getPostById(state, state.postActions.postId),
   isFlagged: state.flagged.posts[state.postActions.postId],
+  sponsored_id: state.sponsored,
 });
 
 const mapDispatchToProps = {
