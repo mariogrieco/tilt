@@ -16,18 +16,14 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     width: '100%',
   },
-  rightSide: {
+  usernameAndPostContent: {
     width: '88.5%',
   },
-  rightSideRepost: {
-    marginTop: 10,
-    width: '100%',
-  },
-  leftSideContainer: {
+  profileImageContainer: {
     paddingRight: 10,
     //backgroundColor: 'red',
   },
-  leftSideRepostContainer: {
+  repostProfileImageAndUsername: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     //backgroundColor: 'red',
@@ -182,6 +178,12 @@ export default StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 8,
+    flex: 0,
+  },
+  repostProfileImage: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
     flex: 0,
   },
   optionButton: {

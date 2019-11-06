@@ -569,7 +569,7 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {!isRepost && (
-          <View style={styles.leftSideContainer}>
+          <View style={styles.profileImageContainer}>
             <TouchableOpacity
               onPress={
                 disableInteractions || isSponsoredUser
@@ -586,7 +586,7 @@ class Post extends React.Component {
             {thread && <View style={styles.threadSeparator} />}
           </View>
         )}
-        <View style={isRepost ? {} : styles.rightSide}>
+        <View style={isRepost ? {} : styles.usernameAndPostContent}>
           {!isRepost && (
             <TouchableOpacity
               onPress={
@@ -607,7 +607,7 @@ class Post extends React.Component {
             </TouchableOpacity>
           )}
           {isRepost && (
-            <View style={styles.leftSideRepostContainer}>
+            <View style={styles.repostProfileImageAndUsername}>
               <TouchableOpacity
                 onPress={
                   disableInteractions || isSponsoredUser
@@ -616,7 +616,7 @@ class Post extends React.Component {
                 }>
                 <Image
                   style={[
-                    styles.profileImage,
+                    styles.repostProfileImage,
                     {resizeMode: 'cover', marginRight: 10},
                   ]}
                   source={
