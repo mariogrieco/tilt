@@ -538,107 +538,105 @@ class Post extends React.Component {
       last_picture_update,
     );
     return (
-      <>
-        <View style={[isRepost ? styles.repostContainer : styles.container]}>
-          {!typeIsSystem && !disableDots && !isRepost && (
-            <View style={styles.dotContainer}>
-              <TouchableOpacity
-                style={[styles.dotContainer]}
-                onPress={disableInteractions ? () => {} : this.onPostPress}>
-                <View style={styles.dot} />
-                <View style={styles.dot} />
-                <View style={styles.dot} />
-              </TouchableOpacity>
-            </View>
-          )}
-          {jumpTo && !isRepost && (
+      <View style={[isRepost ? styles.repostContainer : styles.container]}>
+        {!typeIsSystem && !disableDots && !isRepost && (
+          <View style={styles.dotContainer}>
             <TouchableOpacity
-              activeOpacity={1}
-              style={styles.jumpContainer}
-              onPress={disableInteractions ? () => {} : this.jumpTo}>
-              <View>
-                <Text
-                  style={{
-                    color: '#17C491',
-                    fontFamily: 'SFProDisplay-Medium',
-                    fontSize: 16,
-                    letterSpacing: 0.1,
-                  }}>
-                  Jump
-                </Text>
-              </View>
+              style={[styles.dotContainer]}
+              onPress={disableInteractions ? () => {} : this.onPostPress}>
+              <View style={styles.dot} />
+              <View style={styles.dot} />
+              <View style={styles.dot} />
             </TouchableOpacity>
-          )}
-          <View style={styles.leftSideContainer}>
-            <TouchableOpacity
-              onPress={
-                disableInteractions || isSponsoredUser
-                  ? () => {}
-                  : this.handleNavigationToProfile
-              }>
-              <Image
-                style={[styles.profileImage, {resizeMode: 'cover'}]}
-                source={
-                  typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
-                }
-              />
-            </TouchableOpacity>
-            {thread && <View style={styles.threadSeparator} />}
           </View>
-          <View style={[isRepost ? styles.rightSideRepost : styles.rightSide]}>
-            <TouchableOpacity
-              onPress={
-                disableInteractions || isSponsoredUser
-                  ? () => {}
-                  : this.handleNavigationToProfile
-              }>
-              <Text>
-                <Text style={[styles.username]}>
-                  {typeIsSystem ? 'System' : username}{' '}
-                </Text>
-                <Text style={styles.timespan}>
-                  {extendedDateFormat
-                    ? moment(createdAt).format('M/D/YY, h:mm A')
-                    : moment(createdAt).format('h:mm A')}
-                </Text>
+        )}
+        {jumpTo && !isRepost && (
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.jumpContainer}
+            onPress={disableInteractions ? () => {} : this.jumpTo}>
+            <View>
+              <Text
+                style={{
+                  color: '#17C491',
+                  fontFamily: 'SFProDisplay-Medium',
+                  fontSize: 16,
+                  letterSpacing: 0.1,
+                }}>
+                Jump
               </Text>
-            </TouchableOpacity>
-            {isSponsoredUser ? (
-              <SponsoredAd isRepost={isRepost} />
-            ) : (
-              this.renderMessage()
-            )}
-            {repost && !isRepost && (
-              <Repost
-                postId={repost.id}
-                message={repost.message}
-                metadata={repost.metadata}
-                create_at={repost.created_at}
-                replies={repost.replies}
-                edit_at={repost.edit_at}
-                type={repost.type}
-                userId={repost.user.id}
-                last_picture_update={repost.user.last_picture_update}
-                username={repost.user.username}
-              />
-            )}
-            {!isRepost && (
-              <Reactions
-                reactions={reactions}
-                disableInteractions={disableInteractions}
-                onLikes={this.onLikes}
-                onDislike={this.onDislike}
-                onLaughs={this.onLaughs}
-                onSadFace={this.onSadFace}
-                onRocket={this.onRocket}
-                onEyes={this.onEyes}
-                onReply={this.onReply}
-                replies={replies}
-              />
-            )}
-          </View>
+            </View>
+          </TouchableOpacity>
+        )}
+        <View style={styles.leftSideContainer}>
+          <TouchableOpacity
+            onPress={
+              disableInteractions || isSponsoredUser
+                ? () => {}
+                : this.handleNavigationToProfile
+            }>
+            <Image
+              style={[styles.profileImage, {resizeMode: 'cover'}]}
+              source={
+                typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+              }
+            />
+          </TouchableOpacity>
+          {thread && <View style={styles.threadSeparator} />}
         </View>
-      </>
+        <View style={[isRepost ? styles.rightSideRepost : styles.rightSide]}>
+          <TouchableOpacity
+            onPress={
+              disableInteractions || isSponsoredUser
+                ? () => {}
+                : this.handleNavigationToProfile
+            }>
+            <Text>
+              <Text style={[styles.username]}>
+                {typeIsSystem ? 'System' : username}{' '}
+              </Text>
+              <Text style={styles.timespan}>
+                {extendedDateFormat
+                  ? moment(createdAt).format('M/D/YY, h:mm A')
+                  : moment(createdAt).format('h:mm A')}
+              </Text>
+            </Text>
+          </TouchableOpacity>
+          {isSponsoredUser ? (
+            <SponsoredAd isRepost={isRepost} />
+          ) : (
+            this.renderMessage()
+          )}
+          {repost && !isRepost && (
+            <Repost
+              postId={repost.id}
+              message={repost.message}
+              metadata={repost.metadata}
+              create_at={repost.created_at}
+              replies={repost.replies}
+              edit_at={repost.edit_at}
+              type={repost.type}
+              userId={repost.user.id}
+              last_picture_update={repost.user.last_picture_update}
+              username={repost.user.username}
+            />
+          )}
+          {!isRepost && (
+            <Reactions
+              reactions={reactions}
+              disableInteractions={disableInteractions}
+              onLikes={this.onLikes}
+              onDislike={this.onDislike}
+              onLaughs={this.onLaughs}
+              onSadFace={this.onSadFace}
+              onRocket={this.onRocket}
+              onEyes={this.onEyes}
+              onReply={this.onReply}
+              replies={replies}
+            />
+          )}
+        </View>
+      </View>
     );
   }
 }

@@ -6,8 +6,8 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 15,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
+    width: '100%',
+    marginTop: 10,
   },
   repostContainer: {
     paddingLeft: 10,
@@ -16,6 +16,22 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
     width: '100%',
+  },
+  rightSide: {
+    width: '85.5%',
+    //backgroundColor: 'blue',
+  },
+  rightSideRepost: {
+    marginTop: 10,
+    width: '100%',
+  },
+  leftSideContainer: {
+    paddingRight: 10,
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    //backgroundColor: 'red',
   },
   url: {
     color: '#017AFE',
@@ -87,9 +103,9 @@ export default StyleSheet.create({
     marginLeft: 3,
   },
   dotContainer: {
-    paddingTop: 15,
-    paddingBottom: 5,
-    paddingLeft: 25,
+    paddingTop: 8,
+    paddingBottom: 10,
+    paddingLeft: 60,
     paddingRight: 15,
     display: 'flex',
     flexDirection: 'row',
@@ -99,9 +115,9 @@ export default StyleSheet.create({
     right: 0,
   },
   jumpContainer: {
-    paddingTop: 10,
-    paddingBottom: 5,
-    paddingLeft: 15,
+    paddingTop: 0,
+    paddingBottom: 10,
+    paddingLeft: 30,
     paddingRight: 15,
     display: 'flex',
     flexDirection: 'row',
@@ -167,22 +183,6 @@ export default StyleSheet.create({
     borderColor: '#DCDCDC',
     borderWidth: StyleSheet.hairlineWidth,
     marginTop: 10,
-  },
-  rightSide: {
-    marginTop: 10,
-    width: '85.5%',
-  },
-  rightSideRepost: {
-    marginTop: 10,
-    width: '100%',
-  },
-  leftSideContainer: {
-    marginTop: 10,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flex: 0,
   },
   threadSeparator: {
     marginTop: 5,
