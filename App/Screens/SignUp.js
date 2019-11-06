@@ -12,6 +12,7 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
+import merge from 'lodash/merge';
 import assets from '../components/ThemeWrapper/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '$backgroundColor',
   },
   container: {
     marginTop: '14%',
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     letterSpacing: 0.1,
     textAlign: 'center',
-    color: '$textColor',
     marginTop: '1.5rem',
   },
   options: {
@@ -54,7 +53,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     textAlign: 'center',
-    color: '$textColor',
     marginLeft: 25,
   },
   buttonView: {
@@ -68,18 +66,22 @@ const styles = StyleSheet.create({
     height: 44,
     // height: '2.75rem',
   },
+  buttonsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   buttonText: {
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
     letterSpacing: 0.1,
-    color: '$buttonTextColor',
     paddingTop: 10,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   leftButton: {
     borderRightWidth: StyleSheet.hairlineWidth,
-    borderRightColor: '$backgroundColor',
     borderTopLeftRadius: '$borderRadius',
     borderBottomLeftRadius: '$borderRadius',
     borderTopRightRadius: 0,
@@ -87,7 +89,6 @@ const styles = StyleSheet.create({
   },
   rightButton: {
     borderLeftWidth: StyleSheet.hairlineWidth,
-    borderLeftColor: '$backgroundColor',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     borderTopRightRadius: '$borderRadius',
@@ -124,7 +125,7 @@ const FeatureGroup = ({children}) => (
   <View style={styles.featureGroup}>{children}</View>
 );
 
-const Feature = ({text, icon}) => (
+const Feature = ({text, icon, textColor}) => (
   <View
     style={{
       flexDirection: 'row',
@@ -135,31 +136,41 @@ const Feature = ({text, icon}) => (
     <View style={{flex: 0.4, alignItems: 'flex-start'}}>
       <Image source={icon} style={styles.icon} />
     </View>
-    <Text style={[styles.text, {textAlign: 'left', flex: 1}]}>{text}</Text>
+    <Text style={[styles.text, {textAlign: 'left', flex: 1, color: textColor}]}>
+      {text}
+    </Text>
   </View>
 );
 
-const Buttons = ({onSignUp, onLogin}) => (
+const Buttons = ({
+  onSignUp,
+  onLogin,
+  leftButtonStyle = {},
+  buttonTextStyle = {},
+  rightButtonStyle = {},
+}) => (
   <SafeAreaView style={styles.buttonView}>
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <TouchableOpacity
         onPress={onSignUp}
-        style={[styles.button, styles.leftButton]}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+        style={[styles.button, styles.leftButton, leftButtonStyle]}>
+        <Text style={[styles.buttonText, buttonTextStyle]}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onLogin}
-        style={[styles.button, styles.rightButton]}>
-        <Text style={styles.buttonText}>Log In</Text>
+        style={[styles.button, styles.rightButton, rightButtonStyle]}>
+        <Text style={[styles.buttonText, buttonTextStyle]}>Log In</Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>
 );
 
 class SignUp extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', ''),
-    ...headerForScreenWithTabs,
+    ...headerForScreenWithTabs({
+      headerStyle: {backgroundColor: screenProps.theme.backgroundPrimary},
+    }),
   });
 
   componentDidMount() {
@@ -199,68 +210,86 @@ class SignUp extends React.Component {
   };
 
   render() {
-    const iconsTheme = assets[StyleSheet.value('$theme')];
+    const {theme, themeName} = this.props;
+    const iconsTheme = assets[themeName];
     return (
-      <View style={styles.mainContainer}>
-        <View style={{flex: 1}}>
-          <ScrollView>
-            <View style={styles.container}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image source={iconsTheme.LOGO} style={styles.logo} />
-                <View style={[styles.signUpToExperienceView, {paddingTop: 10}]}>
-                  <Text style={styles.signUpToExperience}>
-                    Sign up to experience the best of Tilt
-                  </Text>
-                </View>
-              </View>
-              <View style={[styles.principalContainer]}>
-                <FeatureGroup>
-                  <Feature
-                    icon={iconsTheme.GROUPCHAT}
-                    text="Chat with traders"
-                  />
-                  <Feature
-                    icon={iconsTheme.PHONE}
-                    text="Start and join voice calls"
-                  />
-                  <Feature
-                    icon={iconsTheme.VIDEO}
-                    text="Start and join video calls"
-                  />
-                  <Feature
-                    icon={iconsTheme.NETWORK}
-                    text="1000s of communities"
-                  />
-                  <Feature icon={iconsTheme.ROBOT} text="Intelligent bots" />
-                  <Feature
-                    icon={iconsTheme.MARKETDATA}
-                    text="Real-time market data"
-                  />
-                </FeatureGroup>
+      <View
+        style={[
+          styles.mainContainer,
+          {backgroundColor: theme.backgroundPrimary},
+        ]}>
+        <ScrollView>
+          <View style={styles.container}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image source={iconsTheme.LOGO} style={styles.logo} />
+              <View style={[styles.signUpToExperienceView, {paddingTop: 10}]}>
+                <Text
+                  style={[
+                    styles.signUpToExperience,
+                    {color: theme.colorPrimary},
+                  ]}>
+                  Sign up to experience the best of Tilt
+                </Text>
               </View>
             </View>
-          </ScrollView>
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}>
-          <Buttons onSignUp={this.goToSignUp} onLogin={this.goToLogin} />
+            <View style={[styles.principalContainer]}>
+              <FeatureGroup>
+                <Feature
+                  icon={iconsTheme.GROUPCHAT}
+                  textColor={theme.colorPrimary}
+                  text="Chat with traders"
+                />
+                <Feature
+                  icon={iconsTheme.PHONE}
+                  textColor={theme.colorPrimary}
+                  text="Start and join voice calls"
+                />
+                <Feature
+                  icon={iconsTheme.VIDEO}
+                  textColor={theme.colorPrimary}
+                  text="Start and join video calls"
+                />
+                <Feature
+                  icon={iconsTheme.NETWORK}
+                  textColor={theme.colorPrimary}
+                  text="1000s of communities"
+                />
+                <Feature
+                  icon={iconsTheme.ROBOT}
+                  textColor={theme.colorPrimary}
+                  text="Intelligent bots"
+                />
+                <Feature
+                  icon={iconsTheme.MARKETDATA}
+                  textColor={theme.colorPrimary}
+                  text="Real-time market data"
+                />
+              </FeatureGroup>
+            </View>
+          </View>
+        </ScrollView>
+        <View style={[styles.buttonsContainer]}>
+          <Buttons
+            onSignUp={this.goToSignUp}
+            onLogin={this.goToLogin}
+            leftButtonStyle={{borderRightColor: theme.backgroundPrimary}}
+            rightButtonStyle={{borderLeftColor: theme.backgroundPrimary}}
+            buttonTextStyle={{color: theme.buttonTextColor}}
+          />
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.login.user,
+const mapStateToProps = ({login, themes}) => ({
+  user: login.user,
+  theme: themes[themes.current],
+  themeName: themes.current,
 });
 
 const mapDispatchToProps = {
