@@ -195,9 +195,9 @@ export default StyleSheet.create({
     borderRadius: 1.7,
   },
   profileImage: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 36,
+    height: 36,
+    borderRadius: 8,
     flex: 0,
   },
   optionButton: {
