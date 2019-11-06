@@ -185,14 +185,14 @@ export const getProfilesInTeam = () => async (dispatch, getState) => {
 export const getProfilesInGroupChannels = () => async (dispatch, getState) => {
   try {
     // const channels = getState().myChannels.map(({ id }) => id);
-    const payload = await Client4.getProfilesInChannel('', '', '', '');
-    dispatch(getUsersSucess(payload));
-    return payload;
+    // const payload = await Client4.getProfilesInChannel('', '', '', '');
+    // dispatch(getUsersSucess(payload));
+    // return payload;
+    dispatch(getProfilesInTeam());
   } catch (ex) {
     dispatch(getUsersError(ex));
     return Promise.reject(ex.message || ex);
   }
-  // return dispatch(getProfilesInTeam());
 };
 
 export const getUsersSucess = users => ({
