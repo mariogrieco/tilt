@@ -52,6 +52,15 @@ Client4.getSponsored = async () => {
   }
 };
 
+Client4.getAllUsers = async () => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/users`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
 Client4.getAdminCreators = async () => {
   try {
     const {data} = await axios.get(`${baseServicesUrl}/admin-creators`);

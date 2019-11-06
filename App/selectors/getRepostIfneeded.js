@@ -1,7 +1,7 @@
 export const getRepostIfneeded = (state, postId) => {
   const post = state.posts.entities[postId];
   let repost = null;
-  if (post.props) {
+  if (post && post.props) {
     if (post.props.repost) {
       repost = state.posts.entities[post.props.repost];
     }

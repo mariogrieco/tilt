@@ -38,7 +38,7 @@ export const Header = ({
       <View style={{}}>
         <Image
           source={{uri: imageUrl}}
-          style={{width: 80, height: 80, borderRadius: 40}}
+          style={{width: 80, height: 80, borderRadius: 12}}
         />
         {firstName || lastName ? (
           <Text style={styles.userNames}>{`${firstName} ${lastName}`}</Text>

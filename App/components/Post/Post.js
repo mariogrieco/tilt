@@ -549,6 +549,7 @@ class Post extends React.Component {
       last_picture_update,
     );
     return (
+<<<<<<< HEAD
       <>
         <View style={[isRepost ? styles.repostContainer : styles.container]}>
           {!typeIsSystem && !disableDots && !isRepost && (
@@ -563,35 +564,58 @@ class Post extends React.Component {
             </View>
           )}
           {jumpTo && !isRepost && (
+=======
+      <View style={[isRepost ? styles.repostContainer : styles.container]}>
+        {!typeIsSystem && !disableDots && !isRepost && (
+          <View style={styles.dotContainer}>
+>>>>>>> b75ecae554583d9e41336289fde0d93315f3a479
             <TouchableOpacity
-              activeOpacity={1}
-              style={styles.jumpContainer}
-              onPress={disableInteractions ? () => {} : this.jumpTo}>
-              <View>
-                <Text
-                  style={{
-                    color: '#17C491',
-                    fontFamily: 'SFProDisplay-Medium',
-                    fontSize: 16,
-                    letterSpacing: 0.1,
-                  }}>
-                  Jump
-                </Text>
-              </View>
+              style={[styles.dotContainer]}
+              onPress={disableInteractions ? () => {} : this.onPostPress}>
+              <View style={styles.dot} />
+              <View style={styles.dot} />
+              <View style={styles.dot} />
             </TouchableOpacity>
-          )}
-          <View style={styles.leftSideContainer}>
+          </View>
+        )}
+        {jumpTo && !isRepost && (
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.jumpContainer}
+            onPress={disableInteractions ? () => {} : this.jumpTo}>
             <View>
+              <Text
+                style={{
+                  color: '#17C491',
+                  fontFamily: 'SFProDisplay-Medium',
+                  fontSize: 16,
+                  letterSpacing: 0.1,
+                }}>
+                Jump
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        {!isRepost && (
+          <View style={styles.profileImageContainer}>
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
               <Image
                 style={[styles.profileImage, {resizeMode: 'cover'}]}
                 source={
                   typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
                 }
               />
-            </View>
+            </TouchableOpacity>
             {thread && <View style={styles.threadSeparator} />}
           </View>
-          <View style={styles.rightSide}>
+        )}
+        <View style={isRepost ? {} : styles.usernameAndPostContent}>
+          {!isRepost && (
             <TouchableOpacity
               onPress={
                 disableInteractions || isSponsoredUser
@@ -609,42 +633,79 @@ class Post extends React.Component {
                 </Text>
               </Text>
             </TouchableOpacity>
-            {isSponsoredUser ? (
-              <SponsoredAd isRepost={isRepost} />
-            ) : (
-              this.renderMessage()
-            )}
-            {repost && !isRepost && (
-              <Repost
-                postId={repost.id}
-                message={repost.message}
-                metadata={repost.metadata}
-                create_at={repost.created_at}
-                replies={repost.replies}
-                edit_at={repost.edit_at}
-                type={repost.type}
-                userId={repost.user.id}
-                last_picture_update={repost.user.last_picture_update}
-                username={repost.user.username}
-              />
-            )}
-            {!isRepost && (
-              <Reactions
-                reactions={reactions}
-                disableInteractions={disableInteractions}
-                onLikes={this.onLikes}
-                onDislike={this.onDislike}
-                onLaughs={this.onLaughs}
-                onSadFace={this.onSadFace}
-                onRocket={this.onRocket}
-                onEyes={this.onEyes}
-                onReply={this.onReply}
-                replies={replies}
-              />
-            )}
-          </View>
+          )}
+          {isRepost && (
+            <View style={styles.repostProfileImageAndUsername}>
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Image
+                  style={[
+                    styles.repostProfileImage,
+                    {resizeMode: 'cover', marginRight: 10},
+                  ]}
+                  source={
+                    typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Text>
+                  <Text style={[styles.username]}>
+                    {typeIsSystem ? 'System' : username}{' '}
+                  </Text>
+                  <Text style={styles.timespan}>
+                    {extendedDateFormat
+                      ? moment(createdAt).format('M/D/YY, h:mm A')
+                      : moment(createdAt).format('h:mm A')}
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {isSponsoredUser ? (
+            <SponsoredAd isRepost={isRepost} />
+          ) : (
+            this.renderMessage()
+          )}
+          {repost && !isRepost && (
+            <Repost
+              postId={repost.id}
+              message={repost.message}
+              metadata={repost.metadata}
+              create_at={repost.created_at}
+              replies={repost.replies}
+              edit_at={repost.edit_at}
+              type={repost.type}
+              userId={repost.user.id}
+              last_picture_update={repost.user.last_picture_update}
+              username={repost.user.username}
+            />
+          )}
+          {!isRepost && (
+            <Reactions
+              reactions={reactions}
+              disableInteractions={disableInteractions}
+              onLikes={this.onLikes}
+              onDislike={this.onDislike}
+              onLaughs={this.onLaughs}
+              onSadFace={this.onSadFace}
+              onRocket={this.onRocket}
+              onEyes={this.onEyes}
+              onReply={this.onReply}
+              replies={replies}
+            />
+          )}
         </View>
-      </>
+      </View>
     );
   }
 }

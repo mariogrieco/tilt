@@ -20,7 +20,8 @@ export class Repost extends PureComponent {
       onPress,
     } = this.props;
     return (
-      <View style={styles.container} onPress={onPress}>
+      <View style={styles.container}>
+        <View style={styles.repostSeparator} />
         <Post
           postId={postId}
           userId={userId}
