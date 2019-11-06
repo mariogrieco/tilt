@@ -539,8 +539,7 @@ class Post extends React.Component {
     );
     return (
       <>
-        <View
-          style={[isRepost ? styles.repostContainer : styles.container]}>
+        <View style={[isRepost ? styles.repostContainer : styles.container]}>
           {!typeIsSystem && !disableDots && !isRepost && (
             <View style={styles.dotContainer}>
               <TouchableOpacity
@@ -571,14 +570,19 @@ class Post extends React.Component {
             </TouchableOpacity>
           )}
           <View style={styles.leftSideContainer}>
-            <View>
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
               <Image
                 style={[styles.profileImage, {resizeMode: 'cover'}]}
                 source={
                   typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
                 }
               />
-            </View>
+            </TouchableOpacity>
             {thread && <View style={styles.threadSeparator} />}
           </View>
           <View style={[isRepost ? styles.rightSideRepost : styles.rightSide]}>
