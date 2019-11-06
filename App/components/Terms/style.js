@@ -11,5 +11,6 @@ export default StyleSheet.create({
     fontFamily: 'SFProDisplay-Regular',
     fontSize: 15,
     color: '#585c63',
+    textAlign: 'center',
   },
 });
