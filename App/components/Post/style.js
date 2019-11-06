@@ -208,14 +208,13 @@ export default StyleSheet.create({
   linkContainer: {
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#DCDCDC',
-    borderLeftWidth: 3,
     marginTop: 10,
     flexDirection: 'row-reverse',
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 0,
-    paddingLeft: 0,
+    paddingLeft: 4,
     height: '100%',
   },
   textLink: {
