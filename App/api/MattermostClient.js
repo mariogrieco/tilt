@@ -5,18 +5,18 @@ export let baseUrl;
 export let baseServicesUrl;
 export let socketURL;
 
-const IS_DEV_ENV = process.env.NODE_ENV === 'development';
+// const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
-if (IS_DEV_ENV) {
-  console.log('IS_DEV_ENV!!');
-  baseUrl = 'https://staging.tiltchat.com';
-  baseServicesUrl = 'https://staging.tiltchat.com/services';
-  socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
-} else {
+// if (IS_DEV_ENV) {
+//   console.log('IS_DEV_ENV!!');
+//   baseUrl = 'https://staging.tiltchat.com';
+//   baseServicesUrl = 'https://staging.tiltchat.com/services';
+//   socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
+// } else {
   baseUrl = 'https://community.tiltchat.com';
   baseServicesUrl = 'https://community.tiltchat.com/services';
   socketURL = 'wss://community.tiltchat.com/api/v4/websocket';
-}
+// }
 
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
@@ -46,6 +46,15 @@ Client4.createUserOld = ({
 Client4.getSponsored = async () => {
   try {
     const {data} = await axios.get(`${baseServicesUrl}/sponsored`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.getAllUsers = async () => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/users`);
     return data;
   } catch (ex) {
     return Promise.reject(ex);
