@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
   separator: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 20,
-    paddingTop: 0,
+    paddingVertical: 5,
   },
   separatorText: {
     color: '#0e141e',

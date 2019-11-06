@@ -134,7 +134,7 @@ export default StyleSheet.create({
     color: '#191919',
     fontSize: 16,
     letterSpacing: 0.1,
-    marginTop: 1.7,
+    marginTop: Platform.OS === 'ios' ? 1.7 : 0,
   },
   codeText: {
     fontFamily: 'SFMono-Regular',
