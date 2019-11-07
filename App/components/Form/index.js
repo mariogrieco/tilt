@@ -13,7 +13,6 @@ import isEqual from 'lodash/isEqual';
 import Terms from '../Terms';
 import styles from './styles';
 
-
 class Form extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
@@ -31,6 +30,7 @@ class Form extends React.Component {
       canSend,
       showTerms,
     } = this.props;
+    const {theme} = this.props;
     return (
       <SafeAreaView style={{flex: 1, marginBottom: 10}}>
         <View style={{flex: 1}}>
@@ -53,7 +53,9 @@ class Form extends React.Component {
               disabled={!canSend}
               style={canSend ? {} : styles.disabled}
               onPress={canSend ? navigationTo : () => ({})}>
-              <Text style={styles.button}>{textButton}</Text>
+              <Text style={[styles.button, {color: theme.buttonTextColor}]}>
+                {textButton}
+              </Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>

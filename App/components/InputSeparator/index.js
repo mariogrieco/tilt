@@ -1,18 +1,19 @@
 import React from 'react';
 import {View} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
+import {connect} from 'react-redux';
 
 const styles = {
   line: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: '#DCDCDC',
     width: 285,
     alignSelf: 'center',
   },
 };
 
-const InputSeparator = ({customStyles}) => (
-  <View style={[styles.line, customStyles]} />
+const InputSeparator = ({theme}) => (
+  <View style={[styles.line, {backgroundColor: theme.borderBottomColor}]} />
 );
 
-export default InputSeparator;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(InputSeparator);
