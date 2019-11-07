@@ -235,11 +235,11 @@ const mapDispatchToProps = {
   getMyPreferences,
 };
 
-const mapStateToProps = ({state, themes}) => ({
-  //phoneOnVerification: state.codeVerification.phoneNumber,
-  //callingCode: state.codeVerification.callingCode,
-  //token: state.codeVerification.code,
-  theme: themes[themes.current],
+const mapStateToProps = state => ({
+  phoneOnVerification: state.codeVerification.phoneNumber,
+  callingCode: state.codeVerification.callingCode,
+  token: state.codeVerification.code,
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(

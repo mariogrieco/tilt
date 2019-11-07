@@ -170,9 +170,9 @@ const mapDispatchToProps = {
   getVerificationCode,
 };
 
-const mapStateToProps = ({state, themes}) => ({
-  //me: state.login,
-  theme: themes[themes.current],
+const mapStateToProps = state => ({
+  me: state.login,
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(
