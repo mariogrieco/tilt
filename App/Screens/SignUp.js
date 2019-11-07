@@ -169,7 +169,7 @@ class SignUp extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', ''),
     ...headerForScreenWithTabs({
-      headerStyle: {backgroundColor: screenProps.theme.backgroundPrimary},
+      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
     }),
   });
 
@@ -216,7 +216,7 @@ class SignUp extends React.Component {
       <View
         style={[
           styles.mainContainer,
-          {backgroundColor: theme.backgroundPrimary},
+          {backgroundColor: theme.primaryBackgroundColor},
         ]}>
         <ScrollView>
           <View style={styles.container}>
@@ -230,7 +230,7 @@ class SignUp extends React.Component {
                 <Text
                   style={[
                     styles.signUpToExperience,
-                    {color: theme.colorPrimary},
+                    {color: theme.primaryTextColor},
                   ]}>
                   Sign up to experience the best of Tilt
                 </Text>
@@ -240,32 +240,32 @@ class SignUp extends React.Component {
               <FeatureGroup>
                 <Feature
                   icon={iconsTheme.GROUPCHAT}
-                  textColor={theme.colorPrimary}
+                  textColor={theme.primaryTextColor}
                   text="Chat with traders"
                 />
                 <Feature
                   icon={iconsTheme.PHONE}
-                  textColor={theme.colorPrimary}
+                  textColor={theme.primaryTextColor}
                   text="Start and join voice calls"
                 />
                 <Feature
                   icon={iconsTheme.VIDEO}
-                  textColor={theme.colorPrimary}
+                  textColor={theme.primaryTextColor}
                   text="Start and join video calls"
                 />
                 <Feature
                   icon={iconsTheme.NETWORK}
-                  textColor={theme.colorPrimary}
+                  textColor={theme.primaryTextColor}
                   text="1000s of communities"
                 />
                 <Feature
                   icon={iconsTheme.ROBOT}
-                  textColor={theme.colorPrimary}
+                  textColor={theme.primaryTextColor}
                   text="Intelligent bots"
                 />
                 <Feature
                   icon={iconsTheme.MARKETDATA}
-                  textColor={theme.colorPrimary}
+                  textColor={theme.primaryTextColor}
                   text="Real-time market data"
                 />
               </FeatureGroup>
@@ -276,8 +276,8 @@ class SignUp extends React.Component {
           <Buttons
             onSignUp={this.goToSignUp}
             onLogin={this.goToLogin}
-            leftButtonStyle={{borderRightColor: theme.backgroundPrimary}}
-            rightButtonStyle={{borderLeftColor: theme.backgroundPrimary}}
+            leftButtonStyle={{borderRightColor: theme.primaryBackgroundColor}}
+            rightButtonStyle={{borderLeftColor: theme.primaryBackgroundColor}}
             buttonTextStyle={{color: theme.buttonTextColor}}
           />
         </View>

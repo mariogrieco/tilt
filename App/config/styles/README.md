@@ -6,21 +6,21 @@ inside the themes.js at the reducers folder in where the themes variables are se
 ```
 const initialState = {
   dark: {
-    colorPrimary: '#FFFF',
-    colorLight: '#585c63',
+    primaryTextColor: '#FFFF',
+    secondaryTextColor: '#585c63',
     green: '#17C491',
     red: '#FC3E30',
-    backgroundPrimary: '#040D14',
+    primaryBackgroundColor: '#040D14',
     buttonTextColor: '#040d14',
     borderBottomColor: '#353942',
     headerTintColor: '#FFF',
   },
   light: {
-    colorPrimary: '#0e141e',
-    colorLight: '#585c63',
+    primaryTextColor: '#0e141e',
+    secondaryTextColor: '#585c63',
     green: '#17C491',
     red: '#FC3E30',
-    backgroundPrimary: '#FFFF',
+    primaryBackgroundColor: '#FFFF',
     buttonTextColor: '#FFF',
     borderBottomColor: '#DCDCDC',
     headerTintColor: '#0E141E',
@@ -53,7 +53,7 @@ usage examples
 render() {
     const {theme} = this.props;
     return (
-        <Text style={[ styles.myCustomBaseStyle, {color: theme.colorPrimary}]}>
+        <Text style={[ styles.myCustomBaseStyle, {color: theme.primaryTextColor}]}>
             I can change my color dynamically !
         </Text>
     );
@@ -64,7 +64,7 @@ render() {
 render() {
     const {theme} = this.props;
     return (
-        <View style={{backgroundColor: themes.backgroundPrimary}}>
+        <View style={{backgroundColor: themes.primaryBackgroundColor}}>
         </View>
     );
 }
@@ -81,15 +81,15 @@ render() {
             onChangeText={username => {
             this.setState({username});
             }}
-            style={[styles.placeholders, {color: theme.colorPrimary}]}
+            style={[styles.placeholders, {color: theme.primaryTextColor}]}
             autoCapitalize="none"
-            placeholderTextColor={theme.colorLight}
+            placeholderTextColor={theme.secondaryTextColor}
         />
     );
 }
 ```
 placeholderTextColor is a prop that changes the placeholder color for the input and it can change with the theme out of the styles!
 
-look at theme the theme variable can access to all the properties assigned in the previous theme structure colorPrimary, colorLight, etc.
+look at theme the theme variable can access to all the properties assigned in the previous theme structure primaryTextColor, secondaryTextColor, etc.
 
 

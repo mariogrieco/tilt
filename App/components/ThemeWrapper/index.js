@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity, Text, SafeAreaView} from 'react-native';
 import ChannelJoinModalAlert from '../ChannelJoinModalAlert';
 import PostBottomActions from '../PostBottomActions';
 import PostMediaModal from '../PostMediaModal';
@@ -22,11 +22,11 @@ class ThemeWrapper extends React.Component {
         <PostMediaModal />
         <ChannelJoinModalAlert />
         {/* <DeepLinking /> */}
-        <TouchableOpacity
-          onPress={this.props.changeTheme}
-          style={{paddingBottom: 10}}>
-          <Text>Change theme</Text>
-        </TouchableOpacity>
+        <SafeAreaView>
+          <TouchableOpacity onPress={this.props.changeTheme}>
+            <Text>Change theme</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
         <Navigator
           ref={navigatorRef => {
             if (navigatorRef) {

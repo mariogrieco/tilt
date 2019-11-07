@@ -120,7 +120,7 @@ class LogIn extends React.Component {
       />
     ),
     ...headerForScreenWithTabs({
-      headerStyle: {backgroundColor: screenProps.theme.backgroundPrimary},
+      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
       headerTintColor: screenProps.theme.headerTintColor,
     }),
   });
@@ -222,7 +222,7 @@ class LogIn extends React.Component {
         <View
           style={[
             styles.mainContainer,
-            {backgroundColor: theme.backgroundPrimary},
+            {backgroundColor: theme.primaryBackgroundColor},
           ]}>
           {this.state.isModalVisible && this.renderModal()}
           <Form
@@ -241,9 +241,9 @@ class LogIn extends React.Component {
               onChangeText={username => {
                 this.setState({username});
               }}
-              style={[styles.placeholders, {color: theme.colorPrimary}]}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
-              placeholderTextColor={theme.colorLight}
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
             <TextInput
@@ -253,9 +253,9 @@ class LogIn extends React.Component {
               onChangeText={password => {
                 this.setState({password});
               }}
-              style={[styles.placeholders, {color: theme.colorPrimary}]}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               maxLength={64}
-              placeholderTextColor={theme.colorLight}
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
           </Form>
