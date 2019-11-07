@@ -1408,7 +1408,7 @@ const mapStateToProps = state => ({
       : false,
 });
 
-const mapDisptchToProps = {
+const mapDispatchToProps = {
   createPost,
   updatePost,
   executeCommand,
@@ -1417,5 +1417,5 @@ const mapDisptchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDisptchToProps,
+  mapDispatchToProps,
 )(Input);

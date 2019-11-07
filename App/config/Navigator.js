@@ -201,6 +201,7 @@ const LoggedInMenuStack = createStackNavigator(
     LoggedInMenu,
     BlockUser,
     EditProfile,
+    BlockUser,
   },
   {
     headerLayoutPreset: 'center',
