@@ -102,7 +102,6 @@ class BlockedList extends Component {
   render() {
     return (
       <ScrollView
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
           paddingRight: 0,
@@ -119,7 +118,7 @@ const mapStateToProps = {
   getBlockUserListForUserId,
 };
 
-const mapDisptchToProps = state => {
+const mapDispatchToProps = state => {
   return {
     users: Object.keys(state.blockedUsers)
       .map(key => state.users.data[key])
@@ -130,7 +129,7 @@ const mapDisptchToProps = state => {
 
 export default withNavigation(
   connect(
-    mapDisptchToProps,
+    mapDispatchToProps,
     mapStateToProps,
   )(BlockedList),
 );

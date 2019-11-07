@@ -121,7 +121,7 @@ export default StyleSheet.create({
     fontSize: 14,
     letterSpacing: 0.1,
     color: '#8E8E95',
-    paddingTop: 3.5,
+    paddingTop: Platform.OS === 'ios' ? 1.7 : 0,
   },
   timespan: {
     fontSize: Platform.OS === 'ios' ? 14 : 13,
@@ -134,7 +134,7 @@ export default StyleSheet.create({
     color: '#191919',
     fontSize: 16,
     letterSpacing: 0.1,
-    marginTop: 1.7,
+    marginTop: Platform.OS === 'ios' ? 1.7 : 0,
   },
   codeText: {
     fontFamily: 'SFMono-Regular',
