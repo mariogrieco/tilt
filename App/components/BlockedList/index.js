@@ -1,18 +1,22 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {View, Image, Text, ScrollView} from 'react-native';
 // import GoBack from '../GoBack';
 import {addOrRemoveOne} from '../../actions/blockedUsers';
 // import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
-
+import isEqual from 'lodash/isEqual';
 // const BACK = require('../../../assets/images/pin-left-black/pin-left.png');
 
 import styles from './styles';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-class BlockedList extends PureComponent {
+class BlockedList extends Component {
   state = {};
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
+  }
 
   _addOrRemoveOne = user_id => {
     if (this.state.loading) {
