@@ -22,7 +22,7 @@ const initialState = {
   orders: {
     channel_id: {
       stop: false,
-      page: 1,
+      page: 0,
       order: [],
     },
   },
@@ -114,7 +114,7 @@ const posts = (state = initialState, action) => {
       action.payload.forEach(elm => {
         if (nextState.orders[elm.channel_id]) {
           const prev = cloneDeep(nextState.orders[elm.channel_id]);
-          const nextPage = ++prev.page;
+          const nextPage = elm.page;
           let nextOrder = uniq(concat(prev.order, elm.order));
           elm.order.forEach(key => {
             nextState.entities[key] = cloneDeep(elm.posts[key]);
@@ -128,7 +128,7 @@ const posts = (state = initialState, action) => {
           nextState.keys = keys(nextState.entities);
         } else {
           nextState.orders[elm.channel_id] = {
-            page: 1,
+            page: 0,
             order: elm.order,
             stop: false,
           };
