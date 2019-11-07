@@ -27,7 +27,7 @@ const BACK = require('../../assets/images/pin-left-black/pin-left.png');
 
 const styles = StyleSheet.create({
   profilePictureContainer: {
-    height: 145,
+    height: 160,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',

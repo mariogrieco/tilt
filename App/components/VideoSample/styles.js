@@ -9,10 +9,12 @@ export default StyleSheet.create({
     borderColor: '#DCDCDC',
     borderRadius: 4,
     flexDirection: 'row',
-    alignItems: 'center',
     flex: 1,
     position: 'relative',
     backgroundColor: 'white',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    minHeight: 80,
   },
   documentName: {
     color: '$textColor',

@@ -24,6 +24,7 @@ import themeTags from '../../themes/custom-tags';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
 import {createPost, updatePost} from '../../actions/posts';
+import Repost from '../Repost';
 import {
   getHashTagChannelsNames,
   getDollarChannelNames,
@@ -36,11 +37,10 @@ import {
   encodeHeaderURIStringToUTF8,
   buildFileUploadData,
 } from './file_utils';
-// import RNFetchBlob from 'rn-fetch-blob';
+import {getRepostById} from '../../selectors/getRepostById';
+import {setRepostActiveOnInput} from '../../actions/repost';
 
 import Client4 from '../../api/MattermostClient';
-
-// const {store, replacer, matcher} = parserFactory();
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
@@ -303,13 +303,14 @@ class Input extends React.Component {
       async () => {
         try {
           const {messageText, filesIds} = this.state;
-          const {channelId, root_id} = this.props;
+          const {channelId, root_id, repost_id} = this.props;
           const parsedValue = Emoji.parse(messageText);
           await this.props.createPost(
             parsedValue,
             channelId,
             root_id,
             filesIds,
+            {repost: repost_id},
           );
           this.setState({
             messageText: '',
@@ -323,6 +324,7 @@ class Input extends React.Component {
             loading: false,
           });
           this.clearState();
+          this.props.setRepostActiveOnInput(null);
         }
       },
     );
@@ -1204,6 +1206,7 @@ class Input extends React.Component {
       loggedUserPicture,
       isPrivateChannel,
       isReadOnlyChannel,
+      repost
     } = this.props;
     const {
       messageText,
@@ -1216,6 +1219,7 @@ class Input extends React.Component {
       showDollarTags,
       showTags,
     } = this.state;
+    console.log('repost: ', repost);
     return (
       <View style={styles.container}>
         {showMentionsOptions &&
@@ -1240,12 +1244,27 @@ class Input extends React.Component {
               ref={this.refInput}
               onSelectionChange={this.onSelectionChange}
               onChangeText={this.onChangeMessage}
-              autoCorrect={false}
+              autoCorrect
               multiline
               underlineColorAndroid="transparent"
               allowFontScaling
               editable={!isReadOnlyChannel}
             />
+            {repost && (
+              <Repost
+                postId={repost.id}
+                userId={repost.user.id}
+                last_picture_update={repost.user.last_picture_update}
+                message={repost.message}
+                username={repost.user.username}
+                metadata={repost.metadata}
+                createdAt={repost.create_at}
+                replies={repost.replies}
+                edit_at={repost.edit_at}
+                type={repost.type}
+                isPM={false}
+              />
+            )}
           </View>
         </View>
         <View
@@ -1368,6 +1387,8 @@ class Input extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  repost: getRepostById(state),
+  repost_id: state.repost,
   commands: state.commands.map(({name, trigger}) => ({name, trigger})),
   users: state.users.keys
     .filter(key => !state.sponsored.includes(key))
@@ -1387,13 +1408,14 @@ const mapStateToProps = state => ({
       : false,
 });
 
-const mapDisptchToProps = {
+const mapDispatchToProps = {
   createPost,
   updatePost,
   executeCommand,
+  setRepostActiveOnInput,
 };
 
 export default connect(
   mapStateToProps,
-  mapDisptchToProps,
+  mapDispatchToProps,
 )(Input);

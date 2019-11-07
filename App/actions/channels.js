@@ -142,10 +142,12 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-export const navigateIfExists = channelDisplayName => async (
-  dispatch,
-  getState,
-) => {
+export const navigateIfExists = (
+  channelDisplayName,
+  channel_id,
+  direct,
+  props = {},
+) => async (dispatch, getState) => {
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
   const myChannels = state.myChannelsMap.valueSeq().toJS();
@@ -153,6 +155,17 @@ export const navigateIfExists = channelDisplayName => async (
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
+
+  if (channel_id && !channelDisplayName) {
+    let channel = null;
+    channel = state.myChannelsMap.get(channel_id);
+    if (!channel) {
+      channel = state.mapChannels.get(channel_id);
+    }
+    if (channel) {
+      channelDisplayName = channel.name;
+    }
+  }
 
   [...channels, ...myChannels].forEach(item => {
     let formatName = item.name;
@@ -178,6 +191,7 @@ export const navigateIfExists = channelDisplayName => async (
           focusOn: false,
           isAdminCreator: channelDisplayName[0] === '$',
           pm: isPM,
+          ...props,
         });
       } else {
         dispatch(openModal(item.id));
@@ -199,9 +213,17 @@ export const navigateIfExists = channelDisplayName => async (
           // eslint-disable-next-line no-alert
           alert('This symbol does not exist.');
         } else if (needAdminCredentials && isAdmin) {
-          showNativeAlert(channelDisplayName);
+          if (direct) {
+            naviteNavigation(channelDisplayName, props);
+          } else {
+            showNativeAlert(channelDisplayName);
+          }
         } else if (!needAdminCredentials){
-          showNativeAlert(channelDisplayName);
+          if (direct) {
+            naviteNavigation(channelDisplayName, props);
+          } else {
+            showNativeAlert(channelDisplayName);
+          }
         }
       }
     } catch (e) {
@@ -210,6 +232,13 @@ export const navigateIfExists = channelDisplayName => async (
     }
   }
 };
+
+function naviteNavigation(channelDisplayName, props) {
+  NavigationService.navigate('CreateChannel', {
+    active_name: channelDisplayName.replace('$', '').replace('#', ''),
+    ...props,
+  });
+}
 
 function showNativeAlert(channelDisplayName) {
   Alert.alert(
@@ -617,6 +646,7 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
       pm: true,
       focusOn: false,
     });
+    return channel;
   } catch (ex) {
     dispatch(createDirectChannelError(ex));
     return Promise.reject(ex.message || ex);

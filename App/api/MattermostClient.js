@@ -52,6 +52,15 @@ Client4.getSponsored = async () => {
   }
 };
 
+Client4.getAllUsers = async () => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/users`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
 Client4.getAdminCreators = async () => {
   try {
     const {data} = await axios.get(`${baseServicesUrl}/admin-creators`);
@@ -95,6 +104,29 @@ Client4.getHashtagChannels = async (page, per_page) => {
   try {
     const {data} = await axios.get(
       `${baseServicesUrl}/channel/public?page=${page}&per_page=${per_page}`,
+    );
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.addOrRemoveOneBlockedUser = async (user_id, blocking_user_id) => {
+  try {
+    const {data} = await axios.post(`${baseServicesUrl}/blocked-user`, {
+      user_id,
+      blocking_user_id,
+    });
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.getBlokedUsers = async user_id => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/blocked-user/${user_id}`,
     );
     return data;
   } catch (ex) {

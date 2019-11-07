@@ -65,7 +65,7 @@ function getFlagSchema(postId, userId) {
   ];
 }
 
-function getCreatePostSchema(
+export function getCreatePostSchema(
   message,
   user_id,
   update_at,
@@ -83,6 +83,7 @@ function getCreatePostSchema(
     user_id,
     root_id,
     parent_id: root_id,
+    props: {},
   };
 }
 
@@ -143,10 +144,13 @@ export const updatePostError = err => ({
   payload: err,
 });
 
-export const createPost = (message, channelId, root_id, file_ids) => async (
-  dispatch,
-  getState,
-) => {
+export const createPost = (
+  message,
+  channelId,
+  root_id,
+  file_ids,
+  props,
+) => async (dispatch, getState) => {
   root_id = root_id || '';
   try {
     const meId = getState().login.user.id;
@@ -158,10 +162,14 @@ export const createPost = (message, channelId, root_id, file_ids) => async (
       root_id,
       file_ids,
     );
+    if (props) {
+      post.props = props;
+    }
     await Client4.createPost(post);
     dispatch(createPostSucess(post));
     return post;
   } catch (ex) {
+    alert(ex);
     dispatch(createPostError(ex));
     return Promise.reject(ex);
   }

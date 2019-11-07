@@ -95,7 +95,7 @@ const PostMediaModal = ({postMedia, closedModal, hideModal}) => {
               left: 0,
               right: 0,
               zIndex: 9999,
-              // backgroundColor: 'red'
+              backgroundColor: 'rgba(17,24,35,0.3)',
             }}>
             <TouchableOpacity
               onPress={hideModal}

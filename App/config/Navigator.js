@@ -28,6 +28,8 @@ import EditProfile from '../Screens/EditProfile';
 import Recovery from '../Screens/Recovery';
 import InviteContacts from '../Screens/InviteContacts';
 import AdvancedSearch from '../Screens/AdvancedSearch';
+import TermsWeb from '../Screens/TermsWeb';
+import BlockUser from '../Screens/BlockUser';
 import {stackHeader, headerForScreenWithTabs} from './navigationHeaderStyle';
 import StyleSheet from 'react-native-extended-stylesheet';
 
@@ -77,6 +79,7 @@ const SignUpStack = createStackNavigator(
     SignUp,
     LogIn,
     CreateAccount,
+    TermsWeb,
     PhoneNumber,
     Verification,
     setAvatar,
@@ -196,7 +199,9 @@ const TabBarPrincipal = createBottomTabNavigator(
 const LoggedInMenuStack = createStackNavigator(
   {
     LoggedInMenu,
+    BlockUser,
     EditProfile,
+    BlockUser,
   },
   {
     headerLayoutPreset: 'center',

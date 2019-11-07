@@ -5,9 +5,11 @@ import {
   Image,
   // ImageBackground,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import RNUrlPreview from 'react-native-url-preview';
 // import CurrentUserStatus from '../CurrentUserStatus'
+import {deletePost} from '../../actions/posts';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -30,12 +32,13 @@ import DocumentSample from '../DocumentSample';
 import VideoSample from '../VideoSample';
 import parser from '../../utils/parse_display_name';
 import Reactions from './Reactions';
+import Repost from '../Repost';
+import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
+import {getReportIfNeeded} from '../../selectors/getReportIfNeeded';
 import styles from './style';
 
 const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
 const TILT_SYSTEM_LOGO = require('../../../assets/images/tilt-logo/tilt-logo.png');
-
-const sponsoredId = 'jk5osmydatgt5kaahkeheprk6e';
 
 function reduceReactions(metadata) {
   let likes = 0;
@@ -315,8 +318,14 @@ class Post extends React.Component {
   };
 
   onPostPress = () => {
-    const {showPostActions, postId, userId, isReply, isPM} = this.props;
-    showPostActions(userId, postId, {hideReply: isReply, isPM});
+    const {postId, userId, isReply, isPM, allowRepost, repost} = this.props;
+    this.props.showPostActions(userId, postId, {
+      hideReply: isReply,
+      isPM,
+      showRepost: postId,
+      showRepostNoRequieredRedirect:
+        repost && !allowRepost ? repost.channel_id : null,
+    });
   };
 
   parseDisplayName(str = '') {
@@ -349,8 +358,35 @@ class Post extends React.Component {
     });
   };
 
+  deletePost = async () => {
+    const {deleteAction, postId} = this.props;
+    const post_id = deleteAction.id;
+
+    Alert.alert(
+      '',
+      'Are you going to delete this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: async () => {
+            console.log(post_id);
+            console.log(postId);
+            await this.props.deletePost(post_id);
+            await this.props.deletePost(postId);
+          },
+          style: 'default',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   renderFile(file) {
-    // CLient4.getFilePublicLink(file.id).then(response => console.log(response))
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
         return (
@@ -437,6 +473,7 @@ class Post extends React.Component {
       onUser,
       disableInteractions,
       isPM,
+      // reported,
     } = this.props;
     const typeIsSystem = type.match('system');
 
@@ -448,9 +485,20 @@ class Post extends React.Component {
       metadata && metadata.files && metadata.files ? metadata.files : [];
 
     const REGEX = /(http(s?):\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})/gi;
-    const hasUrlForPreview = Boolean(
-      message && message.match(REGEX) && message.match(REGEX)[0],
-    );
+
+    let hasUrlForPreview = false;
+
+    if (imageUrl) {
+      hasUrlForPreview = Boolean(
+        message &&
+          message.replace(imageUrl, ' ').match(REGEX) &&
+          message.replace(imageUrl, ' ').match(REGEX)[0],
+      );
+    } else {
+      hasUrlForPreview = Boolean(
+        message && message.match(REGEX) && message.match(REGEX)[0],
+      );
+    }
 
     return (
       <>
@@ -472,7 +520,6 @@ class Post extends React.Component {
                 onUser={onUser}
                 disableUserPattern={isPM}
               />
-              <Text> </Text>
               {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
             </View>
           )}
@@ -490,31 +537,56 @@ class Post extends React.Component {
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
-        {hasUrlForPreview && <MemoUrlPreview text={message} />}
+        {hasUrlForPreview && (
+          <MemoUrlPreview text={message.replace(imageUrl, ' ')} />
+        )}
       </>
     );
   };
 
+  renderDelteText() {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        style={styles.jumpContainer}
+        onPress={this.deletePost}>
+        <View>
+          <Text
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              color: '#fc3e30',
+              fontFamily: 'SFProDisplay-Medium',
+              fontSize: 16,
+              letterSpacing: 0.1,
+            }}>
+            delete
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
     const {
-      // postId,
       username,
-      // me,
       last_picture_update,
       metadata,
       createdAt,
-      // usernames,
-      // post,
       type,
       thread,
       replies,
       extendedDateFormat,
-      // channelsNames,
       disableDots,
       userId,
       jumpTo,
       disableInteractions,
       sponsoredIds,
+      isRepost,
+      repost,
+      reported,
+      deleteAction,
+      isAdminUser,
+      postId,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -524,8 +596,8 @@ class Post extends React.Component {
       last_picture_update,
     );
     return (
-      <View style={styles.container}>
-        {!typeIsSystem && !disableDots && (
+      <View style={[isRepost ? styles.repostContainer : styles.container]}>
+        {!typeIsSystem && !disableDots && !isRepost && (
           <View style={styles.dotContainer}>
             <TouchableOpacity
               style={[styles.dotContainer]}
@@ -536,7 +608,8 @@ class Post extends React.Component {
             </TouchableOpacity>
           </View>
         )}
-        {jumpTo && (
+        {deleteAction && isAdminUser && this.renderDelteText()}
+        {jumpTo && !isRepost && (
           <TouchableOpacity
             activeOpacity={1}
             style={styles.jumpContainer}
@@ -554,48 +627,115 @@ class Post extends React.Component {
             </View>
           </TouchableOpacity>
         )}
-        <View style={styles.leftSideContainer}>
-          <View>
-            <Image
-              style={[styles.profileImage, {resizeMode: 'cover'}]}
-              source={
-                typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
-              }
-            />
+        {!isRepost && (
+          <View style={styles.profileImageContainer}>
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
+              <Image
+                style={[styles.profileImage, {resizeMode: 'cover'}]}
+                source={
+                  typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                }
+              />
+            </TouchableOpacity>
+            {thread && <View style={styles.threadSeparator} />}
           </View>
-          {thread && <View style={styles.threadSeparator} />}
-        </View>
-        <View style={styles.rightSide}>
-          <TouchableOpacity
-            onPress={
-              disableInteractions || isSponsoredUser
-                ? () => {}
-                : this.handleNavigationToProfile
-            }>
-            <Text>
-              <Text style={[styles.username]}>
-                {typeIsSystem ? 'System' : username}{' '}
+        )}
+        <View style={isRepost ? {} : styles.usernameAndPostContent}>
+          {!isRepost && (
+            <TouchableOpacity
+              onPress={
+                disableInteractions || isSponsoredUser
+                  ? () => {}
+                  : this.handleNavigationToProfile
+              }>
+              <Text>
+                <Text style={[styles.username]}>
+                  {typeIsSystem ? 'System' : username}{' '}
+                </Text>
+                <Text style={styles.timespan}>
+                  {extendedDateFormat
+                    ? moment(createdAt).format('MMM D, h:mm A')
+                    : moment(createdAt).format('h:mm A')}
+                </Text>
               </Text>
-              <Text style={styles.timespan}>
-                {extendedDateFormat
-                  ? moment(createdAt).format('M/D/YY, h:mm A')
-                  : moment(createdAt).format('h:mm A')}
-              </Text>
-            </Text>
-          </TouchableOpacity>
-          {isSponsoredUser ? <SponsoredAd /> : this.renderMessage()}
-          <Reactions
-            reactions={reactions}
-            disableInteractions={disableInteractions}
-            onLikes={this.onLikes}
-            onDislike={this.onDislike}
-            onLaughs={this.onLaughs}
-            onSadFace={this.onSadFace}
-            onRocket={this.onRocket}
-            onEyes={this.onEyes}
-            onReply={this.onReply}
-            replies={replies}
-          />
+            </TouchableOpacity>
+          )}
+          {isRepost && (
+            <View style={styles.repostProfileImageAndUsername}>
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Image
+                  style={[
+                    styles.repostProfileImage,
+                    {resizeMode: 'cover', marginRight: 10},
+                  ]}
+                  source={
+                    typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Text>
+                  <Text style={[styles.username]}>
+                    {typeIsSystem ? 'System' : username}{' '}
+                  </Text>
+                  <Text style={styles.timespan}>
+                    {extendedDateFormat
+                      ? moment(createdAt).format('MMM D, h:mm A')
+                      : moment(createdAt).format('h:mm A')}
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {isSponsoredUser ? (
+            <SponsoredAd isRepost={isRepost} />
+          ) : (
+            this.renderMessage()
+          )}
+          {repost && !isRepost && (
+            <Repost
+              postId={postId}
+              message={repost.message}
+              metadata={repost.metadata}
+              deleteAction={reported}
+              create_at={repost.created_at}
+              replies={repost.replies}
+              edit_at={repost.edit_at}
+              type={repost.type}
+              userId={repost.user.id}
+              last_picture_update={repost.user.last_picture_update}
+              username={repost.user.username}
+            />
+          )}
+          {!isRepost && (
+            <Reactions
+              reactions={reactions}
+              disableInteractions={disableInteractions}
+              onLikes={this.onLikes}
+              onDislike={this.onDislike}
+              onLaughs={this.onLaughs}
+              onSadFace={this.onSadFace}
+              onRocket={this.onRocket}
+              onEyes={this.onEyes}
+              onReply={this.onReply}
+              replies={replies}
+            />
+          )}
         </View>
       </View>
     );
@@ -612,9 +752,14 @@ Post.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
   loggedUser: state.login.user ? state.login.user.username : '',
+  isAdminUser: state.login.user
+    ? state.login.user.roles.includes('admin')
+    : false,
   me: state.login.user ? state.login.user.id : null,
   sponsoredIds: state.sponsored,
   users: state.users.data,
+  repost: getRepostIfneeded(state, props.postId),
+  reported: getReportIfNeeded(state, props.postId),
 });
 
 const mapDispatchToProps = {
@@ -628,7 +773,7 @@ const mapDispatchToProps = {
   setActiveFocusChannel,
   jumpToAction,
   showPostMediaBox,
-  // clearjumpToAction
+  deletePost,
 };
 
 export default connect(

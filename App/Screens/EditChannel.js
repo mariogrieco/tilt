@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     paddingBottom: '0.85rem',
+    paddingHorizontal: 30,
   },
 });
 

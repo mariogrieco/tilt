@@ -32,6 +32,7 @@ import {setViewChannel} from '../actions/channels';
 import {setActiveFocusChannel} from '../actions/AppNavigation';
 import parseChannelMention from '../utils/parseChannelMention';
 import {channelScreen, channelTab} from '../utils/keyboardHelper';
+import {setRepostActiveOnInput} from '../actions/repost';
 
 const styles = StyleSheet.create({
   footer: {
@@ -73,8 +74,7 @@ const styles = StyleSheet.create({
   separator: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 20,
-    paddingTop: 0,
+    paddingVertical: 5,
   },
   separatorText: {
     color: '#0e141e',
@@ -244,7 +244,16 @@ class Channel extends React.Component {
         scrollLabel: true,
       });
     }
+
+    this.navigationListenerBlur = this.props.navigation.addListener(
+      'willBlur',
+      this.clear,
+    );
   }
+
+  clear = () => {
+    this.props.setRepostActiveOnInput(null);
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.offset) {
@@ -282,6 +291,10 @@ class Channel extends React.Component {
 
     if (this.navigationListener) {
       this.navigationListener.remove();
+    }
+
+    if (this.navigationListenerBlur) {
+      this.navigationListenerBlur.remove();
     }
 
     this.setState({
@@ -401,6 +414,7 @@ class Channel extends React.Component {
       <View>
         {this.getSeparator(item.create_at, index)}
         <Post
+          allowRepost
           postId={item.id}
           userId={item.user.id}
           last_picture_update={item.user.last_picture_update}
@@ -668,7 +682,8 @@ class Channel extends React.Component {
         ) : (
           <KeyboardAvoidingView
             keyboardVerticalOffset={this.keyboardConfig.offset}
-            behavior={this.keyboardConfig.behavior}>
+            behavior={this.keyboardConfig.behavior}
+            >
             <Input placeholder={placeholder} channelId={channel.id} />
           </KeyboardAvoidingView>
         )}
@@ -713,6 +728,7 @@ const mapDispatchToProps = {
   setViewChannel,
   setActiveFocusChannel,
   clearjumpToAction,
+  setRepostActiveOnInput,
 };
 
 export default withNavigation(
