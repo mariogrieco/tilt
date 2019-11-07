@@ -59,7 +59,7 @@ class CreateAccount extends React.Component {
     title: navigation.getParam('title', 'Create Account'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

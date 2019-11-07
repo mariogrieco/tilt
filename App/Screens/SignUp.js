@@ -12,7 +12,6 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-import merge from 'lodash/merge';
 import assets from '../components/ThemeWrapper/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';

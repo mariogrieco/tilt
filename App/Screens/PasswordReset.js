@@ -66,7 +66,7 @@ class PasswordReset extends React.Component {
     title: navigation.getParam('title', 'Password Reset'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

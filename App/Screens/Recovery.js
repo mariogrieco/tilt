@@ -164,7 +164,7 @@ class Recovery extends PureComponent {
     title: navigation.getParam('title', 'Password Reset'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

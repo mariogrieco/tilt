@@ -23,7 +23,7 @@ class Thread extends React.Component {
     title: 'Edit Message',
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

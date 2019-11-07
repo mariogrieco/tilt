@@ -332,7 +332,7 @@ const Edit = ({
 class ChannelInfo extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Channel Info',
-    headerLeft: <GoBack onPress={() => navigation.goBack()} icon={BACK} />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()}  />,
     headerStyle: {
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: '#DCDCDC',

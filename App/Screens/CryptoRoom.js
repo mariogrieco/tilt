@@ -56,7 +56,7 @@ class CryptoRoom extends React.PureComponent {
     title: navigation.getParam('title', '...'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

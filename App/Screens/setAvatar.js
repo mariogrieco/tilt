@@ -35,7 +35,7 @@ class setAvatar extends React.Component {
     title: navigation.getParam('title', 'Avatar'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

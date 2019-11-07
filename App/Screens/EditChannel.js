@@ -112,7 +112,7 @@ class EditChannel extends React.Component {
 
   static navigationOptions = ({navigation}) => ({
     title: 'Edit Channel',
-    headerLeft: <GoBack icon={BACK} onPress={() => navigation.goBack()} />,
+    headerLeft: <GoBack  onPress={() => navigation.goBack()} />,
     headerRight: (
       <TouchableOpacity
         style={{paddingHorizontal: 15, paddingVertical: 13}}

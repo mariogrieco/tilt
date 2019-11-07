@@ -64,7 +64,7 @@ const Email = ({onTextChange, onFocus, onBlur, placeHolder, value}) => (
 class AddMember extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Add Members',
-    headerLeft: <GoBack onPress={() => navigation.goBack()} icon={BACK} />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()}  />,
     headerRight: (
       <TouchableOpacity onPress={navigation.getParam('handleSend', () => {})}>
         <Text

@@ -115,7 +115,7 @@ class LogIn extends React.Component {
     title: navigation.getParam('title', 'Log In'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

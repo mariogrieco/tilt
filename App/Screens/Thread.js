@@ -24,7 +24,7 @@ class Thread extends React.Component {
     title: 'Thread',
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

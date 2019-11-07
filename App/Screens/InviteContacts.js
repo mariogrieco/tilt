@@ -199,7 +199,7 @@ class InviteContacts extends React.PureComponent {
     },
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

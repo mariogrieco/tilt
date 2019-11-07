@@ -12,7 +12,7 @@ export default class BlockedUsers extends PureComponent {
     title: 'Blocked Users',
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

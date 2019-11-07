@@ -69,7 +69,7 @@ class PhoneNumber extends React.Component {
     title: navigation.getParam('title', 'Enter Phone Number'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

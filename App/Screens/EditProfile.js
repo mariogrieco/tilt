@@ -85,7 +85,7 @@ class EditProfile extends React.PureComponent {
 
   static navigationOptions = ({navigation}) => ({
     title: 'Edit Profile',
-    headerLeft: <GoBack onPress={() => navigation.goBack()} icon={BACK} />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()}  />,
     headerRight: (
       <TouchableOpacity
         style={{

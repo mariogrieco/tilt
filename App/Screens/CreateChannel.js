@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 class CreateChannel extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: 'New Channel',
-    headerLeft: <GoBack icon={BACK} onPress={() => navigation.goBack()} />,
+    headerLeft: <GoBack  onPress={() => navigation.goBack()} />,
     headerRight: (
       <TouchableOpacity
         style={{paddingHorizontal: 15, paddingVertical: 13}}

@@ -10,7 +10,7 @@ class MemberProfile extends React.Component {
     title: 'Profile',
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

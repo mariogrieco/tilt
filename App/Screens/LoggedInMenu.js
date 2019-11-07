@@ -61,7 +61,7 @@ class LoggedInMenu extends React.Component {
     title: 'Menu',
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

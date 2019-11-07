@@ -167,7 +167,7 @@ class Channel extends React.Component {
           flexDirection: 'row',
         }}>
         <GoBack
-          icon={BACK}
+          
           onPress={() => navigation.dispatch(NavigationActions.back())}
         />
         <ChannelHeader

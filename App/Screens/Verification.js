@@ -130,7 +130,7 @@ class Verification extends React.Component {
     title: navigation.getParam('title', 'Verification'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
