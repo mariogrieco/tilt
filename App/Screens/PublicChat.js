@@ -179,15 +179,13 @@ class PublicChat extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
-
 const mapDispatchToProps = {
   searchChannels,
 };
 
 export default withNavigation(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps,
   )(PublicChat),
 );
