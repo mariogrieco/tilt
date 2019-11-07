@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 const SEARCH = require('../../assets/themes/light/search/search.png');
 const MENU = require('../../assets/themes/light/menu-black/menu.png');
 

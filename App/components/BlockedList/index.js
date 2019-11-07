@@ -6,7 +6,7 @@ import {addOrRemoveOne} from '../../actions/blockedUsers';
 import {connect} from 'react-redux';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 
-// const BACK = require('../../../assets/images/pin-left-black/pin-left.png');
+// const BACK = require('../../../assets/images/pin-left/pin-left.png');
 
 import styles from './styles';
 import {TouchableOpacity} from 'react-native-gesture-handler';

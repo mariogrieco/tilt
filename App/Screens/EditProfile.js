@@ -23,7 +23,7 @@ import {
   // buildFileUploadData
 } from '../components/Input/file_utils';
 
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   profilePictureContainer: {

@@ -22,7 +22,7 @@ import Separator from '../components/Separator';
 const MESSAGE = require('../../assets/themes/light/invite-text/invite-text.png');
 const EMAIL = require('../../assets/themes/light/invite-email/invite-email.png');
 const SHARE = require('../../assets/themes/light/invite-upload/invite-upload.png');
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const textMessage =
   'Start chatting with me on Tilt. Join now at https://4yfnj.app.link/f1zU8qPIyZ';

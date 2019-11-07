@@ -17,7 +17,7 @@ import {sendEmailGuestInvitesToChannels} from '../actions/invitations';
 import TopBlockSpace from '../components/TopBlockSpace';
 import GoBack from '../components/GoBack';
 
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 const EMAIL = require('../../assets/themes/light/envelope/envelope.png');
 // const GROUP = require('../../assets/themes/light/group/group.png');
 const ADD_MEMBER = require('../../assets/themes/light/add-user/user.png');

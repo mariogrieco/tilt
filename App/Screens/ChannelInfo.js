@@ -47,7 +47,7 @@ const MEMBERS = require('../../assets/themes/light/add-friend-black/add-friend.p
 const EDIT = require('../../assets/themes/light/edit-black/004-edit.png');
 const SIGN_OUT = require('../../assets/themes/light/sign-out-black/005-sign-out-option.png');
 const ARCHIVE = require('../../assets/themes/light/archive/006-box.png');
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   descriptionHeaderContainer: {

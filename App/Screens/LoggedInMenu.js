@@ -22,7 +22,7 @@ const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
 // const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
 const SUPPORT = require('../../assets/images/support/support.png');
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/images/pin-left/pin-left.png');
 const BLOCKED_GREEN = require('../../assets/images/block-user-green/block-user-green.png');
 
 const styles = StyleSheet.create({

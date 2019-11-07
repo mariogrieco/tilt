@@ -6,6 +6,7 @@ const PHONE = require('../../../assets/themes/light/phone-call/phone-call-button
 const VIDEO = require('../../../assets/themes/light/video/video.png');
 const NETWORK = require('../../../assets/themes/light/network/network.png');
 const ROBOT = require('../../../assets/themes/light/robot/robot.png');
+const BACK = require('../../../assets/themes/light/pin-left/pin-left.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -15,6 +16,7 @@ const VIDEO_DARK = require('../../../assets/themes/dark/video-dark/video-dark.pn
 const NETWORK_DARK = require('../../../assets/themes/dark/network-dark/network-dark.png');
 const ROBOT_DARK = require('../../../assets/themes/dark/robot-dark/robot-dark.png');
 const MARKETDATA_DARK = require('../../../assets/themes/dark/marketData-dark/live-dark.png');
+const BACK_DARK = require('../../../assets/themes/dark/pin-left/pin-left.png');
 
 const assets = {
   light: {
@@ -25,6 +27,7 @@ const assets = {
     VIDEO,
     NETWORK,
     ROBOT,
+    BACK,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -34,6 +37,7 @@ const assets = {
     VIDEO: VIDEO_DARK,
     NETWORK: NETWORK_DARK,
     ROBOT: ROBOT_DARK,
+    BACK: BACK_DARK,
   },
 };
 

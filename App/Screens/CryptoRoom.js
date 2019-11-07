@@ -18,7 +18,7 @@ import Stat from '../components/Stat';
 import Chart from '../components/Chart';
 import ChannelOptionalView from '../components/ChannelOptionalView';
 
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 // const ChannelTab = () => <Channel displayAs="tab" />;
 const ChannelTab = () => <ChannelOptionalView />;
