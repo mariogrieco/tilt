@@ -136,9 +136,15 @@ class CreateAccount extends React.Component {
   render() {
     const {email, password, firstName, lastName, username} = this.state;
     const canSend = this.canSend();
+    const {theme} = this.props;
     return (
       <DismissKeyboard>
-        <View style={{flex: 1, marginVertical: 0}}>
+        <View
+          style={{
+            flex: 1,
+            marginVertical: 0,
+            backgroundColor: theme.primaryBackgroundColor,
+          }}>
           <Form
             canSend={canSend}
             textButton="Sign Up"
@@ -154,6 +160,7 @@ class CreateAccount extends React.Component {
               }}
               placeholder="First Name"
               style={styles.placeholders}
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
 
@@ -164,6 +171,7 @@ class CreateAccount extends React.Component {
               }}
               placeholder="Last Name"
               style={styles.placeholders}
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
 
@@ -175,6 +183,7 @@ class CreateAccount extends React.Component {
               placeholder="Email"
               style={styles.placeholders}
               autoCapitalize="none"
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
 
@@ -186,6 +195,7 @@ class CreateAccount extends React.Component {
               placeholder="Username"
               style={styles.placeholders}
               autoCapitalize="none"
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
 
@@ -198,6 +208,7 @@ class CreateAccount extends React.Component {
               secureTextEntry
               maxLength={12}
               style={styles.placeholders}
+              placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
           </Form>
@@ -224,10 +235,11 @@ const mapDispatchToProps = {
   getMyPreferences,
 };
 
-const mapStateToProps = state => ({
-  phoneOnVerification: state.codeVerification.phoneNumber,
-  callingCode: state.codeVerification.callingCode,
-  token: state.codeVerification.code,
+const mapStateToProps = ({state, themes}) => ({
+  //phoneOnVerification: state.codeVerification.phoneNumber,
+  //callingCode: state.codeVerification.callingCode,
+  //token: state.codeVerification.code,
+  theme: themes[themes.current],
 });
 
 export default connect(
