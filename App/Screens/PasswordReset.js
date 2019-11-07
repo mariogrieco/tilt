@@ -107,9 +107,10 @@ class PasswordReset extends React.Component {
   };
 
   render() {
+    const {theme} = this.props;
     return (
       <DismissKeyboard>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
           <Form
             canSend
             textButton="Reset Password"
@@ -118,7 +119,7 @@ class PasswordReset extends React.Component {
               Platform.OS === 'ios' ? ifIphoneX(95, 80) : 0
             }>
             <View style={styles.textContainer}>
-              <Text style={styles.textBold}>
+              <Text style={[styles.textBold, {color: theme.primaryTextColor}]}>
                 Enter the email and username you used to sign up. We will send
                 you a code to verify.
               </Text>
@@ -136,8 +137,11 @@ class PasswordReset extends React.Component {
                     this.setState({email: _email});
                   }}
                   placeholder="Enter your email"
-                  style={[styles.phoneNumber]}
+                  style={[styles.phoneNumber, {color: theme.primaryTextColor}]}
                   value={this.state.email}
+                  autoCapitalize="none"
+                  placeholderTextColor={theme.secondaryTextColor}
+                  autoCorrect={false}
                 />
               </View>
               <InputSeparator />
@@ -146,8 +150,10 @@ class PasswordReset extends React.Component {
                 onChangeText={username => {
                   this.setState({username});
                 }}
-                style={styles.placeholders}
+                style={[styles.placeholders, {color: theme.primaryTextColor}]}
                 autoCapitalize="none"
+                placeholderTextColor={theme.secondaryTextColor}
+                autoCorrect={false}
               />
               <InputSeparator />
             </View>
@@ -164,8 +170,9 @@ const mapDispatchToProps = {
   getVerificationCode,
 };
 
-const mapStateToProps = state => ({
-  me: state.login,
+const mapStateToProps = ({state, themes}) => ({
+  //me: state.login,
+  theme: themes[themes.current],
 });
 
 export default connect(
