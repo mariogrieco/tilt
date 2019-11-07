@@ -76,7 +76,9 @@ const mapStateToProps = {
 
 const mapDisptchToProps = state => {
   return {
-    users: Object.keys(state.blockedUsers).map(key => state.users.data[key]),
+    users: Object.keys(state.blockedUsers)
+      .map(key => state.users.data[key])
+      .filter(i => i),
   };
 };
 
