@@ -24,6 +24,7 @@ import getPostById from '../../selectors/getPostById';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import NavigationService from '../../config/NavigationService';
 import {navigateIfExists} from '../../actions/channels';
+import {mod_user_id, tilt_user_id, moderator_user_id} from '../../globals';
 import styles from './styles';
 
 const EDIT = require('../../../assets/images/edit/edit.png');
@@ -275,7 +276,10 @@ class PostBottomActions extends React.PureComponent {
         </TouchableOpacity>
         {postActions &&
           postActions.userId !== me &&
-          !sponsored_id.match(postActions.userId) && (
+          !sponsored_id.match(postActions.userId) &&
+          !mod_user_id.match(postActions.userId) &&
+          !tilt_user_id.match(postActions.userId) &&
+          !moderator_user_id.match(postActions.userId) && (
             <>
               <TouchableOpacity style={styles.button}>
                 <View style={styles.iconButton}>
