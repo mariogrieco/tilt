@@ -58,7 +58,6 @@ class BlockedList extends PureComponent {
   render() {
     return (
       <ScrollView
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
           paddingRight: 0,
