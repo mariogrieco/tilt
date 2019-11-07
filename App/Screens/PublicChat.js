@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Image, Dimensions, View, Text} from 'react-native';
+import {TouchableOpacity, Image, Dimensions, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
