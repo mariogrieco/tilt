@@ -74,13 +74,13 @@ const mapStateToProps = {
   addOrRemoveOne,
 };
 
-const mapDisptchToProps = state => {
+const mapDispatchToProps = state => {
   return {
     users: Object.keys(state.blockedUsers).map(key => state.users.data[key]),
   };
 };
 
 export default connect(
-  mapDisptchToProps,
+  mapDispatchToProps,
   mapStateToProps,
 )(BlockedList);
