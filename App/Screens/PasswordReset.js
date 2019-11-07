@@ -138,6 +138,8 @@ class PasswordReset extends React.Component {
                   placeholder="Enter your email"
                   style={[styles.phoneNumber]}
                   value={this.state.email}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                 />
               </View>
               <InputSeparator />
@@ -148,6 +150,7 @@ class PasswordReset extends React.Component {
                 }}
                 style={styles.placeholders}
                 autoCapitalize="none"
+                autoCorrect={false}
               />
               <InputSeparator />
             </View>
