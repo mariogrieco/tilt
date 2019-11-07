@@ -6,11 +6,12 @@ import UserProfile from '../components/UserProfile';
 import {getChannels, getMyChannels} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
 import {getProfilesInGroupChannels} from '../actions/users';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const MENU = require('../../assets/themes/light/menu-black/menu.png');
 
 class LoggedIn extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Profile',
     headerLeft: null,
     headerRight: (
@@ -20,6 +21,12 @@ class LoggedIn extends React.Component {
         <Image source={MENU} />
       </TouchableOpacity>
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+      },
+    }),
   });
 
   componentDidMount() {

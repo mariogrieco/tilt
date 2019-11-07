@@ -38,9 +38,14 @@ const styles = StyleSheet.create({
 });
 
 class Messages extends React.Component {
-  static navigationOptions = () => ({
+  static navigationOptions = ({screenProps}) => ({
     title: 'Messages',
-    ...headerForScreenWithTabs,
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+      },
+    }),
     headerTitleStyle: {
       fontSize: 18,
       fontFamily: 'SFProDisplay-Bold',
