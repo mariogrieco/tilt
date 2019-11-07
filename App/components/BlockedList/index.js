@@ -62,7 +62,7 @@ class BlockedList extends Component {
     );
   }
 
-  fetchList () {
+  fetchList() {
     if (this.state.loadingList) {
       return true;
     }
