@@ -488,7 +488,9 @@ class Channel extends React.Component {
   }
 
   _onEndReached = ({distanceFromEnd}) => {
+    alert('??')
     if (distanceFromEnd <= 0) {
+      alert('fetching')
       if (this.props.activeJumpLabel) {
         return true;
       }

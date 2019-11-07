@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep';
-import concat from 'lodash/concat';
 import keys from 'lodash/keys';
 import {
   GET_POST_SUCESS,
@@ -13,6 +12,7 @@ import {REMOVE_FROM_CHANNEL_SUCESS} from '../actions/channels';
 import {LOGOUT_SUCESS} from '../actions/login';
 // import initialState from '../config/initialState/posts';
 import uniq from 'lodash/uniq';
+import concat from 'lodash/concat';
 
 const initialState = {
   keys: [],
@@ -23,7 +23,6 @@ const initialState = {
     channel_id: {
       stop: false,
       page: 1,
-      page_order: [[], []], // page as index to calculate order array
       order: [],
     },
   },
@@ -60,7 +59,6 @@ const posts = (state = initialState, action) => {
           channel_id: {
             stop: false,
             page: 1,
-            page_order: [[], []],
             order: [],
           },
         },
@@ -74,9 +72,15 @@ const posts = (state = initialState, action) => {
       )
         return state;
       const nextState = cloneDeep(state);
-      nextState.orders[action.payload.channel_id].page_order[0].unshift(
-        action.payload.id,
-      );
+      if (
+        nextState.orders[action.payload.channel_id] &&
+        nextState.orders[action.payload.channel_id].order.find(
+          id => action.payload.id === id,
+        )
+      ) {
+        return state;
+      }
+
       nextState.orders[action.payload.channel_id].order.unshift(
         action.payload.id,
       );
@@ -98,9 +102,6 @@ const posts = (state = initialState, action) => {
         nextState.orders[channel_id].order = nextState.orders[
           channel_id
         ].order.filter(key => key !== postId);
-        nextState.orders[channel_id].page_order = nextState.orders[
-          channel_id
-        ].page_order.map(orders => orders.filter(i => i !== postId));
       }
       delete nextState.entities[postId];
       nextState.keys = keys(nextState.entities);
@@ -113,32 +114,23 @@ const posts = (state = initialState, action) => {
       action.payload.forEach(elm => {
         if (nextState.orders[elm.channel_id]) {
           const prev = cloneDeep(nextState.orders[elm.channel_id]);
-          const nextPageOrder = prev.page_order;
-          const nextPage = elm.page;
-          nextPageOrder[elm.page] = elm.order;
-
-          let nextOrder = [];
-          nextPageOrder.forEach(orders => {
-            nextOrder = concat(nextOrder, uniq(orders));
-          });
-
+          const nextPage = ++prev.page;
+          let nextOrder = uniq(concat(prev.order, elm.order));
           elm.order.forEach(key => {
             nextState.entities[key] = cloneDeep(elm.posts[key]);
           });
 
           nextState.orders[elm.channel_id] = {
             page: nextPage,
-            page_order: nextPageOrder,
             order: nextOrder,
             stop: elm.order.length === 0,
           };
-
           nextState.keys = keys(nextState.entities);
         } else {
           nextState.orders[elm.channel_id] = {
-            page: 0,
-            page_order: [elm.order],
+            page: 1,
             order: elm.order,
+            stop: false,
           };
           elm.order.forEach(key => {
             nextState.entities[key] = elm.posts[key];
@@ -146,6 +138,7 @@ const posts = (state = initialState, action) => {
           nextState.keys = keys(nextState.entities);
         }
       });
+      console.log(nextState);
       return nextState;
     }
     default:

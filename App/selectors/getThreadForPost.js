@@ -48,7 +48,7 @@ const getThreadForPost = (state, postData) => {
     return {
       ...post,
       replies,
-      user: state.users.data[post.user_id] || {},
+      user: (post && state.users.data[post.user_id]) || {},
     };
   });
 };
