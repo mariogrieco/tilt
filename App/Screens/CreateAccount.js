@@ -31,6 +31,7 @@ import {getFlagged} from '../actions/flagged';
 import {getMyPreferences} from '../actions/preferences';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
 });
 
 class CreateAccount extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Create Account'),
     headerLeft: (
       <GoBack
@@ -62,6 +63,10 @@ class CreateAccount extends React.Component {
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+    }),
   });
 
   state = {
@@ -155,8 +160,8 @@ class CreateAccount extends React.Component {
             }>
             <TextInput
               value={firstName}
-              onChangeText={firstName => {
-                this.setState({firstName});
+              onChangeText={_firstName => {
+                this.setState({firstName: _firstName});
               }}
               placeholder="First Name"
               style={styles.placeholders}
