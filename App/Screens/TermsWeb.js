@@ -8,7 +8,7 @@ const BACK = require('../../assets/images/pin-left/pin-left.png');
 
 export default class TermsWeb extends PureComponent {
   static navigationOptions = ({navigation}) => ({
-    title: 'Terms',
+    title: 'Terms and Conditions',
     headerLeft: (
       <GoBack
         icon={BACK}

@@ -15,7 +15,7 @@ export const getBlockUserListForUserId = user_id => async dispatch => {
     return list;
   } catch (ex) {
     dispatch(getBlockUserListForUserIdError(ex));
-    return Promise.reject(ex);
+    return await Promise.reject(ex);
   }
 };
 
@@ -51,7 +51,7 @@ export const addOrRemoveOne = blocking_user_id => async (
     return result;
   } catch (ex) {
     dispatch(blockUserIdError(ex));
-    return Promise.reject(ex);
+    return await Promise.reject(ex);
   }
 };
 
