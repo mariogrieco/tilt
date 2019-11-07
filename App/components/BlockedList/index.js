@@ -12,7 +12,7 @@ import styles from './styles';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 class BlockedList extends PureComponent {
-  state = {}
+  state = {};
 
   _addOrRemoveOne = user_id => {
     if (this.state.loading) {
@@ -21,7 +21,7 @@ class BlockedList extends PureComponent {
 
     this.setState(
       {
-        loading: true
+        loading: true,
       },
       async () => {
         try {
@@ -32,12 +32,13 @@ class BlockedList extends PureComponent {
             loading: false,
           });
         }
-    });
+      },
+    );
   };
 
   renderItem({id, last_picture_update, username}) {
     return (
-      <TouchableOpacity style={styles.itemContainer}>
+      <View style={styles.itemContainer}>
         <View style={styles.imageContainer}>
           <Image
             style={[styles.profileImage, {resizeMode: 'cover'}]}
@@ -45,14 +46,12 @@ class BlockedList extends PureComponent {
               uri: getUserProfilePicture(id, last_picture_update),
             }}
           />
-          <Text style={styles.username}>
-            {'  '}{username}
-          </Text>
+          <Text style={styles.username}>{username}</Text>
         </View>
         <TouchableOpacity onPress={this._addOrRemoveOne.bind(this, id)}>
           <Text style={styles.unlock}>Unblock</Text>
         </TouchableOpacity>
-      </TouchableOpacity>
+      </View>
     );
   }
 
@@ -63,6 +62,7 @@ class BlockedList extends PureComponent {
         style={{
           width: '100%',
           paddingRight: 0,
+          backgroundColor: '#F6F7F9',
         }}>
         {this.props.users.map(user => this.renderItem(user))}
       </ScrollView>

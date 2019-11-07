@@ -35,7 +35,7 @@ const FLAG = require('../../../assets/images/flag/flag.png');
 const COPY_TEXT = require('../../../assets/images/copy/copy.png');
 const REPOST = require('../../../assets/images/repost/repost.png');
 const BLOCK_USER = require('../../../assets/images/block-user/block-user.png');
-const BLOCK_POST = require('../../../assets/images/block-post/block-post.png');
+const REPORT_POST = require('../../../assets/images/report-post/report-post.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -283,12 +283,12 @@ class PostBottomActions extends React.PureComponent {
             <>
               <TouchableOpacity style={styles.button}>
                 <View style={styles.iconButton}>
-                  <Image source={BLOCK_POST} />
+                  <Image source={REPORT_POST} />
                 </View>
                 <Text onPress={this.onRepostPost} style={styles.textButton}>
                   Report Post
                 </Text>
-             </TouchableOpacity>
+              </TouchableOpacity>
               <TouchableOpacity style={styles.button}>
                 <View style={styles.iconButton}>
                   <Image source={BLOCK_USER} />
