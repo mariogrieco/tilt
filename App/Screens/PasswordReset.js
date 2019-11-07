@@ -11,13 +11,13 @@ import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import CountryPicker from 'react-native-country-picker-modal';
 import Form from '../components/Form';
 import {resetPasswordModal} from '../actions/modal';
 import {resetPassword} from '../actions/login';
 import {getVerificationCode} from '../actions/recoveryActions';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 });
 
 class PasswordReset extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Password Reset'),
     headerLeft: (
       <GoBack
@@ -70,6 +70,10 @@ class PasswordReset extends React.Component {
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+    }),
   });
 
   state = {
