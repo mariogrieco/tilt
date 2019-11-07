@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {View, Image, Text, Switch} from 'react-native';
+import {View, Image, Text, ScrollView} from 'react-native';
 // import GoBack from '../GoBack';
 import {addOrRemoveOne} from '../../actions/blockedUsers';
 // import {NavigationActions} from 'react-navigation';
@@ -46,21 +46,27 @@ class BlockedList extends PureComponent {
             }}
           />
           <Text style={styles.username}>
-            {'  '}@{username}
+            {'  '}{username}
           </Text>
         </View>
         <TouchableOpacity onPress={this._addOrRemoveOne.bind(this, id)}>
-          <Text style={styles.unlock}>un-block</Text>
+          <Text style={styles.unlock}>Unblock</Text>
         </TouchableOpacity>
       </TouchableOpacity>
     );
   }
 
   render() {
-    return <View style={{
-      width: '100%',
-      paddingRight: 15
-    }}>{this.props.users.map(user => this.renderItem(user))}</View>;
+    return (
+      <ScrollView
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          width: '100%',
+          paddingRight: 0,
+        }}>
+        {this.props.users.map(user => this.renderItem(user))}
+      </ScrollView>
+    );
   }
 }
 
