@@ -310,7 +310,7 @@ class Input extends React.Component {
             channelId,
             root_id,
             filesIds,
-            repost_id,
+            {repost: repost_id},
           );
           this.setState({
             messageText: '',

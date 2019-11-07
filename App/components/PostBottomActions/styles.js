@@ -16,6 +16,9 @@ export default StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: '#fff',
   },
+  blockUser: {
+    color: '#fc3e30',
+  },
   button: {
     paddingVertical: 12,
     paddingRight: 70,

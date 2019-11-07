@@ -4,6 +4,7 @@ import filterPostBy from './filterPostBy';
 import cloneDeep from 'lodash/cloneDeep';
 
 const getJumpPosts = state => {
+  const blockedUsers = state.blockedUsers;
   const me = state.login.user ? state.login.user.id : null;
   const {jumpPosts} = state.advancedSearch;
   const {active_channel_id} = state.appNavigation;
@@ -21,7 +22,7 @@ const getJumpPosts = state => {
         user: state.users.data[post.user_id] || {},
         // replies: getAllRootsforPost(order, entities, post.id)
       };
-      if (filterPostBy(data)) {
+      if (filterPostBy(data) && !blockedUsers[data.user_id]) {
         // if (!activeLabels) return posts.unshift(data);
         if (
           me !== data.user_id &&

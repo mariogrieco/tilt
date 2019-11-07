@@ -5,18 +5,18 @@ export let baseUrl;
 export let baseServicesUrl;
 export let socketURL;
 
-// const IS_DEV_ENV = process.env.NODE_ENV === 'development';
+const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
-// if (IS_DEV_ENV) {
-//   console.log('IS_DEV_ENV!!');
-//   baseUrl = 'https://staging.tiltchat.com';
-//   baseServicesUrl = 'https://staging.tiltchat.com/services';
-//   socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
-// } else {
+if (IS_DEV_ENV) {
+  console.log('IS_DEV_ENV!!');
+  baseUrl = 'https://staging.tiltchat.com';
+  baseServicesUrl = 'https://staging.tiltchat.com/services';
+  socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
+} else {
   baseUrl = 'https://community.tiltchat.com';
   baseServicesUrl = 'https://community.tiltchat.com/services';
   socketURL = 'wss://community.tiltchat.com/api/v4/websocket';
-// }
+}
 
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
@@ -104,6 +104,29 @@ Client4.getHashtagChannels = async (page, per_page) => {
   try {
     const {data} = await axios.get(
       `${baseServicesUrl}/channel/public?page=${page}&per_page=${per_page}`,
+    );
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.addOrRemoveOneBlockedUser = async (user_id, blocking_user_id) => {
+  try {
+    const {data} = await axios.post(`${baseServicesUrl}/blocked-user`, {
+      user_id,
+      blocking_user_id,
+    });
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
+Client4.getBlokedUsers = async user_id => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/blocked-user/${user_id}`,
     );
     return data;
   } catch (ex) {

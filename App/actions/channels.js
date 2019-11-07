@@ -142,10 +142,12 @@ export const patchChannelError = err => ({
   payload: err,
 });
 
-export const navigateIfExists = (channelDisplayName, channel_id) => async (
-  dispatch,
-  getState,
-) => {
+export const navigateIfExists = (
+  channelDisplayName,
+  channel_id,
+  direct,
+  props = {},
+) => async (dispatch, getState) => {
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
   const myChannels = state.myChannelsMap.valueSeq().toJS();
@@ -189,6 +191,7 @@ export const navigateIfExists = (channelDisplayName, channel_id) => async (
           focusOn: false,
           isAdminCreator: channelDisplayName[0] === '$',
           pm: isPM,
+          ...props,
         });
       } else {
         dispatch(openModal(item.id));
@@ -210,9 +213,17 @@ export const navigateIfExists = (channelDisplayName, channel_id) => async (
           // eslint-disable-next-line no-alert
           alert('This symbol does not exist.');
         } else if (needAdminCredentials && isAdmin) {
-          showNativeAlert(channelDisplayName);
+          if (direct) {
+            naviteNavigation(channelDisplayName, props);
+          } else {
+            showNativeAlert(channelDisplayName);
+          }
         } else if (!needAdminCredentials){
-          showNativeAlert(channelDisplayName);
+          if (direct) {
+            naviteNavigation(channelDisplayName, props);
+          } else {
+            showNativeAlert(channelDisplayName);
+          }
         }
       }
     } catch (e) {
@@ -221,6 +232,13 @@ export const navigateIfExists = (channelDisplayName, channel_id) => async (
     }
   }
 };
+
+function naviteNavigation(channelDisplayName, props) {
+  NavigationService.navigate('CreateChannel', {
+    active_name: channelDisplayName.replace('$', '').replace('#', ''),
+    ...props,
+  });
+}
 
 function showNativeAlert(channelDisplayName) {
   Alert.alert(
@@ -628,6 +646,7 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
       pm: true,
       focusOn: false,
     });
+    return channel;
   } catch (ex) {
     dispatch(createDirectChannelError(ex));
     return Promise.reject(ex.message || ex);

@@ -10,8 +10,10 @@ import {
   hidePostActions,
   resetPostActions,
 } from '../../actions/posts';
+import {reportPostById} from '../../actions/report';
 import {setRepostActiveOnInput} from '../../actions/repost';
 import {setFlagged, removeFlagged} from '../../actions/flagged';
+import {addOrRemoveOne} from '../../actions/blockedUsers';
 import {postReply} from '../../actions/reply';
 import {
   setActiveThreadData,
@@ -22,6 +24,7 @@ import getPostById from '../../selectors/getPostById';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import NavigationService from '../../config/NavigationService';
 import {navigateIfExists} from '../../actions/channels';
+import {mod_user_id, tilt_user_id, moderator_user_id} from '../../globals';
 import styles from './styles';
 
 const EDIT = require('../../../assets/images/edit/edit.png');
@@ -31,6 +34,8 @@ const FLAG = require('../../../assets/images/flag/flag.png');
 // const COPY_LINK = require('../../../assets/images/link/link.png');
 const COPY_TEXT = require('../../../assets/images/copy/copy.png');
 const REPOST = require('../../../assets/images/repost/repost.png');
+const BLOCK_USER = require('../../../assets/images/block-user/block-user.png');
+const REPORT_POST = require('../../../assets/images/report-post/report-post.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -200,7 +205,7 @@ class PostBottomActions extends React.PureComponent {
   };
 
   renderBottomSheetContent = () => {
-    const {postActions, me, isFlagged} = this.props;
+    const {postActions, me, isFlagged, sponsored_id} = this.props;
     return (
       <View
         style={[
@@ -261,14 +266,6 @@ class PostBottomActions extends React.PureComponent {
             </Text>
           )}
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.button}> */}
-        {/*  <View style={styles.iconButton}> */}
-        {/*    <Image source={COPY_LINK} /> */}
-        {/*  </View> */}
-        {/*  <Text onPress={this.onCopyLinkToMessage} style={styles.textButton}> */}
-        {/*    Copy Link to Message */}
-        {/*  </Text> */}
-        {/* </TouchableOpacity> */}
         <TouchableOpacity style={styles.button}>
           <View style={styles.iconButton}>
             <Image source={COPY_TEXT} />
@@ -277,7 +274,80 @@ class PostBottomActions extends React.PureComponent {
             Copy Text
           </Text>
         </TouchableOpacity>
+        {postActions &&
+          postActions.userId !== me &&
+          !sponsored_id.match(postActions.userId) &&
+          !mod_user_id.match(postActions.userId) &&
+          !tilt_user_id.match(postActions.userId) &&
+          !moderator_user_id.match(postActions.userId) && (
+            <>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={REPORT_POST} />
+                </View>
+                <Text onPress={this.onRepostPost} style={styles.textButton}>
+                  Report Post
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={BLOCK_USER} />
+                </View>
+                <Text
+                  onPress={this.onBlockUser}
+                  style={[styles.textButton, styles.blockUser]}>
+                  Block User
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
       </View>
+    );
+  };
+
+  onBlockUser = () => {
+    const {postData} = this.props;
+    if (this.state.loading) {
+      return 0;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        try {
+          this.props.addOrRemoveOne(postData.user_id);
+          this.props.hidePostActions();
+        } catch (err) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
+  };
+
+  onRepostPost = () => {
+    const {postData} = this.props;
+    if (this.state.loading) {
+      return 0;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        try {
+          this.props.reportPostById(postData.id);
+          this.props.hidePostActions();
+        } catch (err) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
     );
   };
 
@@ -301,6 +371,7 @@ class PostBottomActions extends React.PureComponent {
         deviceHeight={H}
         deviceWidth={W}
         onBackdropPress={this.props.hidePostActions}
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{justifyContent: 'center', alignItems: 'center'}}
         onModalHide={this.props.resetPostActions}
         animationInTiming={350}
@@ -308,6 +379,7 @@ class PostBottomActions extends React.PureComponent {
         hideModalContentWhileAnimating
         useNativeDriver>
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             height: 'auto',
             width: '100%',
@@ -337,6 +409,7 @@ const mapStateToProps = state => ({
   me: state.login.user ? state.login.user.id : null,
   postData: getPostById(state, state.postActions.postId),
   isFlagged: state.flagged.posts[state.postActions.postId],
+  sponsored_id: state.sponsored,
 });
 
 const mapDispatchToProps = {
@@ -352,6 +425,8 @@ const mapDispatchToProps = {
   setRepostActiveOnInput,
   setActiveFocusChannel,
   navigateIfExists,
+  reportPostById,
+  addOrRemoveOne,
 };
 
 export default connect(
