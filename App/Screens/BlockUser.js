@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 // import {Text, View} from 'react-native';
-import {WebView} from 'react-native-webview';
 import GoBack from '../components/GoBack';
 import BlockedList from '../components/BlockedList';
 import {NavigationActions} from 'react-navigation';
