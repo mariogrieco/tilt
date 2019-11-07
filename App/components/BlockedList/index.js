@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {View, Image, Text, ScrollView} from 'react-native';
-// import GoBack from '../GoBack';
-import {addOrRemoveOne} from '../../actions/blockedUsers';
+import {withNavigation} from 'react-navigation';
+import {
+  addOrRemoveOne,
+  getBlockUserListForUserId,
+} from '../../actions/blockedUsers';
 // import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
@@ -59,6 +62,43 @@ class BlockedList extends Component {
     );
   }
 
+  fetchList () {
+    if (this.state.loadingList) {
+      return true;
+    }
+
+    const {whoIam} = this.props;
+    this.setState(
+      {
+        loadingList: true,
+      },
+      () => {
+        try {
+          this.props.getBlockUserListForUserId(whoIam);
+        } catch (er) {
+        } finally {
+          this.setState({
+            loadingList: false,
+          });
+        }
+      },
+    );
+  }
+
+  componentDidMount() {
+    const {navigation} = this.props;
+
+    this.navigationListener = navigation.addListener('didFocus', () => {
+      this.fetchList();
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.navigationListener) {
+      this.navigationListener.remove();
+    }
+  }
+
   render() {
     return (
       <ScrollView
@@ -76,6 +116,7 @@ class BlockedList extends Component {
 
 const mapStateToProps = {
   addOrRemoveOne,
+  getBlockUserListForUserId,
 };
 
 const mapDisptchToProps = state => {
@@ -83,10 +124,13 @@ const mapDisptchToProps = state => {
     users: Object.keys(state.blockedUsers)
       .map(key => state.users.data[key])
       .filter(i => i),
+    whoIam: state.login.user ? state.login.user.id : null,
   };
 };
 
-export default connect(
-  mapDisptchToProps,
-  mapStateToProps,
-)(BlockedList);
+export default withNavigation(
+  connect(
+    mapDisptchToProps,
+    mapStateToProps,
+  )(BlockedList),
+);
