@@ -9,14 +9,19 @@ import Separator from '../components/Separator';
 import {getSymbols} from '../actions/symbols';
 import {modalActive} from '../actions/modal';
 import {WATCHLIST_INTERVAL} from '../config/refreshIntervals';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const ORIGIN = 'WATCHLIST';
 
 class Home extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     // headerLeft: <HeaderLeft navigation={navigation} />,
     title: navigation.getParam('title', ''),
     headerRight: <HeaderHome navigation={navigation} />,
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+    }),
   });
 
   state = {

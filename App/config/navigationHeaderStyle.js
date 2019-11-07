@@ -1,7 +1,7 @@
 import StyleSheet from 'react-native-extended-stylesheet';
 import merge from 'lodash/merge';
 
-export const stackHeader = {
+const headerScreenStyles = {
   headerStyle: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
@@ -25,7 +25,8 @@ export const stackHeader = {
   headerTintColor: '#0E141E',
 };
 
-//default export
+export const headerForScreenWithBottomLine = (customStyles = {}) =>
+  merge({}, headerScreenStyles, customStyles);
 
 const headerForScreenWithTabsStyle = {
   headerStyle: {

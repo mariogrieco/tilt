@@ -30,7 +30,6 @@ import InviteContacts from '../Screens/InviteContacts';
 import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
-import {stackHeader, headerForScreenWithTabs} from './navigationHeaderStyle';
 import StyleSheet from 'react-native-extended-stylesheet';
 
 const POLL_FOCUS = require('../../assets/themes/light/poll_focus/poll.png');
@@ -48,9 +47,6 @@ const HomeStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
     navigationOptions: {
       tabBarIcon: ({focused}) =>
         focused ? (
@@ -68,9 +64,6 @@ const RoomStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -108,9 +101,6 @@ const LoggedInTab = createStackNavigator(
   {
     // headerMode: 'none',
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
     navigationOptions: {
       tabBarIcon: ({focused}) =>
         focused ? (
@@ -136,9 +126,6 @@ const PublicChatStack = createStackNavigator(
           <Image source={HASHTAG_UNFOCUS} />
         ),
     },
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
     headerLayoutPreset: 'center',
   },
 );
@@ -155,9 +142,6 @@ const MessagesStack = createStackNavigator(
         ) : (
           <Image source={MESSAGES_UNFOCUS} />
         ),
-    },
-    defaultNavigationOptions: {
-      ...stackHeader,
     },
     headerLayoutPreset: 'center',
   },
@@ -201,9 +185,6 @@ const LoggedInMenuStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -213,9 +194,6 @@ const MemberStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -229,9 +207,6 @@ const ChannelStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -241,9 +216,6 @@ const ThreadStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -253,9 +225,6 @@ const ThreadEditStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -266,7 +235,6 @@ const InviteContactsStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       title: 'Invite Contacts',
-      ...stackHeader,
     },
     headerLayoutPreset: 'center',
   },
