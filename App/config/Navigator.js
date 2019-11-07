@@ -199,6 +199,7 @@ const TabBarPrincipal = createBottomTabNavigator(
 const LoggedInMenuStack = createStackNavigator(
   {
     LoggedInMenu,
+    BlockUser,
     EditProfile,
     BlockUser,
   },
