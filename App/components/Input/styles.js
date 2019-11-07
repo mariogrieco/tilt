@@ -40,7 +40,7 @@ export default StyleSheet.create({
   inputPicture: {
     height: 30,
     width: 30,
-    borderRadius: 15,
+    borderRadius: 6,
   },
   commandTagContainer: {
     display: 'flex',

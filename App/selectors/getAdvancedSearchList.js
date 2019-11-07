@@ -3,7 +3,7 @@ import isChannelCreatorAdmin from './isChannelCreatorAdmin';
 import cloneDeep from 'lodash/cloneDeep';
 
 const getAdvancedSearchList = state => {
-  const {users} = state;
+  const {users, blockedUsers} = state;
   const {order, posts} = state.advancedSearch;
   const {myChannelsMap} = state;
   const whoIam = state.login.user ? state.login.user.id : null;
@@ -31,7 +31,10 @@ const getAdvancedSearchList = state => {
           isDollar: post.channel.isDollar,
         };
       })
-      .filter(post => filterPostBy(post) && post.channel),
+      .filter(
+        post =>
+          filterPostBy(post) && post.channel && !blockedUsers[post.user_ids],
+      ),
   };
 };
 

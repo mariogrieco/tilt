@@ -6,6 +6,7 @@ import {
   Image,
   Linking,
   Platform,
+  View,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
@@ -17,11 +18,12 @@ import TopBlockSpace from '../components/TopBlockSpace';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 
-const EDIT = require('../../assets/themes/light/tune-black/tune.png');
-const INVITE_PEOPLE = require('../../assets/themes/light/add-friend-black/add-friend.png');
-// const NOTIFICATIONS = require('../../assets/themes/light/bell-black/002-bell.png');
-const SUPPORT = require('../../assets/themes/light/support/support.png');
-const BACK = require('../../assets/themes/light/pin-left-black/pin-left.png');
+const EDIT = require('../../assets/images/tune-black/tune.png');
+const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
+// const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
+const SUPPORT = require('../../assets/images/support/support.png');
+const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BLOCKED_GREEN = require('../../assets/images/block-user-green/block-user-green.png');
 
 const styles = StyleSheet.create({
   row: {
@@ -30,6 +32,14 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     flexDirection: 'row',
     backgroundColor: '#fff',
+  },
+  blockedContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    padding: 0,
+    margin: 0,
+    // width: '100%',
   },
   button: {},
   buttonText: {
@@ -84,6 +94,11 @@ class LoggedInMenu extends React.Component {
     navigation.navigate('InviteContacts');
   };
 
+  handleBlocked = () => {
+    const {navigation} = this.props;
+    navigation.navigate('BlockUser');
+  };
+
   render() {
     return (
       <ScrollView
@@ -111,6 +126,13 @@ class LoggedInMenu extends React.Component {
         <Separator />
         <TouchableOpacity
           style={[styles.row, styles.button]}
+          onPress={this.handleBlocked}>
+          <Image style={styles.icon} source={BLOCKED_GREEN} />
+          <Text style={styles.buttonText}>Blocked Users</Text>
+        </TouchableOpacity>
+        <Separator />
+        <TouchableOpacity
+          style={[styles.row, styles.button]}
           onPress={this.handleContactSupport}>
           <Image style={styles.icon} source={SUPPORT} />
           <Text style={styles.buttonText}>Contact Support</Text>
@@ -122,6 +144,15 @@ class LoggedInMenu extends React.Component {
           <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
         <Separator />
+        {/* <View
+          style={[styles.row, styles.button, styles.blockedContainer]}
+          onPress={this.handleBlocked}>
+          <Text style={[styles.buttonText, styles.logoutText]}>
+            Blocked List
+          </Text>
+          <BlockedList />
+          <Separator />
+        </View> */}
       </ScrollView>
     );
   }

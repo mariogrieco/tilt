@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Clipboard,
-  Platform,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Clipboard} from 'react-native';
 import Modal from 'react-native-modal';
 import Dimensions from 'react-native-extra-dimensions-android';
 import {connect} from 'react-redux';
@@ -17,7 +10,10 @@ import {
   hidePostActions,
   resetPostActions,
 } from '../../actions/posts';
+import {reportPostById} from '../../actions/report';
+import {setRepostActiveOnInput} from '../../actions/repost';
 import {setFlagged, removeFlagged} from '../../actions/flagged';
+import {addOrRemoveOne} from '../../actions/blockedUsers';
 import {postReply} from '../../actions/reply';
 import {
   setActiveThreadData,
@@ -25,16 +21,21 @@ import {
 } from '../../actions/AppNavigation';
 import ReactionsGroup from '../ReactionsGroup';
 import getPostById from '../../selectors/getPostById';
-
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import NavigationService from '../../config/NavigationService';
+import {navigateIfExists} from '../../actions/channels';
+import {mod_user_id, tilt_user_id, moderator_user_id} from '../../globals';
 import styles from './styles';
 
-const EDIT = require('../../../assets/themes/light/edit/edit.png');
-const DELETE = require('../../../assets/themes/light/delete/trash.png');
-const REPLY = require('../../../assets/themes/light/reply/reply.png');
-const FLAG = require('../../../assets/themes/light/flag/flag.png');
-// const COPY_LINK = require('../../../assets/themes/light/link/link.png');
-const COPY_TEXT = require('../../../assets/themes/light/copy/copy.png');
+const EDIT = require('../../../assets/images/edit/edit.png');
+const DELETE = require('../../../assets/images/delete/trash.png');
+const REPLY = require('../../../assets/images/reply/reply.png');
+const FLAG = require('../../../assets/images/flag/flag.png');
+// const COPY_LINK = require('../../../assets/images/link/link.png');
+const COPY_TEXT = require('../../../assets/images/copy/copy.png');
+const REPOST = require('../../../assets/images/repost/repost.png');
+const BLOCK_USER = require('../../../assets/images/block-user/block-user.png');
+const REPORT_POST = require('../../../assets/images/report-post/report-post.png');
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -58,7 +59,9 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onDeleteMessage = () => {
-    if (this.state.loadingDelete) return null;
+    if (this.state.loadingDelete) {
+      return null;
+    }
 
     this.setState(
       {
@@ -96,7 +99,9 @@ class PostBottomActions extends React.PureComponent {
   };
 
   onFlagMessage = () => {
-    if (this.state.loadingDelete) return null;
+    if (this.state.loadingDelete) {
+      return null;
+    }
 
     this.setState(
       {
@@ -123,7 +128,6 @@ class PostBottomActions extends React.PureComponent {
   onCopyLinkToMessage = () => {
     const {id} = this.props.postData;
     const str = Client4.getPostRoute(id);
-    // alert(str);
     this._clipboard(str);
     this.props.hidePostActions();
   };
@@ -148,7 +152,11 @@ class PostBottomActions extends React.PureComponent {
       <View
         style={[
           styles.headerContainer,
-          {justifyContent: 'space-around', alignItems: 'center'},
+          {
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            backgroundColor: 'white',
+          },
         ]}>
         <ReactionsGroup
           onReaction={hidePostActions}
@@ -159,8 +167,22 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
+  onRepost = () => {
+    const {postActions} = this.props;
+    const base_post_id = postActions.options.showRepost;
+    const requiredChannelId = postActions.options.showRepostNoRequieredRedirect;
+    this.props.setRepostActiveOnInput(base_post_id);
+    if (requiredChannelId) {
+      this.props.setActiveFocusChannel(requiredChannelId);
+      this.props.navigateIfExists(null, requiredChannelId);
+    }
+    this.props.hidePostActions();
+  };
+
   onUnFlagMessage = () => {
-    if (this.state.loadingDelete) return null;
+    if (this.state.loadingDelete) {
+      return null;
+    }
 
     this.setState(
       {
@@ -183,9 +205,16 @@ class PostBottomActions extends React.PureComponent {
   };
 
   renderBottomSheetContent = () => {
-    const {postActions, me, isFlagged} = this.props;
+    const {postActions, me, isFlagged, sponsored_id} = this.props;
     return (
-      <View style={[styles.contentContainer]}>
+      <View
+        style={[
+          styles.contentContainer,
+          {
+            backgroundColor: '#fff',
+            height: 'auto',
+          },
+        ]}>
         {postActions.userId === me && (
           <React.Fragment>
             <TouchableOpacity style={styles.button}>
@@ -214,6 +243,14 @@ class PostBottomActions extends React.PureComponent {
             <Text style={styles.textButton}>Reply</Text>
           </TouchableOpacity>
         )}
+        {postActions.options.showRepost && (
+          <TouchableOpacity style={styles.button} onPress={this.onRepost}>
+            <View style={styles.iconButton}>
+              <Image source={REPOST} />
+            </View>
+            <Text style={styles.textButton}>Repost</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity style={styles.button}>
           <View style={styles.iconButton}>
@@ -229,14 +266,6 @@ class PostBottomActions extends React.PureComponent {
             </Text>
           )}
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.button}> */}
-        {/*  <View style={styles.iconButton}> */}
-        {/*    <Image source={COPY_LINK} /> */}
-        {/*  </View> */}
-        {/*  <Text onPress={this.onCopyLinkToMessage} style={styles.textButton}> */}
-        {/*    Copy Link to Message */}
-        {/*  </Text> */}
-        {/* </TouchableOpacity> */}
         <TouchableOpacity style={styles.button}>
           <View style={styles.iconButton}>
             <Image source={COPY_TEXT} />
@@ -245,15 +274,92 @@ class PostBottomActions extends React.PureComponent {
             Copy Text
           </Text>
         </TouchableOpacity>
+        {postActions &&
+          postActions.userId !== me &&
+          !sponsored_id.match(postActions.userId) &&
+          !mod_user_id.match(postActions.userId) &&
+          !tilt_user_id.match(postActions.userId) &&
+          !moderator_user_id.match(postActions.userId) && (
+            <>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={REPORT_POST} />
+                </View>
+                <Text onPress={this.onRepostPost} style={styles.textButton}>
+                  Report Post
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={BLOCK_USER} />
+                </View>
+                <Text
+                  onPress={this.onBlockUser}
+                  style={[styles.textButton, styles.blockUser]}>
+                  Block User
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
       </View>
+    );
+  };
+
+  onBlockUser = () => {
+    const {postData} = this.props;
+    if (this.state.loading) {
+      return 0;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        try {
+          this.props.addOrRemoveOne(postData.user_id);
+          this.props.hidePostActions();
+        } catch (err) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
+  };
+
+  onRepostPost = () => {
+    const {postData} = this.props;
+    if (this.state.loading) {
+      return 0;
+    }
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        try {
+          this.props.reportPostById(postData.id);
+          this.props.hidePostActions();
+        } catch (err) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
     );
   };
 
   evaluateShow() {
     const {hidePriority} = this.state;
     const {show} = this.props;
-    if (show && !hidePriority) return true;
-    if (show && hidePriority) return false;
+    if (show && !hidePriority) {
+      return true;
+    }
+    if (show && hidePriority) {
+      return false;
+    }
     return show;
   }
 
@@ -265,6 +371,7 @@ class PostBottomActions extends React.PureComponent {
         deviceHeight={H}
         deviceWidth={W}
         onBackdropPress={this.props.hidePostActions}
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{justifyContent: 'center', alignItems: 'center'}}
         onModalHide={this.props.resetPostActions}
         animationInTiming={350}
@@ -272,24 +379,14 @@ class PostBottomActions extends React.PureComponent {
         hideModalContentWhileAnimating
         useNativeDriver>
         <View
-          style={[
-            {
-              width: '100%',
-              height: Platform.OS === 'ios' ? 290 : 300,
-              backgroundColor: '#fff',
-              borderRadius: 12,
-              overflow: 'hidden',
-            },
-            postActions.userId !== me
-              ? {height: Platform.OS === 'ios' ? 205 : 215}
-              : {},
-            postActions.options.hideReply === true
-              ? {height: Platform.OS === 'ios' ? 200 : 210}
-              : {},
-            postActions.options.hideReply === true && postActions.userId !== me
-              ? {height: Platform.OS === 'ios' ? 160 : 170}
-              : {},
-          ]}>
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            height: 'auto',
+            width: '100%',
+            backgroundColor: 'white',
+            borderRadius: 12,
+            overflow: 'hidden',
+          }}>
           {this.renderBottomSheetHeader()}
           {this.renderBottomSheetContent()}
         </View>
@@ -312,6 +409,7 @@ const mapStateToProps = state => ({
   me: state.login.user ? state.login.user.id : null,
   postData: getPostById(state, state.postActions.postId),
   isFlagged: state.flagged.posts[state.postActions.postId],
+  sponsored_id: state.sponsored,
 });
 
 const mapDispatchToProps = {
@@ -324,6 +422,11 @@ const mapDispatchToProps = {
   setActiveEditPostId,
   hidePostActions,
   resetPostActions,
+  setRepostActiveOnInput,
+  setActiveFocusChannel,
+  navigateIfExists,
+  reportPostById,
+  addOrRemoveOne,
 };
 
 export default connect(

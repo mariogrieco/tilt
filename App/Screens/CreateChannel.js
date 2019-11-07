@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     paddingBottom: '0.85rem',
+    paddingHorizontal: 30,
   },
 });
 
@@ -177,7 +178,9 @@ class CreateChannel extends React.Component {
   }
 
   modalCreate = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
