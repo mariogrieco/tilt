@@ -44,12 +44,22 @@ const styles = StyleSheet.create({
   searchContainer: {
     marginLeft: 0,
   },
+  cancel: {
+    fontFamily: 'SFProDisplay-Medium',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
 });
 
 class PublicChat extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: '',
-    ...headerForScreenWithTabs,
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+      },
+    }),
     headerLeft: (
       <SearchBar
         inputStyle={styles.input}
@@ -70,12 +80,7 @@ class PublicChat extends React.Component {
           navigation.getParam('onSearch', () => {})('');
         }}>
         <Text
-          style={{
-            color: '#0E141E',
-            fontFamily: 'SFProDisplay-Medium',
-            fontSize: 16,
-            letterSpacing: 0.1,
-          }}>
+          style={[styles.cancel, {color: screenProps.theme.primaryTextColor}]}>
           Cancel
         </Text>
       </TouchableOpacity>
