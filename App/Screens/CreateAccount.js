@@ -164,7 +164,7 @@ class CreateAccount extends React.Component {
                 this.setState({firstName: _firstName});
               }}
               placeholder="First Name"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
@@ -175,7 +175,7 @@ class CreateAccount extends React.Component {
                 this.setState({lastName});
               }}
               placeholder="Last Name"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
@@ -186,7 +186,7 @@ class CreateAccount extends React.Component {
                 this.setState({email});
               }}
               placeholder="Email"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
               placeholderTextColor={theme.secondaryTextColor}
             />
@@ -198,7 +198,7 @@ class CreateAccount extends React.Component {
                 this.setState({username});
               }}
               placeholder="Username"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
               placeholderTextColor={theme.secondaryTextColor}
             />
@@ -212,7 +212,7 @@ class CreateAccount extends React.Component {
               placeholder="Password"
               secureTextEntry
               maxLength={12}
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               placeholderTextColor={theme.secondaryTextColor}
             />
             <InputSeparator />
