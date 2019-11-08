@@ -454,7 +454,11 @@ class Input extends React.Component {
   getMentionsComponent() {
     const {theme} = this.props;
     return (
-      <ScrollView style={styles.showOptionsView}>
+      <ScrollView
+        style={[
+          styles.showOptionsView,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
         {this.filterUsers().map((user, index) => (
           <TouchableHighlight
             underlayColor="#17C491"
@@ -502,7 +506,7 @@ class Input extends React.Component {
   getCommandComponent() {
     const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
+      <View style={[styles.showOptionsView, {borderBottomColor: theme.borderBottomColor}]}>
         <ScrollView style={{backgroundColor: theme.primaryBackgroundColor}}>
           {this.filterCommands().map((data, index) => (
             <TouchableHighlight
@@ -533,7 +537,7 @@ class Input extends React.Component {
   getTagComponent() {
     const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
+      <View style={[styles.showOptionsView, {borderBottomColor: theme.borderBottomColor}]}>
         <ScrollView style={{backgroundColor: theme.primaryBackgroundColor}}>
           {this.filterTags().map((name, index) => (
             <TouchableHighlight
@@ -1151,7 +1155,7 @@ class Input extends React.Component {
   getDollarTagsComponent() {
     const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
+      <View style={[styles.showOptionsView, {borderBottomColor: theme.borderBottomColor}]}>
         <ScrollView>
           {this.filterDollarTags().map((name, index) => (
             <TouchableHighlight
@@ -1197,7 +1201,7 @@ class Input extends React.Component {
   renderTextTag() {
     const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
+      <View style={[styles.showOptionsView, {borderBottomColor: theme.borderBottomColor}]}>
         <ScrollView>
           <TouchableHighlight
             underlayColor="#17C491"
@@ -1256,6 +1260,7 @@ class Input extends React.Component {
           {
             backgroundColor: theme.primaryBackgroundColor,
             borderTopColor: theme.borderBottomColor,
+            borderBottomColor: theme.borderBottomColor,
           },
         ]}>
         {showMentionsOptions &&
@@ -1369,7 +1374,9 @@ class Input extends React.Component {
                   ]}>
                   {uploadDocument.name}
                 </Text>
-                <Text style={{color: theme.primaryTextColor}}>{prettyBytes(uploadDocument.size)}</Text>
+                <Text style={{color: theme.primaryTextColor}}>
+                  {prettyBytes(uploadDocument.size)}
+                </Text>
               </View>
               <View style={styles.deleteDocument}>
                 <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
