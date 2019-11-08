@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import {NavigationActions, withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import StyleSheet from 'react-native-extended-stylesheet';
 import GoBack from '../components/GoBack';
 import Input from '../components/Input';
 import Post from '../components/Post/Post';
@@ -16,34 +15,19 @@ import getPostById from '../selectors/getPostById';
 
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import parser from '../utils/parse_display_name';
-
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 class Thread extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Thread',
     headerLeft: (
       <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
-    headerStyle: {
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: '#DCDCDC',
-      shadowColor: '#D9D8D7',
-      shadowOffset: {
-        width: 0,
-        height: 0,
+    ...headerForScreenWithBottomLine({
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
       },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-      backgroundColor: '#fff',
-    },
-    headerTitleStyle: {
-      fontSize: 18,
-      letterSpacing: 0.1,
-      marginTop: 10,
-      marginBottom: 10,
-      fontFamily: 'SFProDisplay-Bold',
-      // letterSpacing: -0.43
-    },
+      headerTintColor: screenProps.theme.headerTintColor,
+    }),
   });
 
   parsePlaceHolder(str = '') {
@@ -51,18 +35,12 @@ class Thread extends React.Component {
   }
 
   render() {
-    const {
-      channelId,
-      thread,
-      root_id,
-      replyTo,
-      channelsNames,
-      usernames,
-    } = this.props;
+    const {channelId, thread, root_id, replyTo, theme} = this.props;
     const keyboardVerticalOffset =
       Platform.OS === 'ios' ? ifIphoneX(88, 60) : 0;
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         <ScrollView
           keyboardDismissMode="on-drag"
           contentContainerStyle={{paddingTop: 0}}>
@@ -125,6 +103,7 @@ const mapStateToProps = state => {
     channelId: postData ? postData.channel_id : null,
     root_id,
     replyMessage: rootPost ? rootPost.message : '',
+    theme: state.themes[state.themes.current],
   };
 };
 
