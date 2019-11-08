@@ -452,6 +452,7 @@ class Input extends React.Component {
   }
 
   getMentionsComponent() {
+    const {theme} = this.props;
     return (
       <ScrollView style={styles.showOptionsView}>
         {this.filterUsers().map((user, index) => (
@@ -468,7 +469,11 @@ class Input extends React.Component {
                 }}
               />
               <Text
-                style={[styles.commandContainer, styles.mentionsColor]}
+                style={[
+                  styles.commandContainer,
+                  styles.mentionsColor,
+                  {color: theme.primaryTextColor},
+                ]}
                 key={index}>
                 @{user.username}
               </Text>
@@ -495,9 +500,10 @@ class Input extends React.Component {
   }
 
   getCommandComponent() {
+    const {theme} = this.props;
     return (
       <View style={styles.showOptionsView}>
-        <ScrollView>
+        <ScrollView style={{backgroundColor: theme.primaryBackgroundColor}}>
           {this.filterCommands().map((data, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
@@ -505,8 +511,17 @@ class Input extends React.Component {
                 this.executeCommands(data.trigger);
               }}>
               <View style={styles.commandContainer} key={index}>
-                <Text style={styles.commandExec}>{data.trigger}</Text>
-                <Text style={styles.commandDescription}>{data.name}</Text>
+                <Text
+                  style={[styles.commandExec, {color: theme.primaryTextColor}]}>
+                  {data.trigger}
+                </Text>
+                <Text
+                  style={[
+                    styles.commandDescription,
+                    {color: theme.primaryTextColor},
+                  ]}>
+                  {data.name}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -516,9 +531,10 @@ class Input extends React.Component {
   }
 
   getTagComponent() {
+    const {theme} = this.props;
     return (
       <View style={styles.showOptionsView}>
-        <ScrollView>
+        <ScrollView style={{backgroundColor: theme.primaryBackgroundColor}}>
           {this.filterTags().map((name, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
@@ -526,7 +542,9 @@ class Input extends React.Component {
                 this.interpolateStrToMessage(`${name.toLowerCase()}`, '#')
               }>
               <View style={styles.commandTagContainer} key={index}>
-                <Text style={styles.hashTag}>#{name.toLowerCase()}</Text>
+                <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
+                  #{name.toLowerCase()}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -1131,6 +1149,7 @@ class Input extends React.Component {
   };
 
   getDollarTagsComponent() {
+    const {theme} = this.props;
     return (
       <View style={styles.showOptionsView}>
         <ScrollView>
@@ -1141,7 +1160,9 @@ class Input extends React.Component {
                 this.interpolateStrToMessage(`${name.toLowerCase()}`, '$')
               }>
               <View style={styles.commandTagContainer} key={index}>
-                <Text style={styles.hashTag}>${name.toLowerCase()}</Text>
+                <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
+                  ${name.toLowerCase()}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -1174,14 +1195,21 @@ class Input extends React.Component {
   };
 
   renderTextTag() {
+    const {theme} = this.props;
     return (
       <View style={styles.showOptionsView}>
         <ScrollView>
           <TouchableHighlight
             underlayColor="#17C491"
             onPress={this.closeTextTags}>
-            <View style={styles.commandTagContainer} key={'none'}>
-              <Text style={styles.customTagNoneTextStyle}>None</Text>
+            <View style={[styles.commandTagContainer]} key={'none'}>
+              <Text
+                style={[
+                  styles.customTagNoneTextStyle,
+                  {color: theme.primaryTextColor},
+                ]}>
+                None
+              </Text>
             </View>
           </TouchableHighlight>
           {this.state.textTags.map((tag, index) => (
@@ -1191,7 +1219,7 @@ class Input extends React.Component {
                 this.interpolateTextTag(tag.text);
               }}>
               <View style={styles.commandTagContainer} key={index}>
-                <Text style={[tag.style]}>{tag.text}</Text>
+                <Text style={tag.style}>{tag.text}</Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -1206,7 +1234,7 @@ class Input extends React.Component {
       loggedUserPicture,
       isPrivateChannel,
       isReadOnlyChannel,
-      repost
+      repost,
     } = this.props;
     const {
       messageText,
@@ -1220,8 +1248,16 @@ class Input extends React.Component {
       showTags,
     } = this.state;
     console.log('repost: ', repost);
+    const {theme} = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.backgroundColor,
+            borderTopColor: theme.borderBottomColor,
+          },
+        ]}>
         {showMentionsOptions &&
           !isPrivateChannel &&
           this.getMentionsComponent()}
@@ -1240,7 +1276,7 @@ class Input extends React.Component {
               placeholder={
                 isReadOnlyChannel ? 'This channel is read-only' : placeholder
               }
-              style={styles.input}
+              style={[styles.input, {color: theme.primaryTextColor}]}
               ref={this.refInput}
               onSelectionChange={this.onSelectionChange}
               onChangeText={this.onChangeMessage}
@@ -1372,9 +1408,18 @@ class Input extends React.Component {
             </TouchableHighlight>
             <TouchableOpacity>
               {this.isDisable() || isReadOnlyChannel ? (
-                <Text style={[styles.button, styles.disabled]}>Send</Text>
+                <Text
+                  style={[
+                    styles.button,
+                    styles.disabled,
+                    {backgroundColor: theme.primaryBackgroundColor},
+                  ]}>
+                  Send
+                </Text>
               ) : (
-                <Text style={styles.button} onPress={this.send}>
+                <Text
+                  style={[styles.button, {color: theme.buttonTextColor}]}
+                  onPress={this.send}>
                   Send
                 </Text>
               )}
@@ -1387,6 +1432,7 @@ class Input extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.themes[state.themes.current],
   repost: getRepostById(state),
   repost_id: state.repost,
   commands: state.commands.map(({name, trigger}) => ({name, trigger})),

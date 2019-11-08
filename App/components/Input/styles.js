@@ -5,9 +5,7 @@ export default StyleSheet.create({
   container: {
     paddingBottom: ifIphoneX(0, 10),
     // paddingTop: Platform.OS === 'ios' ? 15 : 10,
-    borderTopColor: '#DCDCDC',
     borderTopWidth: StyleSheet.hairlineWidth,
-    backgroundColor: '#fff',
   },
   mentions: {
     flexDirection: 'row',
@@ -135,7 +133,6 @@ export default StyleSheet.create({
     color: '#585C63',
     borderWidth: 1,
     borderColor: '#585C63',
-    backgroundColor: 'white',
   },
   mediaContainer: {
     position: 'relative',
