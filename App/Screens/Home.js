@@ -20,7 +20,10 @@ class Home extends React.Component {
     headerRight: <HeaderHome navigation={navigation} />,
     ...headerForScreenWithBottomLine({
       headerTintColor: screenProps.theme.headerTintColor,
-      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
     }),
   });
 

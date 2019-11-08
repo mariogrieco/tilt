@@ -44,6 +44,7 @@ class Messages extends React.Component {
       headerTintColor: screenProps.theme.headerTintColor,
       headerStyle: {
         backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
     }),
     headerTitleStyle: {

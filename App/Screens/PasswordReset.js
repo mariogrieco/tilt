@@ -72,7 +72,10 @@ class PasswordReset extends React.Component {
     ),
     ...headerForScreenWithTabs({
       headerTintColor: screenProps.theme.headerTintColor,
-      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
     }),
   });
 

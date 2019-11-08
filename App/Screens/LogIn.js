@@ -115,12 +115,15 @@ class LogIn extends React.Component {
     title: navigation.getParam('title', 'Log In'),
     headerLeft: (
       <GoBack
-        
+
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
     ...headerForScreenWithTabs({
-      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
       headerTintColor: screenProps.theme.headerTintColor,
     }),
   });

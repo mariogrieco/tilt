@@ -202,6 +202,7 @@ class Channel extends React.Component {
     ...headerForScreenWithBottomLine({
       headerStyle: {
         backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
     }),
   });

@@ -168,7 +168,10 @@ class SignUp extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', ''),
     ...headerForScreenWithTabs({
-      headerStyle: {backgroundColor: screenProps.theme.primaryBackgroundColor},
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor
+      },
     }),
   });
 
