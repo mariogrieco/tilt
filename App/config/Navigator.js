@@ -96,7 +96,6 @@ const SignUpStack = createStackNavigator(
 const LoggedInTab = createStackNavigator(
   {
     LoggedIn,
-    BlockUser,
   },
   {
     // headerMode: 'none',
@@ -181,7 +180,9 @@ const TabBarPrincipal = createBottomTabNavigator(
 const LoggedInMenuStack = createStackNavigator(
   {
     LoggedInMenu,
+    BlockUser,
     EditProfile,
+    BlockUser,
   },
   {
     headerLayoutPreset: 'center',

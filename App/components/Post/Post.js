@@ -368,9 +368,7 @@ class Post extends React.Component {
       [
         {
           text: 'Cancel',
-          onPress: () => {
-            
-          },
+          onPress: () => {},
           style: 'cancel',
         },
         {
@@ -548,7 +546,10 @@ class Post extends React.Component {
 
   renderDelteText() {
     return (
-      <TouchableOpacity activeOpacity={1} style={styles.jumpContainer} onPress={this.deletePost}>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={styles.jumpContainer}
+        onPress={this.deletePost}>
         <View>
           <Text
             // eslint-disable-next-line react-native/no-inline-styles
@@ -658,7 +659,7 @@ class Post extends React.Component {
                 </Text>
                 <Text style={styles.timespan}>
                   {extendedDateFormat
-                    ? moment(createdAt).format('M/D/YY, h:mm A')
+                    ? moment(createdAt).format('MMM D, h:mm A')
                     : moment(createdAt).format('h:mm A')}
                 </Text>
               </Text>
@@ -694,7 +695,7 @@ class Post extends React.Component {
                   </Text>
                   <Text style={styles.timespan}>
                     {extendedDateFormat
-                      ? moment(createdAt).format('M/D/YY, h:mm A')
+                      ? moment(createdAt).format('MMM D, h:mm A')
                       : moment(createdAt).format('h:mm A')}
                   </Text>
                 </Text>

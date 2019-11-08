@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 class CryptoRoom extends React.PureComponent {
   static navigationOptions = ({navigation}) => ({
-    title: navigation.getParam('title', '...'),
+    title: navigation.getParam('title', ''),
     headerLeft: (
       <GoBack
         

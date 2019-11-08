@@ -1,18 +1,25 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {View, Image, Text, ScrollView} from 'react-native';
-// import GoBack from '../GoBack';
-import {addOrRemoveOne} from '../../actions/blockedUsers';
+import {withNavigation} from 'react-navigation';
+import {
+  addOrRemoveOne,
+  getBlockUserListForUserId,
+} from '../../actions/blockedUsers';
 // import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
-
-// const BACK = require('../../../assets/images/pin-left/pin-left.png');
+import isEqual from 'lodash/isEqual';
+// const BACK = require('../../../assets/images/pin-left-black/pin-left.png');
 
 import styles from './styles';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-class BlockedList extends PureComponent {
+class BlockedList extends Component {
   state = {};
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
+  }
 
   _addOrRemoveOne = user_id => {
     if (this.state.loading) {
@@ -55,10 +62,46 @@ class BlockedList extends PureComponent {
     );
   }
 
+  fetchList() {
+    if (this.state.loadingList) {
+      return true;
+    }
+
+    const {whoIam} = this.props;
+    this.setState(
+      {
+        loadingList: true,
+      },
+      () => {
+        try {
+          this.props.getBlockUserListForUserId(whoIam);
+        } catch (er) {
+        } finally {
+          this.setState({
+            loadingList: false,
+          });
+        }
+      },
+    );
+  }
+
+  componentDidMount() {
+    const {navigation} = this.props;
+
+    this.navigationListener = navigation.addListener('didFocus', () => {
+      this.fetchList();
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.navigationListener) {
+      this.navigationListener.remove();
+    }
+  }
+
   render() {
     return (
       <ScrollView
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
           paddingRight: 0,
@@ -72,15 +115,21 @@ class BlockedList extends PureComponent {
 
 const mapStateToProps = {
   addOrRemoveOne,
+  getBlockUserListForUserId,
 };
 
-const mapDisptchToProps = state => {
+const mapDispatchToProps = state => {
   return {
-    users: Object.keys(state.blockedUsers).map(key => state.users.data[key]),
+    users: Object.keys(state.blockedUsers)
+      .map(key => state.users.data[key])
+      .filter(i => i),
+    whoIam: state.login.user ? state.login.user.id : null,
   };
 };
 
-export default connect(
-  mapDisptchToProps,
-  mapStateToProps,
-)(BlockedList);
+export default withNavigation(
+  connect(
+    mapDispatchToProps,
+    mapStateToProps,
+  )(BlockedList),
+);

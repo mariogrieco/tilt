@@ -37,6 +37,7 @@ export class Repost extends PureComponent {
           isRepost
           deleteAction={deleteAction}
           styles={styles.repost}
+          extendedDateFormat
         />
       </View>
     );
