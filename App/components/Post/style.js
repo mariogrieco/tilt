@@ -170,7 +170,6 @@ export default StyleSheet.create({
     width: 3,
     minHeight: 10,
     height: '100%',
-    backgroundColor: '#EBEBEB',
     flex: 5,
     borderRadius: 1.5,
   },

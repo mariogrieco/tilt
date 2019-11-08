@@ -587,6 +587,7 @@ class Post extends React.Component {
       deleteAction,
       isAdminUser,
       postId,
+      theme,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -642,7 +643,14 @@ class Post extends React.Component {
                 }
               />
             </TouchableOpacity>
-            {thread && <View style={styles.threadSeparator} />}
+            {thread && (
+              <View
+                style={[
+                  styles.threadSeparator,
+                  {backgroundColor: theme.threadSeparatorColor},
+                ]}
+              />
+            )}
           </View>
         )}
         <View style={isRepost ? {} : styles.usernameAndPostContent}>
@@ -654,7 +662,8 @@ class Post extends React.Component {
                   : this.handleNavigationToProfile
               }>
               <Text>
-                <Text style={[styles.username]}>
+                <Text
+                  style={[styles.username, {color: theme.primaryTextColor}]}>
                   {typeIsSystem ? 'System' : username}{' '}
                 </Text>
                 <Text style={styles.timespan}>
@@ -760,6 +769,7 @@ const mapStateToProps = (state, props) => ({
   users: state.users.data,
   repost: getRepostIfneeded(state, props.postId),
   reported: getReportIfNeeded(state, props.postId),
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {

@@ -11,6 +11,9 @@ const initialState = {
     buttonTextColor: '#FFF',
     borderBottomColor: '#DCDCDC',
     headerTintColor: '#0E141E',
+    emojiReactionsBackgroundColor: '#F6F7F9',
+    emojiReactionsBorderBackgroundColor: '#D9D8D7',
+    threadSeparatorColor: '#EBEBEB',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -22,6 +25,9 @@ const initialState = {
     buttonTextColor: '#040D14',
     borderBottomColor: '#353942',
     headerTintColor: '#FFF',
+    emojiReactionsBackgroundColor: '#1e242e',
+    emojiReactionsBorderBackgroundColor: '#1e242e',
+    threadSeparatorColor: '#1e242e',
   },
   current: 'light',
 };

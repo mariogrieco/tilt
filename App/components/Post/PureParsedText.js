@@ -414,9 +414,7 @@ export class PureParsedText extends Component {
 
   renderYOLO(text) {
     return (
-      <Text style={themeTags.Yolo}>
-        {text.toUpperCase().replace(/-/g, '')}
-      </Text>
+      <Text style={themeTags.Yolo}>{text.toUpperCase().replace(/-/g, '')}</Text>
     );
   }
 
@@ -530,7 +528,7 @@ export class PureParsedText extends Component {
   }
 
   render() {
-    const {typeIsSystem} = this.props;
+    const {typeIsSystem, theme} = this.props;
     let {message} = this.props;
     const {parser} = this.state;
     const containerStyle = this.messageIsCode(message)
@@ -562,7 +560,11 @@ export class PureParsedText extends Component {
       <View>
         <ParsedText
           childrenProps={{allowFontScaling: false}}
-          style={[styles.text, typeIsSystem ? styles.systemText : {}]}
+          style={[
+            styles.text,
+            typeIsSystem ? styles.systemText : {},
+            {color: theme.primaryTextColor},
+          ]}
           parse={parser}>
           {`${message}`}
         </ParsedText>
@@ -579,6 +581,7 @@ const mapStateToProps = state => {
       // channelsNames: getHashTagChannelsNames(state),
       usernames: getUsersNames(state),
       // channelDollarNames: getDollarChannelNames(state),
+      theme: state.themes[state.themes.current],
     };
   }
   return {
@@ -586,6 +589,7 @@ const mapStateToProps = state => {
     // channelDollarNames: getDollarChannelNames(state),
     // channelsNames: getHashTagChannelsNames(state),
     usernames: getUsersNames(state),
+    theme: state.themes[state.themes.current],
   };
 };
 
