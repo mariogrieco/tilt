@@ -1254,7 +1254,7 @@ class Input extends React.Component {
         style={[
           styles.container,
           {
-            backgroundColor: theme.backgroundColor,
+            backgroundColor: theme.primaryBackgroundColor,
             borderTopColor: theme.borderBottomColor,
           },
         ]}>
@@ -1312,7 +1312,13 @@ class Input extends React.Component {
           }}>
           {uploadImages.map(({uri, id}, index) => (
             <View style={styles.mediaContainer} key={id}>
-              <Image source={{uri}} style={styles.mediaUpload} />
+              <Image
+                source={{uri}}
+                style={[
+                  styles.mediaUpload,
+                  {borderColor: theme.mediaBorderColor},
+                ]}
+              />
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteImage(index, id)}>
@@ -1325,7 +1331,10 @@ class Input extends React.Component {
             <View style={styles.mediaContainer} key={id}>
               <Video
                 source={{uri}}
-                style={styles.mediaUpload}
+                style={[
+                  styles.mediaUpload,
+                  {borderColor: theme.mediaBorderColor},
+                ]}
                 volume={0.0}
                 resizeMode="stretch"
               />
@@ -1339,7 +1348,11 @@ class Input extends React.Component {
           ))}
           {this.renderLoadingImages()}
           {uploadDocument && (
-            <View style={styles.documentContainer}>
+            <View
+              style={[
+                styles.documentContainer,
+                {borderColor: theme.mediaBorderColor},
+              ]}>
               <View
                 style={{
                   paddingRight: 15,
@@ -1349,8 +1362,14 @@ class Input extends React.Component {
                 <Image source={uploadDocument.icon} />
               </View>
               <View style={{flex: 1}}>
-                <Text style={styles.documentName}>{uploadDocument.name}</Text>
-                <Text>{prettyBytes(uploadDocument.size)}</Text>
+                <Text
+                  style={[
+                    styles.documentName,
+                    {color: theme.primaryTextColor},
+                  ]}>
+                  {uploadDocument.name}
+                </Text>
+                <Text style={{color: theme.primaryTextColor}}>{prettyBytes(uploadDocument.size)}</Text>
               </View>
               <View style={styles.deleteDocument}>
                 <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
