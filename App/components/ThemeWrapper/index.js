@@ -15,7 +15,7 @@ class ThemeWrapper extends React.Component {
   }
 
   render() {
-    const {theme} = this.props;
+    const {theme, themeName} = this.props;
     return (
       <React.Fragment>
         <PostBottomActions />
@@ -33,14 +33,17 @@ class ThemeWrapper extends React.Component {
               NavigationService.setTopLevelNavigator(navigatorRef);
             }
           }}
-          screenProps={{theme}}
+          screenProps={{theme, themeName}}
         />
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
 
 export default connect(
   mapStateToProps,

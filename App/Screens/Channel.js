@@ -7,7 +7,8 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  KeyboardAvoidingView, Platform,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import moment from 'moment';
 import StyleSheet from 'react-native-extended-stylesheet';
@@ -33,6 +34,8 @@ import {setActiveFocusChannel} from '../actions/AppNavigation';
 import parseChannelMention from '../utils/parseChannelMention';
 import {channelScreen, channelTab} from '../utils/keyboardHelper';
 import {setRepostActiveOnInput} from '../actions/repost';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import assets from '../components/ThemeWrapper/assets';
 
 const styles = StyleSheet.create({
   footer: {
@@ -128,10 +131,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
-const SEARCH = require('../../assets/themes/light/search/search.png');
-const MENU = require('../../assets/themes/light/menu-black/menu.png');
-
 const renderNewSeparator = () => (
   <View style={styles.separator}>
     <View style={{flex: 1}}>
@@ -157,7 +156,7 @@ const renderNewSeparator = () => (
 );
 
 class Channel extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     // title: <ChannelHeader title={navigation.getParam('title', '')} />,
     headerLeft: (
       <View
@@ -166,10 +165,7 @@ class Channel extends React.Component {
           alignItems: 'center',
           flexDirection: 'row',
         }}>
-        <GoBack
-          
-          onPress={() => navigation.dispatch(NavigationActions.back())}
-        />
+        <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
         <ChannelHeader
           name={navigation.getParam('name', '')}
           create_at={navigation.getParam('create_at', '')}
@@ -192,17 +188,22 @@ class Channel extends React.Component {
             <TouchableOpacity
               style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
               onPress={() => navigation.navigate('AdvancedSearch')}>
-              <Image source={SEARCH} />
+              <Image source={assets[screenProps.themeName].SEARCH} />
             </TouchableOpacity>
             <TouchableOpacity
               style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
               onPress={() => navigation.navigate('ChannelInfo')}>
-              <Image source={MENU} />
+              <Image source={assets[screenProps.themeName].MENU} />
             </TouchableOpacity>
           </Fragment>
         )}
       </View>
     ),
+    ...headerForScreenWithBottomLine({
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+      },
+    }),
   });
 
   state = {
@@ -389,11 +390,7 @@ class Channel extends React.Component {
       }
       this.lastSeparatorEnd = posts[index + 1].create_at;
     } else {
-      return (
-        <View>
-          {this.renderSeparator(createdAt)}
-        </View>
-      );
+      return <View>{this.renderSeparator(createdAt)}</View>;
     }
   }
 
@@ -574,7 +571,8 @@ class Channel extends React.Component {
 
   getPlaceHolder() {
     const {navigation, channel, isDollar} = this.props;
-    const isAdminCreator = navigation.getParam('isAdminCreator', '') || isDollar;
+    const isAdminCreator =
+      navigation.getParam('isAdminCreator', '') || isDollar;
     const isPrivateMessage = navigation.getParam('pm', '');
     const title = isPrivateMessage
       ? navigation.getParam('name', '')
@@ -626,14 +624,14 @@ class Channel extends React.Component {
   };
 
   render() {
-    const {channel, posts, activeJumpLabel, isArchived} = this.props;
+    const {channel, posts, activeJumpLabel, isArchived, theme} = this.props;
     const {scrollLabel} = this.state;
     const placeholder = this.getPlaceHolder();
     const flagCount = this.props.flagCount || this.state.flagCount;
     return (
       <SafeAreaView
         forceInset={{top: 'never', bottom: 'always'}}
-        style={{flex: 1}}>
+        style={[{flex: 1}, {backgroundColor: theme.primaryBackgroundColor}]}>
         {!activeJumpLabel && scrollLabel && flagCount > 0 && (
           <NewMessageLabel
             length={flagCount}
@@ -682,8 +680,7 @@ class Channel extends React.Component {
         ) : (
           <KeyboardAvoidingView
             keyboardVerticalOffset={this.keyboardConfig.offset}
-            behavior={this.keyboardConfig.behavior}
-            >
+            behavior={this.keyboardConfig.behavior}>
             <Input placeholder={placeholder} channelId={channel.id} />
           </KeyboardAvoidingView>
         )}
@@ -720,6 +717,7 @@ const mapStateToProps = state => {
     channel: channel,
     isPM: channel.type === 'D',
     isArchived,
+    theme: state.themes[state.themes.current],
   };
 };
 

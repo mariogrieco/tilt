@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
 import {Text, View, Image} from 'react-native';
 import moment from 'moment';
 
@@ -11,13 +12,21 @@ const STAR = require('../../../assets/themes/light/star/star.png');
 const CHANNEL_ROCKET = require('../../../assets/themes/light/channelRocket/channelRocket.png');
 const FIRE = require('../../../assets/themes/light/fire/fire.png');
 
-export default class ChannelHeader extends PureComponent {
+class ChannelHeader extends PureComponent {
   render() {
-    const {name, create_at, members, fav, pm, isAdminCreator} = this.props;
+    const {
+      name,
+      create_at,
+      members,
+      fav,
+      pm,
+      isAdminCreator,
+      theme,
+    } = this.props;
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
     return (
       <View style={styles.headerContainer}>
-        <Text style={styles.text}>
+        <Text style={[styles.text, {color: theme.primaryTextColor}]}>
           {!pm ? `${isAdminCreator ? '$' : '#'} ${name}` : `@${name}`}
           {'  '}
         </Text>
@@ -34,3 +43,7 @@ export default class ChannelHeader extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+
+export default connect(mapStateToProps)(ChannelHeader);
