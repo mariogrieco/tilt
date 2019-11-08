@@ -559,13 +559,16 @@ class Channel extends React.Component {
     this.scrollToEnd();
   };
 
-  renderJumpLabel = () => (
-    <TouchableOpacity onPress={this.onJumpLabel} style={styles.jumpLabel}>
-      <Text style={styles.jumpLabelText}>
-        Click here to jump to recent messages.
-      </Text>
-    </TouchableOpacity>
-  );
+  renderJumpLabel = () => {
+    const {theme} = this.props;
+    return (
+      <TouchableOpacity onPress={this.onJumpLabel} style={styles.jumpLabel}>
+        <Text style={[styles.jumpLabelText, {color: theme.primaryTextColor}]}>
+          Click here to jump to recent messages.
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   getItemLayout = (data, index) => ({length: 0, offset: 73 * index, index});
 
@@ -591,6 +594,7 @@ class Channel extends React.Component {
 
   renderLoadingItem = () => {
     if (this.state.loadingSpiner && !this.props.stop) {
+      const {theme} = this.props;
       return (
         <View
           // eslint-disable-next-line react-native/no-inline-styles
@@ -602,11 +606,13 @@ class Channel extends React.Component {
             minHeight: 150,
             maxHeight: 150,
             height: 150,
+            backgroundColor: theme.primaryBackgroundColor,
           }}>
           <ActivityIndicator size="large" color="#17C491" />
         </View>
       );
     }
+    const {theme} = this.props;
     return (
       <View
         // eslint-disable-next-line react-native/no-inline-styles
@@ -618,6 +624,7 @@ class Channel extends React.Component {
           minHeight: 150,
           maxHeight: 150,
           height: 150,
+          backgroundColor: theme.primaryBackgroundColor,
         }}
       />
     );

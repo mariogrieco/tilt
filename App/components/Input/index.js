@@ -1276,6 +1276,7 @@ class Input extends React.Component {
               placeholder={
                 isReadOnlyChannel ? 'This channel is read-only' : placeholder
               }
+              placeholderTextColor={theme.placeholderTextColor}
               style={[styles.input, {color: theme.primaryTextColor}]}
               ref={this.refInput}
               onSelectionChange={this.onSelectionChange}
