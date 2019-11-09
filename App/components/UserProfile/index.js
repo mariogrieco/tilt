@@ -17,6 +17,7 @@ import {createDirectChannel} from '../../actions/channels';
 import ReactionSummary from '../ReactionSummary';
 import PostsSummary from '../PostsSummary';
 import styles from './styles';
+import assets from '../ThemeWrapper/assets';
 
 const MESSAGE = require('../../../assets/themes/light/profile-envelope/profile-envelope.png');
 const LANDER = require('../../../assets/themes/light/lunar-module/lunar-module.png');
@@ -32,8 +33,16 @@ export const Header = ({
   createDirectChannel,
   userId,
   createAt,
+  theme,
 }) => (
-  <View style={styles.headerContainer}>
+  <View
+    style={[
+      styles.headerContainer,
+      {
+        backgroundColor: theme.primaryBackgroundColor,
+        borderBottomColor: theme.emojiReactionsBorderBackgroundColor,
+      },
+    ]}>
     <View style={{flexDirection: 'row', marginBottom: 15}}>
       <View style={{}}>
         <Image
@@ -41,7 +50,11 @@ export const Header = ({
           style={{width: 80, height: 80, borderRadius: 8}}
         />
         {firstName || lastName ? (
-          <Text style={styles.userNames}>{`${firstName} ${lastName}`}</Text>
+          <Text
+            style={[
+              styles.userNames,
+              {color: theme.primaryTextColor},
+            ]}>{`${firstName} ${lastName}`}</Text>
         ) : (
           <Text />
         )}
@@ -64,7 +77,9 @@ export const Header = ({
         </View>
       )}
     </View>
-    <Text style={styles.description}>{description}</Text>
+    <Text style={[styles.description, {color: theme.primaryTextColor}]}>
+      {description}
+    </Text>
     <View
       style={{
         flexDirection: 'row',
@@ -72,13 +87,7 @@ export const Header = ({
         marginTop: 11,
       }}>
       <Image source={CALENDAR} style={{marginRight: 5}} />
-      <Text
-        style={{
-          fontFamily: 'SFProDisplay-Regular',
-          fontSize: 15,
-          letterSpacing: 0.1,
-          color: '#585C63',
-        }}>
+      <Text style={[styles.joinDate, {color: theme.secondaryTextColor}]}>
         Joined {moment(createAt).format('MMMM YYYY')}
       </Text>
     </View>
@@ -104,7 +113,7 @@ class UserProfile extends React.PureComponent {
   };
 
   listHeaderComponent = () => {
-    const {user, isSelfProfile} = this.props;
+    const {user, isSelfProfile, theme} = this.props;
     const pictureProfileUrl = getUserProfilePicture(
       user.id,
       user.last_picture_update,
@@ -120,12 +129,13 @@ class UserProfile extends React.PureComponent {
         isSelfProfile={isSelfProfile}
         createDirectChannel={this.createDirectChannel}
         createAt={user.create_at}
+        theme={theme}
       />
     );
   };
 
   renderItem = ({item: post}) => {
-    const {user, channelMentions, isSelfProfile} = this.props;
+    const {user, channelMentions, isSelfProfile, theme} = this.props;
 
     const isHashtagChannel = channelMentions.hashtagChannels[post.channel_id]
       ? `#${channelMentions.hashtagChannels[post.channel_id]} `
@@ -139,7 +149,7 @@ class UserProfile extends React.PureComponent {
       isDollarChannel ||
       ''}${post.message}`;
     return (
-      <View style={{paddingTop: 0, backgroundColor: '#fff'}}>
+      <View style={{backgroundColor: theme.primaryBackgroundColor}}>
         <Post
           extendedDateFormat
           postId={post.id}
@@ -160,7 +170,7 @@ class UserProfile extends React.PureComponent {
   };
 
   render() {
-    const {user, userPosts} = this.props;
+    const {user, userPosts, theme} = this.props;
 
     if (!user) {
       // Home redirection at the action
@@ -178,8 +188,8 @@ class UserProfile extends React.PureComponent {
         extraData={userPosts}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}
-        initialNumToRender={50}
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}
+        initialNumToRender={8}
         removeClippedSubviews={Platform.OS === 'android'}
         updateCellsBatchingPeriod={150}
       />
@@ -212,6 +222,7 @@ const mapStateToProps = (state, props) => {
       userPosts,
       channelMentions,
       isSelfProfile,
+      theme: state.themes[state.themes.current],
     };
   }
   return {

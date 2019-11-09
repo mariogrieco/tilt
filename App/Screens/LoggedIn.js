@@ -7,8 +7,7 @@ import {getChannels, getMyChannels} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
 import {getProfilesInGroupChannels} from '../actions/users';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-
-const MENU = require('../../assets/themes/light/menu-black/menu.png');
+import assets from '../components/ThemeWrapper/assets';
 
 class LoggedIn extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -18,7 +17,7 @@ class LoggedIn extends React.Component {
       <TouchableOpacity
         style={{paddingHorizontal: 15, paddingVertical: 13}}
         onPress={() => navigation.navigate('LoggedInMenu')}>
-        <Image source={MENU} />
+        <Image source={assets[screenProps.themeName].MENU} />
       </TouchableOpacity>
     ),
     ...headerForScreenWithBottomLine({

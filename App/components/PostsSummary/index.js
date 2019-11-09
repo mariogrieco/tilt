@@ -37,11 +37,11 @@ export class PostsSummary extends Component {
   }
 
   render() {
-    const {countForUser} = this.props;
+    const {countForUser, theme} = this.props;
     return (
       <View>
-        <Text style={styles.posts}>
-          <Text style={styles.bold}>
+        <Text style={[styles.posts, {color: theme.secondaryTextColor}]}>
+          <Text style={[styles.bold, {color: theme.primaryTextColor}]}>
             {countForUser ? num_format(countForUser) : ' '}
           </Text>{' '}
           Posts & Reactions
@@ -56,6 +56,7 @@ const mapStateToProps = (state, props) => {
     userId: props.userId,
     countForUser: state.postCount[props.userId],
     current: state.postCount,
+    theme: state.themes[state.themes.current],
   };
 };
 

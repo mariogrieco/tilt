@@ -170,7 +170,7 @@ class SignUp extends React.Component {
     ...headerForScreenWithTabs({
       headerStyle: {
         backgroundColor: screenProps.theme.primaryBackgroundColor,
-        borderBottomColor: screenProps.theme.borderBottomColor
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
     }),
   });
