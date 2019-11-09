@@ -224,15 +224,15 @@ const DescriptionHeader = ({
 );
 
 const DescriptionBody = ({purpose, header, theme}) => (
-  <View style={styles.descriptionBodyContainer}>
-    <Text style={styles.descriptionBodyTitle}>Purpose:</Text>
-    <Text style={styles.descriptionBodyText}>{purpose}</Text>
+  <View style={[styles.descriptionBodyContainer, {backgroundColor: theme.primaryBackgroundColor}]}>
+    <Text style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>Purpose:</Text>
+    <Text style={[styles.descriptionBodyText, {color: theme.primaryTextColor}]}>{purpose}</Text>
     <Spacer />
-    <Text style={styles.descriptionBodyTitle}>Header:</Text>
+    <Text style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>Header:</Text>
     {/* <Text style={}> */}
     <ParsedText
       childrenProps={{allowFontScaling: false}}
-      style={styles.descriptionBodyText}
+      style={[styles.descriptionBodyText, {color: theme.primaryTextColor}]}
       parse={[
         {
           type: 'url',
@@ -582,6 +582,7 @@ class ChannelInfo extends React.Component {
             <DescriptionBody
               purpose={channel ? channel.purpose : ''}
               header={channel ? channel.header : ''}
+              theme={theme}
             />
           </Description>
           <BottomBlockSpaceSmall />
