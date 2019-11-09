@@ -271,13 +271,14 @@ const Edit = ({
   onPress,
   updateSwitchValue,
   switchValue,
+  theme,
 }) => (
   <View
     style={{
       flexDirection: 'row',
       paddingLeft: 15,
       paddingRight: 15,
-      backgroundColor: '#fff',
+      backgroundColor: theme.primaryBackgroundColor,
     }}>
     {isSwitch ? (
       <React.Fragment>
@@ -297,7 +298,7 @@ const Edit = ({
               fontFamily: 'SFProDisplay-Regular',
               fontSize: 16,
               letterSpacing: 0.1,
-              color: '#0e141e',
+              color: theme.primaryTextColor,
             }}>
             {name}
           </Text>
@@ -337,7 +338,7 @@ const Edit = ({
               fontFamily: 'SFProDisplay-Regular',
               fontSize: 16,
               letterSpacing: 0.1,
-              color: '#0e141e',
+              color: theme.primaryTextColor,
             }}>
             {name}
           </Text>
@@ -591,6 +592,7 @@ class ChannelInfo extends React.Component {
               isSwitch
               switchValue={hasFavorite}
               updateSwitchValue={this.handleFavorite}
+              theme={theme}
             />
             {/* <Separator /> */}
             {/* <Edit */}
@@ -605,6 +607,7 @@ class ChannelInfo extends React.Component {
               icon={MEMBERS}
               name="Add Members"
               onPress={this.handleAddMembers}
+              theme={theme}
             />
             {(channel.creator_id === user_id || iAmAdmin) && (
               <React.Fragment>
@@ -613,6 +616,7 @@ class ChannelInfo extends React.Component {
                   icon={EDIT}
                   name="Edit Channel"
                   onPress={this.handleEditChannel}
+                  theme={theme}
                 />
               </React.Fragment>
             )}
@@ -622,6 +626,7 @@ class ChannelInfo extends React.Component {
                 icon={SIGN_OUT}
                 name="Leave Channel"
                 onPress={this.toggleLeaveModal}
+                theme={theme}
               />
             )}
             {(channel.creator_id === user_id || iAmAdmin) && (
@@ -631,6 +636,7 @@ class ChannelInfo extends React.Component {
                   icon={ARCHIVE}
                   name="Archive Channel"
                   onPress={this.handleArchiveChannel}
+                  theme={theme}
                 />
               </React.Fragment>
             )}

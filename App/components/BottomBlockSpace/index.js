@@ -5,7 +5,13 @@ import {connect} from 'react-redux';
 
 const BottomBlockSpace = ({theme}) => (
   <View
-    style={[styles.block, {backgroundColor: theme.secondaryBackgroundColor}]}
+    style={[
+      styles.block,
+      {
+        backgroundColor: theme.secondaryBackgroundColor,
+        borderTopColor: theme.borderBottomColor,
+      },
+    ]}
   />
 );
 
