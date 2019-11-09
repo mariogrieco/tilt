@@ -37,6 +37,8 @@ import {getFavoriteChannelById} from '../selectors/getFavoriteChannels';
 import Spacer from '../components/Spacer';
 import BottomBlockSpaceSmall from '../components/BottomBlockSpaceSmall';
 import MiddleBlockSpaceSmall from '../components/MiddleBlockSpaceSmall';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -224,11 +226,23 @@ const DescriptionHeader = ({
 );
 
 const DescriptionBody = ({purpose, header, theme}) => (
-  <View style={[styles.descriptionBodyContainer, {backgroundColor: theme.primaryBackgroundColor}]}>
-    <Text style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>Purpose:</Text>
-    <Text style={[styles.descriptionBodyText, {color: theme.primaryTextColor}]}>{purpose}</Text>
+  <View
+    style={[
+      styles.descriptionBodyContainer,
+      {backgroundColor: theme.primaryBackgroundColor},
+    ]}>
+    <Text
+      style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>
+      Purpose:
+    </Text>
+    <Text style={[styles.descriptionBodyText, {color: theme.primaryTextColor}]}>
+      {purpose}
+    </Text>
     <Spacer />
-    <Text style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>Header:</Text>
+    <Text
+      style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>
+      Header:
+    </Text>
     {/* <Text style={}> */}
     <ParsedText
       childrenProps={{allowFontScaling: false}}
@@ -349,22 +363,18 @@ const Edit = ({
 );
 
 class ChannelInfo extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Channel Info',
-    headerLeft: <GoBack onPress={() => navigation.goBack()} />,
-    headerStyle: {
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: '#DCDCDC',
-      shadowColor: '#D9D8D7',
-      shadowOffset: {
-        width: 0,
-        height: 0,
+    headerLeft: (
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+    ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-      backgroundColor: '#fff',
-    },
+    }),
   });
 
   state = {
