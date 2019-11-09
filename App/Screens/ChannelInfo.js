@@ -181,11 +181,21 @@ const DescriptionHeader = ({
   ChannelCreatorPicture,
   theme,
 }) => (
-  <View style={styles.descriptionHeaderContainer}>
+  <View
+    style={[
+      styles.descriptionHeaderContainer,
+      {backgroundColor: theme.primaryBackgroundColor},
+    ]}>
     <View>
       <Text style={styles.channelName}>{channelName}</Text>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={styles.descriptionHeaderText}>Created by</Text>
+        <Text
+          style={[
+            styles.descriptionHeaderText,
+            {color: theme.primaryTextColor},
+          ]}>
+          Created by
+        </Text>
         <TouchableOpacity
           onPress={onOwnerPress}
           style={{marginLeft: 10, flexDirection: 'row'}}>
@@ -195,12 +205,20 @@ const DescriptionHeader = ({
               style={styles.profilePicture}
             />
           </View>
-          <Text style={[styles.descriptionHeaderText, styles.owner]}>
+          <Text
+            style={[
+              styles.descriptionHeaderText,
+              styles.owner,
+              {color: theme.primaryTextColor},
+            ]}>
             {ownerName}
           </Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.descriptionHeaderText}>{createdAt}</Text>
+      <Text
+        style={[styles.descriptionHeaderText, {color: theme.primaryTextColor}]}>
+        {createdAt}
+      </Text>
     </View>
   </View>
 );
@@ -557,6 +575,7 @@ class ChannelInfo extends React.Component {
               createdAt={`Created on  ${moment(channel.create_at).format(
                 'MMMM D, YYYY',
               )}`}
+              theme={theme}
             />
             <BottomBlockSpaceSmall />
             <DescriptionBody
