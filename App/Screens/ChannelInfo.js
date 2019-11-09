@@ -172,14 +172,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const Description = ({children}) => <View>{children}</View>;
-
+const Description = ({children, theme}) => <View>{children}</View>;
 const DescriptionHeader = ({
   channelName,
   ownerName,
   createdAt,
   onOwnerPress,
   ChannelCreatorPicture,
+  theme,
 }) => (
   <View style={styles.descriptionHeaderContainer}>
     <View>
@@ -205,7 +205,7 @@ const DescriptionHeader = ({
   </View>
 );
 
-const DescriptionBody = ({purpose, header}) => (
+const DescriptionBody = ({purpose, header, theme}) => (
   <View style={styles.descriptionBodyContainer}>
     <Text style={styles.descriptionBodyTitle}>Purpose:</Text>
     <Text style={styles.descriptionBodyText}>{purpose}</Text>
@@ -332,7 +332,7 @@ const Edit = ({
 class ChannelInfo extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Channel Info',
-    headerLeft: <GoBack onPress={() => navigation.goBack()}  />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()} />,
     headerStyle: {
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: '#DCDCDC',
@@ -466,7 +466,7 @@ class ChannelInfo extends React.Component {
 
   render() {
     const {hasFavorite, isMuteChannel, leaveModal, archiveModal} = this.state;
-    const {channel, iamIn, user_id, iAmAdmin, owner} = this.props;
+    const {channel, iamIn, user_id, iAmAdmin, owner, theme} = this.props;
     return (
       <View style={{flex: 1}}>
         <Modal
@@ -544,7 +544,8 @@ class ChannelInfo extends React.Component {
             </Text>
           </View>
         </Modal>
-        <ScrollView style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        <ScrollView
+          style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
           <MiddleBlockSpaceSmall />
           <Description>
             <DescriptionHeader
@@ -646,6 +647,7 @@ const mapStateToProps = state => {
     owner,
     channel,
     ChannelCreatorPicture,
+    theme: state.themes[state.themes.current],
   };
 };
 
