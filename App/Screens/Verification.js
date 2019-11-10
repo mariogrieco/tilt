@@ -19,6 +19,7 @@ import {ifIphoneX} from 'react-native-iphone-x-helper';
 import Form from '../components/Form';
 import GoBack from '../components/GoBack';
 import LoadingSpinner from '../components/LoadingSpinner';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 const LOCKED = require('../../assets/themes/light/locked/locked.png');
@@ -126,14 +127,18 @@ const styles = StyleSheet.create({
 });
 
 class Verification extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Verification'),
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -216,7 +221,9 @@ class Verification extends React.Component {
                 Please enter the 6-digit verification code sent to your email.
               </Text>
               <Text style={styles.textBold}>
-                {`+${codeVerification.callingCode}${codeVerification.phoneNumber}`}
+                {`+${codeVerification.callingCode}${
+                  codeVerification.phoneNumber
+                }`}
               </Text>
             </View>
             <View style={styles.inputContainer}>

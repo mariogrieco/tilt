@@ -20,6 +20,8 @@ import GoBack from '../components/GoBack';
 import {createChannel, patchChannel} from '../actions/channels';
 import Separator from '../components/Separator';
 import Spacer from '../components/Spacer';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -110,9 +112,9 @@ class EditChannel extends React.Component {
     return null;
   }
 
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Edit Channel',
-    headerLeft: <GoBack  onPress={() => navigation.goBack()} />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()} />,
     headerRight: (
       <TouchableOpacity
         style={{paddingHorizontal: 15, paddingVertical: 13}}
@@ -128,26 +130,19 @@ class EditChannel extends React.Component {
         </Text>
       </TouchableOpacity>
     ),
-    headerStyle: {
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: '#DCDCDC',
-      shadowColor: '#D9D8D7',
-      shadowOffset: {
-        width: 0,
-        height: 0,
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-      backgroundColor: '#fff',
-    },
+    }),
     headerTitleStyle: {
       fontSize: 18,
       marginTop: 10,
       marginBottom: 10,
       fontFamily: 'SFProDisplay-Bold',
     },
-    headerTintColor: '#0E141E',
   });
 
   state = {
@@ -186,7 +181,9 @@ class EditChannel extends React.Component {
   }
 
   modalCreate = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,

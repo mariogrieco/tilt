@@ -18,6 +18,7 @@ import Contacts from 'react-native-contacts';
 import GoBack from '../components/GoBack';
 import SearchBar from '../components/SearchBar';
 import Separator from '../components/Separator';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const MESSAGE = require('../../assets/themes/light/invite-text/invite-text.png');
 const EMAIL = require('../../assets/themes/light/invite-email/invite-email.png');
@@ -186,23 +187,17 @@ const getContactsIos = () =>
   });
 
 class InviteContacts extends React.PureComponent {
-  static navigationOptions = ({navigation}) => ({
-    headerStyle: {
-      borderBottomWidth: 0,
-      shadowOffset: {
-        width: 0,
-        height: 0,
-      },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-    },
+  static navigationOptions = ({navigation, screenProps}) => ({
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {

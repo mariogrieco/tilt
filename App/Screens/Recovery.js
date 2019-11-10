@@ -21,6 +21,7 @@ import InputSeparator from '../components/InputSeparator';
 import {updatePassword} from '../actions/recoveryActions';
 import GoBack from '../components/GoBack';
 import Form from '../components/Form';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
@@ -160,14 +161,18 @@ class Recovery extends PureComponent {
     modalSuccess: false,
   };
 
-  static navigationOptions = ({navigation}) => ({
-    title: navigation.getParam('title', 'Password Reset'),
+  static navigationOptions = ({navigation, screenProps}) => ({
+    title: 'Password Reset',
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   recoveryAction = async () => {
