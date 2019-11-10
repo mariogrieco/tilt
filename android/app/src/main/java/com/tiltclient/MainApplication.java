@@ -1,5 +1,6 @@
 package com.tiltclient;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.instanceid.RNFirebaseInstanceIdPackage; 
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           packages.add(new RNFirebaseAdMobPackage());
           packages.add(new RNFirebaseMessagingPackage());
+          packages.add(new RNFirebaseInstanceIdPackage());
           return packages;
         }
 

@@ -10,13 +10,19 @@ import NavigationService from './config/NavigationService';
 import store, {persistor} from './config/store';
 import styles from './config/styles';
 import {init} from './api/Sockets';
+import pushNotification from './push_notifications/firebase_client';
 
 styles();
 init();
 
 class App extends React.PureComponent {
-  componentDidMount() {
+  async componentDidMount() {
     SplashScreen.hide();
+    await pushNotification.requirePermission();
+    await pushNotification.requestPermissions();
+    await pushNotification.setMessageListener(msg => {
+      console.log('msg: ', msg);
+    });
   }
 
   render() {
