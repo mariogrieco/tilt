@@ -70,7 +70,7 @@ class History extends React.PureComponent {
             </Text>
           </View>
         </View>
-        <Separator styles={{heigth: 2}} />
+        <Separator styles={{height: 2}} />
         <FlatList
           data={data.slice(0, 20)}
           renderItem={this.renderItem}

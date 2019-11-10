@@ -20,6 +20,7 @@ class PrivateMessages extends React.Component {
   renderItem = ({item: channel}) => {
     const lastPost = channel.posts[0];
     const channelName = channel.show_name;
+    const {theme} = this.props;
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -34,7 +35,7 @@ class PrivateMessages extends React.Component {
             pm: true,
           });
         }}
-        style={{backgroundColor: '#fff', paddingTop: 10}}>
+        style={{backgroundColor: theme.primaryBackgroundColor, paddingTop: 10}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text
             style={[
@@ -85,14 +86,16 @@ class PrivateMessages extends React.Component {
 
   render() {
     const {privateChanels} = this.props;
-
     const allPosts = privateChanels.map(channel => channel.posts);
-
+    const {theme} = this.props;
     return (
       <FlatList
         data={privateChanels}
         keyExtractor={item => item.id}
-        style={styles.listContainer}
+        style={[
+          styles.listContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}
         renderItem={this.renderItem}
         ListEmptyComponent={this.renderEmptyList}
         extraData={allPosts}
@@ -107,6 +110,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   privateChanels: getPrivateMessagesChnnelsList(state, 'D'),
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(

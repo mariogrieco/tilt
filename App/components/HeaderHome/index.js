@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import styles from './styles';
+import assets from '../ThemeWrapper/assets';
 
 // const MENU_IMAGE = require('../../../assets/themes/light/menu/menu.png');
 const SEARCH = require('../../../assets/themes/light/search/search.png');
@@ -66,7 +67,7 @@ class Search extends React.Component {
   render() {
     const {navigation} = this.props;
     const {widthAnim, fadeAnim} = this.state;
-
+    const {themeName, theme} = this.props;
     return (
       <Animated.View
         style={{
@@ -74,7 +75,7 @@ class Search extends React.Component {
           opacity: fadeAnim,
           marginRight: 10,
         }}>
-        <View style={styles.searchContainer}>
+        <View style={[styles.searchContainer]}>
           <View style={{paddingRight: 6}}>
             <Image source={SEARCH_ICON} />
           </View>
@@ -121,6 +122,7 @@ class HeaderRight extends React.Component {
   render() {
     const {isSearching} = this.state;
     const {navigation} = this.props;
+    const {themeName, theme} = this.props;
 
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -132,7 +134,7 @@ class HeaderRight extends React.Component {
               onPress={this.handleCancel}>
               <Text
                 style={{
-                  color: '#0E141E',
+                  color: theme.primaryTextColor,
                   fontFamily: 'SFProDisplay-Medium',
                   fontSize: 16,
                   letterSpacing: 0.1,
@@ -145,7 +147,7 @@ class HeaderRight extends React.Component {
           <TouchableOpacity
             style={styles.headerRight}
             onPress={this.handleSearch}>
-            <Image source={SEARCH} />
+            <Image source={assets[themeName].SEARCH} />
           </TouchableOpacity>
         )}
       </View>
@@ -153,7 +155,11 @@ class HeaderRight extends React.Component {
   }
 }
 
-const mapStateToProps = ({login}) => ({login});
+const mapStateToProps = ({login, themes}) => ({
+  login,
+  themeName: themes.current,
+  theme: themes[themes.current],
+});
 
 export default connect(
   mapStateToProps,
