@@ -52,7 +52,9 @@ class Home extends React.Component {
     this.navigationListener = navigation.addListener('didFocus', () => {
       dispatchGetSymbols(ORIGIN); // initial fetch for check connection
       BackHandler.addEventListener('hardwareBackPress', () => {
-        if (navigation.isFocused()) BackHandler.exitApp();
+        if (navigation.isFocused()) {
+          BackHandler.exitApp();
+        }
       });
     });
   }
@@ -62,7 +64,9 @@ class Home extends React.Component {
 
     // If SUCCESS start conitues fetching
     if (watchlist.hasData) {
-      if (this.intervalId) clearInterval(this.intervalId);
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
 
       this.intervalId = setInterval(() => {
         dispatchGetSymbols(ORIGIN);
@@ -71,7 +75,9 @@ class Home extends React.Component {
 
     // If was an error clear the previous interval and fetching for reconect
     if (watchlist.err) {
-      if (this.intervalId) clearInterval(this.intervalId);
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
 
       this.intervalId = setInterval(() => {
         dispatchGetSymbols(ORIGIN);
@@ -88,7 +94,9 @@ class Home extends React.Component {
     if (this.navigationListener) {
       this.navigationListener.remove();
     }
-    if (this.intervalId) clearInterval(this.intervalId);
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   // eslint-disable-next-line react/no-unused-state
@@ -154,14 +162,20 @@ class Home extends React.Component {
   };
 
   render() {
-    return <View style={{flex: 1}}>{this.renderWatchList()}</View>;
+    const {theme} = this.props;
+    return (
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
+        {this.renderWatchList()}
+      </View>
+    );
   }
 }
 
-const mapStateToProps = ({watchlist, modal, login}) => ({
+const mapStateToProps = ({watchlist, modal, login, themes}) => ({
   watchlist,
   modal,
   login,
+  theme: themes[themes.current],
 });
 
 export default withNavigation(
