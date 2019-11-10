@@ -16,6 +16,10 @@ const initialState = {
     emojiReactionsBackgroundColor: '#F6F7F9',
     emojiReactionsBorderBackgroundColor: '#D9D8D7',
     threadSeparatorColor: '#EBEBEB',
+    intervalSelectedTextColor: '#FFF',
+    intervalUnselectedTextColor: '#17C491',
+    intervalSelectedBackgroundColor: '#17C491',
+    intervalUnselectedBackgroundColor: '#FFF',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -32,6 +36,10 @@ const initialState = {
     emojiReactionsBackgroundColor: '#1e242e',
     emojiReactionsBorderBackgroundColor: '#1e242e',
     threadSeparatorColor: '#1e242e',
+    intervalSelectedTextColor: '#0E141E',
+    intervalUnselectedTextColor: '#17C491',
+    intervalSelectedBackgroundColor: '#17C491',
+    intervalUnselectedBackgroundColor: '#0E141E',
   },
   current: 'light',
 };

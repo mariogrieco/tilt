@@ -19,8 +19,6 @@ import Chart from '../components/Chart';
 import ChannelOptionalView from '../components/ChannelOptionalView';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
-
 // const ChannelTab = () => <Channel displayAs="tab" />;
 const ChannelTab = () => <ChannelOptionalView />;
 
@@ -31,6 +29,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
     backgroundColor: '#fff',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
   },
   label: {
     // color: '#0E141E',

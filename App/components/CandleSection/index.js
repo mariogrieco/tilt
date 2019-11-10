@@ -6,6 +6,7 @@ import {View, processColor} from 'react-native';
 import {CandleStickChart} from 'react-native-charts-wrapper';
 import {connect} from 'react-redux';
 import update from 'immutability-helper';
+import merge from 'lodash/merge';
 import isEqueal from 'lodash/isEqual';
 import BarChartSection from '../BarChartSection';
 import fetchCandle from '../../actions/candle';
@@ -51,6 +52,16 @@ class CandleSection extends React.Component {
         xAxis: {
           $merge: {
             valueFormatter: xLabels,
+            textColor: processColor(props.theme.primaryTextColor),
+          },
+        },
+        yAxis: {
+          $set: {
+            ...merge({}, state.yAxis, {
+              left: {
+                textColor: processColor(props.theme.primaryTextColor),
+              },
+            }),
           },
         },
         volume: {
