@@ -83,7 +83,6 @@ export default StyleSheet.create({
   dot: {
     width: 3.5,
     height: 3.5,
-    backgroundColor: '#0e141e',
     borderRadius: 3.5,
     marginLeft: 3,
   },

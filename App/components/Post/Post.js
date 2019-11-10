@@ -603,9 +603,24 @@ class Post extends React.Component {
             <TouchableOpacity
               style={[styles.dotContainer]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
-              <View style={styles.dot} />
-              <View style={styles.dot} />
-              <View style={styles.dot} />
+              <View
+                style={[
+                  styles.dot,
+                  {backgroundColor: theme.primaryTextColor},
+                ]}
+              />
+              <View
+                style={[
+                  styles.dot,
+                  {backgroundColor: theme.primaryTextColor},
+                ]}
+              />
+              <View
+                style={[
+                  styles.dot,
+                  {backgroundColor: theme.primaryTextColor},
+                ]}
+              />
             </TouchableOpacity>
           </View>
         )}

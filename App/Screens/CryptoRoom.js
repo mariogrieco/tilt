@@ -30,14 +30,6 @@ const styles = StyleSheet.create({
   tabBar: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
-    shadowColor: '#D9D8D7',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0,
-    shadowRadius: 0,
-    elevation: 0,
     backgroundColor: '#fff',
   },
   label: {
@@ -116,8 +108,9 @@ class CryptoRoom extends React.PureComponent {
   }
 
   render() {
+    const {theme} = this.props;
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         <TabView
           navigationState={{...this.state}}
           renderScene={SceneMap({
@@ -132,7 +125,13 @@ class CryptoRoom extends React.PureComponent {
           renderTabBar={props => (
             <TabBar
               {...props}
-              style={styles.tabBar}
+              style={[
+                styles.tabBar,
+                {
+                  backgroundColor: theme.primaryBackgroundColor,
+                  borderBottomColor: theme.borderBottomColor,
+                },
+              ]}
               labelStyle={styles.label}
               indicatorStyle={styles.indicator}
               activeColor="#17C491"
@@ -167,6 +166,7 @@ const mapStateToProps = state => ({
   selectedSymbol: state.watchlist.selectedSymbol,
   channels: state.mapChannels.valueSeq().toJS(),
   myChannels: state.myChannelsMap.valueSeq().toJS(),
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(
