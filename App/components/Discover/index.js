@@ -36,7 +36,9 @@ class Discover extends React.Component {
   }
 
   _fetchMore = ({distanceFromEnd}) => {
-    if (distanceFromEnd < 0) return null;
+    if (distanceFromEnd < 0) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
@@ -77,10 +79,11 @@ class Discover extends React.Component {
   render() {
     const {channels} = this.props;
     const {loading} = this.state;
+    const {theme} = this.props;
     return (
       <Fragment>
         <FlatList
-          style={{flex: 1}}
+          style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}
           data={channels}
           extraData={channels}
           keyExtractor={channel => channel.id}
@@ -104,6 +107,7 @@ const mapStateToProps = state => ({
   channels: getJoinChannelsList(state),
   page: state.hashtagChannelsPaginator.page,
   stop: state.hashtagChannelsPaginator.stop,
+  theme: state.themes[state.themes.current],
 });
 
 export default withNavigation(
