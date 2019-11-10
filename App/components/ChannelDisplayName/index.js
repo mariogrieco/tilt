@@ -74,13 +74,19 @@ class ChannelDisplayName extends Component {
       titleColor,
       isfromAdmin,
       unreadMessagesCount,
+      theme,
     } = this.props;
 
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
 
     return (
       <View style={styles.headerContainer}>
-        <Text style={[styles.header, titleColor ? {color: titleColor} : {}]}>
+        <Text
+          style={[
+            styles.header,
+            {color: theme.primaryTextColor},
+            titleColor ? {color: titleColor} : {},
+          ]}>
           <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text> {name}{' '}
         </Text>
         <View style={styles.icons}>
@@ -132,8 +138,14 @@ class ChannelDisplayName extends Component {
   }
 
   getDefaultView() {
+    const {theme} = this.props;
     return (
-      <TouchableOpacity style={styles.container} onPress={this.onPress}>
+      <TouchableOpacity
+        style={[
+          styles.container,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}
+        onPress={this.onPress}>
         <View style={styles.imageContainer}>
           <Image styles={styles.imageContainer} source={EARTH} />
         </View>
@@ -190,6 +202,7 @@ ChannelDisplayName.defaultProps = {
 const mapStateToProps = (state, props) => ({
   meId: state.login.user ? state.login.user.id : {},
   isfromAdmin: isChannelCreatorAdmin(state, props.channel_id),
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {

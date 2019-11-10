@@ -28,7 +28,7 @@ const getChnnelsList = createSelector(
       .forEach(channel => {
         const channelData = orders[channel.id];
         if (channelData && channelData.order) {
-          let titleColor = '#0E141E';
+          let titleColor = '';
           let unreadMessagesCount = 0;
           const posts = channelData.order.map(key => {
             if (!!lastViewed[channel.id] && filterPostBy(entities[key])) {
