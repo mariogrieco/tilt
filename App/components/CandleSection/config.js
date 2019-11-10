@@ -1,5 +1,6 @@
 import {processColor} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
+import {connect} from 'react-redux';
 
 const config = {
   data: {
@@ -81,4 +82,3 @@ const config = {
   },
 };
 
-export default config;

@@ -76,7 +76,8 @@ const mapStateToProps = ({
   watchlist: {
     selectedSymbol: {symbol},
   },
-}) => ({data, symbol});
+  themes,
+}) => ({data, symbol, theme: themes[themes.current]});
 
 export default connect(
   mapStateToProps,

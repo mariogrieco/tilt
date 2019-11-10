@@ -5,16 +5,17 @@ import {connect} from 'react-redux';
 import uuid from 'react-uuid';
 import styles from './styles';
 import Separator from '../Separator';
-import {BookBanner} from '../AdBanner';
+//import {BookBanner} from '../AdBanner';
 import {fetchBooksOnly} from '../../actions/depth';
 import {BOOKS_INTERVAL} from '../../config/refreshIntervals';
 
 const CROSS = require('../../../assets/themes/light/close_gray/shape.png');
 
-const renderItem = ({item}) => (
+const renderItem = ({item, theme}) => (
   <View>
     <View style={[styles.listContainer, styles.container]}>
-      <Text style={[styles.listItem, {flex: 0.8}]}>
+      <Text
+        style={[styles.listItem, {flex: 0.8}]}>
         {parseFloat(item.bid.qty)}
       </Text>
       <View
@@ -129,11 +130,13 @@ const mapStateToProps = ({
   watchlist: {
     selectedSymbol: {symbol},
   },
+  themes,
 }) => ({
   books,
   hasData,
   isDepthChartActive,
   symbol,
+  theme: themes[themes.current],
 });
 
 export default connect(

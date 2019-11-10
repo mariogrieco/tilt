@@ -100,8 +100,13 @@ class CandleSection extends React.Component {
   };
 
   render() {
+    const {theme} = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}>
         <CandleStickChart
           style={styles.chart}
           data={this.state.data}
@@ -113,13 +118,18 @@ class CandleSection extends React.Component {
           dragEnabled={false}
           doubleTapToZoomEnabled={false}
           pinchZoom={false}
-          chartBackgroundColor={processColor('#fff')}
+          chartBackgroundColor={processColor(theme.primaryBackgroundColor)}
           autoScaleMinMaxEnabled
           // onSelect={this.handleSelect.bind(this)}
           // eslint-disable-next-line react/no-string-refs
           ref="chart"
         />
-        <View style={{flex: 0.2, width: '100%', backgroundColor: '#fff'}}>
+        <View
+          style={{
+            flex: 0.2,
+            width: '100%',
+            backgroundColor: theme.primaryBackgroundColor,
+          }}>
           <BarChartSection
             data={this.state.volume}
             colors={this.state.colors}
@@ -142,7 +152,10 @@ CandleSection.defaultProps = {
   ],
 };
 
-const mapStateToProps = ({candle}) => ({candleData: candle.data});
+const mapStateToProps = ({candle, themes}) => ({
+  candleData: candle.data,
+  theme: themes[themes.current],
+});
 
 export default connect(
   mapStateToProps,
