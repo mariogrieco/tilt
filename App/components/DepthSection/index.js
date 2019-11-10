@@ -5,6 +5,7 @@ import {LineChart} from 'react-native-charts-wrapper';
 import update from 'immutability-helper';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
+import merge from 'lodash/merge';
 import {
   depthChartActive,
   depthChartInactive,
@@ -55,6 +56,23 @@ class DepthSection extends React.PureComponent {
                 },
               },
             },
+          },
+        },
+        xAxis: {
+          $merge: {
+            textColor: processColor(props.theme.primaryTextColor),
+          },
+        },
+        yAxis: {
+          $set: {
+            ...merge({}, state.yAxis, {
+              left: {
+                textColor: processColor(props.theme.primaryTextColor),
+              },
+              right: {
+                textColor: processColor(props.theme.primaryTextColor),
+              },
+            }),
           },
         },
       });
@@ -120,7 +138,7 @@ class DepthSection extends React.PureComponent {
 
   render() {
     const {data, xAxis, yAxis, marker} = this.state;
-
+    const {theme} = this.props;
     return (
       <View style={{flex: 1, marginTop: 15, marginBottom: 0}}>
         <View style={styles.container}>
@@ -135,7 +153,7 @@ class DepthSection extends React.PureComponent {
             dragEnabled={false}
             doubleTapToZoomEnabled={false}
             pinchZoom={false}
-            chartBackgroundColor={processColor('#fff')}
+            chartBackgroundColor={processColor(theme.primaryBackgroundColor)}
             autoScaleMinMaxEnabled
           />
         </View>
@@ -154,17 +172,21 @@ const mapStateToProps = ({
     graph: {asks, bids},
     isFetching,
   },
+  themes,
 }) => ({
   asks,
   bids,
   isFetching,
+  theme: themes[themes.current],
 });
+
+const mapDispatchToProps = {
+  dispatchFetchData: fetchAll,
+  dispatchNowActive: depthChartActive,
+  dispatchNowInactive: depthChartInactive,
+};
 
 export default connect(
   mapStateToProps,
-  {
-    dispatchFetchData: fetchAll,
-    dispatchNowActive: depthChartActive,
-    dispatchNowInactive: depthChartInactive,
-  },
+  mapDispatchToProps,
 )(DepthSection);
