@@ -68,10 +68,7 @@ class PhoneNumber extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.getParam('title', 'Enter Phone Number'),
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
   });
 
