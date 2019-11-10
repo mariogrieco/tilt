@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff',
   },
   label: {
     // color: '#0E141E',
@@ -141,30 +140,36 @@ class PublicChat extends React.Component {
     }
   }
 
-  renderChannels = () => (
-    <React.Fragment>
-      <TabView
-        navigationState={{...this.state}}
-        renderScene={SceneMap({
-          channels: Channels,
-          discover: Discover,
-        })}
-        onIndexChange={index => this.setState({index})}
-        initialLayout={{width}}
-        renderTabBar={props => (
-          <TabBar
-            {...props}
-            style={styles.tabBar}
-            labelStyle={styles.label}
-            indicatorStyle={styles.indicator}
-            activeColor="#17C491"
-            inactiveColor="#585C63"
-          />
-        )}
-        //swipeEnabled={false}
-      />
-    </React.Fragment>
-  );
+  renderChannels = () => {
+    const {theme} = this.props;
+    return (
+      <React.Fragment>
+        <TabView
+          navigationState={{...this.state}}
+          renderScene={SceneMap({
+            channels: Channels,
+            discover: Discover,
+          })}
+          onIndexChange={index => this.setState({index})}
+          initialLayout={{width}}
+          renderTabBar={props => (
+            <TabBar
+              {...props}
+              style={[
+                styles.tabBar,
+                {backgroundColor: theme.primaryBackgroundColor},
+              ]}
+              labelStyle={styles.label}
+              indicatorStyle={styles.indicator}
+              activeColor="#17C491"
+              inactiveColor="#585C63"
+            />
+          )}
+          //swipeEnabled={false}
+        />
+      </React.Fragment>
+    );
+  };
 
   render() {
     const {searchValue} = this.state;
@@ -180,13 +185,15 @@ class PublicChat extends React.Component {
   }
 }
 
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+
 const mapDispatchToProps = {
   searchChannels,
 };
 
 export default withNavigation(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(PublicChat),
 );
