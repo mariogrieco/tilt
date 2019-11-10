@@ -81,4 +81,4 @@ const config = {
     wordWrapEnabled: true,
   },
 };
-
+export default config;
