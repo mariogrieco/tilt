@@ -9,14 +9,22 @@ import styles from './styles';
 // const ARROW_UP = require('../../../assets/themes/light/arrow_up/shape.png');
 // const ARROW_DOWN = require('../../../assets/themes/light/arrow_down/shape.png');
 
-const Section = ({tag, price}) => (
+const Section = ({tag, price, theme}) => (
   <View style={styles.container}>
     <View style={[styles.row, {paddingTop: 11, paddingBottom: 12}]}>
       <Text
-        style={[styles.tag, {flex: 1, textAlign: 'left', letterSpacing: 0.1}]}>
+        style={[
+          styles.tag,
+          {color: theme.primaryTextColor},
+          {flex: 1, textAlign: 'left', letterSpacing: 0.1},
+        ]}>
         {`${tag}`}
       </Text>
-      <Text style={styles.number}>{`${price}`}</Text>
+      <Text
+        style={[
+          styles.number,
+          {color: theme.primaryTextColor},
+        ]}>{`${price}`}</Text>
     </View>
   </View>
 );
@@ -34,46 +42,79 @@ const Stat = ({
     lastPrice,
     lastQty,
   },
+  theme,
 }) => (
   <ScrollView>
     <View style={[styles.header, styles.container]}>
       <View>
         <View style={[styles.row, {justifyContent: 'flex-start'}]}>
           <Circle styles={{backgroundColor: '#57cb92', marginRight: 10}} />
-          <Text style={styles.tag}>Bid</Text>
+          <Text style={[styles.tag, {color: theme.primaryTextColor}]}>Bid</Text>
         </View>
-        <Text style={[styles.number, {marginTop: 13}]}>
+        <Text
+          style={[
+            styles.number,
+            {color: theme.primaryTextColor},
+            {marginTop: 13},
+          ]}>
           {`${parseFloat(bidPrice)}`}
         </Text>
       </View>
       <View>
         <View style={[styles.row, {justifyContent: 'flex-end'}]}>
-          <Text style={styles.tag}>Ask</Text>
+          <Text style={[styles.tag, {color: theme.primaryTextColor}]}>Ask</Text>
           <Circle styles={{backgroundColor: '#FC3E30', marginLeft: 10}} />
         </View>
-        <Text style={[styles.number, {marginTop: 13}]}>
+        <Text
+          style={[
+            styles.number,
+            {color: theme.primaryTextColor},
+            {marginTop: 13},
+          ]}>
           {`${parseFloat(askPrice)}`}
         </Text>
       </View>
     </View>
     <Separator />
-    <MemoSection tag="Last Price" price={parseFloat(lastPrice)} />
+    <MemoSection theme={theme} tag="Last Price" price={parseFloat(lastPrice)} />
     <Separator />
-    <MemoSection tag="Last Quantity" price={parseFloat(lastQty)} />
+    <MemoSection
+      theme={theme}
+      tag="Last Quantity"
+      price={parseFloat(lastQty)}
+    />
     <Separator />
-    <MemoSection tag="24H Volume" price={parseFloat(volume)} />
+    <MemoSection theme={theme} tag="24H Volume" price={parseFloat(volume)} />
     <Separator />
-    <MemoSection tag="Previous Close" price={parseFloat(prevClosePrice)} />
+    <MemoSection
+      theme={theme}
+      tag="Previous Close"
+      price={parseFloat(prevClosePrice)}
+    />
     <Separator />
     <View
       style={[styles.row, styles.container, {justifyContent: 'space-between'}]}>
       <View style={styles.row}>
-        <Text style={[styles.tag, {marginRight: 3}]}>24H High</Text>
+        <Text
+          style={[
+            styles.tag,
+            {color: theme.primaryTextColor},
+            {marginRight: 3},
+          ]}>
+          24H High
+        </Text>
         {/* <Image source={ARROW_UP} /> */}
       </View>
       <Text style={styles.highNumber}>{`${parseFloat(highPrice)}`}</Text>
       <View style={[styles.row, {paddingTop: 11, paddingBottom: 12}]}>
-        <Text style={[styles.tag, {marginRight: 3}]}>24H Low</Text>
+        <Text
+          style={[
+            styles.tag,
+            {color: theme.primaryTextColor},
+            {marginRight: 3},
+          ]}>
+          24H Low
+        </Text>
         {/* <Image source={ARROW_DOWN} /> */}
       </View>
       <Text style={styles.lowNumber}>{`${parseFloat(lowPrice)}`}</Text>
@@ -93,6 +134,9 @@ const Stat = ({
   </ScrollView>
 );
 
-const mapStateToProps = ({watchlist: {selectedSymbol}}) => ({selectedSymbol});
+const mapStateToProps = ({watchlist: {selectedSymbol}, themes}) => ({
+  selectedSymbol,
+  theme: themes[themes.current],
+});
 
 export default connect(mapStateToProps)(Stat);
