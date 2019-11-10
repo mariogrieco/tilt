@@ -9,6 +9,14 @@ const ROBOT = require('../../../assets/themes/light/robot/robot.png');
 const BACK = require('../../../assets/themes/light/pin-left/pin-left.png');
 const SEARCH = require('../../../assets/themes/light/search/search.png');
 const MENU = require('../../../assets/themes/light/menu/menu.png');
+const REPLY = require('../../../assets/themes/light/reply/reply.png');
+const REPOST = require('../../../assets/themes/light/repost/repost.png');
+const EDIT = require('../../../assets/themes/light/edit/edit.png');
+const FLAG = require('../../../assets/themes/light/flag/flag.png');
+const COPY = require('../../../assets/themes/light/copy/copy.png');
+const REPORT = require('../../../assets/themes/light/report-post/report-post.png');
+const BLOCK = require('../../../assets/themes/light/block-user/block-user.png');
+const DELETE = require('../../../assets/themes/light/delete/trash.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -21,6 +29,14 @@ const MARKETDATA_DARK = require('../../../assets/themes/dark/marketData-dark/liv
 const BACK_DARK = require('../../../assets/themes/dark/pin-left/pin-left.png');
 const SEARCH_DARK = require('../../../assets/themes/dark/search/search.png');
 const MENU_DARK = require('../../../assets/themes/dark/menu/menu.png');
+const REPLY_DARK = require('../../../assets/themes/dark/reply/reply.png');
+const REPOST_DARK = require('../../../assets/themes/dark/repost/repost.png');
+const EDIT_DARK = require('../../../assets/themes/dark/edit/edit.png');
+const FLAG_DARK = require('../../../assets/themes/dark/flag/flag.png');
+const COPY_DARK = require('../../../assets/themes/dark/copy/copy.png');
+const REPORT_DARK = require('../../../assets/themes/dark/report-post/report-post.png');
+const BLOCK_DARK = require('../../../assets/themes/dark/block-user/block-user.png');
+const DELETE_DARK = require('../../../assets/themes/dark/delete/trash.png');
 
 const assets = {
   light: {
@@ -34,6 +50,14 @@ const assets = {
     BACK,
     SEARCH,
     MENU,
+    REPLY,
+    REPOST,
+    EDIT,
+    FLAG,
+    COPY,
+    REPORT,
+    BLOCK,
+    DELETE,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -46,6 +70,14 @@ const assets = {
     BACK: BACK_DARK,
     SEARCH: SEARCH_DARK,
     MENU: MENU_DARK,
+    REPLY: REPLY_DARK,
+    EDIT: EDIT_DARK,
+    REPOST: REPOST_DARK,
+    FLAG: FLAG_DARK,
+    COPY: COPY_DARK,
+    REPORT: REPORT_DARK,
+    BLOCK: BLOCK_DARK,
+    DELETE: DELETE_DARK,
   },
 };
 
