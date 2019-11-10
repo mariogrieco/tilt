@@ -215,7 +215,7 @@ export class ReactionsGroup extends Component {
         <TouchableOpacity
           style={[
             styles.circle,
-            {backgroundColor: theme.secondaryBackgroundColor},
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
           ]}
           onPress={this.onLikes}>
           <Like />
@@ -224,7 +224,7 @@ export class ReactionsGroup extends Component {
         <TouchableOpacity
           style={[
             styles.circle,
-            {backgroundColor: theme.secondaryBackgroundColor},
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
           ]}
           onPress={this.onDislike}>
           <Dislike />
@@ -233,7 +233,7 @@ export class ReactionsGroup extends Component {
         <TouchableOpacity
           style={[
             styles.circle,
-            {backgroundColor: theme.secondaryBackgroundColor},
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
           ]}
           onPress={this.onLaughs}>
           <Laughs />
@@ -242,7 +242,7 @@ export class ReactionsGroup extends Component {
         <TouchableOpacity
           style={[
             styles.circle,
-            {backgroundColor: theme.secondaryBackgroundColor},
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
           ]}
           onPress={this.onSadFace}>
           <SadFace />
@@ -251,7 +251,7 @@ export class ReactionsGroup extends Component {
         <TouchableOpacity
           style={[
             styles.circle,
-            {backgroundColor: theme.secondaryBackgroundColor},
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
           ]}
           onPress={this.onRocket}>
           <Rocket />
@@ -260,7 +260,7 @@ export class ReactionsGroup extends Component {
         <TouchableOpacity
           style={[
             styles.circle,
-            {backgroundColor: theme.secondaryBackgroundColor},
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
           ]}
           onPress={this.onEyes}>
           <Eyes />
