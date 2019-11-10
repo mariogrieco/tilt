@@ -140,6 +140,7 @@ class PostBottomActions extends React.PureComponent {
 
   renderBottomSheetHeader = () => {
     const {postActions, hidePostActions} = this.props;
+    const {theme} = this.props;
     return (
       <View
         style={[
@@ -147,7 +148,8 @@ class PostBottomActions extends React.PureComponent {
           {
             justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor: 'white',
+            backgroundColor: theme.primaryBackgroundColor,
+            borderBottomColor: theme.borderBottomColor,
           },
         ]}>
         <ReactionsGroup

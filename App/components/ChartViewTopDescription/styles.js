@@ -22,7 +22,7 @@ export default StyleSheet.create({
   toggle: {
     flexDirection: 'row',
     height: 29,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
     alignItems: 'center',
     borderRadius: 14.5,
   },

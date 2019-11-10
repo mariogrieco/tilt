@@ -261,7 +261,7 @@ class EditChannel extends React.Component {
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        style={{flex: 1, backgroundColor: '#F6F7F9'}}>
         {publicChannelModal && this.renderModalPublic()}
         <CreateChannelField>
           <Title title="Name (required)" />

@@ -4,7 +4,7 @@ import Platform from 'react-native';
 export default StyleSheet.create({
   listContainer: {
     paddingBottom: 10,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   channelName: {
     color: '#005493',

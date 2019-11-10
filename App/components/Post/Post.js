@@ -559,7 +559,7 @@ class Post extends React.Component {
               fontSize: 16,
               letterSpacing: 0.1,
             }}>
-            delete
+            Delete
           </Text>
         </View>
       </TouchableOpacity>

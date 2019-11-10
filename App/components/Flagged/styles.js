@@ -21,7 +21,7 @@ export default StyleSheet.create({
   listContainer: {
     // paddingLeft: 10,
     paddingBottom: 10,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   channelTitleContainer: {
     paddingLeft: 10,

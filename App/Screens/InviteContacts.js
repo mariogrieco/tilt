@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   rowLetterGroup: {
     height: 35,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#DCDCDC',
     borderBottomColor: '#DCDCDC',

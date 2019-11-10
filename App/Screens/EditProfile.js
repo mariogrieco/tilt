@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   rowTitle: {
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   rowInput: {
     backgroundColor: '#FFF',
@@ -216,7 +216,7 @@ class EditProfile extends React.PureComponent {
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        style={{flex: 1, backgroundColor: '#F6F7F9'}}>
         <KeyboardAvoidingView
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>

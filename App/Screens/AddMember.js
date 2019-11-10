@@ -210,7 +210,7 @@ class AddMember extends React.Component {
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        style={{flex: 1, backgroundColor: '#F6F7F9'}}>
         <View style={{alignItems: 'center', marginTop: 30}}>
           <Image source={ANTENNA} />
         </View>
