@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -249,10 +249,11 @@ class CreateChannel extends React.Component {
   render() {
     const {title, purpose, header, publicChannelModal} = this.state;
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0;
+    const {theme} = this.props;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         {publicChannelModal && this.renderModalPublic()}
         <CreateChannelField>
           <Title title="Name (required)" />
@@ -301,6 +302,7 @@ class CreateChannel extends React.Component {
 
 const mapStateToProps = state => ({
   me: state.login.user,
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {
