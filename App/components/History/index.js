@@ -4,7 +4,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import uuid from 'react-uuid';
 import Separator from '../Separator';
-import {HistoryBanner} from '../AdBanner';
+// import {HistoryBanner} from '../AdBanner';
 import fetchData from '../../actions/history';
 import {HISTORIES_INTERVAL} from '../../config/refreshIntervals';
 import styles from './style';
