@@ -22,6 +22,8 @@ import {
   encodeHeaderURIStringToUTF8,
   // buildFileUploadData
 } from '../components/Input/file_utils';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
@@ -83,20 +85,18 @@ class EditProfile extends React.PureComponent {
     return null;
   }
 
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Edit Profile',
-    headerLeft: <GoBack onPress={() => navigation.goBack()}  />,
-    headerRight: (
-      <TouchableOpacity
-        style={{
-          paddingHorizontal: 15,
-          paddingVertical: 13,
-          backgroundColor: '#fff',
-        }}
-        onPress={navigation.getParam('onSave', () => {})}>
-        <Text style={styles.saveButton}>Save</Text>
-      </TouchableOpacity>
+    headerLeft: (
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -107,7 +107,9 @@ class EditProfile extends React.PureComponent {
   };
 
   _updateUser = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
@@ -193,7 +195,9 @@ class EditProfile extends React.PureComponent {
 
   _saveProfilePicture = async () => {
     const {profilePicture, newProfile} = this.state;
-    if (!newProfile) return null;
+    if (!newProfile) {
+      return null;
+    }
     const {data} = this.prepareFileToUpload(profilePicture);
     try {
       const userId = this.props.user.id;

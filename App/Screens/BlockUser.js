@@ -4,18 +4,21 @@ import React, {PureComponent} from 'react';
 import GoBack from '../components/GoBack';
 import BlockedList from '../components/BlockedList';
 import {NavigationActions} from 'react-navigation';
-
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 export default class BlockedUsers extends PureComponent {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Blocked Users',
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   render() {

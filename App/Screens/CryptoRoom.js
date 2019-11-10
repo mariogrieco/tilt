@@ -17,6 +17,7 @@ import History from '../components/History';
 import Stat from '../components/Stat';
 import Chart from '../components/Chart';
 import ChannelOptionalView from '../components/ChannelOptionalView';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
@@ -52,14 +53,18 @@ const styles = StyleSheet.create({
 });
 
 class CryptoRoom extends React.PureComponent {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', ''),
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {

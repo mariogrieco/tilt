@@ -16,6 +16,8 @@ import NavigationService from '../config/NavigationService';
 import {sendEmailGuestInvitesToChannels} from '../actions/invitations';
 import TopBlockSpace from '../components/TopBlockSpace';
 import GoBack from '../components/GoBack';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 const EMAIL = require('../../assets/themes/light/envelope/envelope.png');
@@ -62,9 +64,9 @@ const Email = ({onTextChange, onFocus, onBlur, placeHolder, value}) => (
 );
 
 class AddMember extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Add Members',
-    headerLeft: <GoBack onPress={() => navigation.goBack()}  />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()} />,
     headerRight: (
       <TouchableOpacity onPress={navigation.getParam('handleSend', () => {})}>
         <Text
@@ -79,6 +81,13 @@ class AddMember extends React.Component {
         </Text>
       </TouchableOpacity>
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -161,8 +170,12 @@ class AddMember extends React.Component {
   }
 
   _handleEmailInvitations(emails = []) {
-    if (emails.length === 0) return null;
-    if (this.state.loading) return null;
+    if (emails.length === 0) {
+      return null;
+    }
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,

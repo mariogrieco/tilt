@@ -17,6 +17,7 @@ import BlockSpace from '../components/BlockSpace';
 import TopBlockSpace from '../components/TopBlockSpace';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
@@ -57,14 +58,18 @@ const styles = StyleSheet.create({
 });
 
 class LoggedInMenu extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Menu',
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   handleLogout = () => {
@@ -100,10 +105,9 @@ class LoggedInMenu extends React.Component {
   };
 
   render() {
+    const {theme} = this.props;
     return (
-      <ScrollView
-        keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+      <ScrollView keyboardDismissMode="on-drag" style={{flex: 1}}>
         <TopBlockSpace />
         <TouchableOpacity
           style={[styles.row, styles.button]}
