@@ -1,5 +1,5 @@
 package com.tiltclient;
-
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -27,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           packages.add(new RNFirebaseAdMobPackage());
+          packages.add(new RNFirebaseMessagingPackage());
           return packages;
         }
 

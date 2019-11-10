@@ -1,4 +1,5 @@
 import Client4 from '../api/MattermostClient';
+import {getUniqueId} from 'react-native-device-info';
 
 export const IS_LOGIN = 'IS_LOGIN';
 export const USER_LOGIN = 'USER_LOGIN';
@@ -76,7 +77,7 @@ const logoutFailed = err => ({
 
 export const login = (password, email) => async dispatch => {
   try {
-    const response = await Client4.login(email, password);
+    const response = await Client4.login(email, password, '', getUniqueId());
     dispatch(loginSuccess(response));
     init();
     return response;
