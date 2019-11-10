@@ -157,7 +157,10 @@ class PublicChat extends React.Component {
               {...props}
               style={[
                 styles.tabBar,
-                {backgroundColor: theme.primaryBackgroundColor},
+                {
+                  backgroundColor: theme.primaryBackgroundColor,
+                  borderBottomColor: theme.borderBottomColor,
+                },
               ]}
               labelStyle={styles.label}
               indicatorStyle={styles.indicator}
