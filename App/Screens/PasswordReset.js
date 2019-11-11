@@ -149,6 +149,7 @@ class PasswordReset extends React.Component {
                   autoCapitalize="none"
                   placeholderTextColor={theme.secondaryTextColor}
                   autoCorrect={false}
+                  selectionColor="#17C491"
                 />
               </View>
               <InputSeparator />
@@ -161,6 +162,7 @@ class PasswordReset extends React.Component {
                 autoCapitalize="none"
                 placeholderTextColor={theme.secondaryTextColor}
                 autoCorrect={false}
+                selectionColor="#17C491"
               />
               <InputSeparator />
             </View>

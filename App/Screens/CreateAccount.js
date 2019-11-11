@@ -169,6 +169,7 @@ class CreateAccount extends React.Component {
               placeholder="First Name"
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               placeholderTextColor={theme.secondaryTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -180,6 +181,7 @@ class CreateAccount extends React.Component {
               placeholder="Last Name"
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               placeholderTextColor={theme.secondaryTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -192,6 +194,7 @@ class CreateAccount extends React.Component {
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
               placeholderTextColor={theme.secondaryTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -204,6 +207,7 @@ class CreateAccount extends React.Component {
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
               placeholderTextColor={theme.secondaryTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -217,6 +221,7 @@ class CreateAccount extends React.Component {
               maxLength={12}
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               placeholderTextColor={theme.secondaryTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
           </Form>

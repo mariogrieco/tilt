@@ -1291,6 +1291,7 @@ class Input extends React.Component {
               underlineColorAndroid="transparent"
               allowFontScaling
               editable={!isReadOnlyChannel}
+              selectionColor="#17C491"
             />
             {repost && (
               <Repost

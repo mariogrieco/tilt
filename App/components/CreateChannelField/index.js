@@ -29,6 +29,7 @@ export const Input = ({onChangeText, placeHolder, style, value}) => (
     style={[styles.fieldContainer, styles.input, style]}
     placeholderTextColor="#8E8E95"
     autoCapitalize="none"
+    selectionColor="#17C491"
   />
 );
 

@@ -346,6 +346,7 @@ class Recovery extends PureComponent {
                   value={password}
                   maxLength={64}
                   placeholderTextColor={theme.secondaryTextColor}
+                  selectionColor="#17C491"
                 />
                 <InputSeparator />
                 <TextInput
@@ -356,6 +357,7 @@ class Recovery extends PureComponent {
                   value={password2}
                   maxLength={64}
                   placeholderTextColor={theme.secondaryTextColor}
+                  selectionColor="#17C491"
                 />
                 <InputSeparator />
               </View>

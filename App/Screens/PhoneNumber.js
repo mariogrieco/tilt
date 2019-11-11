@@ -151,6 +151,7 @@ class PhoneNumber extends React.Component {
                   placeholder="Enter your phone number"
                   style={[styles.placeholders]}
                   value={phoneNumber}
+                  selectionColor="#17C491"
                 />
               </View>
               <InputSeparator />

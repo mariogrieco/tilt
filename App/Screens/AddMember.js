@@ -18,22 +18,21 @@ import TopBlockSpace from '../components/TopBlockSpace';
 import GoBack from '../components/GoBack';
 import {NavigationActions} from 'react-navigation';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import assets from '../components/ThemeWrapper/assets';
 
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 const EMAIL = require('../../assets/themes/light/envelope/envelope.png');
 // const GROUP = require('../../assets/themes/light/group/group.png');
-const ADD_MEMBER = require('../../assets/themes/light/add-user/user.png');
 const ANTENNA = require('../../assets/themes/light/radio-antenna/radio-antenna.png');
 
 const validEmailRx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@" ]+)*)|(".+" ))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const Email = ({onTextChange, onFocus, onBlur, placeHolder, value}) => (
+const Email = ({onTextChange, onFocus, onBlur, placeHolder, value, theme}) => (
   <View
     style={{
       flexDirection: 'row',
       paddingLeft: 15,
       paddingRight: 15,
-      backgroundColor: 'white',
+      backgroundColor: theme.primaryBackgroundColor,
     }}>
     <View
       style={{
@@ -51,9 +50,11 @@ const Email = ({onTextChange, onFocus, onBlur, placeHolder, value}) => (
         paddingTop: 11,
         fontFamily: 'SFProDisplay-Regular',
         letterSpacing: 0.1,
+        color: theme.primaryTextColor,
       }}
       placeholder={placeHolder}
-      selectionColor="green"
+      placeholderTextColor={theme.secondaryTextColor}
+      selectionColor="#17C491"
       onChangeText={onTextChange}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -207,10 +208,11 @@ class AddMember extends React.Component {
 
   render() {
     const {emailsIndexes} = this.state;
+    const {theme, themeName} = this.props;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#F6F7F9'}}>
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         <View style={{alignItems: 'center', marginTop: 30}}>
           <Image source={ANTENNA} />
         </View>
@@ -223,6 +225,7 @@ class AddMember extends React.Component {
               onFocus={this.onFocusAddLabel}
               value={this.state[`email${index}`]}
               onBlur={this.onBlurAddLabel}
+              theme={theme}
             />
             <Separator />
           </Fragment>
@@ -233,7 +236,7 @@ class AddMember extends React.Component {
             flexDirection: 'row',
             paddingLeft: 15,
             paddingRight: 15,
-            backgroundColor: 'white',
+            backgroundColor: theme.primaryBackgroundColor,
           }}>
           <View
             style={{
@@ -241,7 +244,7 @@ class AddMember extends React.Component {
               justifyContent: 'center',
               marginRight: 8,
             }}>
-            <Image source={ADD_MEMBER} />
+            <Image source={assets[themeName].ADD_MEMBER} />
           </View>
           <TouchableOpacity
             style={{flex: 1, paddingTop: 11, paddingBottom: 11}}
@@ -251,7 +254,7 @@ class AddMember extends React.Component {
                 fontFamily: 'SFProDisplay-Regular',
                 fontSize: 16,
                 letterSpacing: 0.1,
-                color: '#0e141e',
+                color: theme.primaryTextColor,
               }}>
               Contacts
             </Text>
@@ -265,7 +268,7 @@ class AddMember extends React.Component {
             fontSize: 16,
             letterSpacing: 0.1,
             fontFamily: 'SFProDisplay-Regular',
-            color: '#8E8E95',
+            color: theme.placeholderTextColor,
           }}>
           Tilt is better with others. 👽
         </Text>
@@ -276,6 +279,8 @@ class AddMember extends React.Component {
 
 const mapStateToProps = state => ({
   channelId: state.appNavigation.active_channel_id,
+  theme: state.themes[state.themes.current],
+  themeName: state.themes.current,
 });
 
 const mapDispatchToProps = {

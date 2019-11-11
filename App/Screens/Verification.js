@@ -255,6 +255,7 @@ class Verification extends React.Component {
                 }}
                 secureTextEntry
                 style={styles.placeholders}
+                selectionColor="#17C491"
               />
             )}
           </Form>

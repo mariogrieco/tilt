@@ -238,6 +238,7 @@ class EditProfile extends React.PureComponent {
             value={firstName}
             placeholder="Enter you first name"
             onChangeText={this.onFirstNameChange}
+            selectionColor="#17C491"
           />
           <Separator />
           <View style={[styles.row, styles.rowTitle]}>
@@ -250,6 +251,7 @@ class EditProfile extends React.PureComponent {
             value={lastName}
             placeholder="Enter your last name"
             onChangeText={this.onLastNameChange}
+            selectionColor="#17C491"
           />
           <Separator />
           <View style={[styles.row, styles.rowTitle]}>
@@ -264,6 +266,7 @@ class EditProfile extends React.PureComponent {
             onChangeText={this.onPositionChange}
             multiline
             autoCapitalize="none"
+            selectionColor="#17C491"
           />
           <Separator />
         </KeyboardAvoidingView>

@@ -67,6 +67,7 @@ class SearchBar extends React.Component {
             value={inputValue}
             autoCapitalize="none"
             autoCorrect={false}
+            selectionColor="#17C491"
           />
         </View>
       </Animated.View>
