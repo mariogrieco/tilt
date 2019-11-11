@@ -26,7 +26,15 @@ const ANTENNA = require('../../assets/themes/light/radio-antenna/radio-antenna.p
 
 const validEmailRx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@" ]+)*)|(".+" ))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const Email = ({onTextChange, onFocus, onBlur, placeHolder, value, theme}) => (
+const Email = ({
+  onTextChange,
+  onFocus,
+  onBlur,
+  placeHolder,
+  value,
+  theme,
+  themeName,
+}) => (
   <View
     style={{
       flexDirection: 'row',
@@ -40,7 +48,7 @@ const Email = ({onTextChange, onFocus, onBlur, placeHolder, value, theme}) => (
         alignItems: 'flex-start',
         marginRight: 8,
       }}>
-      <Image source={EMAIL} />
+      <Image source={assets[themeName].EMAIL} />
     </View>
     <TextInput
       style={{
@@ -226,6 +234,7 @@ class AddMember extends React.Component {
               value={this.state[`email${index}`]}
               onBlur={this.onBlurAddLabel}
               theme={theme}
+              themeName={themeName}
             />
             <Separator />
           </Fragment>

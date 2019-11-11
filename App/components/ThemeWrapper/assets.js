@@ -20,6 +20,7 @@ const DELETE = require('../../../assets/themes/light/delete/trash.png');
 const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
 const TILT_ROCKET = require('../../../assets/themes/light/tilt_rocket/tiltRoceket.png');
 const ADD_MEMBER = require('../../../assets/themes/light/add-user/user.png');
+const EMAIL = require('../../../assets/themes/light/envelope/envelope.png');
 
 
 //DARK ASSETS
@@ -44,6 +45,7 @@ const DELETE_DARK = require('../../../assets/themes/dark/delete/trash.png');
 const PLUS_BOX_DARK = require('../../../assets/themes/dark/plus-box/plus-box.png');
 const TILT_ROCKET_DARK = require('../../../assets/themes/dark/tilt_rocket/tiltRoceket.png');
 const ADD_MEMBER_DARK = require('../../../assets/themes/dark/add-user/user.png');
+const EMAIL_DARK = require('../../../assets/themes/dark/envelope/envelope.png');
 
 const assets = {
   light: {
@@ -68,6 +70,7 @@ const assets = {
     PLUS_BOX,
     TILT_ROCKET,
     ADD_MEMBER,
+    EMAIL,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -91,6 +94,7 @@ const assets = {
     PLUS_BOX: PLUS_BOX_DARK,
     TILT_ROCKET: TILT_ROCKET_DARK,
     ADD_MEMBER: ADD_MEMBER_DARK,
+    EMAIL: EMAIL_DARK,
   },
 };
 
