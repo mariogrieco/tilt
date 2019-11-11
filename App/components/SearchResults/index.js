@@ -28,6 +28,7 @@ export class SearchResults extends PureComponent {
   }
 
   getChannelDisplayItem = item => {
+    const {theme} = this.props;
     const name = item.channel ? item.channel.show_name : '';
     const realName = item.channel ? item.channel.name : '';
     return (
@@ -40,29 +41,32 @@ export class SearchResults extends PureComponent {
     );
   };
 
-  renderItem = ({item}) => (
-    <View style={{backgroundColor: '#fff'}}>
-      <View style={[styles.channelTitleContainer, {paddingTop: 10}]}>
-        {this.getChannelDisplayItem(item)}
+  renderItem = ({item}) => {
+    const {theme} = this.props;
+    return (
+      <View style={{backgroundColor: theme.primaryBackgroundColor}}>
+        <View style={[styles.channelTitleContainer, {paddingTop: 10}]}>
+          {this.getChannelDisplayItem(item)}
+        </View>
+        <Post
+          postId={item.id}
+          metadata={item.metadata}
+          userId={item.user_id}
+          last_picture_update={item.user ? item.user.last_picture_update : ''}
+          message={item.message}
+          username={item.user ? item.user.username : ''}
+          channel={item.channel}
+          createdAt={item.create_at}
+          edit_at={item.edit_at}
+          type={item.type}
+          disableDots
+          jumpTo
+          extendedDateFormat
+        />
+        <BottomBlockSpaceSmall />
       </View>
-      <Post
-        postId={item.id}
-        metadata={item.metadata}
-        userId={item.user_id}
-        last_picture_update={item.user ? item.user.last_picture_update : ''}
-        message={item.message}
-        username={item.user ? item.user.username : ''}
-        channel={item.channel}
-        createdAt={item.create_at}
-        edit_at={item.edit_at}
-        type={item.type}
-        disableDots
-        jumpTo
-        extendedDateFormat
-      />
-      <BottomBlockSpaceSmall />
-    </View>
-  );
+    );
+  };
 
   renderLoading = () => {
     if (!this.props.loading) {
@@ -76,13 +80,32 @@ export class SearchResults extends PureComponent {
   };
 
   render() {
+    const {theme} = this.props;
     const {posts, loading} = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Search Results</Text>
+      <View
+        style={[
+          styles.container,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
+        <View
+          style={[
+            styles.header,
+            {
+              backgroundColor: theme.secondaryBackgroundColor,
+              borderTopColor: theme.borderBottomColor,
+            },
+          ]}>
+          <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+            Search Results
+          </Text>
         </View>
-        <ScrollView keyboardDismissMode="on-drag" style={styles.body}>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          style={[
+            styles.body,
+            {backgroundColor: theme.secondaryBackgroundColor},
+          ]}>
           <Separator />
           <FlatList
             data={loading ? [] : posts}
@@ -96,12 +119,14 @@ export class SearchResults extends PureComponent {
     );
   }
 }
-
 const mapDispatchToProps = {
   navigateIfExists,
 };
 
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+
 export default connect(
   null,
   mapDispatchToProps,
+  mapStateToProps,
 )(SearchResults);
