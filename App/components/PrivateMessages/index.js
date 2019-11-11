@@ -75,14 +75,21 @@ class PrivateMessages extends React.Component {
     );
   };
 
-  renderEmptyList = () => (
-    <View style={styles.emptyContainer}>
-      <Image source={SATELLITE} />
-      <Text style={styles.emptyText}>
-        Your inbox is empty. It's time to send your first direct message.
-      </Text>
-    </View>
-  );
+  renderEmptyList = () => {
+    const {theme} = this.props;
+    return (
+      <View
+        style={[
+          styles.emptyContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}>
+        <Image source={SATELLITE} />
+        <Text style={[styles.emptyText, {color: theme.placeholderTextColor}]}>
+          Your inbox is empty. It's time to send your first direct message.
+        </Text>
+      </View>
+    );
+  };
 
   render() {
     const {privateChanels} = this.props;
