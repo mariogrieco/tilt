@@ -97,15 +97,22 @@ export const Header = ({
 );
 
 class UserProfile extends React.PureComponent {
-  listEmptyComponent = () => (
-    <View style={styles.emptyContainer}>
-      <Image source={LANDER} />
-      <Text style={styles.emptyText}>
-        Welcome to Tilt. It’s time to radio back to Earth. Make your first post,
-        then see it here.
-      </Text>
-    </View>
-  );
+  listEmptyComponent = () => {
+    const {theme} = this.props;
+    return (
+      <View
+        style={[
+          styles.emptyContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}>
+        <Image source={LANDER} />
+        <Text style={[styles.emptyText, {color: theme.placeholderTextColor}]}>
+          Welcome to Tilt. It’s time to radio back to Earth. Make your first
+          post, then see it here.
+        </Text>
+      </View>
+    );
+  };
 
   createDirectChannel = () => {
     const {user, createDirectChannel} = this.props;
