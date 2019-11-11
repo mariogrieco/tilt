@@ -385,7 +385,6 @@ const mapStateToProps = state => {
   const whoIam = state.login.user ? state.login.user.id : null;
   return {
     ...getAdvancedSearchList(state),
-    theme: state.themes[state.themes.current],
     users: state.users.keys.map(key =>
       state.users.data[key] ? state.users.data[key] : {},
     ),

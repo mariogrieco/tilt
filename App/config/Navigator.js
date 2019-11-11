@@ -13,7 +13,6 @@ import PhoneNumber from '../Screens/PhoneNumber';
 import LoggedIn from '../Screens/LoggedIn';
 import LoggedInMenu from '../Screens/LoggedInMenu';
 import Verification from '../Screens/Verification';
-import setAvatar from '../Screens/setAvatar';
 import PasswordReset from '../Screens/PasswordReset';
 import CreateChannel from '../Screens/CreateChannel';
 import EditChannel from '../Screens/EditChannel';
@@ -75,7 +74,6 @@ const SignUpStack = createStackNavigator(
     TermsWeb,
     PhoneNumber,
     Verification,
-    setAvatar,
     PasswordReset,
     Recovery,
   },
