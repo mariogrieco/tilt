@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   tabBar: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
-    shadowColor: '#D9D8D7',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -63,9 +62,9 @@ class PublicChat extends React.Component {
     }),
     headerLeft: (
       <SearchBar
-        inputStyle={styles.input}
+        inputStyle={[styles.input, {color: screenProps.theme.primaryTextColor}]}
         placeholderText="Search for a channel or username"
-        placeholderTextColor="#8E8E95"
+        placeholderTextColor={screenProps.theme.placeholderTextColor}
         growPercentage={0.78}
         onChangeText={navigation.getParam('onSearch', () => {})}
         inputValue={navigation.getParam('searchValue', '')}

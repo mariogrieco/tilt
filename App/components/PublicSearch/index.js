@@ -33,9 +33,10 @@ class PublicSearch extends React.Component {
       mapChannelsColors,
     } = this.props;
     const {currentToggleSelected} = this.state;
+    const {theme} = this.props;
 
     return (
-      <ScrollView keyboardDismissMode="on-drag">
+      <ScrollView keyboardDismissMode="on-drag" style={{backgroundColor: theme.primaryBackgroundColor}}>
         <View
           style={{
             width: '57%',
@@ -123,6 +124,7 @@ const mapStateToProps = state => {
     channelStatsGroup,
     mapChannelsColors,
     myChannels: myChannelsMap.valueSeq().toJS(),
+    theme: state.themes[state.themes.current],
   };
 };
 
