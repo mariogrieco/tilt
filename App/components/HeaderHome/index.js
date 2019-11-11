@@ -12,34 +12,13 @@ import {
 import {connect} from 'react-redux';
 import styles from './styles';
 import assets from '../ThemeWrapper/assets';
+import SearchBar from '../SearchBar';
 
 // const MENU_IMAGE = require('../../../assets/themes/light/menu/menu.png');
 const SEARCH = require('../../../assets/themes/light/search/search.png');
 const SEARCH_ICON = require('../../../assets/themes/light/searchIcon/searchIcon.png');
 
 const {width} = Dimensions.get('window');
-
-// export const HeaderLeft = (props) => {
-//   const { navigation } = props;
-//   return (
-//     <View style={styles.searchContainer}>
-//       <Image
-//         source={SEARCH_ICON}
-//         style={{
-//           paddingLeft: 20, paddingRight: 8, paddingVertical: 5
-//         }}
-//       />
-//       <View>
-//         <TextInput
-//           onChangeText={navigation.getParam('onChangeText', () => {})}
-//           style={styles.searchText}
-//           placeholder="Search for a symbol"
-//           placeholderTextColor="#8E8E95"
-//         />
-//       </View>
-//     </View>
-//   );
-// };
 
 class Search extends React.Component {
   state = {
@@ -67,7 +46,6 @@ class Search extends React.Component {
   render() {
     const {navigation} = this.props;
     const {widthAnim, fadeAnim} = this.state;
-    const {themeName, theme} = this.props;
     return (
       <Animated.View
         style={{
