@@ -182,7 +182,6 @@ const LoggedInMenuStack = createStackNavigator(
     LoggedInMenu,
     BlockUser,
     EditProfile,
-    BlockUser,
   },
   {
     headerLayoutPreset: 'center',
@@ -234,9 +233,6 @@ const InviteContactsStack = createStackNavigator(
     InviteContacts,
   },
   {
-    defaultNavigationOptions: {
-      title: 'Invite Contacts',
-    },
     headerLayoutPreset: 'center',
   },
 );
