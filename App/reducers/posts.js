@@ -138,7 +138,6 @@ const posts = (state = initialState, action) => {
           nextState.keys = keys(nextState.entities);
         }
       });
-      console.log(nextState);
       return nextState;
     }
     default:
