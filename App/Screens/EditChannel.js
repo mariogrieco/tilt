@@ -257,17 +257,27 @@ class EditChannel extends React.Component {
 
   render() {
     const {title, purpose, header, publicChannelModal} = this.state;
+    const {theme} = this.props;
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#F6F7F9'}}>
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         {publicChannelModal && this.renderModalPublic()}
         <CreateChannelField>
-          <Title title="Name (required)" />
+          <Title
+            title="Name (required)"
+            containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+            textStyle={{color: theme.primaryTextColor}}
+          />
           <Separator />
           <Input
             value={title}
+            style={{
+              color: theme.primaryTextColor,
+              backgroundColor: theme.primaryBackgroundColor,
+            }}
+            placeholderTextColor={theme.placeholderTextColor}
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
           />
@@ -278,29 +288,55 @@ class EditChannel extends React.Component {
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>
           <CreateChannelField>
-            <Title title="Purpose (optional)" />
+            <Title
+              title="Purpose (optional)"
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.primaryTextColor}}
+            />
             <Separator />
             <Input
               placeHolder="Example: “Learn how to swing trade successfully”"
               onChangeText={this.onChangePurpose}
               value={purpose}
+              style={{
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              }}
+              placeholderTextColor={theme.placeholderTextColor}
               multiline
             />
             <Separator />
-            <Description description="Describe how this channel should be used. This text will appear beside the channel name." />
+            <Description
+              description="Describe how this channel should be used. This text will appear beside the channel name."
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.placeholderTextColor}}
+            />
             <Spacer />
           </CreateChannelField>
           <CreateChannelField>
-            <Title title="Header (required)" />
+            <Title
+              title="Header (required)"
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.primaryTextColor}}
+            />
             <Separator />
             <Input
               placeHolder="Example: “Visit http://example.com to learn more.”"
               onChangeText={this.onChangeHeader}
               value={header}
               multiline
+              style={{
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              }}
+              placeholderTextColor={theme.placeholderTextColor}
             />
             <Separator />
-            <Description description="Set text that will appear in the header of the channel. For example, include frequently used links, FAQs, or any additional information that is valuable to investors and traders." />
+            <Description
+              description="Set text that will appear in the header of the channel. For example, include frequently used links, FAQs, or any additional information that is valuable to investors and traders."
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.placeholderTextColor}}
+            />
           </CreateChannelField>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -310,6 +346,7 @@ class EditChannel extends React.Component {
 
 const mapStateToProps = state => ({
   me: state.login.user,
+  theme: state.themes[state.themes.current],
   channel: state.myChannelsMap.has(state.appNavigation.active_channel_id)
     ? state.myChannelsMap.get(state.appNavigation.active_channel_id)
     : {},
