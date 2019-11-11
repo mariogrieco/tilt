@@ -11,6 +11,7 @@ import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
+import assets from '../components/ThemeWrapper/assets';
 
 const TILT_ROCKET = require('../../assets/themes/light/tilt_rocket/tiltRoceket.png');
 
@@ -88,7 +89,7 @@ class PublicChat extends React.Component {
       <TouchableOpacity
         style={{paddingHorizontal: 15}}
         onPress={() => navigation.navigate('CreateChannel')}>
-        <Image source={TILT_ROCKET} />
+        <Image source={assets[screenProps.themeName].TILT_ROCKET} />
       </TouchableOpacity>
     ),
   });
@@ -188,7 +189,10 @@ class PublicChat extends React.Component {
   }
 }
 
-const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
 
 const mapDispatchToProps = {
   searchChannels,

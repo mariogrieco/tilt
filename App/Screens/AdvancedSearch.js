@@ -59,7 +59,7 @@ export class AdvancedSearch extends Component {
     });
   };
 
-  static navigationOptions = ({navigation, screenProps, theme}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     headerLeft: (
       <SearchBar
         handleRef={navigation.getParam('refInput', null)}
@@ -97,7 +97,7 @@ export class AdvancedSearch extends Component {
         <Text
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
-            color: theme.primaryTextColor,
+            color: screenProps.theme.primaryTextColor,
             fontSize: 16,
             letterSpacing: 0.1,
             fontFamily: 'SFProDisplay-Medium',
