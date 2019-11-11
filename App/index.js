@@ -18,8 +18,10 @@ init();
 class App extends React.PureComponent {
   async componentDidMount() {
     SplashScreen.hide();
-    await pushNotification.requirePermission();
-    await pushNotification.requestPermissions();
+    await pushNotification.requirePermission(
+      pushNotification.requestPermissions,
+    );
+
     await pushNotification.setMessageListener(msg => {
       console.log('msg: ', msg);
     });

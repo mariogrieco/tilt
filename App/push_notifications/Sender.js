@@ -58,4 +58,4 @@ export class Sender {
   sendPostEdited() {};
   sendAddedToChannel() {};
   sendRemoveFromChannel() {};
-}
+};

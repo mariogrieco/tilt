@@ -9,14 +9,14 @@ class PushNotification {
     this.messageListener = false;
   }
 
-  async requirePermission() {
+  async requirePermission(callback) {
     const enabled = await firebase.messaging().hasPermission();
     if (enabled) {
       this.hasPermission = true;
     } else {
       this.hasPermission = false;
+      await callback();
     }
-    this.hasPermission;
   }
 
   async requestPermissions() {
@@ -37,7 +37,6 @@ class PushNotification {
 
   async setMessageListener(callback) {
     this.messageListener = firebase.messaging().onMessage(message => {
-      console.log('message!!!');
       callback(message);
     });
     return this.messageListener;
