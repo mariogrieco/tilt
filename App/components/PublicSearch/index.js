@@ -36,7 +36,9 @@ class PublicSearch extends React.Component {
     const {theme} = this.props;
 
     return (
-      <ScrollView keyboardDismissMode="on-drag" style={{backgroundColor: theme.primaryBackgroundColor}}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        style={{backgroundColor: theme.primaryBackgroundColor}}>
         <View
           style={{
             width: '57%',

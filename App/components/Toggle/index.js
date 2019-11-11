@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
+import {connect} from 'react-redux';
 
 class Toggle extends React.Component {
   state = {
@@ -30,15 +31,20 @@ class Toggle extends React.Component {
   render() {
     const {current} = this.state;
     const {leftLabel, rightLabel} = this.props;
+    const {theme} = this.props;
     return (
-      <View style={styles.toggle}>
+      <View
+        style={[
+          styles.toggle,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}>
         <TouchableOpacity onPress={this.handleLeft}>
           <Text
             style={[
               styles.toggleText,
               current === 'left'
-                ? styles.toggleSelected
-                : styles.toggleUnSelected,
+                ? [styles.toggleSelected, {color: theme.primaryBackgroundColor}]
+                : [styles.toggleUnSelected, {color: theme.primaryTextColor}],
             ]}>
             {`${leftLabel}`}
           </Text>
@@ -48,8 +54,8 @@ class Toggle extends React.Component {
             style={[
               styles.toggleText,
               current === 'right'
-                ? styles.toggleSelected
-                : styles.toggleUnSelected,
+                ? [styles.toggleSelected, {color: theme.primaryBackgroundColor}]
+                : [styles.toggleUnSelected, {color: theme.primaryTextColor}],
             ]}>
             {`${rightLabel}`}
           </Text>
@@ -65,4 +71,8 @@ Toggle.defaultProps = {
   onPress: () => {},
 };
 
-export default Toggle;
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+});
+
+export default connect(mapStateToProps)(Toggle);
