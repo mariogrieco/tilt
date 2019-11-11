@@ -52,6 +52,7 @@ export class PureParsedText extends Component {
     super(props);
 
     this.createPatters = memoize(disableUserPattern => {
+      const {theme} = this.props;
       if (disableUserPattern) {
         return [
           {
@@ -103,7 +104,10 @@ export class PureParsedText extends Component {
         },
         {
           pattern: this.getMentionPatter(),
-          style: styles.mentions,
+          style: [
+            styles.mentions,
+            {backgroundColor: theme.userMentionBackgroundColor},
+          ],
           onPress: this.onUserPress.bind(this),
         },
         {
@@ -353,6 +357,7 @@ export class PureParsedText extends Component {
 
   getMentionPatter() {
     const {usernames} = this.props;
+    const {theme} = this.props;
     return new RegExp(`@(${(usernames || []).join('|')})\\b`);
   }
 
@@ -537,8 +542,8 @@ export class PureParsedText extends Component {
           borderRadius: 4,
           paddingVertical: 3,
           paddingHorizontal: 8,
-          backgroundColor: '#F4F4F4',
-          borderColor: '#DCDCDC',
+          backgroundColor: theme.codeBackgroundColor,
+          borderColor: theme.borderBottomColor,
           borderWidth: StyleSheet.hairlineWidth,
         }
       : null;
@@ -549,7 +554,7 @@ export class PureParsedText extends Component {
       }
       return (
         <View style={containerStyle}>
-          <Text style={styles.codeText}>
+          <Text style={[styles.codeText, {color: theme.primaryTextColor}]}>
             {message.replace(/`{3,}$/gmu, '').replace(/^`{3,}/, '')}
           </Text>
         </View>

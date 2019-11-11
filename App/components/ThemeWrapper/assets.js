@@ -17,6 +17,7 @@ const COPY = require('../../../assets/themes/light/copy/copy.png');
 const REPORT = require('../../../assets/themes/light/report-post/report-post.png');
 const BLOCK = require('../../../assets/themes/light/block-user/block-user.png');
 const DELETE = require('../../../assets/themes/light/delete/trash.png');
+const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -37,6 +38,7 @@ const COPY_DARK = require('../../../assets/themes/dark/copy/copy.png');
 const REPORT_DARK = require('../../../assets/themes/dark/report-post/report-post.png');
 const BLOCK_DARK = require('../../../assets/themes/dark/block-user/block-user.png');
 const DELETE_DARK = require('../../../assets/themes/dark/delete/trash.png');
+const PLUS_BOX_DARK = require('../../../assets/themes/dark/plus-box/plus-box.png');
 
 const assets = {
   light: {
@@ -58,6 +60,7 @@ const assets = {
     REPORT,
     BLOCK,
     DELETE,
+    PLUS_BOX,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -78,6 +81,7 @@ const assets = {
     REPORT: REPORT_DARK,
     BLOCK: BLOCK_DARK,
     DELETE: DELETE_DARK,
+    PLUS_BOX: PLUS_BOX_DARK,
   },
 };
 

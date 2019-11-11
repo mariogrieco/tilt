@@ -21,6 +21,8 @@ const initialState = {
     intervalSelectedBackgroundColor: '#17C491',
     intervalUnselectedBackgroundColor: '#FFF',
     postReactionsPopupBackgroundColor: '#FFF',
+    codeBackgroundColor: '#F4F4F4',
+    userMentionBackgroundColor: '#E4EFFF',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -42,6 +44,8 @@ const initialState = {
     intervalSelectedBackgroundColor: '#17C491',
     intervalUnselectedBackgroundColor: '#0E141E',
     postReactionsPopupBackgroundColor: '#0E141E',
+    codeBackgroundColor: 'rgba(244,244,244,0.1)',
+    userMentionBackgroundColor: 'rgba(228,239,255,0.2)',
   },
   current: 'light',
 };

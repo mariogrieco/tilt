@@ -59,7 +59,7 @@ export class AdvancedSearch extends Component {
     });
   };
 
-  static navigationOptions = ({navigation, screenProps}) => ({
+  static navigationOptions = ({navigation, screenProps, theme}) => ({
     headerLeft: (
       <SearchBar
         handleRef={navigation.getParam('refInput', null)}
@@ -97,7 +97,7 @@ export class AdvancedSearch extends Component {
         <Text
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
-            color: '#0e141e',
+            color: theme.primaryTextColor,
             fontSize: 16,
             letterSpacing: 0.1,
             fontFamily: 'SFProDisplay-Medium',
@@ -385,6 +385,7 @@ const mapStateToProps = state => {
   const whoIam = state.login.user ? state.login.user.id : null;
   return {
     ...getAdvancedSearchList(state),
+    theme: state.themes[state.themes.current],
     users: state.users.keys.map(key =>
       state.users.data[key] ? state.users.data[key] : {},
     ),

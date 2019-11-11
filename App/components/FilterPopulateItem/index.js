@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import {connect} from 'react-redux';
 
 import styles from './styles';
+import assets from '../ThemeWrapper/assets';
 
 const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
 
@@ -53,21 +54,36 @@ export class FilterPopulateItem extends Component {
   };
 
   render() {
+    const {theme, themeName} = this.props;
     return (
       <TouchableOpacity
-        style={styles.filterPopulateItem}
+        style={[
+          styles.filterPopulateItem,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}
         onPress={this.handlePress}>
-        <View style={styles.headerContainer}>
-          <Image source={PLUS_BOX} />
-          <Text style={styles.labelHeader}>{this.getHeaderLabel()}</Text>
+        <View
+          style={[
+            styles.headerContainer,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}>
+          <Image source={assets[themeName].PLUS_BOX} />
+          <Text style={[styles.labelHeader, {color: theme.primaryTextColor}]}>
+            {this.getHeaderLabel()}
+          </Text>
         </View>
-        <Text style={styles.labelBody}>{this.getBodyLabel()}</Text>
+        <Text style={[styles.labelBody, {color: theme.secondaryTextColor}]}>
+          {this.getBodyLabel()}
+        </Text>
       </TouchableOpacity>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  theme: state.themes[state.themes.current],
+  themeName: state.themes.current,
+});
 
 const mapDispatchToProps = {};
 
