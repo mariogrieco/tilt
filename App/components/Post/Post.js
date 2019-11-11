@@ -604,22 +604,13 @@ class Post extends React.Component {
               style={[styles.dotContainer]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
               <View
-                style={[
-                  styles.dot,
-                  {backgroundColor: theme.primaryTextColor},
-                ]}
+                style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />
               <View
-                style={[
-                  styles.dot,
-                  {backgroundColor: theme.primaryTextColor},
-                ]}
+                style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />
               <View
-                style={[
-                  styles.dot,
-                  {backgroundColor: theme.primaryTextColor},
-                ]}
+                style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />
             </TouchableOpacity>
           </View>
@@ -714,7 +705,7 @@ class Post extends React.Component {
                     : this.handleNavigationToProfile
                 }>
                 <Text>
-                  <Text style={[styles.username]}>
+                  <Text style={[styles.username, {color: theme.primaryTextColor}]}>
                     {typeIsSystem ? 'System' : username}{' '}
                   </Text>
                   <Text style={styles.timespan}>
