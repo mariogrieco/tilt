@@ -170,6 +170,7 @@ class ChannelDisplayName extends Component {
   }
 
   getJoinView() {
+    const {theme} = this.props;
     return (
       <TouchableOpacity activeOpacity={1} style={styles.containerJoin}>
         <View style={styles.imageContainer}>
@@ -181,7 +182,7 @@ class ChannelDisplayName extends Component {
           {this.getMembersLabel()}
         </View>
         <View style={{flex: 0.32, alignItems: 'flex-end', paddingRight: 15}}>
-          <TouchableOpacity style={styles.join} onPress={this.onJoin}>
+          <TouchableOpacity style={[styles.join, {backgroundColor: theme.joinButtonBackgroundColor}]} onPress={this.onJoin}>
             <Text style={styles.joinText}>JOIN</Text>
           </TouchableOpacity>
         </View>
