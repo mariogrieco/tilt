@@ -65,10 +65,7 @@ class PasswordReset extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Password Reset'),
     headerLeft: (
-      <GoBack
-
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
     ...headerForScreenWithTabs({
       headerTintColor: screenProps.theme.headerTintColor,
@@ -184,7 +181,4 @@ const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PasswordReset);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);
