@@ -43,7 +43,7 @@ const initialState = {
     intervalSelectedTextColor: '#0E141E',
     intervalUnselectedTextColor: '#17C491',
     intervalSelectedBackgroundColor: '#17C491',
-    intervalUnselectedBackgroundColor: '#0E141E',
+    intervalUnselectedBackgroundColor: '#040D14',
     modalPopupBackgroundColor: '#0E141E',
     codeBackgroundColor: 'rgba(244,244,244,0.1)',
     userMentionBackgroundColor: 'rgba(228,239,255,0.2)',
