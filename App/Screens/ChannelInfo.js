@@ -24,7 +24,9 @@ import {
   deleteFavoriteChannel,
   removeFromChannel,
   deleteChannel,
+  getMuteUnMutePreferences,
 } from '../actions/channels';
+import {muteChannelAction, unmuteChannelAction} from '../actions/preferences';
 import {removePostFromChannelId} from '../actions/posts';
 import {
   handleUrlPress,
@@ -37,12 +39,13 @@ import {getFavoriteChannelById} from '../selectors/getFavoriteChannels';
 import Spacer from '../components/Spacer';
 import BottomBlockSpaceSmall from '../components/BottomBlockSpaceSmall';
 import MiddleBlockSpaceSmall from '../components/MiddleBlockSpaceSmall';
+import getChannelMuteConf from '../selectors/getChannelMuteConf';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
 const STAR = require('../../assets/images/star-black/star.png');
-// const BELL = require('../../assets/images/bell-black/002-bell.png');
+const BELL = require('../../assets/images/bell-black/002-bell.png');
 const MEMBERS = require('../../assets/images/add-friend-black/add-friend.png');
 const EDIT = require('../../assets/images/edit-black/004-edit.png');
 const SIGN_OUT = require('../../assets/images/sign-out-black/005-sign-out-option.png');
@@ -382,7 +385,24 @@ class ChannelInfo extends React.Component {
     }
   };
 
-  handleMuteChannel = value => this.setState({isMuteChannel: value});
+  handleMuteChannel = value => {
+    this.setState({loadingMute: true}, async () => {
+      try {
+        const {channel_id, user_id} = this.props;
+        if (!value) {
+          await this.props.unmuteChannelAction(channel_id, user_id);
+        } else {
+          await this.props.muteChannelAction(channel_id, user_id);
+        }
+        await this.props.getMuteUnMutePreferences();
+      } catch (ex) {
+      } finally {
+        this.setState({
+          loadingMute: false,
+        });
+      }
+    });
+  };
 
   handleAddMembers = () => {
     const {navigation} = this.props;
@@ -464,9 +484,13 @@ class ChannelInfo extends React.Component {
     navigation.navigate('Channel');
   };
 
+  componentDidMount() {
+    this.props.getMuteUnMutePreferences();
+  }
+
   render() {
-    const {hasFavorite, isMuteChannel, leaveModal, archiveModal} = this.state;
-    const {channel, iamIn, user_id, iAmAdmin, owner} = this.props;
+    const {hasFavorite, leaveModal, archiveModal} = this.state;
+    const {channel, iamIn, user_id, iAmAdmin, owner, isChannelMute} = this.props;
     return (
       <View style={{flex: 1}}>
         <Modal
@@ -572,14 +596,14 @@ class ChannelInfo extends React.Component {
               switchValue={hasFavorite}
               updateSwitchValue={this.handleFavorite}
             />
-            {/* <Separator /> */}
-            {/* <Edit */}
-            {/*  icon={BELL} */}
-            {/*  name="Mute Channel" */}
-            {/*  isSwitch */}
-            {/*  switchValue={isMuteChannel} */}
-            {/*  updateSwitchValue={this.handleMuteChannel} */}
-            {/* /> */}
+            <Separator />
+            <Edit
+              icon={BELL}
+              name="Mute Channel"
+              isSwitch
+              switchValue={isChannelMute}
+              updateSwitchValue={this.handleMuteChannel}
+            />
             <Separator />
             <Edit
               icon={MEMBERS}
@@ -646,6 +670,7 @@ const mapStateToProps = state => {
     owner,
     channel,
     ChannelCreatorPicture,
+    isChannelMute: getChannelMuteConf(state, channel_id),
   };
 };
 
@@ -657,6 +682,9 @@ const mapDispatchToProps = {
   setCurrentDisplayUserProfile,
   deleteChannel,
   removePostFromChannelId,
+  getMuteUnMutePreferences,
+  muteChannelAction,
+  unmuteChannelAction,
 };
 
 export default connect(

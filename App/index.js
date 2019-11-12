@@ -19,13 +19,17 @@ init();
 class App extends React.PureComponent {
   async componentDidMount() {
     SplashScreen.hide();
-    await pushNotification.requirePermission(
-      pushNotification.requestPermissions,
-    );
+    await pushNotification.requirePermission(async () => {
+      await pushNotification.requestPermissions();
+    });
 
     await pushNotification.setMessageListener(msg => {
       translator(msg._data, msg._messageId);
     });
+  }
+
+  componentWillUnmount() {
+    pushNotification.removeMessageListener();
   }
 
   render() {

@@ -21,6 +21,7 @@ import {client4CreateUser} from '../actions/signup';
 import {
   // getProfilesInChannels,
   getProfilesInGroupChannels,
+  enableGlobalNotifications,
   // getUsersStatus
 } from '../actions/users';
 import {
@@ -99,6 +100,7 @@ class CreateAccount extends React.Component {
         await this.props.addToTeam(default_team_id.id, user.id);
         await this.props.getMyPreferences();
         await this.props.getFlagged();
+        await this.props.enableGlobalNotifications();
         this.getPostChannelsAndUsersData();
         this.props.modalActive(true);
         this.props.isLogin(true);
@@ -222,6 +224,7 @@ const mapDispatchToProps = {
   getProfilesInGroupChannels,
   getPostsByChannelId,
   getMyPreferences,
+  enableGlobalNotifications,
 };
 
 const mapStateToProps = state => ({
