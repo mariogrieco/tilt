@@ -35,7 +35,7 @@ const BELL = require('../../assets/images/bell-black/002-bell.png');
 const styles = StyleSheet.create({
   row: {
     height: 44,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
