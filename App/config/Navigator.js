@@ -3,6 +3,8 @@ import {Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import StyleSheet from 'react-native-extended-stylesheet';
+import ThemeTabBar from '../components/ThemeTabBar';
 import Home from '../Screens/Home';
 import PublicChat from '../Screens/PublicChat';
 import CryptoRoom from '../Screens/CryptoRoom';
@@ -29,7 +31,6 @@ import InviteContacts from '../Screens/InviteContacts';
 import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
-import StyleSheet from 'react-native-extended-stylesheet';
 
 const POLL_FOCUS = require('../../assets/themes/light/poll_focus/poll.png');
 const POLL_UNFOCUS = require('../../assets/themes/light/poll_unfocus/poll.png');
@@ -152,22 +153,11 @@ const TabBarPrincipal = createBottomTabNavigator(
     Profile: LoggedInTab,
   },
   {
+    tabBarComponent: props => <ThemeTabBar {...props} />,
     tabBarOptions: {
       labelStyle: {
         fontSize: 18,
         letterSpacing: 0.1,
-      },
-      style: {
-        borderTopColor: '#DCDCDC',
-        borderTopWidth: StyleSheet.hairlineWidth,
-        // shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        // shadowOpacity: 0.15,
-        // shadowRadius: 3.84,
-        elevation: 0,
       },
       showIcon: true,
       showLabel: false,
