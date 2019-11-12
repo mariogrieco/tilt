@@ -37,11 +37,14 @@ class CryptoItem extends React.Component {
   renderChangePrice = price => {
     const color = price > 0 ? '#17C491' : '#FC3E30';
     // const arrow = price > 0 ? ARROW_UP : ARROW_DOWN;
+    const {theme} = this.props;
     return (
       <View style={[styles.priceChangeContainer, {backgroundColor: color}]}>
-        <Text style={styles.priceChangeListView}>{`${parseFloat(price).toFixed(
-          2,
-        )}%`}</Text>
+        <Text
+          style={[
+            styles.priceChangeListView,
+            {color: theme.primaryBackgroundColor},
+          ]}>{`${parseFloat(price).toFixed(2)}%`}</Text>
       </View>
     );
   };
@@ -81,4 +84,7 @@ const mapDispatchToProps = {
   dispatchResetHistories: resetHistories,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CryptoItem);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CryptoItem);
