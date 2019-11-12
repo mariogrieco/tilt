@@ -148,7 +148,7 @@ class PostBottomActions extends React.PureComponent {
           {
             justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor: theme.primaryBackgroundColor,
+            backgroundColor: theme.modalPopupBackgroundColor,
             borderBottomColor: theme.borderBottomColor,
           },
         ]}>
@@ -200,13 +200,13 @@ class PostBottomActions extends React.PureComponent {
 
   renderBottomSheetContent = () => {
     const {postActions, me, isFlagged, sponsored_id} = this.props;
-    const { themeName, theme } = this.props
+    const {themeName, theme} = this.props;
     return (
       <View
         style={[
           styles.contentContainer,
           {
-            backgroundColor: theme.primaryBackgroundColor,
+            backgroundColor: theme.modalPopupBackgroundColor,
             height: 'auto',
           },
         ]}>
