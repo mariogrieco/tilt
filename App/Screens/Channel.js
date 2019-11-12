@@ -36,6 +36,7 @@ import {channelScreen, channelTab} from '../utils/keyboardHelper';
 import {setRepostActiveOnInput} from '../actions/repost';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import assets from '../components/ThemeWrapper/assets';
+import NewMessageSeparator from '../components/NewMessageSeparator';
 
 const styles = StyleSheet.create({
   footer: {
@@ -134,11 +135,7 @@ const styles = StyleSheet.create({
 const renderNewSeparator = () => (
   <View style={styles.separator}>
     <View style={{flex: 1}}>
-      <Separator
-        customStyles={{
-          backgroundColor: '#FC3E30',
-        }}
-      />
+      <NewMessageSeparator />
     </View>
     <View style={{flex: 1, alignItems: 'center'}}>
       <Text style={[styles.separatorText, {color: '#FC3E30'}]}>
@@ -146,11 +143,7 @@ const renderNewSeparator = () => (
       </Text>
     </View>
     <View style={{flex: 1}}>
-      <Separator
-        customStyles={{
-          backgroundColor: '#FC3E30',
-        }}
-      />
+      <NewMessageSeparator />
     </View>
   </View>
 );
