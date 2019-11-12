@@ -19,7 +19,10 @@ import TopBlockSpace from '../components/TopBlockSpace';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 
-import {enableGlobalNotifications,disableGlobalNotifications} from '../actions/users';
+import {
+  enableGlobalNotifications,
+  disableGlobalNotifications,
+} from '../actions/users';
 
 const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
@@ -31,10 +34,10 @@ const BELL = require('../../assets/images/bell-black/002-bell.png');
 
 const styles = StyleSheet.create({
   row: {
-    paddingTop: 12,
-    paddingBottom: 13,
+    height: 44,
     paddingLeft: 15,
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
   },
   blockedContainer: {
@@ -140,22 +143,26 @@ class LoggedInMenu extends React.Component {
           <Text style={styles.buttonText}>Edit Profile</Text>
         </TouchableOpacity>
         <Separator />
-        <TouchableOpacity style={[styles.row, styles.button, {justifyContent: 'space-between'}]}>
+        <TouchableOpacity
+          style={[
+            styles.row,
+            styles.button,
+            {justifyContent: 'space-between'},
+          ]}>
           <View style={{flexDirection: 'row'}}>
             <Image style={styles.icon} source={BELL} />
             <View>
-              <Text style={styles.buttonText}>Notifications</Text>
+              <Text style={styles.buttonText}>Disable All Notifications</Text>
               <View
                 style={{
-                  flex: 0.3,
-                  justifyContent: 'center',
-                  alignItems: 'flex-end',
-               }}>
-              </View>
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              />
             </View>
           </View>
           <Switch
-             trackColor={{
+            trackColor={{
               true: StyleSheet.value('#17C491'),
               false: 'rgba(0, 0, 0, 0.1)',
             }}
