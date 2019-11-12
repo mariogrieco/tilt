@@ -8,7 +8,6 @@ import Client4 from '../../api/MattermostClient';
 import {clearjumpToAction} from '../../actions/advancedSearch';
 import {Emojis} from '../../utils/emojis';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
-import CodePost from '../CodePost';
 // import {
 //   getHashTagChannelsNames,
 //   getDollarChannelNames,
@@ -233,14 +232,6 @@ export class PureParsedText extends Component {
     this.state = {
       parser: this.createPatters(props.disableUserMention),
     };
-  }
-
-  renderCode(text) {
-    return <CodePost str={text} />;
-  }
-
-  getCodePattern() {
-    return /`(.*?)`/;
   }
 
   getEmojiLink(text) {
@@ -509,6 +500,23 @@ export class PureParsedText extends Component {
 
   renderEmailText(text) {
     return <Text style={styles.emailText}>{text}</Text>;
+  }
+
+  renderCode(text) {
+    const {theme} = this.props;
+    return (
+      <Text
+        style={[
+          styles.codeText,
+          {color: theme.tiltRed, backgroundColor: theme.codeBackgroundColor},
+        ]}>
+        {text.replace(/`/g, '')}
+      </Text>
+    );
+  }
+
+  getCodePattern() {
+    return /`(.*?)`/;
   }
 
   messageIsCode(message = '') {
