@@ -60,6 +60,7 @@ export const getAllPostByUserId = (state, userId) => {
   state.posts.keys.forEach(key => {
     const post = state.posts.entities[key];
     if (
+      post &&
       post.user_id === userId &&
       !some(filterSymtemMessages, el => includes(post.type, el))
     ) {
