@@ -231,29 +231,50 @@ class EditChannel extends React.Component {
     );
   };
 
-  renderModalPublic = () => (
-    <Modal
-      isVisible={this.state.publicChannelModal}
-      deviceHeight={H}
-      deviceWidth={W}>
-      <View style={styles.modal}>
-        <View style={styles.textContainer}>
-          <Text style={styles.textModalTitle}>Channel Updated 👍</Text>
-          <Text style={styles.textModalDescription}>
-            Invite new members to your channel. Or visit your Channel Info to
-            invite new members to Tilt.
+  renderModalPublic = () => {
+    const {theme} = this.props;
+    return (
+      <Modal
+        isVisible={this.state.publicChannelModal}
+        deviceHeight={H}
+        deviceWidth={W}>
+        <View
+          style={[
+            styles.modal,
+            {backgroundColor: theme.modalPopupBackgroundColor},
+          ]}>
+          <View style={styles.textContainer}>
+            <Text
+              style={[styles.textModalTitle, {color: theme.primaryTextColor}]}>
+              Channel Updated 👍
+            </Text>
+            <Text
+              style={[
+                styles.textModalDescription,
+                {color: theme.primaryTextColor},
+              ]}>
+              Invite new members to your channel. Or visit your Channel Info to
+              invite new members to Tilt.
+            </Text>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.modalOptions,
+            {
+              borderTopColor: theme.borderBottomColor,
+              backgroundColor: theme.modalPopupBackgroundColor,
+            },
+          ]}>
+          <Text
+            style={[styles.textDestructive, {color: theme.tiltGreen}]}
+            onPress={this.toggleModal}>
+            Done
           </Text>
         </View>
-      </View>
-      <View style={styles.modalOptions}>
-        <Text
-          style={[styles.textDestructive, {color: '#17C491'}]}
-          onPress={this.toggleModal}>
-          Done
-        </Text>
-      </View>
-    </Modal>
-  );
+      </Modal>
+    );
+  };
 
   render() {
     const {title, purpose, header, publicChannelModal} = this.state;

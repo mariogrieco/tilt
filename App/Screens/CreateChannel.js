@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  KeyboardAvoidingView, TextInput,
+  KeyboardAvoidingView,
+  TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -222,29 +223,50 @@ class CreateChannel extends React.Component {
     );
   };
 
-  renderModalPublic = () => (
-    <Modal
-      isVisible={this.state.publicChannelModal}
-      deviceHeight={H}
-      deviceWidth={W}>
-      <View style={styles.modal}>
-        <View style={styles.textContainer}>
-          <Text style={styles.textModalTitle}>Channel Created 🙌</Text>
-          <Text style={styles.textModalDescription}>
-            Your channel is now live. Visit your Channel Info to invite new
-            members.
+  renderModalPublic = () => {
+    const {theme} = this.props;
+    return (
+      <Modal
+        isVisible={this.state.publicChannelModal}
+        deviceHeight={H}
+        deviceWidth={W}>
+        <View
+          style={[
+            styles.modal,
+            {backgroundColor: theme.modalPopupBackgroundColor},
+          ]}>
+          <View style={styles.textContainer}>
+            <Text
+              style={[styles.textModalTitle, {color: theme.primaryTextColor}]}>
+              Channel Created 🙌
+            </Text>
+            <Text
+              style={[
+                styles.textModalDescription,
+                {color: theme.primaryTextColor},
+              ]}>
+              Your channel is now live. Visit your Channel Info to invite new
+              members.
+            </Text>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.modalOptions,
+            {
+              borderTopColor: theme.borderBottomColor,
+              backgroundColor: theme.modalPopupBackgroundColor,
+            },
+          ]}>
+          <Text
+            style={[styles.textDestructive, {color: theme.tiltGreen}]}
+            onPress={this.toggleModal}>
+            Done
           </Text>
         </View>
-      </View>
-      <View style={styles.modalOptions}>
-        <Text
-          style={[styles.textDestructive, {color: '#17C491'}]}
-          onPress={this.toggleModal}>
-          Done
-        </Text>
-      </View>
-    </Modal>
-  );
+      </Modal>
+    );
+  };
 
   render() {
     const {title, purpose, header, publicChannelModal} = this.state;
@@ -256,10 +278,19 @@ class CreateChannel extends React.Component {
         style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         {publicChannelModal && this.renderModalPublic()}
         <CreateChannelField>
-          <Title title="Name (required)" />
+          <Title
+            title="Name (required)"
+            containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+            textStyle={{color: theme.primaryTextColor}}
+          />
           <Separator />
           <Input
             value={title}
+            style={{
+              color: theme.primaryTextColor,
+              backgroundColor: theme.primaryBackgroundColor,
+            }}
+            placeholderTextColor={theme.placeholderTextColor}
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
           />
@@ -270,29 +301,55 @@ class CreateChannel extends React.Component {
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>
           <CreateChannelField>
-            <Title title="Purpose (optional)" />
+            <Title
+              title="Purpose (optional)"
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.primaryTextColor}}
+            />
             <Separator />
             <Input
               placeHolder="Example: “Learn how to swing trade successfully”"
               onChangeText={this.onChangePurpose}
               value={purpose}
+              style={{
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              }}
+              placeholderTextColor={theme.placeholderTextColor}
               multiline
             />
             <Separator />
-            <Description description="Describe how this channel should be used. This text will appear beside the channel name." />
+            <Description
+              description="Describe how this channel should be used. This text will appear beside the channel name."
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.placeholderTextColor}}
+            />
             <Spacer />
           </CreateChannelField>
           <CreateChannelField>
-            <Title title="Header (required)" />
+            <Title
+              title="Header (required)"
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.primaryTextColor}}
+            />
             <Separator />
             <Input
               placeHolder="Example: “Visit http://example.com to learn more.”"
               onChangeText={this.onChangeHeader}
               value={header}
               multiline
+              style={{
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              }}
+              placeholderTextColor={theme.placeholderTextColor}
             />
             <Separator />
-            <Description description="Set text that will appear in the header of the channel. For example, include frequently used links, FAQs, or any additional information that is valuable to investors and traders." />
+            <Description
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.placeholderTextColor}}
+              description="Set text that will appear in the header of the channel. For example, include frequently used links, FAQs, or any additional information that is valuable to investors and traders."
+            />
           </CreateChannelField>
         </KeyboardAvoidingView>
       </ScrollView>
