@@ -11,6 +11,7 @@ import store, {persistor} from './config/store';
 import styles from './config/styles';
 import {init} from './api/Sockets';
 import pushNotification from './push_notifications/firebase_client';
+import translator from './push_notifications/translator';
 
 styles();
 init();
@@ -23,7 +24,7 @@ class App extends React.PureComponent {
     );
 
     await pushNotification.setMessageListener(msg => {
-      console.log('msg: ', msg);
+      translator(msg._data, msg._messageId);
     });
   }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {baseUrl} from '../api/MattermostClient';
+import {baseUrl, server_id} from '../api/MattermostClient';
 export const TYPES = {
   PRIVATE_MESSAGE: 'PRIVATE_MESSAGE',
   PUBLIC_MESSAGE: 'PUBLIC_MESSAGE',
@@ -15,9 +15,9 @@ export const PUSH_NOTIFICATIONS_END = `${baseUrl}/push-notifications/api/v1/send
 export class Sender {
   config = {
     device_id: null,
-    platform: 'android_rn',
+    platform: 'android',
     badge: 1,
-    server_id: 'itjam868oid65jk34aywnd94jo',
+    server_id,
   };
 
   setDeviceId(device_id) {

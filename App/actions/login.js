@@ -78,7 +78,12 @@ const logoutFailed = err => ({
 export const login = (password, email) => async dispatch => {
   try {
     const device_token = await firebase.iid().getToken();
-    const response = await Client4.login(email, password, '', device_token);
+    const response = await Client4.login(
+      email,
+      password,
+      '',
+      `android_rn:${device_token}`,
+    );
     dispatch(loginSuccess(response));
     init();
     return response;
