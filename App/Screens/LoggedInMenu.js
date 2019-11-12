@@ -7,6 +7,7 @@ import {
   Linking,
   Platform,
   View,
+  Switch,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
@@ -18,13 +19,14 @@ import TopBlockSpace from '../components/TopBlockSpace';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import {changeTheme} from '../actions/themeManager';
 
 const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
 // const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
 const SUPPORT = require('../../assets/images/support/support.png');
-const BACK = require('../../assets/images/pin-left/pin-left.png');
 const BLOCKED_GREEN = require('../../assets/images/block-user-green/block-user-green.png');
+const MOON = require('../../assets/images/moon/night.png');
 
 const styles = StyleSheet.create({
   row: {
@@ -105,45 +107,100 @@ class LoggedInMenu extends React.Component {
   };
 
   render() {
-    const {theme} = this.props;
+    const {theme, themeName} = this.props;
     return (
-      <ScrollView keyboardDismissMode="on-drag" style={{flex: 1}}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         <TopBlockSpace />
         <TouchableOpacity
-          style={[styles.row, styles.button]}
+          style={[
+            styles.row,
+            styles.button,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}
           onPress={this.handleEditProfile}>
           <Image style={styles.icon} source={EDIT} />
-          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+            Edit Profile
+          </Text>
         </TouchableOpacity>
         <Separator />
-        {/*<TouchableOpacity style={[styles.row, styles.button]}>*/}
+        {/*<TouchableOpacity style={[styles.row, styles.button, {backgroundColor: theme.primaryBackgroundColor}]}>*/}
         {/*  <Image style={styles.icon} source={NOTIFICATIONS} />*/}
         {/*  <Text style={styles.buttonText}>Notifications</Text>*/}
         {/*</TouchableOpacity>*/}
         {/*<BlockSpace />*/}
         <TouchableOpacity
-          style={[styles.row, styles.button]}
+          style={[
+            styles.row,
+            styles.button,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}
           onPress={this.handleInvitePeople}>
           <Image style={styles.icon} source={INVITE_PEOPLE} />
-          <Text style={styles.buttonText}>Invite People</Text>
+          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+            Invite People
+          </Text>
         </TouchableOpacity>
         <Separator />
         <TouchableOpacity
-          style={[styles.row, styles.button]}
+          style={[
+            styles.row,
+            styles.button,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}
           onPress={this.handleBlocked}>
           <Image style={styles.icon} source={BLOCKED_GREEN} />
-          <Text style={styles.buttonText}>Blocked Users</Text>
+          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+            Blocked Users
+          </Text>
         </TouchableOpacity>
         <Separator />
+        <View
+          style={[
+            styles.row,
+            styles.button,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}
+          onPress={this.handleBlocked}>
+          <Image style={styles.icon} source={MOON} />
+          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+            Dark Theme
+          </Text>
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <Switch
+              trackColor={{
+                true: StyleSheet.value('#17C491'),
+                false: 'rgba(0, 0, 0, 0.1)',
+              }}
+              value={themeName === 'dark'}
+              onValueChange={this.props.changeTheme}
+              thumbColor="#F6F7F9"
+              style={{transform: [{scaleX: 1.3}, {scaleY: 1.3}]}}
+            />
+          </View>
+        </View>
+        <Separator />
         <TouchableOpacity
-          style={[styles.row, styles.button]}
+          style={[
+            styles.row,
+            styles.button,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}
           onPress={this.handleContactSupport}>
           <Image style={styles.icon} source={SUPPORT} />
-          <Text style={styles.buttonText}>Contact Support</Text>
+          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+            Contact Support
+          </Text>
         </TouchableOpacity>
         <BlockSpace />
         <TouchableOpacity
-          style={[styles.row, styles.button]}
+          style={[
+            styles.row,
+            styles.button,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}
           onPress={this.handleLogout}>
           <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
@@ -162,12 +219,15 @@ class LoggedInMenu extends React.Component {
   }
 }
 
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
+
 const mapDispatchToProps = {
   dispatchLogout: logout,
   dispatchIsLogin: isLogin,
+  changeTheme,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LoggedInMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(LoggedInMenu);

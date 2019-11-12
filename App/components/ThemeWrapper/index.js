@@ -45,7 +45,4 @@ const mapStateToProps = ({themes}) => ({
   themeName: themes.current,
 });
 
-export default connect(
-  mapStateToProps,
-  {changeTheme},
-)(ThemeWrapper);
+export default connect(mapStateToProps, {changeTheme})(ThemeWrapper);

@@ -37,6 +37,7 @@ const persistConfig = {
     // 'myChannelsMap',
     'adminCreators',
     'blockedUsers',
+    'themes',
   ],
 };
 
