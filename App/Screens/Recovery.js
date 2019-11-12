@@ -23,8 +23,6 @@ import GoBack from '../components/GoBack';
 import Form from '../components/Form';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
-
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
@@ -317,7 +315,10 @@ class Recovery extends PureComponent {
                 }}
                 pinCount={6}
                 code={code}
-                codeInputFieldStyle={styles.underlineStyleBase}
+                codeInputFieldStyle={{
+                  ...styles.underlineStyleBase,
+                  color: theme.primaryTextColor,
+                }}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
                 onCodeFilled={this.setCode}
                 onCodeChanged={_code => {
@@ -406,7 +407,4 @@ const mapDispatchToProps = {
   updatePassword,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Recovery);
+export default connect(mapStateToProps, mapDispatchToProps)(Recovery);
