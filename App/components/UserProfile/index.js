@@ -235,6 +235,7 @@ const mapStateToProps = (state, props) => {
   return {
     user: {},
     userPosts: [],
+    theme: state.themes[state.themes.current],
   };
 };
 
@@ -242,7 +243,4 @@ const mapDispatchToProps = {
   createDirectChannel,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
