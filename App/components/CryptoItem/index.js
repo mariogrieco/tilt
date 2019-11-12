@@ -47,14 +47,16 @@ class CryptoItem extends React.Component {
   };
 
   render() {
-    const {symbol, lastPrice, priceChangePercent} = this.props;
+    const {symbol, priceChangePercent} = this.props;
     const {theme} = this.props;
     const color = priceChangePercent > 0 ? 'green' : 'red';
 
     return (
       <TouchableOpacity activeOpacity={1} onPress={this.handleOnPress}>
         <View style={styles.container}>
-          <Text style={[styles.pair]}>{symbol}</Text>
+          <Text style={[styles.pair, {color: theme.primaryTextColor}]}>
+            {symbol}
+          </Text>
           <View styles={{alignSelf: 'center'}}>
             <MiniChart symbol={symbol} color={color} />
           </View>
@@ -68,14 +70,15 @@ class CryptoItem extends React.Component {
 CryptoItem.defaultProps = {
   chartData: [],
 };
+
 const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
-export default connect(
-  null,
-  {
-    selectedSymbol,
-    mapStateToProps,
-    dispatchResetInterval: resetInterval,
-    dispatchResetDepthChart: resetDepthChart,
-    dispatchResetHistories: resetHistories,
-  },
-)(CryptoItem);
+
+const mapDispatchToProps = {
+  selectedSymbol,
+  mapStateToProps,
+  dispatchResetInterval: resetInterval,
+  dispatchResetDepthChart: resetDepthChart,
+  dispatchResetHistories: resetHistories,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CryptoItem);
