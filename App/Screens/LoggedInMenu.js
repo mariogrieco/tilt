@@ -7,6 +7,7 @@ import {
   Linking,
   Platform,
   View,
+  Switch,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
@@ -18,12 +19,15 @@ import TopBlockSpace from '../components/TopBlockSpace';
 import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 
+import {enableGlobalNotifications,disableGlobalNotifications} from '../actions/users';
+
 const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
 // const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
 const SUPPORT = require('../../assets/images/support/support.png');
 const BACK = require('../../assets/images/pin-left-black/pin-left.png');
 const BLOCKED_GREEN = require('../../assets/images/block-user-green/block-user-green.png');
+const BELL = require('../../assets/images/bell-black/002-bell.png');
 
 const styles = StyleSheet.create({
   row: {
@@ -99,7 +103,31 @@ class LoggedInMenu extends React.Component {
     navigation.navigate('BlockUser');
   };
 
+  updateSwitchValue = () => {
+    const {global_push_enable} = this.props;
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        try {
+          if (global_push_enable) {
+            await this.props.disableGlobalNotifications();
+          } else {
+            await this.props.enableGlobalNotifications();
+          }
+        } catch (ex) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
+  };
+
   render() {
+    const {global_push_enable} = this.props;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
@@ -112,11 +140,31 @@ class LoggedInMenu extends React.Component {
           <Text style={styles.buttonText}>Edit Profile</Text>
         </TouchableOpacity>
         <Separator />
-        {/*<TouchableOpacity style={[styles.row, styles.button]}>*/}
-        {/*  <Image style={styles.icon} source={NOTIFICATIONS} />*/}
-        {/*  <Text style={styles.buttonText}>Notifications</Text>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<BlockSpace />*/}
+        <TouchableOpacity style={[styles.row, styles.button, {justifyContent: 'space-between'}]}>
+          <View style={{flexDirection: 'row'}}>
+            <Image style={styles.icon} source={BELL} />
+            <View>
+              <Text style={styles.buttonText}>Notifications</Text>
+              <View
+                style={{
+                  flex: 0.3,
+                  justifyContent: 'center',
+                  alignItems: 'flex-end',
+               }}>
+              </View>
+            </View>
+          </View>
+          <Switch
+             trackColor={{
+              true: StyleSheet.value('#17C491'),
+              false: 'rgba(0, 0, 0, 0.1)',
+            }}
+            value={global_push_enable}
+            onValueChange={this.updateSwitchValue}
+            thumbColor="#F6F7F9"
+          />
+        </TouchableOpacity>
+        <BlockSpace />
         <TouchableOpacity
           style={[styles.row, styles.button]}
           onPress={this.handleInvitePeople}>
@@ -144,15 +192,6 @@ class LoggedInMenu extends React.Component {
           <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
         <Separator />
-        {/* <View
-          style={[styles.row, styles.button, styles.blockedContainer]}
-          onPress={this.handleBlocked}>
-          <Text style={[styles.buttonText, styles.logoutText]}>
-            Blocked List
-          </Text>
-          <BlockedList />
-          <Separator />
-        </View> */}
       </ScrollView>
     );
   }
@@ -161,9 +200,20 @@ class LoggedInMenu extends React.Component {
 const mapDispatchToProps = {
   dispatchLogout: logout,
   dispatchIsLogin: isLogin,
+  enableGlobalNotifications,
+  disableGlobalNotifications,
+};
+
+const mapStateToProps = state => {
+  return {
+    global_push_enable:
+      state.login.user && state.login.user.notify_props
+        ? state.login.user.notify_props.push === 'mention'
+        : false,
+  };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(LoggedInMenu);

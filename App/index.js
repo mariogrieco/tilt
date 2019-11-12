@@ -11,6 +11,7 @@ import store, {persistor} from './config/store';
 import styles from './config/styles';
 import {init} from './api/Sockets';
 import pushNotification from './push_notifications/firebase_client';
+import translator from './push_notifications/translator';
 
 styles();
 init();
@@ -18,11 +19,17 @@ init();
 class App extends React.PureComponent {
   async componentDidMount() {
     SplashScreen.hide();
-    await pushNotification.requirePermission();
-    await pushNotification.requestPermissions();
-    await pushNotification.setMessageListener(msg => {
-      console.log('msg: ', msg);
+    await pushNotification.requirePermission(async () => {
+      await pushNotification.requestPermissions();
     });
+
+    await pushNotification.setMessageListener(msg => {
+      translator(msg._data, msg._messageId);
+    });
+  }
+
+  componentWillUnmount() {
+    pushNotification.removeMessageListener();
   }
 
   render() {

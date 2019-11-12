@@ -59,6 +59,53 @@ export const onUser = username => (dispatch, getState) => {
 //   }
 // };
 
+export const disableGlobalNotifications = () => (dispatch, getState) => {
+  const me = getState().login.user;
+  me.notify_props = {
+    ...me.notify_props,
+    auto_responder_active: 'false',
+    channel: 'true',
+    comments: 'never',
+    desktop: 'mention',
+    desktop_sound: 'true',
+    email: 'true',
+    first_name: 'false',
+    mention_keys: 'test',
+    push: 'none',
+    push_status: 'offline',
+  };
+  return dispatch(patchMe(me));
+};
+
+export const enableGlobalNotifications = () => (dispatch, getState) => {
+  const me = getState().login.user;
+  me.notify_props = {
+    ...me.notify_props,
+    channel: 'true',
+    comments: 'never',
+    desktop: 'mention',
+    desktop_sound: 'true',
+    email: 'true',
+    first_name: 'false',
+    mention_keys: 'test',
+    push: 'mention',
+    push_status: 'online',
+  };
+  return dispatch(patchMe(me));
+};
+
+export const patchMe = partial_user => async dispatch => {
+  try {
+    const result = await Client4.patchMe(partial_user);
+    console.log(result);
+    dispatch(userUpdatedSuccess(result));
+    return result;
+  } catch (ex) {
+    dispatch(userUpdatedError(ex));
+    return Promise.reject(ex);
+  }
+};
+
 export const getMyChannelMembersSuccess = members => ({
   type: GET_MY_CHANNEL_MEMBERS_SUCCES,
   payload: members,
@@ -72,9 +119,9 @@ export const getMyChannelMembersError = err => ({
 export const updateUser = newUser => async dispatch => {
   try {
     const r = await Client4.updateUser(newUser);
-    dispatch(updateUserSuccess(r));
+    dispatch(userUpdatedSuccess(r));
   } catch (ex) {
-    dispatch(updateUserError(ex));
+    dispatch(userUpdatedError(ex));
     return Promise.reject(ex.message);
   }
 };

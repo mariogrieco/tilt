@@ -3,6 +3,7 @@ function getAllRootsforPost(postsOrder, posts, key) {
   let count = 0;
   postsOrder.forEach(id => {
     if (
+      posts[id] &&
       posts[id].id !== key &&
       (posts[id].root_id === key || posts[id].parent_id === key)
     ) {
