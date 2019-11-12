@@ -1,10 +1,9 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import StyleSheet from 'react-native-extended-stylesheet';
 import ThemeTabBar from '../components/ThemeTabBar';
+import TabBarIcon from '../components/TabBarIcon';
 import Home from '../Screens/Home';
 import PublicChat from '../Screens/PublicChat';
 import CryptoRoom from '../Screens/CryptoRoom';
@@ -32,29 +31,12 @@ import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
 
-const POLL_FOCUS = require('../../assets/themes/light/poll_focus/poll.png');
-const POLL_UNFOCUS = require('../../assets/themes/light/poll_unfocus/poll.png');
-const HASHTAG_FOCUS = require('../../assets/themes/light/hashtag_focus/hashtag_focus.png');
-const HASHTAG_UNFOCUS = require('../../assets/themes/light/hashtag_unfocus/hashtag_unfocus.png');
-const PROFILE_FOCUS = require('../../assets/themes/light/profile_focus/profile.png');
-const PROFILE_UNFOCUS = require('../../assets/themes/light/profile_unfocus/profile.png');
-const MESSAGES_FOCUS = require('../../assets/themes/light/message_black/envelope.png');
-const MESSAGES_UNFOCUS = require('../../assets/themes/light/messages-gray/envelope.png');
-
 const HomeStack = createStackNavigator(
   {
     Home,
   },
   {
     headerLayoutPreset: 'center',
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={POLL_FOCUS} />
-        ) : (
-          <Image source={POLL_UNFOCUS} />
-        ),
-    },
   },
 );
 
@@ -81,14 +63,6 @@ const SignUpStack = createStackNavigator(
   {
     // headerMode: 'none',
     headerLayoutPreset: 'center',
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={PROFILE_FOCUS} />
-        ) : (
-          <Image source={PROFILE_UNFOCUS} />
-        ),
-    },
   },
 );
 
@@ -99,14 +73,6 @@ const LoggedInTab = createStackNavigator(
   {
     // headerMode: 'none',
     headerLayoutPreset: 'center',
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={PROFILE_FOCUS} />
-        ) : (
-          <Image source={PROFILE_UNFOCUS} />
-        ),
-    },
   },
 );
 
@@ -116,14 +82,6 @@ const PublicChatStack = createStackNavigator(
     CreateChannel,
   },
   {
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={HASHTAG_FOCUS} />
-        ) : (
-          <Image source={HASHTAG_UNFOCUS} />
-        ),
-    },
     headerLayoutPreset: 'center',
   },
 );
@@ -133,14 +91,6 @@ const MessagesStack = createStackNavigator(
     Messages,
   },
   {
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={MESSAGES_FOCUS} />
-        ) : (
-          <Image source={MESSAGES_UNFOCUS} />
-        ),
-    },
     headerLayoutPreset: 'center',
   },
 );
@@ -153,6 +103,12 @@ const TabBarPrincipal = createBottomTabNavigator(
     Profile: LoggedInTab,
   },
   {
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused}) => {
+        const {routeName} = navigation.state;
+        return <TabBarIcon routeName={routeName} focused={focused} />;
+      },
+    }),
     tabBarComponent: props => <ThemeTabBar {...props} />,
     tabBarOptions: {
       labelStyle: {

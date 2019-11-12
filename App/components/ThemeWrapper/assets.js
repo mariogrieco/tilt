@@ -21,7 +21,14 @@ const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
 const TILT_ROCKET = require('../../../assets/themes/light/tilt_rocket/tiltRoceket.png');
 const ADD_MEMBER = require('../../../assets/themes/light/add-user/user.png');
 const EMAIL = require('../../../assets/themes/light/envelope/envelope.png');
-
+const WATCHLIST_FOCUS = require('../../../assets/themes/light/poll_focus/poll.png');
+const WATCHLIST_UNFOCUS = require('../../../assets/themes/light/poll_unfocus/poll.png');
+const PUBLIC_CHAT_FOCUS = require('../../../assets/themes/light/hashtag_focus/hashtag_focus.png');
+const PUBLIC_CHAT_UNFOCUS = require('../../../assets/themes/light/hashtag_unfocus/hashtag_unfocus.png');
+const PROFILE_FOCUS = require('../../../assets/themes/light/profile_focus/profile.png');
+const PROFILE_UNFOCUS = require('../../../assets/themes/light/profile_unfocus/profile.png');
+const MESSAGES_FOCUS = require('../../../assets/themes/light/message_black/envelope.png');
+const MESSAGES_UNFOCUS = require('../../../assets/themes/light/messages-gray/envelope.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -46,6 +53,14 @@ const PLUS_BOX_DARK = require('../../../assets/themes/dark/plus-box/plus-box.png
 const TILT_ROCKET_DARK = require('../../../assets/themes/dark/tilt_rocket/tiltRoceket.png');
 const ADD_MEMBER_DARK = require('../../../assets/themes/dark/add-user/user.png');
 const EMAIL_DARK = require('../../../assets/themes/dark/envelope/envelope.png');
+const WATCHLIST_FOCUS_DARK = require('../../../assets/themes/dark/poll_focus/poll.png');
+const WATCHLIST_UNFOCUS_DARK = require('../../../assets/themes/dark/poll_unfocus/poll.png');
+const PUBLIC_CHAT_FOCUS_DARK = require('../../../assets/themes/dark/hashtag_focus/hashtag_focus.png');
+const PUBLIC_CHAT_UNFOCUS_DARK = require('../../../assets/themes/dark/hashtag_unfocus/hashtag_unfocus.png');
+const PROFILE_FOCUS_DARK = require('../../../assets/themes/dark/profile_focus/profile.png');
+const PROFILE_UNFOCUS_DARK = require('../../../assets/themes/dark/profile_unfocus/profile.png');
+const MESSAGES_FOCUS_DARK = require('../../../assets/themes/dark/messages/envelope.png');
+const MESSAGES_UNFOCUS_DARK = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
 
 const assets = {
   light: {
@@ -71,6 +86,14 @@ const assets = {
     TILT_ROCKET,
     ADD_MEMBER,
     EMAIL,
+    WATCHLIST_FOCUS,
+    WATCHLIST_UNFOCUS,
+    PUBLIC_CHAT_FOCUS,
+    PUBLIC_CHAT_UNFOCUS,
+    PROFILE_FOCUS,
+    PROFILE_UNFOCUS,
+    MESSAGES_FOCUS,
+    MESSAGES_UNFOCUS,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -95,6 +118,14 @@ const assets = {
     TILT_ROCKET: TILT_ROCKET_DARK,
     ADD_MEMBER: ADD_MEMBER_DARK,
     EMAIL: EMAIL_DARK,
+    WATCHLIST_FOCUS: WATCHLIST_FOCUS_DARK,
+    WATCHLIST_UNFOCUS: WATCHLIST_UNFOCUS_DARK,
+    PUBLIC_CHAT_FOCUS: PUBLIC_CHAT_FOCUS_DARK,
+    PUBLIC_CHAT_UNFOCUS: PUBLIC_CHAT_UNFOCUS_DARK,
+    PROFILE_FOCUS: PROFILE_FOCUS_DARK,
+    PROFILE_UNFOCUS: PROFILE_UNFOCUS_DARK,
+    MESSAGES_FOCUS: MESSAGES_FOCUS_DARK,
+    MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK,
   },
 };
 

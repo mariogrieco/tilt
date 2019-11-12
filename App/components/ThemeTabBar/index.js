@@ -8,7 +8,10 @@ const ThemeTabBar = props => (
     {...props}
     style={[
       styles.container,
-      {backgroundColor: props.theme.primaryBackgroundColor},
+      {
+        backgroundColor: props.theme.primaryBackgroundColor,
+        borderTopColor: props.theme.borderBottomColor,
+      },
     ]}
   />
 );
