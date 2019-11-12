@@ -507,17 +507,40 @@ class ChannelInfo extends React.Component {
           hideModalContentWhileAnimating
           animationInTiming={200}
           animationOutTiming={200}>
-          <View style={styles.modal}>
+          <View
+            style={[
+              styles.modal,
+              {
+                backgroundColor: theme.modalPopupBackgroundColor,
+              },
+            ]}>
             <View style={styles.textContainer}>
-              <Text style={styles.textModalTitle}>Archive Channel</Text>
-              <Text style={styles.textModalDescription}>
+              <Text
+                style={[
+                  styles.textModalTitle,
+                  {color: theme.primaryTextColor},
+                ]}>
+                Archive Channel
+              </Text>
+              <Text
+                style={[
+                  styles.textModalDescription,
+                  {color: theme.primaryTextColor},
+                ]}>
                 Are you sure you want to archive{' '}
                 {this.props.channel.display_name} for everyone? No one will be
                 allowed to post to the channel.
               </Text>
             </View>
           </View>
-          <View style={styles.modalOptions}>
+          <View
+            style={[
+              styles.modalOptions,
+              {
+                backgroundColor: theme.modalPopupBackgroundColor,
+                borderTopColor: theme.borderBottomColor,
+              },
+            ]}>
             <Text
               style={[styles.textCancel, {color: '#007AFF'}]}
               onPress={this.toggleArchiveModal}>
@@ -525,7 +548,7 @@ class ChannelInfo extends React.Component {
             </Text>
             <View
               style={{
-                borderLeftColor: '#DCDCDC',
+                borderLeftColor: theme.borderBottomColor,
                 borderLeftWidth: StyleSheet.hairlineWidth,
               }}
             />
@@ -545,16 +568,37 @@ class ChannelInfo extends React.Component {
           hideModalContentWhileAnimating
           animationInTiming={200}
           animationOutTiming={200}>
-          <View style={styles.modal}>
+          <View
+            style={[
+              styles.modal,
+              {backgroundColor: theme.modalPopupBackgroundColor},
+            ]}>
             <View style={styles.textContainer}>
-              <Text style={styles.textModalTitle}>Leave Channel</Text>
-              <Text style={styles.textModalDescription}>
+              <Text
+                style={[
+                  styles.textModalTitle,
+                  {color: theme.primaryTextColor},
+                ]}>
+                Leave Channel
+              </Text>
+              <Text
+                style={[
+                  styles.textModalDescription,
+                  {color: theme.primaryTextColor},
+                ]}>
                 Are you sure you want to leave the channel{' '}
                 {this.props.channel.display_name}?
               </Text>
             </View>
           </View>
-          <View style={styles.modalOptions}>
+          <View
+            style={[
+              styles.modalOptions,
+              {
+                borderTopColor: theme.borderBottomColor,
+                backgroundColor: theme.modalPopupBackgroundColor,
+              },
+            ]}>
             <Text
               style={[styles.textCancel, {color: '#007AFF'}]}
               onPress={this.toggleLeaveModal}>
@@ -562,7 +606,7 @@ class ChannelInfo extends React.Component {
             </Text>
             <View
               style={{
-                borderLeftColor: '#DCDCDC',
+                borderLeftColor: theme.borderBottomColor,
                 borderLeftWidth: StyleSheet.hairlineWidth,
               }}
             />
