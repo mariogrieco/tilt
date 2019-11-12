@@ -10,7 +10,7 @@ let store = null;
 // Middleware: Redux Persist Config
 const persistConfig = {
   // Root?
-  key: 'BC1X09',
+  key: 'BC1X10',
   // Storage Method (React Native)
   storage: AsyncStorage,
   // Whitelist (Save Specific Reducers)
