@@ -50,10 +50,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Regular',
-    color: '$textColor',
   },
   logoutText: {
-    color: '$red',
+    fontFamily: 'SFProDisplay-Medium',
   },
   icon: {
     marginRight: 15,
@@ -131,6 +130,21 @@ class LoggedInMenu extends React.Component {
             Edit Profile
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.row,
+            styles.button,
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+            },
+          ]}
+          onPress={this.handleBlocked}>
+          <Image style={styles.icon} source={BLOCKED_GREEN} />
+          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+            Blocked Users
+          </Text>
+        </TouchableOpacity>
         {/*<TouchableOpacity style={[styles.row, styles.button, {backgroundColor: theme.primaryBackgroundColor,}]}>*/}
         {/*  <Image style={styles.icon} source={NOTIFICATIONS} />*/}
         {/*  <Text style={styles.buttonText}>Notifications</Text>*/}
@@ -149,21 +163,6 @@ class LoggedInMenu extends React.Component {
           <Image style={styles.icon} source={INVITE_PEOPLE} />
           <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
             Invite People
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.row,
-            styles.button,
-            {
-              backgroundColor: theme.primaryBackgroundColor,
-              borderColor: theme.borderBottomColor,
-            },
-          ]}
-          onPress={this.handleBlocked}>
-          <Image style={styles.icon} source={BLOCKED_GREEN} />
-          <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
-            Blocked Users
           </Text>
         </TouchableOpacity>
         <View
@@ -219,7 +218,14 @@ class LoggedInMenu extends React.Component {
             },
           ]}
           onPress={this.handleLogout}>
-          <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
+          <Text
+            style={[
+              styles.buttonText,
+              styles.logoutText,
+              {color: theme.tiltRed},
+            ]}>
+            Logout
+          </Text>
         </TouchableOpacity>
         {/* <View
           style={[styles.row, styles.button, styles.blockedContainer]}

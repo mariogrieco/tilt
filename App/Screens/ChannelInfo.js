@@ -326,7 +326,7 @@ const Edit = ({
           <Switch
             trackColor={{
               true: StyleSheet.value('#17C491'),
-              false: 'rgba(0, 0, 0, 0.1)',
+              false: theme.secondaryBackgroundColor,
             }}
             value={switchValue}
             onValueChange={updateSwitchValue}
