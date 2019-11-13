@@ -2,7 +2,7 @@ import firebase from 'react-native-firebase';
 import getUserProfilePicture from '../selectors/getUserProfilePicture';
 
 const channel = new firebase.notifications.Android.Channel(
-  'test-channel',
+  'test-android-channel',
   'Test Channel',
   firebase.notifications.Android.Importance.Max,
 ).setDescription('My apps test channel');
@@ -17,7 +17,7 @@ const eventsDispatched = (data, _messageId) => {
         sound: 'default',
         show_in_foreground: true,
       }).android
-        .setChannelId('test-channel')
+        .setChannelId('test-android-channel')
         .setNotificationId(_messageId)
         .setTitle(sender_name)
         .setBody(message);
@@ -25,6 +25,7 @@ const eventsDispatched = (data, _messageId) => {
       notification.android.setLargeIcon(getUserProfilePicture(sender_id));
       notification.android.setSmallIcon('ic_stat_name');
       notification.android.setColor('#3FB87F');
+
       firebase.notifications().displayNotification(notification);
       console.log('data: android', data);
     } catch (err) {
