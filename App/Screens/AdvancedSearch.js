@@ -363,8 +363,9 @@ export class AdvancedSearch extends Component {
   render() {
     const {posts} = this.props;
     const {loading, activeMentionBox, activeChannelBox} = this.state;
+    const {theme} = this.props;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         {activeMentionBox && this.renderMentionBox()}
         {activeChannelBox && this.renderChannelBox()}
         <View style={{marginBottom: 0}}>
@@ -408,6 +409,7 @@ const mapStateToProps = state => {
       })
       .valueSeq()
       .toJS(),
+    theme: state.themes[state.themes.current],
   };
 };
 

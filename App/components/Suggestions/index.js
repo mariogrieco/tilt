@@ -10,7 +10,7 @@ class Suggestions extends PureComponent {
     const {theme} = this.props;
     return (
       <TouchableHighlight
-        underlayColor="#17C491"
+        underlayColor={theme.tiltGreen}
         onPress={() => {
           this.props.onChannel(item.show_name);
         }}
@@ -68,7 +68,11 @@ class Suggestions extends PureComponent {
   render() {
     const {data, theme} = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
         <FlatList
           style={[{flex: 1}, {backgroundColor: theme.primaryBackgroundColor}]}
           data={data}
