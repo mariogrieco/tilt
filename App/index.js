@@ -24,6 +24,7 @@ class App extends React.PureComponent {
     });
 
     await pushNotification.setMessageListener(msg => {
+      console.log(msg);
       translator(msg._data, msg._messageId);
     });
   }

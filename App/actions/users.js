@@ -97,7 +97,6 @@ export const enableGlobalNotifications = () => (dispatch, getState) => {
 export const patchMe = partial_user => async dispatch => {
   try {
     const result = await Client4.patchMe(partial_user);
-    console.log(result);
     dispatch(userUpdatedSuccess(result));
     return result;
   } catch (ex) {
