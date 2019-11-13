@@ -1,4 +1,5 @@
 import Client4 from '../api/MattermostClient';
+import {Platform} from 'react-native';
 import firebase from 'react-native-firebase';
 
 export const IS_LOGIN = 'IS_LOGIN';
@@ -78,12 +79,12 @@ const logoutFailed = err => ({
 export const login = (password, email) => async dispatch => {
   try {
     const device_token = await firebase.iid().getToken();
-    const response = await Client4.login(
-      email,
-      password,
-      '',
-      `android_rn:${device_token}`,
-    );
+    const device_id = Platform.select({
+      android: `android_rn:${device_token}`,
+      ios: `apple_rn:${device_token}`,
+    });
+
+    const response = await Client4.login(email, password, '', device_id);
     dispatch(loginSuccess(response));
     init();
     return response;
