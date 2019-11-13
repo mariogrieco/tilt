@@ -78,13 +78,23 @@ const logoutFailed = err => ({
 
 export const login = (password, email) => async dispatch => {
   try {
-    const device_token = await firebase.iid().getToken();
-    const device_id = Platform.select({
-      android: `android_rn:${device_token}`,
-      ios: `apple_rn:${device_token}`,
+    let fcmToken = await firebase.iid().getToken();
+    if (fcmToken) {
+      // user has a device token
+      // await firebase.messaging().deleteToken();
+      await firebase.iid().deleteToken();
+      fcmToken = await firebase.iid().getToken();
+    } else {
+      // user doesn't have a device token yet
+      fcmToken = await firebase.iid().getToken();
+    }
+
+    const device_ref = Platform.select({
+      android: `android_rn:${fcmToken}`,
+      ios: `apple_rn:${fcmToken}`,
     });
 
-    const response = await Client4.login(email, password, '', device_id);
+    const response = await Client4.login(email, password, '', device_ref);
     dispatch(loginSuccess(response));
     init();
     return response;

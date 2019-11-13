@@ -37,6 +37,7 @@ class PushNotification {
 
   async setMessageListener(callback) {
     this.messageListener = firebase.messaging().onMessage(message => {
+      console.log(message);
       callback(message);
     });
     return this.messageListener;

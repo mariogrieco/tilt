@@ -10,7 +10,6 @@ const channel = new firebase.notifications.Android.Channel(
 firebase.notifications().android.createChannel(channel);
 
 const eventsDispatched = (data, _messageId) => {
-
   const {type, sender_name, channel_name, message, badge, ack_id, sender_id} = data;
   if (type === 'message') {
     try {
@@ -21,16 +20,13 @@ const eventsDispatched = (data, _messageId) => {
         .setChannelId('test-channel')
         .setNotificationId(_messageId)
         .setTitle(sender_name)
-        .setBody(message)
-        .setData({
-          key1: message,
-          key2: channel_name,
-        });
+        .setBody(message);
+
       notification.android.setLargeIcon(getUserProfilePicture(sender_id));
       notification.android.setSmallIcon('ic_stat_name');
       notification.android.setColor('#3FB87F');
       firebase.notifications().displayNotification(notification);
-      console.log('data: android');
+      console.log('data: android', data);
     } catch (err) {
       console.log(err);
     }

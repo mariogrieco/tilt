@@ -67,6 +67,8 @@
         android:value="ca-app-pub-8980571709710614~4432958080"
       />
 
+      <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="814440893450\"/>
+
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>  <!-- Add this line to avoid crashes on Android 9 until AdMob SDK update -->
     </application>
 
