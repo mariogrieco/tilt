@@ -1,6 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {TouchableOpacity, Text, SafeAreaView} from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+} from 'react-native';
 import ChannelJoinModalAlert from '../ChannelJoinModalAlert';
 import PostBottomActions from '../PostBottomActions';
 import PostMediaModal from '../PostMediaModal';
@@ -22,11 +28,11 @@ class ThemeWrapper extends React.Component {
         <PostMediaModal />
         <ChannelJoinModalAlert />
         {/* <DeepLinking /> */}
-        <SafeAreaView>
-          <TouchableOpacity onPress={this.props.changeTheme}>
-            <Text>Change theme</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
+        {/*<SafeAreaView>*/}
+        {/*  <TouchableOpacity onPress={this.props.changeTheme}>*/}
+        {/*    <Text>Change theme</Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*</SafeAreaView>*/}
         <Navigator
           ref={navigatorRef => {
             if (navigatorRef) {
@@ -34,6 +40,10 @@ class ThemeWrapper extends React.Component {
             }
           }}
           screenProps={{theme, themeName}}
+        />
+        <StatusBar
+          barStyle={theme.barStyleColor}
+          backgroundColor={theme.primaryBackgroundColor}
         />
       </React.Fragment>
     );
@@ -45,4 +55,7 @@ const mapStateToProps = ({themes}) => ({
   themeName: themes.current,
 });
 
-export default connect(mapStateToProps, {changeTheme})(ThemeWrapper);
+export default connect(
+  mapStateToProps,
+  {changeTheme},
+)(ThemeWrapper);

@@ -1,4 +1,5 @@
 import {CHANGE_THEME_REQUEST} from '../actions/themeManager';
+import Platform from 'react-native';
 
 const initialState = {
   light: {
@@ -24,6 +25,7 @@ const initialState = {
     codeBackgroundColor: '#F4F4F4',
     userMentionBackgroundColor: '#E4EFFF',
     joinButtonBackgroundColor: '#EBEBEB',
+    barStyleColor: 'dark-content',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -48,6 +50,7 @@ const initialState = {
     codeBackgroundColor: 'rgba(244,244,244,0.1)',
     userMentionBackgroundColor: 'rgba(228,239,255,0.2)',
     joinButtonBackgroundColor: 'rgba(235,235,235,0.1)',
+    barStyleColor: 'light-content',
   },
   current: 'light',
 };
