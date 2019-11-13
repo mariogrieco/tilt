@@ -34,7 +34,7 @@ const getPrivateMessagesChnnelsList = createSelector(
     usersData,
     preferences,
     lastViewed,
-    blockedUsers
+    blockedUsers,
   ) => {
     const data = [];
     myChannelsMap
