@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
+  View,
 } from 'react-native';
 import ChannelJoinModalAlert from '../ChannelJoinModalAlert';
 import PostBottomActions from '../PostBottomActions';
@@ -41,10 +42,12 @@ class ThemeWrapper extends React.Component {
           }}
           screenProps={{theme, themeName}}
         />
-        <StatusBar
-          barStyle={theme.barStyleColor}
-          backgroundColor={theme.primaryBackgroundColor}
-        />
+        <View>
+          <StatusBar
+            barStyle={theme.barStyleColor}
+            backgroundColor={theme.primaryBackgroundColor}
+          />
+        </View>
       </React.Fragment>
     );
   }
