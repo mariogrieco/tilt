@@ -166,7 +166,7 @@ class LoggedInMenu extends React.Component {
               true: StyleSheet.value('#17C491'),
               false: 'rgba(0, 0, 0, 0.1)',
             }}
-            value={global_push_enable}
+            value={!global_push_enable}
             onValueChange={this.updateSwitchValue}
             thumbColor="#F6F7F9"
           />
