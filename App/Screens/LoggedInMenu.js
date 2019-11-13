@@ -30,12 +30,12 @@ const MOON = require('../../assets/images/moon/night.png');
 
 const styles = StyleSheet.create({
   row: {
-    paddingTop: 12,
-    paddingBottom: 13,
-    paddingLeft: 15,
+    height: 44,
+    paddingHorizontal: 15,
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   blockedContainer: {
     flexDirection: 'column',
@@ -122,6 +122,7 @@ class LoggedInMenu extends React.Component {
               backgroundColor: theme.primaryBackgroundColor,
               borderColor: theme.borderBottomColor,
               marginTop: 35,
+              borderTopWidth: StyleSheet.hairlineWidth,
             },
           ]}
           onPress={this.handleEditProfile}>
@@ -214,6 +215,7 @@ class LoggedInMenu extends React.Component {
             {
               backgroundColor: theme.primaryBackgroundColor,
               borderColor: theme.borderBottomColor,
+              borderTopWidth: StyleSheet.hairlineWidth,
             },
           ]}
           onPress={this.handleLogout}>
@@ -244,4 +246,7 @@ const mapDispatchToProps = {
   changeTheme,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoggedInMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoggedInMenu);
