@@ -62,6 +62,38 @@ const PROFILE_UNFOCUS_DARK = require('../../../assets/themes/dark/profile_unfocu
 const MESSAGES_FOCUS_DARK = require('../../../assets/themes/dark/messages/envelope.png');
 const MESSAGES_UNFOCUS_DARK = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
 
+//DARK_GRAY ASSETS
+const LOGO_DARK_GRAY = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
+const GROUPCHAT_DARK_GRAY = require('../../../assets/themes/dark/groupChat-dark/group-dark.png');
+const PHONE_DARK_GRAY = require('../../../assets/themes/dark/phone-call-dark/phone-dark.png');
+const VIDEO_DARK_GRAY = require('../../../assets/themes/dark/video-dark/video-dark.png');
+const NETWORK_DARK_GRAY = require('../../../assets/themes/dark/network-dark/network-dark.png');
+const ROBOT_DARK_GRAY = require('../../../assets/themes/dark/robot-dark/robot-dark.png');
+const MARKETDATA_DARK_GRAY = require('../../../assets/themes/dark/marketData-dark/live-dark.png');
+const BACK_DARK_GRAY = require('../../../assets/themes/dark/pin-left/pin-left.png');
+const SEARCH_DARK_GRAY = require('../../../assets/themes/dark/search/search.png');
+const MENU_DARK_GRAY = require('../../../assets/themes/dark/menu/menu.png');
+const REPLY_DARK_GRAY = require('../../../assets/themes/dark/reply/reply.png');
+const REPOST_DARK_GRAY = require('../../../assets/themes/dark/repost/repost.png');
+const EDIT_DARK_GRAY = require('../../../assets/themes/dark/edit/edit.png');
+const FLAG_DARK_GRAY = require('../../../assets/themes/dark/flag/flag.png');
+const COPY_DARK_GRAY = require('../../../assets/themes/dark/copy/copy_gray.png');
+const REPORT_DARK_GRAY = require('../../../assets/themes/dark/report-post/report-post.png');
+const BLOCK_DARK_GRAY = require('../../../assets/themes/dark/block-user/block-user.png');
+const DELETE_DARK_GRAY = require('../../../assets/themes/dark/delete/trash.png');
+const PLUS_BOX_DARK_GRAY = require('../../../assets/themes/dark/plus-box/plus-box.png');
+const TILT_ROCKET_DARK_GRAY = require('../../../assets/themes/dark/tilt_rocket/tiltRoceket_gray.png');
+const ADD_MEMBER_DARK_GRAY = require('../../../assets/themes/dark/add-user/user.png');
+const EMAIL_DARK_GRAY = require('../../../assets/themes/dark/envelope/envelope.png');
+const WATCHLIST_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/poll_focus/poll.png');
+const WATCHLIST_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/poll_unfocus/poll.png');
+const PUBLIC_CHAT_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/hashtag_focus/hashtag_focus.png');
+const PUBLIC_CHAT_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/hashtag_unfocus/hashtag_unfocus.png');
+const PROFILE_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/profile_focus/profile.png');
+const PROFILE_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/profile_unfocus/profile.png');
+const MESSAGES_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages/envelope.png');
+const MESSAGES_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
+
 const assets = {
   light: {
     LOGO,
@@ -126,6 +158,38 @@ const assets = {
     PROFILE_UNFOCUS: PROFILE_UNFOCUS_DARK,
     MESSAGES_FOCUS: MESSAGES_FOCUS_DARK,
     MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK,
+  },
+  darkGray: {
+    LOGO: LOGO_DARK_GRAY,
+    GROUPCHAT: GROUPCHAT_DARK_GRAY,
+    MARKETDATA: MARKETDATA_DARK_GRAY,
+    PHONE: PHONE_DARK_GRAY,
+    VIDEO: VIDEO_DARK_GRAY,
+    NETWORK: NETWORK_DARK_GRAY,
+    ROBOT: ROBOT_DARK_GRAY,
+    BACK: BACK_DARK_GRAY,
+    SEARCH: SEARCH_DARK_GRAY,
+    MENU: MENU_DARK_GRAY,
+    REPLY: REPLY_DARK_GRAY,
+    EDIT: EDIT_DARK_GRAY,
+    REPOST: REPOST_DARK_GRAY,
+    FLAG: FLAG_DARK_GRAY,
+    COPY: COPY_DARK_GRAY,
+    REPORT: REPORT_DARK_GRAY,
+    BLOCK: BLOCK_DARK_GRAY,
+    DELETE: DELETE_DARK_GRAY,
+    PLUS_BOX: PLUS_BOX_DARK_GRAY,
+    TILT_ROCKET: TILT_ROCKET_DARK_GRAY,
+    ADD_MEMBER: ADD_MEMBER_DARK_GRAY,
+    EMAIL: EMAIL_DARK_GRAY,
+    WATCHLIST_FOCUS: WATCHLIST_FOCUS_DARK_GRAY,
+    WATCHLIST_UNFOCUS: WATCHLIST_UNFOCUS_DARK_GRAY,
+    PUBLIC_CHAT_FOCUS: PUBLIC_CHAT_FOCUS_DARK_GRAY,
+    PUBLIC_CHAT_UNFOCUS: PUBLIC_CHAT_UNFOCUS_DARK_GRAY,
+    PROFILE_FOCUS: PROFILE_FOCUS_DARK_GRAY,
+    PROFILE_UNFOCUS: PROFILE_UNFOCUS_DARK_GRAY,
+    MESSAGES_FOCUS: MESSAGES_FOCUS_DARK_GRAY,
+    MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK_GRAY,
   },
 };
 
