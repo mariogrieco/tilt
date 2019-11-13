@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     flexDirection: 'row',
     backgroundColor: '#fff',
+    borderWidth: StyleSheet.hairlineWidth,
   },
   blockedContainer: {
     flexDirection: 'column',
@@ -112,12 +113,16 @@ class LoggedInMenu extends React.Component {
       <ScrollView
         keyboardDismissMode="on-drag"
         style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
-        <TopBlockSpace />
+        {/* <TopBlockSpace /> */}
         <TouchableOpacity
           style={[
             styles.row,
             styles.button,
-            {backgroundColor: theme.primaryBackgroundColor},
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+              marginTop: 35,
+            },
           ]}
           onPress={this.handleEditProfile}>
           <Image style={styles.icon} source={EDIT} />
@@ -125,8 +130,7 @@ class LoggedInMenu extends React.Component {
             Edit Profile
           </Text>
         </TouchableOpacity>
-        <Separator />
-        {/*<TouchableOpacity style={[styles.row, styles.button, {backgroundColor: theme.primaryBackgroundColor}]}>*/}
+        {/*<TouchableOpacity style={[styles.row, styles.button, {backgroundColor: theme.primaryBackgroundColor,}]}>*/}
         {/*  <Image style={styles.icon} source={NOTIFICATIONS} />*/}
         {/*  <Text style={styles.buttonText}>Notifications</Text>*/}
         {/*</TouchableOpacity>*/}
@@ -135,7 +139,10 @@ class LoggedInMenu extends React.Component {
           style={[
             styles.row,
             styles.button,
-            {backgroundColor: theme.primaryBackgroundColor},
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+            },
           ]}
           onPress={this.handleInvitePeople}>
           <Image style={styles.icon} source={INVITE_PEOPLE} />
@@ -143,12 +150,14 @@ class LoggedInMenu extends React.Component {
             Invite People
           </Text>
         </TouchableOpacity>
-        <Separator />
         <TouchableOpacity
           style={[
             styles.row,
             styles.button,
-            {backgroundColor: theme.primaryBackgroundColor},
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+            },
           ]}
           onPress={this.handleBlocked}>
           <Image style={styles.icon} source={BLOCKED_GREEN} />
@@ -156,12 +165,14 @@ class LoggedInMenu extends React.Component {
             Blocked Users
           </Text>
         </TouchableOpacity>
-        <Separator />
         <View
           style={[
             styles.row,
             styles.button,
-            {backgroundColor: theme.primaryBackgroundColor},
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+            },
           ]}
           onPress={this.handleBlocked}>
           <Image style={styles.icon} source={MOON} />
@@ -177,16 +188,18 @@ class LoggedInMenu extends React.Component {
               value={themeName === 'dark'}
               onValueChange={this.props.changeTheme}
               thumbColor="#F6F7F9"
-              style={{transform: [{scaleX: 1.3}, {scaleY: 1.3}]}}
             />
           </View>
         </View>
-        <Separator />
         <TouchableOpacity
           style={[
             styles.row,
             styles.button,
-            {backgroundColor: theme.primaryBackgroundColor},
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+              marginBottom: 35,
+            },
           ]}
           onPress={this.handleContactSupport}>
           <Image style={styles.icon} source={SUPPORT} />
@@ -194,17 +207,18 @@ class LoggedInMenu extends React.Component {
             Contact Support
           </Text>
         </TouchableOpacity>
-        <BlockSpace />
         <TouchableOpacity
           style={[
             styles.row,
             styles.button,
-            {backgroundColor: theme.primaryBackgroundColor},
+            {
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+            },
           ]}
           onPress={this.handleLogout}>
           <Text style={[styles.buttonText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
-        <Separator />
         {/* <View
           style={[styles.row, styles.button, styles.blockedContainer]}
           onPress={this.handleBlocked}>
