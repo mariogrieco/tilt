@@ -1,82 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import {
-  TouchableOpacity,
-  Image,
-  View,
-  Text,
-  TextInput,
-  Dimensions,
-  Animated,
-} from 'react-native';
+import {TouchableOpacity, Image, View, Text} from 'react-native';
 import {connect} from 'react-redux';
+import Search from '../WatchListSearch';
 import styles from './styles';
 import assets from '../ThemeWrapper/assets';
-import SearchBar from '../SearchBar';
 
 // const MENU_IMAGE = require('../../../assets/themes/light/menu/menu.png');
-const SEARCH = require('../../../assets/themes/light/search/search.png');
-const SEARCH_ICON = require('../../../assets/themes/light/searchIcon/searchIcon.png');
 
-const {width} = Dimensions.get('window');
-
-class Search extends React.Component {
-  state = {
-    widthAnim: new Animated.Value(0), // Initial value for opacity: 0
-    fadeAnim: new Animated.Value(0),
-  };
-
-  componentDidMount() {
-    Animated.parallel([
-      Animated.timing(
-        // Animate over time
-        this.state.widthAnim, // The animated value to drive
-        {
-          toValue: Math.floor(width * 0.79), // Animate to opacity: 1 (opaque)
-          duration: 300, // Make it take a while
-        },
-      ),
-      Animated.timing(this.state.fadeAnim, {
-        toValue: 1, // Animate to opacity: 1 (opaque)
-        duration: 300,
-      }), // Starts the animation
-    ]).start();
-  }
-
-  render() {
-    const {navigation} = this.props;
-    const {widthAnim, fadeAnim} = this.state;
-    return (
-      <Animated.View
-        style={{
-          width: widthAnim,
-          opacity: fadeAnim,
-          marginRight: 10,
-        }}>
-        <View style={[styles.searchContainer]}>
-          <View style={{paddingRight: 6}}>
-            <Image source={SEARCH_ICON} />
-          </View>
-          <View>
-            <TextInput
-              onChangeText={navigation.getParam('onChangeText', () => {})}
-              placeholder="Search for a symbol"
-              placeholderTextColor="#8E8E95"
-              style={styles.searchText}
-              autoCapitalize="characters"
-              autoCompleteType="off"
-              autoCorrect={false}
-              autoFocus
-              selectionColor="#17C491"
-            />
-          </View>
-        </View>
-      </Animated.View>
-    );
-  }
-}
-
-class HeaderRight extends React.Component {
+class HeaderHome extends React.Component {
   state = {
     isSearching: false,
   };
@@ -140,7 +72,4 @@ const mapStateToProps = ({login, themes}) => ({
   theme: themes[themes.current],
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(HeaderRight);
+export default connect(mapStateToProps)(HeaderHome);
