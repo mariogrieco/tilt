@@ -20,13 +20,13 @@ const eventsDispatched = (data, _messageId) => {
       }).android
         .setChannelId('test-channel')
         .setNotificationId(_messageId)
-        .setLargeIcon(getUserProfilePicture(sender_id))
         .setTitle(sender_name)
         .setBody(message)
         .setData({
           key1: message,
           key2: channel_name,
         });
+      notification.android.setLargeIcon(getUserProfilePicture(sender_id));
       notification.android.setSmallIcon('ic_stat_name');
       notification.android.setColor('#3FB87F');
       firebase.notifications().displayNotification(notification);
