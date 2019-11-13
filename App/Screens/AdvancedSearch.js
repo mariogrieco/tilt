@@ -70,9 +70,10 @@ export class AdvancedSearch extends Component {
           fontFamily: 'SFProDisplay-Regular',
           padding: 1,
           width: '100%',
+          color: screenProps.theme.primaryTextColor,
         }}
         placeholderText="Search for a word"
-        placeholderTextColor="#8E8E95"
+        placeholderTextColor={screenProps.theme.placeholderTextColor}
         growPercentage={0.77}
         onChangeText={navigation.getParam('onSearch', () => {})}
         inputValue={navigation.getParam('queryStr', '')}
