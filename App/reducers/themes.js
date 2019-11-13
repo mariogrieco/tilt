@@ -26,6 +26,7 @@ const initialState = {
     userMentionBackgroundColor: '#E4EFFF',
     joinButtonBackgroundColor: '#EBEBEB',
     barStyleColor: 'dark-content',
+    keyboardAppearanceColor: 'light',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -51,6 +52,7 @@ const initialState = {
     userMentionBackgroundColor: 'rgba(228,239,255,0.2)',
     joinButtonBackgroundColor: 'rgba(235,235,235,0.1)',
     barStyleColor: 'light-content',
+    keyboardAppearanceColor: 'dark',
   },
   darkGray: {
     primaryBackgroundColor: '#262A2F',
@@ -76,6 +78,7 @@ const initialState = {
     userMentionBackgroundColor: 'rgba(228,239,255,0.2)',
     joinButtonBackgroundColor: 'rgba(235,235,235,0.1)',
     barStyleColor: 'light-content',
+    keyboardAppearanceColor: 'dark',
   },
   current: 'light',
   entities: ['light', 'darkGray', 'dark'],

@@ -65,7 +65,8 @@ class Search extends React.Component {
               autoCompleteType="off"
               autoCorrect={false}
               autoFocus
-              selectionColor="#17C491"
+              selectionColor={theme.tiltGreen}
+              keyboardAppearance={theme.keyboardAppearanceColor}
             />
           </View>
         </View>

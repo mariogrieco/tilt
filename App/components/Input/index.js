@@ -1313,7 +1313,8 @@ class Input extends React.Component {
               underlineColorAndroid="transparent"
               allowFontScaling
               editable={!isReadOnlyChannel}
-              selectionColor="#17C491"
+              selectionColor={theme.tiltGreen}
+              keyboardAppearance={theme.keyboardAppearanceColor}
             />
             {repost && (
               <Repost
@@ -1511,4 +1512,7 @@ const mapDispatchToProps = {
   setRepostActiveOnInput,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Input);

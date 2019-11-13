@@ -73,7 +73,8 @@ class SearchBar extends React.Component {
             value={inputValue}
             autoCapitalize="none"
             autoCorrect={false}
-            selectionColor="#17C491"
+            selectionColor={theme.tiltGreen}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
         </View>
       </Animated.View>
