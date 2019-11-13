@@ -125,4 +125,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchResults);
