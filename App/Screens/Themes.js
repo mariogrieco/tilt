@@ -55,7 +55,8 @@ class Themes extends React.PureComponent {
                 backgroundColor: theme.primaryBackgroundColor,
                 borderColor: theme.borderBottomColor,
                 marginTop: index === 0 ? 35 : 0,
-                borderTopWidth: StyleSheet.hairlineWidth,
+                borderTopWidth: index === 0 ? StyleSheet.hairlineWidth : 0,
+                borderBottomWidth: StyleSheet.hairlineWidth,
               },
             ]}>
             <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>

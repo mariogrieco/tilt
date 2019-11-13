@@ -66,7 +66,7 @@ const initialState = {
     headerTintColor: '#FFF',
     emojiReactionsBackgroundColor: '#1E242E',
     emojiReactionsBorderBackgroundColor: '#1E242E',
-    threadSeparatorColor: '#1E242E',
+    threadSeparatorColor: '#2D3239',
     intervalSelectedTextColor: '#2D3239',
     intervalUnselectedTextColor: '#17C491',
     intervalSelectedBackgroundColor: '#17C491',
