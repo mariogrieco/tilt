@@ -1,7 +1,7 @@
 import {getBaseUrl} from '../api/MattermostClient';
-
 const getUserProfilePicture = (id, lastPictureUpdate = '0') => {
-  return `${getBaseUrl()}/api/v4/users/${id}/image?_=${lastPictureUpdate}`;
+  const url = `${getBaseUrl()}/api/v4/users/${id}/image?_=${lastPictureUpdate}`;
+  return url;
 };
 
 export default getUserProfilePicture;

@@ -1,5 +1,6 @@
 import firebase from 'react-native-firebase';
 import getUserProfilePicture from '../selectors/getUserProfilePicture';
+import moment from 'moment';
 
 const channel = new firebase.notifications.Android.Channel(
   'test-android-channel',
@@ -22,7 +23,10 @@ const eventsDispatched = (data, _messageId) => {
         .setTitle(sender_name)
         .setBody(message);
 
-      notification.android.setLargeIcon(getUserProfilePicture(sender_id));
+      notification.android.setLargeIcon(
+        getUserProfilePicture(sender_id, moment().unix()),
+      );
+
       notification.android.setSmallIcon('ic_stat_name');
       notification.android.setColor('#3FB87F');
 
