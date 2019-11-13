@@ -17,8 +17,7 @@ import History from '../components/History';
 import Stat from '../components/Stat';
 import Chart from '../components/Chart';
 import ChannelOptionalView from '../components/ChannelOptionalView';
-
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 // const ChannelTab = () => <Channel displayAs="tab" />;
 const ChannelTab = () => <ChannelOptionalView />;
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   tabBar: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
-    shadowColor: '#D9D8D7',
+    backgroundColor: '#fff',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff',
   },
   label: {
     // color: '#0E141E',
@@ -52,14 +50,18 @@ const styles = StyleSheet.create({
 });
 
 class CryptoRoom extends React.PureComponent {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', ''),
     headerLeft: (
-      <GoBack
-        icon={BACK}
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -111,8 +113,9 @@ class CryptoRoom extends React.PureComponent {
   }
 
   render() {
+    const {theme} = this.props;
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         <TabView
           navigationState={{...this.state}}
           renderScene={SceneMap({
@@ -127,7 +130,13 @@ class CryptoRoom extends React.PureComponent {
           renderTabBar={props => (
             <TabBar
               {...props}
-              style={styles.tabBar}
+              style={[
+                styles.tabBar,
+                {
+                  backgroundColor: theme.primaryBackgroundColor,
+                  borderBottomColor: theme.borderBottomColor,
+                },
+              ]}
               labelStyle={styles.label}
               indicatorStyle={styles.indicator}
               activeColor="#17C491"
@@ -162,6 +171,7 @@ const mapStateToProps = state => ({
   selectedSymbol: state.watchlist.selectedSymbol,
   channels: state.mapChannels.valueSeq().toJS(),
   myChannels: state.myChannelsMap.valueSeq().toJS(),
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(

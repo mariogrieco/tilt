@@ -9,14 +9,15 @@ import styles from './styles';
 import BottomBlockSpaceSmall from '../BottomBlockSpaceSmall';
 import parser from '../../utils/parse_display_name';
 
-const MOON = require('../../../assets/images/flagged_moon/flagged_moon.png');
+const MOON = require('../../../assets/themes/light/flagged_moon/flagged_moon.png');
 
 class Flagged extends React.PureComponent {
   renderItem = ({item: channel}) => {
     const channelName = `${channel.prefix}${channel.show_name}`;
+    const {theme} = this.props;
     return (
       // eslint-disable-next-line react-native/no-inline-styles
-      <View style={{backgroundColor: '#fff'}}>
+      <View style={{backgroundColor: theme.primaryBackgroundColor}}>
         <TouchableOpacity
           style={styles.channelTitleContainer}
           onPress={() => {
@@ -32,11 +33,9 @@ class Flagged extends React.PureComponent {
               pm: channel.type === 'D',
             });
           }}>
-          <Text
-            style={[
-              styles.channelTitle,
-              {paddingTop: 5},
-            ]}>{channelName}</Text>
+          <Text style={[styles.channelTitle, {paddingTop: 5}]}>
+            {channelName}
+          </Text>
         </TouchableOpacity>
         {channel.flagged.map(post => (
           <Post
@@ -57,28 +56,38 @@ class Flagged extends React.PureComponent {
     );
   };
 
-  renderEmptyList = () => (
-    <View style={styles.emptyContainer}>
-      <Image source={MOON} />
-      <Text style={styles.emptyText}>
-        Do you find a post interesting? Flag it, and come back to it later.
-      </Text>
-    </View>
-  );
-
+  renderEmptyList = () => {
+    const {theme} = this.props;
+    return (
+      <View
+        style={[
+          styles.emptyContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}>
+        <Image source={MOON} />
+        <Text style={[styles.emptyText, {color: theme.placeholderTextColor}]}>
+          Do you find a post interesting? Flag it, and come back to it later.
+        </Text>
+      </View>
+    );
+  };
   parseName(channelName = '') {
     return parser(channelName);
   }
 
   render() {
     const {flagged_channels} = this.props;
+    const {theme} = this.props;
     return (
       <FlatList
         data={flagged_channels}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
         ListEmptyComponent={this.renderEmptyList}
-        style={styles.listContainer}
+        style={[
+          styles.listContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}
       />
     );
   }
@@ -86,6 +95,7 @@ class Flagged extends React.PureComponent {
 
 const mapStateToProps = state => ({
   ...getFlagged(state),
+  theme: state.themes[state.themes.current],
 });
 const mapDispatchToProps = {
   setActiveFocusChannel,

@@ -11,12 +11,12 @@ import styles from './styles';
 // import Rocket from '../IconStore/Rocket';
 import isChannelCreatorAdmin from '../../selectors/isChannelCreatorAdmin';
 
-const EARTH = require('../../../assets/images/earth/earth.png');
-const NEW = require('../../../assets/images/new/new.png');
-const GOAT = require('../../../assets/images/goat/goat.png');
-const STAR = require('../../../assets/images/star/star.png');
-const CHANNEL_ROCKET = require('../../../assets/images/channelRocket/channelRocket.png');
-const FIRE = require('../../../assets/images/fire/fire.png');
+const EARTH = require('../../../assets/themes/light/earth/earth.png');
+const NEW = require('../../../assets/themes/light/new/new.png');
+const GOAT = require('../../../assets/themes/light/goat/goat.png');
+const STAR = require('../../../assets/themes/light/star/star.png');
+const CHANNEL_ROCKET = require('../../../assets/themes/light/channelRocket/channelRocket.png');
+const FIRE = require('../../../assets/themes/light/fire/fire.png');
 
 class ChannelDisplayName extends Component {
   state = {
@@ -74,13 +74,19 @@ class ChannelDisplayName extends Component {
       titleColor,
       isfromAdmin,
       unreadMessagesCount,
+      theme,
     } = this.props;
 
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
 
     return (
       <View style={styles.headerContainer}>
-        <Text style={[styles.header, titleColor ? {color: titleColor} : {}]}>
+        <Text
+          style={[
+            styles.header,
+            {color: theme.primaryTextColor},
+            titleColor ? {color: titleColor} : {},
+          ]}>
           <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text> {name}{' '}
         </Text>
         <View style={styles.icons}>
@@ -132,8 +138,14 @@ class ChannelDisplayName extends Component {
   }
 
   getDefaultView() {
+    const {theme} = this.props;
     return (
-      <TouchableOpacity style={styles.container} onPress={this.onPress}>
+      <TouchableOpacity
+        style={[
+          styles.container,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}
+        onPress={this.onPress}>
         <View style={styles.imageContainer}>
           <Image styles={styles.imageContainer} source={EARTH} />
         </View>
@@ -158,6 +170,7 @@ class ChannelDisplayName extends Component {
   }
 
   getJoinView() {
+    const {theme} = this.props;
     return (
       <TouchableOpacity activeOpacity={1} style={styles.containerJoin}>
         <View style={styles.imageContainer}>
@@ -169,7 +182,7 @@ class ChannelDisplayName extends Component {
           {this.getMembersLabel()}
         </View>
         <View style={{flex: 0.32, alignItems: 'flex-end', paddingRight: 15}}>
-          <TouchableOpacity style={styles.join} onPress={this.onJoin}>
+          <TouchableOpacity style={[styles.join, {backgroundColor: theme.joinButtonBackgroundColor}]} onPress={this.onJoin}>
             <Text style={styles.joinText}>JOIN</Text>
           </TouchableOpacity>
         </View>
@@ -190,6 +203,7 @@ ChannelDisplayName.defaultProps = {
 const mapStateToProps = (state, props) => ({
   meId: state.login.user ? state.login.user.id : {},
   isfromAdmin: isChannelCreatorAdmin(state, props.channel_id),
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {

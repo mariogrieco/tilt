@@ -40,7 +40,9 @@ export class ReactionsGroup extends Component {
   }
 
   onDislike = () => {
-    if (this.state.loadingDislike) return null;
+    if (this.state.loadingDislike) {
+      return null;
+    }
     const reactions = this.getReactions();
     this.setState(
       {
@@ -67,7 +69,9 @@ export class ReactionsGroup extends Component {
   };
 
   onEyes = () => {
-    if (this.state.loadingEye) return null;
+    if (this.state.loadingEye) {
+      return null;
+    }
     this.setState(
       {
         loadingEye: true,
@@ -93,7 +97,9 @@ export class ReactionsGroup extends Component {
   };
 
   onRocket = () => {
-    if (this.state.loadingRocket) return null;
+    if (this.state.loadingRocket) {
+      return null;
+    }
     this.setState(
       {
         loadingRocket: true,
@@ -119,7 +125,9 @@ export class ReactionsGroup extends Component {
   };
 
   onLaughs = () => {
-    if (this.state.loadingLaughts) return null;
+    if (this.state.loadingLaughts) {
+      return null;
+    }
     this.setState(
       {
         loadingLaughts: true,
@@ -145,7 +153,9 @@ export class ReactionsGroup extends Component {
   };
 
   onSadFace = () => {
-    if (this.state.loadingSadFace) return null;
+    if (this.state.loadingSadFace) {
+      return null;
+    }
     this.setState(
       {
         loadingSadFace: true,
@@ -171,7 +181,9 @@ export class ReactionsGroup extends Component {
   };
 
   onLikes = () => {
-    if (this.state.loadingLike) return null;
+    if (this.state.loadingLike) {
+      return null;
+    }
     this.setState(
       {
         loadingLike: true,
@@ -197,29 +209,60 @@ export class ReactionsGroup extends Component {
   };
 
   render() {
+    const {theme} = this.props;
     return (
       <Fragment>
-        <TouchableOpacity style={styles.circle} onPress={this.onLikes}>
+        <TouchableOpacity
+          style={[
+            styles.circle,
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
+          ]}
+          onPress={this.onLikes}>
           <Like />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.circle} onPress={this.onDislike}>
+        <TouchableOpacity
+          style={[
+            styles.circle,
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
+          ]}
+          onPress={this.onDislike}>
           <Dislike />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.circle} onPress={this.onLaughs}>
+        <TouchableOpacity
+          style={[
+            styles.circle,
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
+          ]}
+          onPress={this.onLaughs}>
           <Laughs />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.circle} onPress={this.onSadFace}>
+        <TouchableOpacity
+          style={[
+            styles.circle,
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
+          ]}
+          onPress={this.onSadFace}>
           <SadFace />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.circle} onPress={this.onRocket}>
+        <TouchableOpacity
+          style={[
+            styles.circle,
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
+          ]}
+          onPress={this.onRocket}>
           <Rocket />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.circle} onPress={this.onEyes}>
+        <TouchableOpacity
+          style={[
+            styles.circle,
+            {backgroundColor: theme.emojiReactionsBackgroundColor},
+          ]}
+          onPress={this.onEyes}>
           <Eyes />
         </TouchableOpacity>
       </Fragment>
@@ -230,6 +273,7 @@ export class ReactionsGroup extends Component {
 const mapStateToProps = (state, props) => ({
   post: getPostById(state, props.postId),
   userId: state.login.user ? state.login.user.id : null,
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {

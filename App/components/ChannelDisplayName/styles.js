@@ -54,7 +54,6 @@ export default StyleSheet.create({
     width: 80,
     height: 34,
     borderRadius: 17,
-    backgroundColor: '#EBEBEB',
     // backgroundColor: 'rgba(16, 115, 240, 0.75)',
     justifyContent: 'center',
     alignItems: 'center',

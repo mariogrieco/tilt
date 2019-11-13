@@ -2,18 +2,21 @@ import React from 'react';
 import {NavigationActions} from 'react-navigation';
 import GoBack from '../components/GoBack';
 import UserProfile from '../components/UserProfile';
-
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 class MemberProfile extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Profile',
     headerLeft: (
-      <GoBack
-        icon={BACK}
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   render() {

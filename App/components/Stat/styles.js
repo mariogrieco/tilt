@@ -38,6 +38,6 @@ export default StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     // letterSpacing: -0.11,
-    color: '$textColorLight',
+    color: '#FFF',
   },
 });

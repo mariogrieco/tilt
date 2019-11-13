@@ -1,24 +1,27 @@
 import React, {PureComponent} from 'react';
 import {Text, View, FlatList, TouchableHighlight} from 'react-native';
+import {connect} from 'react-redux';
 import UserMentionPreview from '../UserMentionPreview';
 import Separator from '../Separator';
 
 import styles from './styles';
-
-export default class index extends PureComponent {
-  renderChannelItem = item => (
-    <TouchableHighlight
-      underlayColor="#17C491"
-      onPress={() => {
-        this.props.onChannel(item.show_name);
-      }}
-      style={styles.channelName}>
-      <Text style={styles.channelText}>
-        {item.pm ? '@' : item.isDollar ? '$' : '#'}
-        {item.show_name}
-      </Text>
-    </TouchableHighlight>
-  );
+class Suggestions extends PureComponent {
+  renderChannelItem = item => {
+    const {theme} = this.props;
+    return (
+      <TouchableHighlight
+        underlayColor={theme.tiltGreen}
+        onPress={() => {
+          this.props.onChannel(item.show_name);
+        }}
+        style={styles.channelName}>
+        <Text style={[styles.channelText, {color: theme.primaryTextColor}]}>
+          {item.pm ? '@' : item.isDollar ? '$' : '#'}
+          {item.show_name}
+        </Text>
+      </TouchableHighlight>
+    );
+  };
 
   renderMentionItem = item => (
     <UserMentionPreview
@@ -44,30 +47,44 @@ export default class index extends PureComponent {
     return <Separator />;
   }
 
-  renderHeader() {
-    const {headerLabel} = this.props;
+  renderHeader = () => {
+    const {headerLabel, theme} = this.props;
     return (
-      <View style={styles.body}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{headerLabel}</Text>
+      <View
+        style={[styles.body, {backgroundColor: theme.primaryBackgroundColor}]}>
+        <View
+          style={[
+            styles.header,
+            {backgroundColor: theme.secondaryBackgroundColor},
+          ]}>
+          <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+            {headerLabel}
+          </Text>
         </View>
       </View>
     );
-  }
+  };
 
   render() {
-    const {data} = this.props;
+    const {data, theme} = this.props;
     return (
-      <View style={styles.container}>
-        {this.renderHeader()}
+      <View
+        style={[
+          styles.container,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
         <FlatList
-          style={{flex: 1}}
+          style={[{flex: 1}, {backgroundColor: theme.primaryBackgroundColor}]}
           data={data}
           renderItem={this.renderItem}
           renderSeparator={this.renderSeparator}
           keyExtractor={this.keyExtractor}
+          ListHeaderComponent={this.renderHeader}
         />
       </View>
     );
   }
 }
+
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(Suggestions);

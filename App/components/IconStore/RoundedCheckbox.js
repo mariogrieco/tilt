@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Image} from 'react-native';
 
-const ROUNDEDHECKBOX = require('../../../assets/images/rounded_checkbox/rounded-checkbox.png');
+const ROUNDEDHECKBOX = require('../../../assets/themes/light/rounded_checkbox/rounded-checkbox.png');
 
 export default class RoundedCheckbox extends PureComponent {
   render() {

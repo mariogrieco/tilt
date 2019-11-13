@@ -4,24 +4,10 @@ import {FlatList} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import uuid from 'react-uuid';
 import Separator from '../Separator';
-import {HistoryBanner} from '../AdBanner';
+// import {HistoryBanner} from '../AdBanner';
 import fetchData from '../../actions/history';
 import {HISTORIES_INTERVAL} from '../../config/refreshIntervals';
 import styles from './style';
-
-const renderItem = ({item}) => (
-  <View style={[styles.listITemContainer, styles.container]}>
-    <Text style={[styles.listText, {flex: 1}]}>{parseFloat(item.qty)}</Text>
-    <Text
-      style={[
-        styles.listText,
-        {flex: 1, textAlign: 'center', color: item.color},
-      ]}>{`${item.price}`}</Text>
-    <Text style={[styles.listText, {flex: 1, textAlign: 'right'}]}>
-      {item.time}
-    </Text>
-  </View>
-);
 
 class History extends React.PureComponent {
   constructor(props) {
@@ -39,6 +25,32 @@ class History extends React.PureComponent {
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
+
+  renderItem = ({item}) => {
+    const {theme} = this.props;
+
+    return (
+      <View style={[styles.listITemContainer, styles.container]}>
+        <Text
+          style={[styles.listText, {color: theme.primaryTextColor}, {flex: 1}]}>
+          {parseFloat(item.qty)}
+        </Text>
+        <Text
+          style={[
+            styles.listText,
+            {flex: 1, textAlign: 'center', color: item.color},
+          ]}>{`${item.price}`}</Text>
+        <Text
+          style={[
+            styles.listText,
+            {color: theme.primaryTextColor},
+            {flex: 1, textAlign: 'right'},
+          ]}>
+          {item.time}
+        </Text>
+      </View>
+    );
+  };
 
   render() {
     const {data} = this.props;
@@ -58,10 +70,10 @@ class History extends React.PureComponent {
             </Text>
           </View>
         </View>
-        <Separator styles={{heigth: 2}} />
+        <Separator styles={{height: 2}} />
         <FlatList
           data={data.slice(0, 20)}
-          renderItem={renderItem}
+          renderItem={this.renderItem}
           ItemSeparatorComponent={Separator}
           keyExtractor={item => `${item.time}-${uuid()}`}
           initialNumToRender={10}
@@ -76,7 +88,8 @@ const mapStateToProps = ({
   watchlist: {
     selectedSymbol: {symbol},
   },
-}) => ({data, symbol});
+  themes,
+}) => ({data, symbol, theme: themes[themes.current]});
 
 export default connect(
   mapStateToProps,

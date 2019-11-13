@@ -8,7 +8,6 @@ import Client4 from '../../api/MattermostClient';
 import {clearjumpToAction} from '../../actions/advancedSearch';
 import {Emojis} from '../../utils/emojis';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
-import CodePost from '../CodePost';
 // import {
 //   getHashTagChannelsNames,
 //   getDollarChannelNames,
@@ -52,6 +51,7 @@ export class PureParsedText extends Component {
     super(props);
 
     this.createPatters = memoize(disableUserPattern => {
+      const {theme} = this.props;
       if (disableUserPattern) {
         return [
           {
@@ -103,7 +103,10 @@ export class PureParsedText extends Component {
         },
         {
           pattern: this.getMentionPatter(),
-          style: styles.mentions,
+          style: [
+            styles.mentions,
+            {backgroundColor: theme.userMentionBackgroundColor},
+          ],
           onPress: this.onUserPress.bind(this),
         },
         {
@@ -231,14 +234,6 @@ export class PureParsedText extends Component {
     };
   }
 
-  renderCode(text) {
-    return <CodePost str={text} />;
-  }
-
-  getCodePattern() {
-    return /`(.*?)`/;
-  }
-
   getEmojiLink(text) {
     const systemEmoji = Emojis.find(emo => `:${emo.aliases[0]}:`.match(text));
     if (!systemEmoji) {
@@ -353,6 +348,7 @@ export class PureParsedText extends Component {
 
   getMentionPatter() {
     const {usernames} = this.props;
+    const {theme} = this.props;
     return new RegExp(`@(${(usernames || []).join('|')})\\b`);
   }
 
@@ -414,9 +410,7 @@ export class PureParsedText extends Component {
 
   renderYOLO(text) {
     return (
-      <Text style={themeTags.Yolo}>
-        {text.toUpperCase().replace(/-/g, '')}
-      </Text>
+      <Text style={themeTags.Yolo}>{text.toUpperCase().replace(/-/g, '')}</Text>
     );
   }
 
@@ -508,6 +502,23 @@ export class PureParsedText extends Component {
     return <Text style={styles.emailText}>{text}</Text>;
   }
 
+  renderCode(text) {
+    const {theme} = this.props;
+    return (
+      <Text
+        style={[
+          styles.codeText,
+          {color: theme.tiltRed, backgroundColor: theme.codeBackgroundColor},
+        ]}>
+        {text.replace(/`/g, '')}
+      </Text>
+    );
+  }
+
+  getCodePattern() {
+    return /`(.*?)`/;
+  }
+
   messageIsCode(message = '') {
     if (message.length >= 4 && message.slice(0, 4).includes('    ')) {
       return true;
@@ -530,7 +541,7 @@ export class PureParsedText extends Component {
   }
 
   render() {
-    const {typeIsSystem} = this.props;
+    const {typeIsSystem, theme} = this.props;
     let {message} = this.props;
     const {parser} = this.state;
     const containerStyle = this.messageIsCode(message)
@@ -539,8 +550,8 @@ export class PureParsedText extends Component {
           borderRadius: 4,
           paddingVertical: 3,
           paddingHorizontal: 8,
-          backgroundColor: '#F4F4F4',
-          borderColor: '#DCDCDC',
+          backgroundColor: theme.codeBackgroundColor,
+          borderColor: theme.borderBottomColor,
           borderWidth: StyleSheet.hairlineWidth,
         }
       : null;
@@ -551,7 +562,7 @@ export class PureParsedText extends Component {
       }
       return (
         <View style={containerStyle}>
-          <Text style={styles.codeText}>
+          <Text style={[styles.codeText, {color: theme.primaryTextColor}]}>
             {message.replace(/`{3,}$/gmu, '').replace(/^`{3,}/, '')}
           </Text>
         </View>
@@ -562,7 +573,11 @@ export class PureParsedText extends Component {
       <View>
         <ParsedText
           childrenProps={{allowFontScaling: false}}
-          style={[styles.text, typeIsSystem ? styles.systemText : {}]}
+          style={[
+            styles.text,
+            typeIsSystem ? styles.systemText : {},
+            {color: theme.primaryTextColor},
+          ]}
           parse={parser}>
           {`${message}`}
         </ParsedText>
@@ -579,6 +594,7 @@ const mapStateToProps = state => {
       // channelsNames: getHashTagChannelsNames(state),
       usernames: getUsersNames(state),
       // channelDollarNames: getDollarChannelNames(state),
+      theme: state.themes[state.themes.current],
     };
   }
   return {
@@ -586,6 +602,7 @@ const mapStateToProps = state => {
     // channelDollarNames: getDollarChannelNames(state),
     // channelsNames: getHashTagChannelsNames(state),
     usernames: getUsersNames(state),
+    theme: state.themes[state.themes.current],
   };
 };
 

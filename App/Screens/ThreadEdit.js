@@ -15,18 +15,23 @@ import getPostById from '../selectors/getPostById';
 import {getAllRootsByChannelId} from '../selectors/getAllRootsforPost';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import parser from '../utils/parse_display_name';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 class Thread extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Edit Message',
     headerLeft: (
-      <GoBack
-        icon={BACK}
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {

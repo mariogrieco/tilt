@@ -37,17 +37,19 @@ import {getFavoriteChannelById} from '../selectors/getFavoriteChannels';
 import Spacer from '../components/Spacer';
 import BottomBlockSpaceSmall from '../components/BottomBlockSpaceSmall';
 import MiddleBlockSpaceSmall from '../components/MiddleBlockSpaceSmall';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
-const STAR = require('../../assets/images/star-black/star.png');
-// const BELL = require('../../assets/images/bell-black/002-bell.png');
-const MEMBERS = require('../../assets/images/add-friend-black/add-friend.png');
-const EDIT = require('../../assets/images/edit-black/004-edit.png');
-const SIGN_OUT = require('../../assets/images/sign-out-black/005-sign-out-option.png');
-const ARCHIVE = require('../../assets/images/archive/006-box.png');
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const STAR = require('../../assets/themes/light/star-black/star.png');
+// const BELL = require('../../assets/themes/light/bell-black/002-bell.png');
+const MEMBERS = require('../../assets/themes/light/add-friend-black/add-friend.png');
+const EDIT = require('../../assets/themes/light/edit-black/004-edit.png');
+const SIGN_OUT = require('../../assets/themes/light/sign-out-black/005-sign-out-option.png');
+const ARCHIVE = require('../../assets/themes/light/archive/006-box.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   descriptionHeaderContainer: {
@@ -172,20 +174,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const Description = ({children}) => <View>{children}</View>;
-
+const Description = ({children, theme}) => <View>{children}</View>;
 const DescriptionHeader = ({
   channelName,
   ownerName,
   createdAt,
   onOwnerPress,
   ChannelCreatorPicture,
+  theme,
 }) => (
-  <View style={styles.descriptionHeaderContainer}>
+  <View
+    style={[
+      styles.descriptionHeaderContainer,
+      {backgroundColor: theme.primaryBackgroundColor},
+    ]}>
     <View>
       <Text style={styles.channelName}>{channelName}</Text>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={styles.descriptionHeaderText}>Created by</Text>
+        <Text
+          style={[
+            styles.descriptionHeaderText,
+            {color: theme.primaryTextColor},
+          ]}>
+          Created by
+        </Text>
         <TouchableOpacity
           onPress={onOwnerPress}
           style={{marginLeft: 10, flexDirection: 'row'}}>
@@ -195,26 +207,46 @@ const DescriptionHeader = ({
               style={styles.profilePicture}
             />
           </View>
-          <Text style={[styles.descriptionHeaderText, styles.owner]}>
+          <Text
+            style={[
+              styles.descriptionHeaderText,
+              styles.owner,
+              {color: theme.primaryTextColor},
+            ]}>
             {ownerName}
           </Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.descriptionHeaderText}>{createdAt}</Text>
+      <Text
+        style={[styles.descriptionHeaderText, {color: theme.primaryTextColor}]}>
+        {createdAt}
+      </Text>
     </View>
   </View>
 );
 
-const DescriptionBody = ({purpose, header}) => (
-  <View style={styles.descriptionBodyContainer}>
-    <Text style={styles.descriptionBodyTitle}>Purpose:</Text>
-    <Text style={styles.descriptionBodyText}>{purpose}</Text>
+const DescriptionBody = ({purpose, header, theme}) => (
+  <View
+    style={[
+      styles.descriptionBodyContainer,
+      {backgroundColor: theme.primaryBackgroundColor},
+    ]}>
+    <Text
+      style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>
+      Purpose:
+    </Text>
+    <Text style={[styles.descriptionBodyText, {color: theme.primaryTextColor}]}>
+      {purpose}
+    </Text>
     <Spacer />
-    <Text style={styles.descriptionBodyTitle}>Header:</Text>
+    <Text
+      style={[styles.descriptionBodyTitle, {color: theme.primaryTextColor}]}>
+      Header:
+    </Text>
     {/* <Text style={}> */}
     <ParsedText
       childrenProps={{allowFontScaling: false}}
-      style={styles.descriptionBodyText}
+      style={[styles.descriptionBodyText, {color: theme.primaryTextColor}]}
       parse={[
         {
           type: 'url',
@@ -253,13 +285,14 @@ const Edit = ({
   onPress,
   updateSwitchValue,
   switchValue,
+  theme,
 }) => (
   <View
     style={{
       flexDirection: 'row',
       paddingLeft: 15,
       paddingRight: 15,
-      backgroundColor: '#fff',
+      backgroundColor: theme.primaryBackgroundColor,
     }}>
     {isSwitch ? (
       <React.Fragment>
@@ -279,7 +312,7 @@ const Edit = ({
               fontFamily: 'SFProDisplay-Regular',
               fontSize: 16,
               letterSpacing: 0.1,
-              color: '#0e141e',
+              color: theme.primaryTextColor,
             }}>
             {name}
           </Text>
@@ -293,7 +326,7 @@ const Edit = ({
           <Switch
             trackColor={{
               true: StyleSheet.value('#17C491'),
-              false: 'rgba(0, 0, 0, 0.1)',
+              false: theme.secondaryBackgroundColor,
             }}
             value={switchValue}
             onValueChange={updateSwitchValue}
@@ -319,7 +352,7 @@ const Edit = ({
               fontFamily: 'SFProDisplay-Regular',
               fontSize: 16,
               letterSpacing: 0.1,
-              color: '#0e141e',
+              color: theme.primaryTextColor,
             }}>
             {name}
           </Text>
@@ -330,22 +363,18 @@ const Edit = ({
 );
 
 class ChannelInfo extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Channel Info',
-    headerLeft: <GoBack onPress={() => navigation.goBack()} icon={BACK} />,
-    headerStyle: {
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: '#DCDCDC',
-      shadowColor: '#D9D8D7',
-      shadowOffset: {
-        width: 0,
-        height: 0,
+    headerLeft: (
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+    ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-      backgroundColor: '#fff',
-    },
+    }),
   });
 
   state = {
@@ -466,7 +495,7 @@ class ChannelInfo extends React.Component {
 
   render() {
     const {hasFavorite, isMuteChannel, leaveModal, archiveModal} = this.state;
-    const {channel, iamIn, user_id, iAmAdmin, owner} = this.props;
+    const {channel, iamIn, user_id, iAmAdmin, owner, theme} = this.props;
     return (
       <View style={{flex: 1}}>
         <Modal
@@ -478,17 +507,40 @@ class ChannelInfo extends React.Component {
           hideModalContentWhileAnimating
           animationInTiming={200}
           animationOutTiming={200}>
-          <View style={styles.modal}>
+          <View
+            style={[
+              styles.modal,
+              {
+                backgroundColor: theme.modalPopupBackgroundColor,
+              },
+            ]}>
             <View style={styles.textContainer}>
-              <Text style={styles.textModalTitle}>Archive Channel</Text>
-              <Text style={styles.textModalDescription}>
+              <Text
+                style={[
+                  styles.textModalTitle,
+                  {color: theme.primaryTextColor},
+                ]}>
+                Archive Channel
+              </Text>
+              <Text
+                style={[
+                  styles.textModalDescription,
+                  {color: theme.primaryTextColor},
+                ]}>
                 Are you sure you want to archive{' '}
                 {this.props.channel.display_name} for everyone? No one will be
                 allowed to post to the channel.
               </Text>
             </View>
           </View>
-          <View style={styles.modalOptions}>
+          <View
+            style={[
+              styles.modalOptions,
+              {
+                backgroundColor: theme.modalPopupBackgroundColor,
+                borderTopColor: theme.borderBottomColor,
+              },
+            ]}>
             <Text
               style={[styles.textCancel, {color: '#007AFF'}]}
               onPress={this.toggleArchiveModal}>
@@ -496,7 +548,7 @@ class ChannelInfo extends React.Component {
             </Text>
             <View
               style={{
-                borderLeftColor: '#DCDCDC',
+                borderLeftColor: theme.borderBottomColor,
                 borderLeftWidth: StyleSheet.hairlineWidth,
               }}
             />
@@ -516,16 +568,37 @@ class ChannelInfo extends React.Component {
           hideModalContentWhileAnimating
           animationInTiming={200}
           animationOutTiming={200}>
-          <View style={styles.modal}>
+          <View
+            style={[
+              styles.modal,
+              {backgroundColor: theme.modalPopupBackgroundColor},
+            ]}>
             <View style={styles.textContainer}>
-              <Text style={styles.textModalTitle}>Leave Channel</Text>
-              <Text style={styles.textModalDescription}>
+              <Text
+                style={[
+                  styles.textModalTitle,
+                  {color: theme.primaryTextColor},
+                ]}>
+                Leave Channel
+              </Text>
+              <Text
+                style={[
+                  styles.textModalDescription,
+                  {color: theme.primaryTextColor},
+                ]}>
                 Are you sure you want to leave the channel{' '}
                 {this.props.channel.display_name}?
               </Text>
             </View>
           </View>
-          <View style={styles.modalOptions}>
+          <View
+            style={[
+              styles.modalOptions,
+              {
+                borderTopColor: theme.borderBottomColor,
+                backgroundColor: theme.modalPopupBackgroundColor,
+              },
+            ]}>
             <Text
               style={[styles.textCancel, {color: '#007AFF'}]}
               onPress={this.toggleLeaveModal}>
@@ -533,7 +606,7 @@ class ChannelInfo extends React.Component {
             </Text>
             <View
               style={{
-                borderLeftColor: '#DCDCDC',
+                borderLeftColor: theme.borderBottomColor,
                 borderLeftWidth: StyleSheet.hairlineWidth,
               }}
             />
@@ -544,7 +617,8 @@ class ChannelInfo extends React.Component {
             </Text>
           </View>
         </Modal>
-        <ScrollView style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        <ScrollView
+          style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
           <MiddleBlockSpaceSmall />
           <Description>
             <DescriptionHeader
@@ -556,11 +630,13 @@ class ChannelInfo extends React.Component {
               createdAt={`Created on  ${moment(channel.create_at).format(
                 'MMMM D, YYYY',
               )}`}
+              theme={theme}
             />
             <BottomBlockSpaceSmall />
             <DescriptionBody
               purpose={channel ? channel.purpose : ''}
               header={channel ? channel.header : ''}
+              theme={theme}
             />
           </Description>
           <BottomBlockSpaceSmall />
@@ -571,6 +647,7 @@ class ChannelInfo extends React.Component {
               isSwitch
               switchValue={hasFavorite}
               updateSwitchValue={this.handleFavorite}
+              theme={theme}
             />
             {/* <Separator /> */}
             {/* <Edit */}
@@ -585,6 +662,7 @@ class ChannelInfo extends React.Component {
               icon={MEMBERS}
               name="Add Members"
               onPress={this.handleAddMembers}
+              theme={theme}
             />
             {(channel.creator_id === user_id || iAmAdmin) && (
               <React.Fragment>
@@ -593,6 +671,7 @@ class ChannelInfo extends React.Component {
                   icon={EDIT}
                   name="Edit Channel"
                   onPress={this.handleEditChannel}
+                  theme={theme}
                 />
               </React.Fragment>
             )}
@@ -602,6 +681,7 @@ class ChannelInfo extends React.Component {
                 icon={SIGN_OUT}
                 name="Leave Channel"
                 onPress={this.toggleLeaveModal}
+                theme={theme}
               />
             )}
             {(channel.creator_id === user_id || iAmAdmin) && (
@@ -611,6 +691,7 @@ class ChannelInfo extends React.Component {
                   icon={ARCHIVE}
                   name="Archive Channel"
                   onPress={this.handleArchiveChannel}
+                  theme={theme}
                 />
               </React.Fragment>
             )}
@@ -646,6 +727,7 @@ const mapStateToProps = state => {
     owner,
     channel,
     ChannelCreatorPicture,
+    theme: state.themes[state.themes.current],
   };
 };
 

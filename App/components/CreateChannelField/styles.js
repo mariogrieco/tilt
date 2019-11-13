@@ -8,7 +8,7 @@ export default StyleSheet.create({
     color: '$textColor',
   },
   titleContainer: {
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   input: {
     fontSize: 16,
@@ -17,7 +17,7 @@ export default StyleSheet.create({
     color: '$textColor',
   },
   descriptionContainer: {
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   descriptionText: {
     color: '#8E8E95',

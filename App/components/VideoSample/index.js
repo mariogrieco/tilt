@@ -4,8 +4,8 @@ import prettyBytes from 'pretty-bytes';
 import Client4 from '../../api/MattermostClient';
 import styles from './styles';
 
-const VIDEO = require('../../../assets/images/video-file/video.png');
-const PLAY = require('../../../assets/images/play/play-unfilled.png');
+const VIDEO = require('../../../assets/themes/light/video-file/video.png');
+const PLAY = require('../../../assets/themes/light/play/play-unfilled.png');
 
 export default class VideoSample extends PureComponent {
   onPressDownload = async () => {

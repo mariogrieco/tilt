@@ -4,7 +4,7 @@ import ImagePicker from 'react-native-image-picker';
 
 import styles from './styles';
 
-const CAMERA = require('../../../assets/images/camera/camera.png');
+const CAMERA = require('../../../assets/themes/light/camera/camera.png');
 
 export default class Picture extends React.PureComponent {
   handleCamera = () => {

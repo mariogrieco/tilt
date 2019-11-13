@@ -9,7 +9,7 @@ export default StyleSheet.create({
   body: {
     flex: 1,
     paddingBottom: 10,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   header: {
     backgroundColor: '#F6F7F9',

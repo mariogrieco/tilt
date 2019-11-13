@@ -16,7 +16,6 @@ export default StyleSheet.create({
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
     letterSpacing: 0.1,
-    color: 'white',
     // alignSelf: 'stretch',
     // textAlignVertical: 'center',
     textAlign: 'center',

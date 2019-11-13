@@ -6,7 +6,7 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
   },
   circle: {
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
     height: 40,
     width: 40,
     borderRadius: 20,

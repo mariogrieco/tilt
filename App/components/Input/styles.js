@@ -5,9 +5,7 @@ export default StyleSheet.create({
   container: {
     paddingBottom: ifIphoneX(0, 10),
     // paddingTop: Platform.OS === 'ios' ? 15 : 10,
-    borderTopColor: '#DCDCDC',
     borderTopWidth: StyleSheet.hairlineWidth,
-    backgroundColor: '#fff',
   },
   mentions: {
     flexDirection: 'row',
@@ -110,7 +108,6 @@ export default StyleSheet.create({
   },
   showOptionsView: {
     height: 180,
-    borderBottomColor: '#DCDCDC',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   notShowOptionsView: {
@@ -135,7 +132,6 @@ export default StyleSheet.create({
     color: '#585C63',
     borderWidth: 1,
     borderColor: '#585C63',
-    backgroundColor: 'white',
   },
   mediaContainer: {
     position: 'relative',
@@ -157,7 +153,6 @@ export default StyleSheet.create({
     marginRight: 15,
     borderRadius: 4,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#DCDCDC',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -170,7 +165,6 @@ export default StyleSheet.create({
   documentContainer: {
     padding: 15,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#DCDCDC',
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',
