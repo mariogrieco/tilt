@@ -78,8 +78,8 @@ const initialState = {
     barStyleColor: 'light-content',
   },
   current: 'light',
-  entities: ['light', 'dark', 'darkGray'],
-  displayNames: ['Light', 'Midnight', 'Dark Gray'],
+  entities: ['light', 'darkGray', 'dark'],
+  displayNames: ['Light', 'Dark Gray', 'Midnight'],
 };
 
 const themeReducer = (state = initialState, action) => {
