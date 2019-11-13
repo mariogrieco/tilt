@@ -233,7 +233,6 @@ class EditProfile extends React.PureComponent {
               onPressCamera={this.onProfilePictureChange}
             />
           </View>
-          <Separator />
           <View
             style={[
               styles.row,
