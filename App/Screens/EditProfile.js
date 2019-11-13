@@ -91,6 +91,17 @@ class EditProfile extends React.PureComponent {
     headerLeft: (
       <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    headerRight: (
+      <TouchableOpacity
+        style={{
+          paddingHorizontal: 15,
+          paddingVertical: 13,
+          backgroundColor: '#fff',
+        }}
+        onPress={navigation.getParam('onSave', () => {})}>
+        <Text style={styles.saveButton}>Save</Text>
+      </TouchableOpacity>
+    ),
     ...headerForScreenWithBottomLine({
       headerTintColor: screenProps.theme.headerTintColor,
       headerStyle: {
