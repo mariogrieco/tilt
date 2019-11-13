@@ -75,7 +75,7 @@ export default StyleSheet.create({
     borderRadius: 11,
     paddingHorizontal: 8,
     backgroundColor: '#17C491',
-    height: 22,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

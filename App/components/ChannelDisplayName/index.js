@@ -36,12 +36,16 @@ class ChannelDisplayName extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.loading && nextState.loading) return false;
+    if (this.state.loading && nextState.loading) {
+      return false;
+    }
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
   onJoin = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
@@ -117,7 +121,13 @@ class ChannelDisplayName extends Component {
           )}
           {unreadMessagesCount > 0 && (
             <View style={[styles.unreadMessages]}>
-              <Text style={styles.unreadText}>{unreadMessagesCount}</Text>
+              <Text
+                style={[
+                  styles.unreadText,
+                  {color: theme.primaryBackgroundColor},
+                ]}>
+                {unreadMessagesCount}
+              </Text>
             </View>
           )}
         </View>
@@ -160,7 +170,9 @@ class ChannelDisplayName extends Component {
   getDescription() {
     const {channel} = this.props;
 
-    if (!channel || !channel.purpose) return <View />;
+    if (!channel || !channel.purpose) {
+      return <View />;
+    }
 
     return (
       <View style={styles.paddingBottom}>
@@ -182,7 +194,12 @@ class ChannelDisplayName extends Component {
           {this.getMembersLabel()}
         </View>
         <View style={{flex: 0.32, alignItems: 'flex-end', paddingRight: 15}}>
-          <TouchableOpacity style={[styles.join, {backgroundColor: theme.joinButtonBackgroundColor}]} onPress={this.onJoin}>
+          <TouchableOpacity
+            style={[
+              styles.join,
+              {backgroundColor: theme.joinButtonBackgroundColor},
+            ]}
+            onPress={this.onJoin}>
             <Text style={styles.joinText}>JOIN</Text>
           </TouchableOpacity>
         </View>
@@ -191,7 +208,9 @@ class ChannelDisplayName extends Component {
   }
 
   render() {
-    if (this.props.join) return this.getJoinView();
+    if (this.props.join) {
+      return this.getJoinView();
+    }
     return this.getDefaultView();
   }
 }
