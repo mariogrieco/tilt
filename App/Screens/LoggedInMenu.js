@@ -14,9 +14,6 @@ import {NavigationActions} from 'react-navigation';
 import StyleSheet from 'react-native-extended-stylesheet';
 import DeviceInfo from 'react-native-device-info';
 import GoBack from '../components/GoBack';
-import BlockSpace from '../components/BlockSpace';
-import TopBlockSpace from '../components/TopBlockSpace';
-import Separator from '../components/Separator';
 import {isLogin, logout} from '../actions/login';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import {changeTheme} from '../actions/themeManager';
@@ -107,7 +104,7 @@ class LoggedInMenu extends React.Component {
   };
 
   render() {
-    const {theme, themeName} = this.props;
+    const {theme, navigation} = this.props;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
@@ -165,7 +162,7 @@ class LoggedInMenu extends React.Component {
             Invite People
           </Text>
         </TouchableOpacity>
-        <View
+        <TouchableOpacity
           style={[
             styles.row,
             styles.button,
@@ -174,23 +171,14 @@ class LoggedInMenu extends React.Component {
               borderColor: theme.borderBottomColor,
             },
           ]}
-          onPress={this.handleBlocked}>
+          onPress={() => {
+            navigation.navigate('Themes');
+          }}>
           <Image style={styles.icon} source={MOON} />
           <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>
-            Dark Theme
+            Theme
           </Text>
-          <View style={{flex: 1, alignItems: 'flex-end'}}>
-            <Switch
-              trackColor={{
-                true: StyleSheet.value('#17C491'),
-                false: 'rgba(0, 0, 0, 0.1)',
-              }}
-              value={themeName === 'dark'}
-              onValueChange={this.props.changeTheme}
-              thumbColor="#F6F7F9"
-            />
-          </View>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.row,
@@ -252,7 +240,4 @@ const mapDispatchToProps = {
   changeTheme,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LoggedInMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(LoggedInMenu);

@@ -78,6 +78,8 @@ const initialState = {
     barStyleColor: 'light-content',
   },
   current: 'light',
+  entities: ['light', 'dark', 'darkGray'],
+  displayNames: ['Light', 'Midnight', 'Dark Gray'],
 };
 
 const themeReducer = (state = initialState, action) => {
@@ -86,7 +88,7 @@ const themeReducer = (state = initialState, action) => {
       console.log('llamado de nuevo cambio de tema');
       return {
         ...state,
-        current: state.current === 'light' ? 'dark' : 'light',
+        current: action.payload,
       };
     default:
       return state;

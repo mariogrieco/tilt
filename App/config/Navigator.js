@@ -30,6 +30,7 @@ import InviteContacts from '../Screens/InviteContacts';
 import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
+import Themes from '../Screens/Themes';
 
 const HomeStack = createStackNavigator(
   {
@@ -126,6 +127,7 @@ const LoggedInMenuStack = createStackNavigator(
     LoggedInMenu,
     BlockUser,
     EditProfile,
+    Themes,
   },
   {
     headerLayoutPreset: 'center',
