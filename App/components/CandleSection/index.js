@@ -53,6 +53,8 @@ class CandleSection extends React.Component {
           $merge: {
             valueFormatter: xLabels,
             textColor: processColor(props.theme.primaryTextColor),
+            gridColor: processColor(props.theme.borderBottomColor),
+            axisLineColor: processColor(props.theme.borderBottomColor),
           },
         },
         yAxis: {
@@ -60,6 +62,12 @@ class CandleSection extends React.Component {
             ...merge({}, state.yAxis, {
               left: {
                 textColor: processColor(props.theme.primaryTextColor),
+                gridColor: processColor(props.theme.borderBottomColor),
+                axisLineColor: processColor(props.theme.borderBottomColor),
+              },
+              right: {
+                gridColor: processColor(props.theme.borderBottomColor),
+                axisLineColor: processColor(props.theme.borderBottomColor),
               },
             }),
           },
@@ -168,7 +176,6 @@ const mapStateToProps = ({candle, themes}) => ({
   theme: themes[themes.current],
 });
 
-export default connect(
-  mapStateToProps,
-  {fetchData: fetchCandle},
-)(CandleSection);
+export default connect(mapStateToProps, {fetchData: fetchCandle})(
+  CandleSection,
+);

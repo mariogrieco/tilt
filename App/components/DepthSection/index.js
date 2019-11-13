@@ -61,6 +61,8 @@ class DepthSection extends React.PureComponent {
         xAxis: {
           $merge: {
             textColor: processColor(props.theme.primaryTextColor),
+            gridColor: processColor(props.theme.borderBottomColor),
+            axisLineColor: processColor(props.theme.borderBottomColor),
           },
         },
         yAxis: {
@@ -68,9 +70,13 @@ class DepthSection extends React.PureComponent {
             ...merge({}, state.yAxis, {
               left: {
                 textColor: processColor(props.theme.primaryTextColor),
+                gridColor: processColor(props.theme.borderBottomColor),
+                axisLineColor: processColor(props.theme.borderBottomColor),
               },
               right: {
                 textColor: processColor(props.theme.primaryTextColor),
+                gridColor: processColor(props.theme.borderBottomColor),
+                axisLineColor: processColor(props.theme.borderBottomColor),
               },
             }),
           },
@@ -186,7 +192,4 @@ const mapDispatchToProps = {
   dispatchNowInactive: depthChartInactive,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DepthSection);
+export default connect(mapStateToProps, mapDispatchToProps)(DepthSection);
