@@ -6,20 +6,27 @@ import UserProfile from '../components/UserProfile';
 import {getChannels, getMyChannels} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
 import {getProfilesInGroupChannels} from '../actions/users';
-
-const MENU = require('../../assets/images/menu-black/menu.png');
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import assets from '../components/ThemeWrapper/assets';
 
 class LoggedIn extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Profile',
     headerLeft: null,
     headerRight: (
       <TouchableOpacity
         style={{paddingHorizontal: 15, paddingVertical: 13}}
         onPress={() => navigation.navigate('LoggedInMenu')}>
-        <Image source={MENU} />
+        <Image source={assets[screenProps.themeName].MENU} />
       </TouchableOpacity>
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   componentDidMount() {

@@ -14,8 +14,8 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingVertical: 10,
     borderColor: '#DCDCDC',
-    borderBottomWidth: 0.5,
-    backgroundColor: '#FFF'
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    backgroundColor: '#FFF',
   },
   imageContainer: {
     flexDirection: 'row',

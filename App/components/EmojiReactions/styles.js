@@ -10,8 +10,6 @@ export default StyleSheet.create({
   },
   emojiReactions: {
     borderRadius: 16,
-    backgroundColor: '#F6F7F9',
-    borderColor: '#D9D8D7',
     borderWidth: StyleSheet.hairlineWidth,
     width: 58,
     height: 32,

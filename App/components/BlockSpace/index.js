@@ -1,7 +1,20 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './styles';
+import {connect} from 'react-redux';
 
-const BlockSpace = () => <View style={styles.block} />;
+const BlockSpace = ({theme}) => (
+  <View
+    style={[
+      styles.block,
+      {
+        backgroundColor: theme.secondaryBackgroundColor,
+        borderTopColor: theme.borderBottomColor,
+        borderBottomColor: theme.borderBottomColor,
+      },
+    ]}
+  />
+);
 
-export default BlockSpace;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(BlockSpace);

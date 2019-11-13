@@ -94,13 +94,16 @@ export class ReactionSummary extends Component {
   }
 
   render() {
+    const {theme} = this.props;
     return (
       <View style={styles.container}>
         {Object.keys(this.state).map(key => {
           return (
             <View style={styles.reactionContainer} key={key}>
               {this.getCurrentReaction(key)}
-              <Text style={styles.sum}>{this.renderSum(this.state[key])}</Text>
+              <Text style={[styles.sum, {color: theme.primaryTextColor}]}>
+                {this.renderSum(this.state[key])}
+              </Text>
             </View>
           );
         })}
@@ -118,6 +121,7 @@ const mapStateToProps = (state, props) => ({
         return (t.sum ? parseInt(t.sum) : t) + parseInt(b.sum);
       }, 0)
     : 0,
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {

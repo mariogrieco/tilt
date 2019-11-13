@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import Post from '../Post/Post';
 
 import styles from './styles';
+import {connect} from 'react-redux';
 
 export class Repost extends PureComponent {
   render() {
@@ -19,9 +20,15 @@ export class Repost extends PureComponent {
       username,
       deleteAction,
     } = this.props;
+    const {theme} = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.repostSeparator} />
+        <View
+          style={[
+            styles.repostSeparator,
+            {backgroundColor: theme.threadSeparatorColor},
+          ]}
+        />
         <Post
           postId={postId}
           userId={userId}
@@ -44,4 +51,5 @@ export class Repost extends PureComponent {
   }
 }
 
-export default Repost;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(Repost);

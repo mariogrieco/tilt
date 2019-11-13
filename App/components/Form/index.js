@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   View,
   Text,
@@ -11,7 +12,6 @@ import isEqual from 'lodash/isEqual';
 
 import Terms from '../Terms';
 import styles from './styles';
-
 
 class Form extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -30,6 +30,7 @@ class Form extends React.Component {
       canSend,
       showTerms,
     } = this.props;
+    const {theme} = this.props;
     return (
       <SafeAreaView style={{flex: 1, marginBottom: 10}}>
         <View style={{flex: 1}}>
@@ -52,7 +53,9 @@ class Form extends React.Component {
               disabled={!canSend}
               style={canSend ? {} : styles.disabled}
               onPress={canSend ? navigationTo : () => ({})}>
-              <Text style={styles.button}>{textButton}</Text>
+              <Text style={[styles.button, {color: theme.buttonTextColor}]}>
+                {textButton}
+              </Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
@@ -61,4 +64,5 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(Form);

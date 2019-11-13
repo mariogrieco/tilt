@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import styles from './styles';
 
-const CANCEL = require('../../../assets/images/cancel/cancel.png');
+const CANCEL = require('../../../assets/themes/light/cancel/cancel.png');
 
 export default class NewMessageLabel extends React.PureComponent {
   render() {

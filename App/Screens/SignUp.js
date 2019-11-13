@@ -12,19 +12,17 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-// import SplashScreen from 'react-native-smart-splash-screen';
+import assets from '../components/ThemeWrapper/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-
-const LOGO = require('../../assets/images/logo/LogoSignUp.png');
-const GROUPCHAT = require('../../assets/images/groupChat/groupChat.png');
-const MARKETDATA = require('../../assets/images/marketData/marketData.png');
-const PHONE = require('../../assets/images/phone-call/phone-call-button.png');
-const VIDEO = require('../../assets/images/video/video.png');
-const NETWORK = require('../../assets/images/network/network.png');
-const ROBOT = require('../../assets/images/robot/robot.png');
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     marginTop: '14%',
   },
@@ -40,7 +38,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     letterSpacing: 0.1,
     textAlign: 'center',
-    color: '$textColor',
     marginTop: '1.5rem',
   },
   options: {
@@ -55,7 +52,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.1,
     textAlign: 'center',
-    color: '$textColor',
     marginLeft: 25,
   },
   buttonView: {
@@ -69,18 +65,22 @@ const styles = StyleSheet.create({
     height: 44,
     // height: '2.75rem',
   },
+  buttonsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   buttonText: {
     fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
     letterSpacing: 0.1,
-    color: 'white',
     paddingTop: 10,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   leftButton: {
     borderRightWidth: StyleSheet.hairlineWidth,
-    borderRightColor: 'white',
     borderTopLeftRadius: '$borderRadius',
     borderBottomLeftRadius: '$borderRadius',
     borderTopRightRadius: 0,
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
   },
   rightButton: {
     borderLeftWidth: StyleSheet.hairlineWidth,
-    borderLeftColor: 'white',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     borderTopRightRadius: '$borderRadius',
@@ -125,7 +124,7 @@ const FeatureGroup = ({children}) => (
   <View style={styles.featureGroup}>{children}</View>
 );
 
-const Feature = ({text, icon}) => (
+const Feature = ({text, icon, textColor}) => (
   <View
     style={{
       flexDirection: 'row',
@@ -136,40 +135,44 @@ const Feature = ({text, icon}) => (
     <View style={{flex: 0.4, alignItems: 'flex-start'}}>
       <Image source={icon} style={styles.icon} />
     </View>
-    <Text style={[styles.text, {textAlign: 'left', flex: 1}]}>{text}</Text>
+    <Text style={[styles.text, {textAlign: 'left', flex: 1, color: textColor}]}>
+      {text}
+    </Text>
   </View>
 );
 
-const Buttons = ({onSignUp, onLogin}) => (
+const Buttons = ({
+  onSignUp,
+  onLogin,
+  leftButtonStyle = {},
+  buttonTextStyle = {},
+  rightButtonStyle = {},
+}) => (
   <SafeAreaView style={styles.buttonView}>
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <TouchableOpacity
         onPress={onSignUp}
-        style={[styles.button, styles.leftButton]}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+        style={[styles.button, styles.leftButton, leftButtonStyle]}>
+        <Text style={[styles.buttonText, buttonTextStyle]}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onLogin}
-        style={[styles.button, styles.rightButton]}>
-        <Text style={styles.buttonText}>Log In</Text>
+        style={[styles.button, styles.rightButton, rightButtonStyle]}>
+        <Text style={[styles.buttonText, buttonTextStyle]}>Log In</Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>
 );
 
 class SignUp extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', ''),
-    headerStyle: {
-      borderBottomWidth: 0,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 0,
+    ...headerForScreenWithTabs({
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
-      elevation: 0,
-      backgroundColor: '#FFF',
-    },
+    }),
   });
 
   componentDidMount() {
@@ -209,57 +212,86 @@ class SignUp extends React.Component {
   };
 
   render() {
+    const {theme, themeName} = this.props;
+    const iconsTheme = assets[themeName];
     return (
       <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View style={{flex: 1}}>
-          <ScrollView>
-            <View style={styles.container}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image source={LOGO} style={styles.logo} />
-                <View style={[styles.signUpToExperienceView, {paddingTop: 10}]}>
-                  <Text style={styles.signUpToExperience}>
-                    Sign up to experience the best of Tilt
-                  </Text>
-                </View>
-              </View>
-              <View style={[styles.principalContainer]}>
-                <FeatureGroup>
-                  <Feature icon={GROUPCHAT} text="Chat with traders" />
-                  <Feature icon={PHONE} text="Start and join voice calls" />
-                  <Feature icon={VIDEO} text="Start and join video calls" />
-                  <Feature icon={NETWORK} text="1000s of communities" />
-                  <Feature icon={ROBOT} text="Intelligent bots" />
-                  <Feature icon={MARKETDATA} text="Real-time market data" />
-                </FeatureGroup>
+        style={[
+          styles.mainContainer,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}>
+        <ScrollView>
+          <View style={styles.container}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image source={iconsTheme.LOGO} style={styles.logo} />
+              <View style={[styles.signUpToExperienceView, {paddingTop: 10}]}>
+                <Text
+                  style={[
+                    styles.signUpToExperience,
+                    {color: theme.primaryTextColor},
+                  ]}>
+                  Sign up to experience the best of Tilt
+                </Text>
               </View>
             </View>
-          </ScrollView>
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}>
-          <Buttons onSignUp={this.goToSignUp} onLogin={this.goToLogin} />
+            <View style={[styles.principalContainer]}>
+              <FeatureGroup>
+                <Feature
+                  icon={iconsTheme.GROUPCHAT}
+                  textColor={theme.primaryTextColor}
+                  text="Chat with traders"
+                />
+                <Feature
+                  icon={iconsTheme.PHONE}
+                  textColor={theme.primaryTextColor}
+                  text="Start and join voice calls"
+                />
+                <Feature
+                  icon={iconsTheme.VIDEO}
+                  textColor={theme.primaryTextColor}
+                  text="Start and join video calls"
+                />
+                <Feature
+                  icon={iconsTheme.NETWORK}
+                  textColor={theme.primaryTextColor}
+                  text="1000s of communities"
+                />
+                <Feature
+                  icon={iconsTheme.ROBOT}
+                  textColor={theme.primaryTextColor}
+                  text="Intelligent bots"
+                />
+                <Feature
+                  icon={iconsTheme.MARKETDATA}
+                  textColor={theme.primaryTextColor}
+                  text="Real-time market data"
+                />
+              </FeatureGroup>
+            </View>
+          </View>
+        </ScrollView>
+        <View style={[styles.buttonsContainer]}>
+          <Buttons
+            onSignUp={this.goToSignUp}
+            onLogin={this.goToLogin}
+            leftButtonStyle={{borderRightColor: theme.primaryBackgroundColor}}
+            rightButtonStyle={{borderLeftColor: theme.primaryBackgroundColor}}
+            buttonTextStyle={{color: theme.buttonTextColor}}
+          />
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.login.user,
+const mapStateToProps = ({login, themes}) => ({
+  user: login.user,
+  theme: themes[themes.current],
+  themeName: themes.current,
 });
 
 const mapDispatchToProps = {

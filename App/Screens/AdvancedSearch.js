@@ -1,6 +1,6 @@
 import React, {Component, createRef} from 'react';
 import {FlatList, View, Text, TouchableOpacity} from 'react-native';
-import {withNavigation} from 'react-navigation';
+import {NavigationActions, withNavigation} from 'react-navigation';
 import isEqual from 'lodash/isEqual';
 import {connect} from 'react-redux';
 import Separator from '../components/Separator';
@@ -12,6 +12,8 @@ import {searchPostsWithParams} from '../actions/advancedSearch';
 import getAdvancedSearchList from '../selectors/getAdvancedSearchList';
 import Suggestions from '../components/Suggestions';
 import isChannelCreatorAdmin from '../selectors/isChannelCreatorAdmin';
+import GoBack from '../components/GoBack';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 // import PropTypes from 'prop-types'
 
 const fromRegx = /(from:.[a-z0-9_-]+)|(from:)/gi;
@@ -57,7 +59,7 @@ export class AdvancedSearch extends Component {
     });
   };
 
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     headerLeft: (
       <SearchBar
         handleRef={navigation.getParam('refInput', null)}
@@ -68,15 +70,23 @@ export class AdvancedSearch extends Component {
           fontFamily: 'SFProDisplay-Regular',
           padding: 1,
           width: '100%',
+          color: screenProps.theme.primaryTextColor,
         }}
         placeholderText="Search for a word"
-        placeholderTextColor="#8E8E95"
+        placeholderTextColor={screenProps.theme.placeholderTextColor}
         growPercentage={0.77}
         onChangeText={navigation.getParam('onSearch', () => {})}
         inputValue={navigation.getParam('queryStr', '')}
         onSelectionChange={navigation.getParam('onSelectionChange', () => {})}
       />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
     headerRight: (
       <TouchableOpacity
         // eslint-disable-next-line react-native/no-inline-styles
@@ -88,7 +98,7 @@ export class AdvancedSearch extends Component {
         <Text
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
-            color: '#0e141e',
+            color: screenProps.theme.primaryTextColor,
             fontSize: 16,
             letterSpacing: 0.1,
             fontFamily: 'SFProDisplay-Medium',
@@ -353,8 +363,9 @@ export class AdvancedSearch extends Component {
   render() {
     const {posts} = this.props;
     const {loading, activeMentionBox, activeChannelBox} = this.state;
+    const {theme} = this.props;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         {activeMentionBox && this.renderMentionBox()}
         {activeChannelBox && this.renderChannelBox()}
         <View style={{marginBottom: 0}}>
@@ -373,7 +384,7 @@ export class AdvancedSearch extends Component {
 }
 
 const mapStateToProps = state => {
-  const whoIam = state.login.user ? state.login.user.id : null; 
+  const whoIam = state.login.user ? state.login.user.id : null;
   return {
     ...getAdvancedSearchList(state),
     users: state.users.keys.map(key =>
@@ -398,10 +409,11 @@ const mapStateToProps = state => {
       })
       .valueSeq()
       .toJS(),
-  }
+    theme: state.themes[state.themes.current],
+  };
 };
 
-function parseNameIfValid (user) {
+function parseNameIfValid(user) {
   if (!user) {
     return null;
   }

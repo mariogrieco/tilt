@@ -50,14 +50,16 @@ class Description extends React.Component {
 
   render() {
     const {lastPrice, priceChange, priceChangePercent, onToggle} = this.props;
+    const {theme} = this.props;
     const color = priceChange > 0 ? '#17C491' : '#FC3E30';
     return (
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <View style={styles.row}>
           <Text
             style={[
               cryptoItemStyles.lastPrice,
               styles.lastPrice,
+              {color: theme.primaryTextColor},
             ]}>{`${parseFloat(lastPrice)}`}</Text>
           <Toggle onPress={onToggle} />
         </View>
@@ -80,11 +82,13 @@ const mapStateToProps = ({
   watchlist: {
     selectedSymbol: {lastPrice, priceChange, priceChangePercent, symbol},
   },
+  themes,
 }) => ({
   lastPrice,
   priceChange,
   priceChangePercent,
   symbol,
+  theme: themes[themes.current],
 });
 
 export default connect(

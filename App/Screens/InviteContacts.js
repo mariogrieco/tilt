@@ -18,11 +18,13 @@ import Contacts from 'react-native-contacts';
 import GoBack from '../components/GoBack';
 import SearchBar from '../components/SearchBar';
 import Separator from '../components/Separator';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import {connect} from 'react-redux';
 
-const MESSAGE = require('../../assets/images/invite-text/invite-text.png');
-const EMAIL = require('../../assets/images/invite-email/invite-email.png');
-const SHARE = require('../../assets/images/invite-upload/invite-upload.png');
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const MESSAGE = require('../../assets/themes/light/invite-text/invite-text.png');
+const EMAIL = require('../../assets/themes/light/invite-email/invite-email.png');
+const SHARE = require('../../assets/themes/light/invite-upload/invite-upload.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const textMessage =
   'Start chatting with me on Tilt. Join now at https://4yfnj.app.link/f1zU8qPIyZ';
@@ -42,11 +44,6 @@ const styles = StyleSheet.create({
   },
   rowLetterGroup: {
     height: 35,
-    backgroundColor: '#f6f7f9',
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#DCDCDC',
-    borderBottomColor: '#DCDCDC',
-    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerContainer: {
     justifyContent: 'center',
@@ -186,23 +183,19 @@ const getContactsIos = () =>
   });
 
 class InviteContacts extends React.PureComponent {
-  static navigationOptions = ({navigation}) => ({
-    headerStyle: {
-      borderBottomWidth: 0,
-      shadowOffset: {
-        width: 0,
-        height: 0,
-      },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-    },
+  static navigationOptions = ({navigation, screenProps}) => ({
+    title: 'Invite Contacts',
     headerLeft: (
-      <GoBack
-        icon={BACK}
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+        borderBottomWidth: 0,
+      },
+    }),
   });
 
   state = {
@@ -246,21 +239,43 @@ class InviteContacts extends React.PureComponent {
     if (contact.phoneNumbers[0]) {
       number = contact.phoneNumbers[0].number;
     }
-
+    const {theme, themeName} = this.props;
     return (
       <React.Fragment>
         {shouldDisplayLetterGroup && (
-          <View style={[styles.row, styles.rowLetterGroup]}>
-            <Text style={styles.letterGroup}>{this.currentLetterGroup}</Text>
+          <View
+            style={[
+              styles.row,
+              styles.rowLetterGroup,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
+            <Text style={[styles.letterGroup, {color: theme.primaryTextColor}]}>
+              {this.currentLetterGroup}
+            </Text>
           </View>
         )}
-        <View style={[styles.row, styles.rowContact]}>
+        <View
+          style={[
+            styles.row,
+            styles.rowContact,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}>
           <View>
-            <Text style={[styles.name]}>{name}</Text>
-            <Text style={[styles.phone]}>{number}</Text>
+            <Text style={[styles.name, {color: theme.primaryTextColor}]}>
+              {name}
+            </Text>
+            <Text style={[styles.phone, {color: theme.placeholderTextColor}]}>
+              {number}
+            </Text>
           </View>
           <TouchableOpacity style={styles.button} onPress={openSmsUrl(number)}>
-            <Text style={styles.buttonText}>Invite</Text>
+            <Text
+              style={[
+                styles.buttonText,
+                {color: theme.primaryBackgroundColor},
+              ]}>
+              Invite
+            </Text>
           </TouchableOpacity>
         </View>
         <Separator />
@@ -268,36 +283,43 @@ class InviteContacts extends React.PureComponent {
     );
   };
 
-  ListEmptyComponent = () => (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <ActivityIndicator size="large" color="#17C491" />
-    </View>
-  );
-
-  ListHeaderComponent = () => (
-    <View style={styles.headerContainer}>
-      <View style={styles.iconsContainer}>
-        <TouchableOpacity onPress={openSmsUrl()}>
-          <Image source={MESSAGE} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={openEmail}>
-          <Image source={EMAIL} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={shareContent}>
-          <Image source={SHARE} />
-        </TouchableOpacity>
+  ListEmptyComponent = () => {
+    const {theme} = this.props;
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <ActivityIndicator size="large" color="#17C491" />
       </View>
-    </View>
-  );
+    );
+  };
+
+  ListHeaderComponent = () => {
+    const {theme} = this.props;
+    return (
+      <View style={[styles.headerContainer]}>
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity onPress={openSmsUrl()}>
+            <Image source={MESSAGE} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={openEmail}>
+            <Image source={EMAIL} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={shareContent}>
+            <Image source={SHARE} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
 
   handleSearch = text => this.setState({search: text.toLowerCase()});
 
   render() {
+    const {theme} = this.props;
     const {contacts, search} = this.state;
     const data = contacts.filter(({givenName, phoneNumbers, familyName}) => {
       const hasGivenName = givenName
@@ -312,11 +334,11 @@ class InviteContacts extends React.PureComponent {
       return hasGivenName || hasPhoneNumber || hasFamilyName;
     });
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         <View
           style={{
             paddingBottom: 6,
-            borderBottomColor: '#d9d8d7',
+            borderBottomColor: theme.borderBottomColor,
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}>
           <SearchBar
@@ -326,12 +348,14 @@ class InviteContacts extends React.PureComponent {
               fontFamily: 'SFProDisplay-Regular',
               padding: 1,
               width: '100%',
+              color: theme.primaryTextColor,
             }}
             placeholderText="Search for a name or number"
-            placeholderTextColor="#8E8E95"
+            placeholderTextColor={theme.placeholderTextColor}
             growPercentage={0.935}
             onChangeText={this.handleSearch}
             inputValue={search}
+            style={{backgroundColor: theme.secondaryBackgroundColor}}
           />
         </View>
         <FlatList
@@ -349,4 +373,9 @@ class InviteContacts extends React.PureComponent {
   }
 }
 
-export default InviteContacts;
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
+
+export default connect(mapStateToProps)(InviteContacts);

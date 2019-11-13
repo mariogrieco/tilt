@@ -4,7 +4,7 @@ export default StyleSheet.create({
   toggle: {
     flexDirection: 'row',
     height: '1.813rem',
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
     alignItems: 'center',
     borderRadius: '0.875rem',
   },

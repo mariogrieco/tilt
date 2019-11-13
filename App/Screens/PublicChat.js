@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Image, Dimensions, View, Text} from 'react-native';
+import {TouchableOpacity, Image, Dimensions, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -11,8 +11,9 @@ import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
+import assets from '../components/ThemeWrapper/assets';
 
-const TILT_ROCKET = require('../../assets/images/tilt_rocket/tiltRoceket.png');
+const TILT_ROCKET = require('../../assets/themes/light/tilt_rocket/tiltRoceket.png');
 
 const {width} = Dimensions.get('window');
 
@@ -20,7 +21,6 @@ const styles = StyleSheet.create({
   tabBar: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
-    shadowColor: '#D9D8D7',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff',
   },
   label: {
     // color: '#0E141E',
@@ -44,17 +43,28 @@ const styles = StyleSheet.create({
   searchContainer: {
     marginLeft: 0,
   },
+  cancel: {
+    fontFamily: 'SFProDisplay-Medium',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
 });
 
 class PublicChat extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: '',
-    ...headerForScreenWithTabs,
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
     headerLeft: (
       <SearchBar
-        inputStyle={styles.input}
+        inputStyle={[styles.input, {color: screenProps.theme.primaryTextColor}]}
         placeholderText="Search for a channel or username"
-        placeholderTextColor="#8E8E95"
+        placeholderTextColor={screenProps.theme.placeholderTextColor}
         growPercentage={0.78}
         onChangeText={navigation.getParam('onSearch', () => {})}
         inputValue={navigation.getParam('searchValue', '')}
@@ -70,12 +80,7 @@ class PublicChat extends React.Component {
           navigation.getParam('onSearch', () => {})('');
         }}>
         <Text
-          style={{
-            color: '#0E141E',
-            fontFamily: 'SFProDisplay-Medium',
-            fontSize: 16,
-            letterSpacing: 0.1,
-          }}>
+          style={[styles.cancel, {color: screenProps.theme.primaryTextColor}]}>
           Cancel
         </Text>
       </TouchableOpacity>
@@ -83,7 +88,7 @@ class PublicChat extends React.Component {
       <TouchableOpacity
         style={{paddingHorizontal: 15}}
         onPress={() => navigation.navigate('CreateChannel')}>
-        <Image source={TILT_ROCKET} />
+        <Image source={assets[screenProps.themeName].TILT_ROCKET} />
       </TouchableOpacity>
     ),
   });
@@ -135,30 +140,39 @@ class PublicChat extends React.Component {
     }
   }
 
-  renderChannels = () => (
-    <React.Fragment>
-      <TabView
-        navigationState={{...this.state}}
-        renderScene={SceneMap({
-          channels: Channels,
-          discover: Discover,
-        })}
-        onIndexChange={index => this.setState({index})}
-        initialLayout={{width}}
-        renderTabBar={props => (
-          <TabBar
-            {...props}
-            style={styles.tabBar}
-            labelStyle={styles.label}
-            indicatorStyle={styles.indicator}
-            activeColor="#17C491"
-            inactiveColor="#585C63"
-          />
-        )}
-        //swipeEnabled={false}
-      />
-    </React.Fragment>
-  );
+  renderChannels = () => {
+    const {theme} = this.props;
+    return (
+      <React.Fragment>
+        <TabView
+          navigationState={{...this.state}}
+          renderScene={SceneMap({
+            channels: Channels,
+            discover: Discover,
+          })}
+          onIndexChange={index => this.setState({index})}
+          initialLayout={{width}}
+          renderTabBar={props => (
+            <TabBar
+              {...props}
+              style={[
+                styles.tabBar,
+                {
+                  backgroundColor: theme.primaryBackgroundColor,
+                  borderBottomColor: theme.borderBottomColor,
+                },
+              ]}
+              labelStyle={styles.label}
+              indicatorStyle={styles.indicator}
+              activeColor="#17C491"
+              inactiveColor="#585C63"
+            />
+          )}
+          //swipeEnabled={false}
+        />
+      </React.Fragment>
+    );
+  };
 
   render() {
     const {searchValue} = this.state;
@@ -174,7 +188,10 @@ class PublicChat extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
 
 const mapDispatchToProps = {
   searchChannels,

@@ -1,7 +1,19 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './styles';
+import {connect} from 'react-redux';
 
-const TopBlockSpace = () => <View style={styles.block} />;
+const TopBlockSpace = ({theme}) => (
+  <View
+    style={[
+      styles.block,
+      {
+        backgroundColor: theme.secondaryBackgroundColor,
+        borderBottomColor: theme.borderBottomColor,
+      },
+    ]}
+  />
+);
 
-export default TopBlockSpace;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(TopBlockSpace);

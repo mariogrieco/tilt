@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, processColor} from 'react-native';
+import {connect} from 'react-redux';
 import {BarChart} from 'react-native-charts-wrapper';
 import update from 'immutability-helper';
 import isEqual from 'lodash/isEqual';
@@ -65,6 +66,7 @@ class BarChartSection extends React.Component {
 
   render() {
     const {description, data, xAxis, yAxis, legend} = this.state;
+    const {theme} = this.props;
     return (
       <View style={styles.container}>
         <BarChart
@@ -77,7 +79,7 @@ class BarChartSection extends React.Component {
           // animation={{ durationX: 2000 }}
           legend={legend}
           gridBackgroundColor={processColor('#fff')}
-          chartBackgroundColor={processColor('#fff')}
+          chartBackgroundColor={processColor(theme.primaryBackgroundColor)}
           // visibleRange={{ x: { min: 0, max: 5 } }}
           drawBarShadow={false}
           // drawValueAboveBar
@@ -105,4 +107,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BarChartSection;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+
+export default connect(mapStateToProps)(BarChartSection);

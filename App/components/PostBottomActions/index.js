@@ -27,15 +27,7 @@ import {navigateIfExists} from '../../actions/channels';
 import {mod_user_id, tilt_user_id, moderator_user_id} from '../../globals';
 import styles from './styles';
 
-const EDIT = require('../../../assets/images/edit/edit.png');
-const DELETE = require('../../../assets/images/delete/trash.png');
-const REPLY = require('../../../assets/images/reply/reply.png');
-const FLAG = require('../../../assets/images/flag/flag.png');
-// const COPY_LINK = require('../../../assets/images/link/link.png');
-const COPY_TEXT = require('../../../assets/images/copy/copy.png');
-const REPOST = require('../../../assets/images/repost/repost.png');
-const BLOCK_USER = require('../../../assets/images/block-user/block-user.png');
-const REPORT_POST = require('../../../assets/images/report-post/report-post.png');
+import assets from '../ThemeWrapper/assets';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -148,6 +140,7 @@ class PostBottomActions extends React.PureComponent {
 
   renderBottomSheetHeader = () => {
     const {postActions, hidePostActions} = this.props;
+    const {theme} = this.props;
     return (
       <View
         style={[
@@ -155,7 +148,8 @@ class PostBottomActions extends React.PureComponent {
           {
             justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor: 'white',
+            backgroundColor: theme.modalPopupBackgroundColor,
+            borderBottomColor: theme.borderBottomColor,
           },
         ]}>
         <ReactionsGroup
@@ -206,12 +200,13 @@ class PostBottomActions extends React.PureComponent {
 
   renderBottomSheetContent = () => {
     const {postActions, me, isFlagged, sponsored_id} = this.props;
+    const {themeName, theme} = this.props;
     return (
       <View
         style={[
           styles.contentContainer,
           {
-            backgroundColor: '#fff',
+            backgroundColor: theme.modalPopupBackgroundColor,
             height: 'auto',
           },
         ]}>
@@ -219,17 +214,21 @@ class PostBottomActions extends React.PureComponent {
           <React.Fragment>
             <TouchableOpacity style={styles.button}>
               <View style={styles.iconButton}>
-                <Image source={EDIT} />
+                <Image source={assets[themeName].EDIT} />
               </View>
-              <Text style={styles.textButton} onPress={this.onEditMessage}>
+              <Text
+                style={[styles.textButton, {color: theme.primaryTextColor}]}
+                onPress={this.onEditMessage}>
                 Edit Message
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
               <View style={styles.iconButton}>
-                <Image source={DELETE} />
+                <Image source={assets[themeName].DELETE} />
               </View>
-              <Text style={styles.deleteButton} onPress={this.onDeleteMessage}>
+              <Text
+                style={[styles.deleteButton, {color: theme.tiltRed}]}
+                onPress={this.onDeleteMessage}>
                 Delete Message
               </Text>
             </TouchableOpacity>
@@ -238,39 +237,49 @@ class PostBottomActions extends React.PureComponent {
         {!postActions.options.hideReply && (
           <TouchableOpacity style={styles.button} onPress={this.onReplyMessage}>
             <View style={styles.iconButton}>
-              <Image source={REPLY} />
+              <Image source={assets[themeName].REPLY} />
             </View>
-            <Text style={styles.textButton}>Reply</Text>
+            <Text style={[styles.textButton, {color: theme.primaryTextColor}]}>
+              Reply
+            </Text>
           </TouchableOpacity>
         )}
         {postActions.options.showRepost && (
           <TouchableOpacity style={styles.button} onPress={this.onRepost}>
             <View style={styles.iconButton}>
-              <Image source={REPOST} />
+              <Image source={assets[themeName].REPOST} />
             </View>
-            <Text style={styles.textButton}>Repost</Text>
+            <Text style={[styles.textButton, {color: theme.primaryTextColor}]}>
+              Repost
+            </Text>
           </TouchableOpacity>
         )}
 
         <TouchableOpacity style={styles.button}>
           <View style={styles.iconButton}>
-            <Image source={FLAG} />
+            <Image source={assets[themeName].FLAG} />
           </View>
           {isFlagged ? (
-            <Text style={styles.textButton} onPress={this.onUnFlagMessage}>
+            <Text
+              style={[styles.textButton, {color: theme.primaryTextColor}]}
+              onPress={this.onUnFlagMessage}>
               Unflag
             </Text>
           ) : (
-            <Text style={styles.textButton} onPress={this.onFlagMessage}>
+            <Text
+              style={[styles.textButton, {color: theme.primaryTextColor}]}
+              onPress={this.onFlagMessage}>
               Flag
             </Text>
           )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
           <View style={styles.iconButton}>
-            <Image source={COPY_TEXT} />
+            <Image source={assets[themeName].COPY} />
           </View>
-          <Text onPress={this.onCopyTextMessage} style={styles.textButton}>
+          <Text
+            onPress={this.onCopyTextMessage}
+            style={[styles.textButton, {color: theme.primaryTextColor}]}>
             Copy Text
           </Text>
         </TouchableOpacity>
@@ -283,19 +292,25 @@ class PostBottomActions extends React.PureComponent {
             <>
               <TouchableOpacity style={styles.button}>
                 <View style={styles.iconButton}>
-                  <Image source={REPORT_POST} />
+                  <Image source={assets[themeName].REPORT} />
                 </View>
-                <Text onPress={this.onRepostPost} style={styles.textButton}>
+                <Text
+                  onPress={this.onRepostPost}
+                  style={[styles.textButton, {color: theme.primaryTextColor}]}>
                   Report Post
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button}>
                 <View style={styles.iconButton}>
-                  <Image source={BLOCK_USER} />
+                  <Image source={assets[themeName].BLOCK} />
                 </View>
                 <Text
                   onPress={this.onBlockUser}
-                  style={[styles.textButton, styles.blockUser]}>
+                  style={[
+                    styles.textButton,
+                    styles.blockUser,
+                    {color: theme.tiltRed},
+                  ]}>
                   Block User
                 </Text>
               </TouchableOpacity>
@@ -410,6 +425,8 @@ const mapStateToProps = state => ({
   postData: getPostById(state, state.postActions.postId),
   isFlagged: state.flagged.posts[state.postActions.postId],
   sponsored_id: state.sponsored,
+  theme: state.themes[state.themes.current],
+  themeName: state.themes.current,
 });
 
 const mapDispatchToProps = {

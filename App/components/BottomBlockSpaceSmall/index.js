@@ -1,7 +1,19 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './styles';
+import {connect} from 'react-redux';
 
-const BottomBlockSpaceSmall = () => <View style={styles.block} />;
+const BottomBlockSpaceSmall = ({theme}) => (
+  <View
+    style={[
+      styles.block,
+      {
+        borderTopColor: theme.borderBottomColor,
+        backgroundColor: theme.secondaryBackgroundColor,
+      },
+    ]}
+  />
+);
 
-export default BottomBlockSpaceSmall;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(BottomBlockSpaceSmall);

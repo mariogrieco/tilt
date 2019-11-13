@@ -12,6 +12,7 @@ const SearchUserDisplay = ({
   loggedUserId,
   pictureUrl,
   dispatchGoToMemberProfile,
+  theme,
 }) => (
   <TouchableOpacity
     style={styles.container}
@@ -25,7 +26,9 @@ const SearchUserDisplay = ({
     }}>
     <Image style={styles.image} source={{uri: pictureUrl}} />
     <View style={styles.textContainer}>
-      <Text style={styles.text}>{username}</Text>
+      <Text style={[styles.text, {color: theme.primaryTextColor}]}>
+        {username}
+      </Text>
     </View>
   </TouchableOpacity>
 );
@@ -40,11 +43,12 @@ const mapDispatchToProps = {
   dispatchGoToMemberProfile: setCurrentDisplayUserProfile,
 };
 
-const mapStateToProps = ({login: {user}}, props) => {
+const mapStateToProps = ({login: {user}, themes}, props) => {
   if (user) {
     return {
       loggedUserId: user.id,
       pictureUrl: getUserProfilePicture(props.id, user.last_picture_update),
+      theme: themes[themes.current],
     };
   }
   return {};

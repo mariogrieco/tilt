@@ -130,7 +130,7 @@ class Channels extends React.Component {
   };
 
   render() {
-    const {channels} = this.props;
+    const {channels, theme} = this.props;
     return (
       <FlatList
         extraData={channels}
@@ -141,6 +141,7 @@ class Channels extends React.Component {
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
+        style={{backgroundColor: theme.primaryBackgroundColor}}
       />
     );
   }
@@ -150,6 +151,7 @@ const mapStateToProps = state => ({
   channels: getChannelsList(state),
   channelStatsGroup: state.channelStatsGroup,
   isAuth: state.login.isLogin,
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {
