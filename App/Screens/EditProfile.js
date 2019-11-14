@@ -96,7 +96,7 @@ class EditProfile extends React.PureComponent {
         style={{
           paddingHorizontal: 15,
           paddingVertical: 13,
-          backgroundColor: '#fff',
+          backgroundColor: screenProps.theme.primaryBackgroundColor,
         }}
         onPress={navigation.getParam('onSave', () => {})}>
         <Text style={styles.saveButton}>Save</Text>
