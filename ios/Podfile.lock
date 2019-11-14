@@ -392,7 +392,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-  https://github.com/CocoaPods/Specs.git:
     - boost-for-react-native
     - Charts
     - Crashlytics
