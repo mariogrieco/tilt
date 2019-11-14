@@ -687,6 +687,7 @@ class ChannelInfo extends React.Component {
               isSwitch
               switchValue={isChannelMute}
               updateSwitchValue={this.handleMuteChannel}
+              theme={theme}
             />
             <Separator />
             <Edit
