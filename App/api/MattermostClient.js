@@ -4,14 +4,15 @@ import axios from 'axios';
 export let baseUrl;
 export let baseServicesUrl;
 export let socketURL;
+export let server_id;
 
 const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
 if (IS_DEV_ENV) {
-  console.log('IS_DEV_ENV!!');
   baseUrl = 'https://staging.tiltchat.com';
   baseServicesUrl = 'https://staging.tiltchat.com/services';
   socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
+  // server_id = 'itjam868oid65jk34aywnd94jo';
 } else {
   baseUrl = 'https://community.tiltchat.com';
   baseServicesUrl = 'https://community.tiltchat.com/services';

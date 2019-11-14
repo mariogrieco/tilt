@@ -3225,6 +3225,13 @@ find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
+firebase-messaging@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/firebase-messaging/-/firebase-messaging-1.0.6.tgz#9a62f6b9509323f4c21c6e1a520cb786b035595c"
+  integrity sha1-mmL2uVCTI/TCHG4aUgy3hrA1WVw=
+  dependencies:
+    request "^2.74.0"
+
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
@@ -6603,7 +6610,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.1"
     tough-cookie "^2.3.3"
 
-request@^2.55.0, request@^2.87.0:
+request@^2.55.0, request@^2.74.0, request@^2.87.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==

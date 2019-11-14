@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		05243FB4C3864A83BBB5C316 /* SFProDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5A89FC61975E43E39FECD72C /* SFProDisplay-Regular.otf */; };
 		05B5740B10DE4127AE1DB18B /* SFMono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB884B8F5D2943FDB34ED489 /* SFMono-Medium.otf */; };

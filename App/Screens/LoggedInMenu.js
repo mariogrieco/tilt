@@ -17,12 +17,14 @@ import GoBack from '../components/GoBack';
 import {isLogin, logout} from '../actions/login';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import {changeTheme} from '../actions/themeManager';
+import {enableGlobalNotifications, disableGlobalNotifications,} from '../actions/users';
 
 const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
 // const NOTIFICATIONS = require('../../assets/images/bell-black/002-bell.png');
 const SUPPORT = require('../../assets/images/support/support.png');
 const BLOCKED_GREEN = require('../../assets/images/block-user-green/block-user-green.png');
+const BELL = require('../../assets/images/bell-black/002-bell.png');
 const MOON = require('../../assets/images/moon/night.png');
 
 const styles = StyleSheet.create({
@@ -103,8 +105,31 @@ class LoggedInMenu extends React.Component {
     navigation.navigate('BlockUser');
   };
 
+  updateSwitchValue = () => {
+    const {global_push_enable} = this.props;
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        try {
+          if (global_push_enable) {
+            await this.props.disableGlobalNotifications();
+          } else {
+            await this.props.enableGlobalNotifications();
+          }
+        } catch (ex) {
+        } finally {
+          this.setState({
+            loading: false,
+          });
+        }
+      },
+    );
+  };
+
   render() {
-    const {theme, navigation} = this.props;
+    const {theme, navigation, global_push_enable} = this.props;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
@@ -114,6 +139,7 @@ class LoggedInMenu extends React.Component {
           style={[
             styles.row,
             styles.button,
+            // eslint-disable-next-line react-native/no-inline-styles
             {
               backgroundColor: theme.primaryBackgroundColor,
               borderColor: theme.borderBottomColor,
@@ -142,11 +168,38 @@ class LoggedInMenu extends React.Component {
             Blocked Users
           </Text>
         </TouchableOpacity>
-        {/*<TouchableOpacity style={[styles.row, styles.button, {backgroundColor: theme.primaryBackgroundColor,}]}>*/}
-        {/*  <Image style={styles.icon} source={NOTIFICATIONS} />*/}
-        {/*  <Text style={styles.buttonText}>Notifications</Text>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<BlockSpace />*/}
+        <TouchableOpacity
+          style={[
+            styles.row,
+            styles.button,
+            {
+              justifyContent: 'space-between',
+              backgroundColor: theme.primaryBackgroundColor,
+              borderColor: theme.borderBottomColor,
+            },
+          ]}>
+          <View style={{flexDirection: 'row'}}>
+            <Image style={styles.icon} source={BELL} />
+            <View>
+              <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>Disable All Notifications</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              />
+            </View>
+          </View>
+          <Switch
+            trackColor={{
+              true: StyleSheet.value('#17C491'),
+              false: 'rgba(0, 0, 0, 0.1)',
+            }}
+            value={!global_push_enable}
+            onValueChange={this.updateSwitchValue}
+            thumbColor="#F6F7F9"
+          />
+        </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.row,
@@ -183,6 +236,7 @@ class LoggedInMenu extends React.Component {
           style={[
             styles.row,
             styles.button,
+            // eslint-disable-next-line react-native/no-inline-styles
             {
               backgroundColor: theme.primaryBackgroundColor,
               borderColor: theme.borderBottomColor,
@@ -215,29 +269,30 @@ class LoggedInMenu extends React.Component {
             Logout
           </Text>
         </TouchableOpacity>
-        {/* <View
-          style={[styles.row, styles.button, styles.blockedContainer]}
-          onPress={this.handleBlocked}>
-          <Text style={[styles.buttonText, styles.logoutText]}>
-            Blocked List
-          </Text>
-          <BlockedList />
-          <Separator />
-        </View> */}
       </ScrollView>
     );
   }
 }
 
-const mapStateToProps = ({themes}) => ({
+const mapStateToProps = ({themes, login}) => ({
   theme: themes[themes.current],
   themeName: themes.current,
+  global_push_enable:
+    login.user && login.user.notify_props
+      ? login.user.notify_props.push === 'mention'
+      : false,
 });
 
 const mapDispatchToProps = {
   dispatchLogout: logout,
   dispatchIsLogin: isLogin,
   changeTheme,
+  enableGlobalNotifications,
+  disableGlobalNotifications,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoggedInMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoggedInMenu);
+
