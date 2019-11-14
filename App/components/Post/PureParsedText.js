@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Linking, Text, StyleSheet} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
+import dropRight from 'lodash/dropRight';
 import ParsedText from 'react-native-parsed-text';
 import {connect} from 'react-redux';
 import Client4 from '../../api/MattermostClient';
@@ -52,62 +53,12 @@ export class PureParsedText extends Component {
 
     this.createPatters = memoize(disableUserPattern => {
       const {theme} = this.props;
-      if (disableUserPattern) {
-        return [
-          {
-            pattern: this.getChannelDollarPattern(),
-            style: styles.channelPatter,
-            onPress: this.onChannelPress.bind(this),
-            renderText: this.renderTextD,
-          },
-          {
-            pattern: this.getChannelTagPatter(),
-            style: styles.channelPatter,
-            onPress: this.onChannelPress.bind(this),
-            renderText: this.renderTextH,
-          },
-          {
-            type: 'url',
-            style: styles.url,
-            onPress: this.handleUrlPress.bind(this),
-          },
-          {
-            pattern: this.getUrldotComPatter(),
-            style: styles.url,
-            onPress: this.handleConvertedUrlPress.bind(this),
-          },
-          {
-            pattern: this.getEmojiPatter(),
-            style: {},
-            renderText: this.renderEmoji.bind(this),
-          },
-          {
-            pattern: this.getCodePattern(),
-            style: {},
-            renderText: this.renderCode.bind(this),
-          },
-          {
-            pattern: this.getEmailPattern(),
-            style: {},
-            renderText: this.renderEmailText.bind(this),
-            onPress: this.handleEmailPress.bind(this),
-          },
-        ];
-      }
-      return [
+      const patterns = [
         {
           pattern: this.getChannelDollarPattern(),
           style: styles.channelPatter,
           onPress: this.onChannelPress.bind(this),
           renderText: this.renderTextD,
-        },
-        {
-          pattern: this.getMentionPatter(),
-          style: [
-            styles.mentions,
-            {backgroundColor: theme.userMentionBackgroundColor},
-          ],
-          onPress: this.onUserPress.bind(this),
         },
         {
           pattern: this.getChannelTagPatter(),
@@ -226,7 +177,22 @@ export class PureParsedText extends Component {
           style: {},
           renderText: this.renderSatire.bind(this),
         },
+        //please leave at the end the user mention pattern include new patterns behind
+        {
+          pattern: this.getMentionPatter(),
+          style: [
+            styles.mentions,
+            {backgroundColor: theme.userMentionBackgroundColor},
+          ],
+          onPress: this.onUserPress.bind(this),
+        },
       ];
+
+      if (disableUserPattern) {
+        return dropRight(patterns);
+      }
+
+      return patterns;
     });
 
     this.state = {
@@ -610,7 +576,4 @@ const mapDispatchToProps = {
   clearjumpToAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PureParsedText);
+export default connect(mapStateToProps, mapDispatchToProps)(PureParsedText);
