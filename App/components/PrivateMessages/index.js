@@ -46,7 +46,11 @@ class PrivateMessages extends React.Component {
           </Text>
           {channel.unreadMessagesCount > 0 && (
             <View style={styles.unreadMessages}>
-              <Text style={styles.unreadText}>
+              <Text
+                style={[
+                  styles.unreadText,
+                  {color: theme.primaryBackgroundColor},
+                ]}>
                 {channel.unreadMessagesCount}
               </Text>
             </View>

@@ -32,18 +32,13 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const {shouldRender} = this.state;
-    if (shouldRender) {
-      return (
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <ThemeWrapper />
-          </PersistGate>
-        </Provider>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeWrapper />
+        </PersistGate>
+      </Provider>
+    );
   }
 }
 
