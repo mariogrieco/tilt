@@ -394,33 +394,36 @@ class Channel extends React.Component {
     }));
   };
 
-  _renderItem = ({item, index}) => (
-    <View
-      style={
-        this.state.currentFocusId === item.id
-          ? {backgroundColor: '#FCF4DD'}
-          : {}
-      }>
-      {item.render_separator && renderNewSeparator()}
-      <View>
-        {this.getSeparator(item.create_at, index)}
-        <Post
-          allowRepost
-          postId={item.id}
-          userId={item.user.id}
-          last_picture_update={item.user.last_picture_update}
-          message={item.message}
-          username={item.user.username}
-          metadata={item.metadata}
-          createdAt={item.create_at}
-          replies={item.replies}
-          edit_at={item.edit_at}
-          type={item.type}
-          isPM={this.props.navigation.getParam('pm', false)}
-        />
+  _renderItem = ({item, index}) => {
+    const {theme} = this.props;
+    return (
+      <View
+        style={
+          this.state.currentFocusId === item.id
+            ? {backgroundColor: theme.jumpToHighlightColor}
+            : {}
+        }>
+        {item.render_separator && renderNewSeparator()}
+        <View>
+          {this.getSeparator(item.create_at, index)}
+          <Post
+            allowRepost
+            postId={item.id}
+            userId={item.user.id}
+            last_picture_update={item.user.last_picture_update}
+            message={item.message}
+            username={item.user.username}
+            metadata={item.metadata}
+            createdAt={item.create_at}
+            replies={item.replies}
+            edit_at={item.edit_at}
+            type={item.type}
+            isPM={this.props.navigation.getParam('pm', false)}
+          />
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   _keyExtractor = (item, index) => item.id;
 
@@ -452,7 +455,6 @@ class Channel extends React.Component {
     navigation.navigate('PublicChat');
   };
 
-  // eslint-disable-next-line class-methods-use-this
   sameDay(createdAt, lastDateOrNow) {
     if (moment(createdAt).format('DD') === moment(lastDateOrNow).format('DD')) {
       return true;
@@ -460,7 +462,6 @@ class Channel extends React.Component {
     return false;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   sameMonth(createdAt, lastDateOrNow) {
     if (moment(createdAt).format('MM') === moment(lastDateOrNow).format('MM')) {
       return false;
@@ -468,7 +469,6 @@ class Channel extends React.Component {
     return false;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   sameYear(createdAt, lastDateOrNow) {
     if (
       moment(createdAt).format('YYYY') === moment(lastDateOrNow).format('YYYY')
@@ -523,7 +523,6 @@ class Channel extends React.Component {
     });
   };
 
-  // eslint-disable-next-line class-methods-use-this
   renderSeparator(createdAt = false) {
     return <SeparatorContainer createdAt={createdAt} />;
   }
