@@ -116,7 +116,7 @@ export default StyleSheet.create({
   button: {
     width: '4rem',
     textAlign: 'center',
-    backgroundColor: '#017AFE',
+    backgroundColor: '#17C491',
     paddingTop: '0.3rem',
     paddingBottom: '0.3rem',
     color: 'white',
