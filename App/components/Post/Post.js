@@ -387,6 +387,7 @@ class Post extends React.Component {
   };
 
   renderFile(file) {
+    const {theme} = this.props;
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
         return (
@@ -401,7 +402,10 @@ class Post extends React.Component {
               })
             }>
             <Image
-              style={styles.imageContainer}
+              style={[
+                styles.imageContainer,
+                {borderColor: theme.borderBottomColor},
+              ]}
               source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}`}}
             />
           </TouchableOpacity>
@@ -419,7 +423,10 @@ class Post extends React.Component {
             })
           }>
           <Image
-            style={styles.imageContainer}
+            style={[
+              styles.imageContainer,
+              {borderColor: theme.borderBottomColor},
+            ]}
             source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview`}}
           />
         </TouchableOpacity>
@@ -453,7 +460,7 @@ class Post extends React.Component {
     return (
       <Image
         source={FILE_NOT_FOUND}
-        styles={styles.imageContainer}
+        styles={[styles.imageContainer, {borderColor: theme.borderBottomColor}]}
         key={file.id}
       />
     );
@@ -475,6 +482,7 @@ class Post extends React.Component {
       isPM,
       // reported,
     } = this.props;
+    const {theme} = this.props;
     const typeIsSystem = type.match('system');
 
     const imageUrl =
@@ -531,7 +539,10 @@ class Post extends React.Component {
               this.props.showPostMediaBox({uri: imageUrl, type: 'image'})
             }>
             <Image
-              style={styles.imageUrlContainer}
+              style={[
+                styles.imageUrlContainer,
+                {borderColor: theme.borderBottomColor},
+              ]}
               source={{uri: `${imageUrl}`}}
             />
           </TouchableOpacity>
@@ -705,7 +716,8 @@ class Post extends React.Component {
                     : this.handleNavigationToProfile
                 }>
                 <Text>
-                  <Text style={[styles.username, {color: theme.primaryTextColor}]}>
+                  <Text
+                    style={[styles.username, {color: theme.primaryTextColor}]}>
                     {typeIsSystem ? 'System' : username}{' '}
                   </Text>
                   <Text style={styles.timespan}>
