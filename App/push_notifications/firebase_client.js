@@ -30,7 +30,9 @@ class PushNotification {
   }
 
   removeMessageListener() {
-    this.messageListener();
+    if (this.messageListener) {
+      this.messageListener();
+    }
     this.messageListener = null;
     return this.messageListener;
   }

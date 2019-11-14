@@ -287,6 +287,9 @@ class Input extends React.Component {
           });
           this.blurInput();
           this.clearState();
+          if (this.props.onEditCallback) {
+            this.props.onEditCallback();
+          }
         }
       },
     );
