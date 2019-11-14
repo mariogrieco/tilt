@@ -728,7 +728,7 @@ class Post extends React.Component {
               message={repost.message}
               metadata={repost.metadata}
               deleteAction={reported}
-              create_at={repost.created_at}
+              create_at={repost.create_at}
               replies={repost.replies}
               edit_at={repost.edit_at}
               type={repost.type}

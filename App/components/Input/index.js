@@ -1324,7 +1324,7 @@ class Input extends React.Component {
                 message={repost.message}
                 username={repost.user.username}
                 metadata={repost.metadata}
-                createdAt={repost.create_at}
+                create_at={repost.create_at}
                 replies={repost.replies}
                 edit_at={repost.edit_at}
                 type={repost.type}
