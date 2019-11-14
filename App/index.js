@@ -16,7 +16,10 @@ class App extends React.PureComponent {
   };
 
   async componentDidMount() {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 500);
+
     await pushNotification.requirePermission(async () => {
       await pushNotification.requestPermissions();
     });
