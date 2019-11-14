@@ -1,9 +1,33 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {Image, View} from 'react-native';
+import StyleSheet from 'react-native-extended-stylesheet';
 import {connect} from 'react-redux';
 import assets from '../ThemeWrapper/assets';
+import {
+  notifyMessageIconForPrivateTab,
+  notifyMessageIconForPublicTab,
+} from '../../selectors/tabsNotification';
 
-const TabBarIcon = ({routeName, focused, themeName}) => {
+const styles = StyleSheet.create({
+  dotNotification: {
+    position: 'absolute',
+    top: '-8%',
+    right: '-3%',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    zIndex: 9999,
+  },
+});
+
+const TabBarIcon = ({
+  routeName,
+  focused,
+  themeName,
+  theme,
+  hasUnreadPrivateMessage,
+  hasUnreadPublicMessage,
+}) => {
   console.log(routeName);
   switch (routeName) {
     case 'Watchlist':
@@ -16,19 +40,33 @@ const TabBarIcon = ({routeName, focused, themeName}) => {
       );
     case 'Chat':
       return (
-        <Image
-          source={
-            assets[themeName][`PUBLIC_CHAT_${focused ? 'FOCUS' : 'UNFOCUS'}`]
-          }
-        />
+        <View style={{position: 'relative'}}>
+          {hasUnreadPublicMessage && (
+            <View
+              style={[styles.dotNotification, {backgroundColor: theme.tiltRed}]}
+            />
+          )}
+          <Image
+            source={
+              assets[themeName][`PUBLIC_CHAT_${focused ? 'FOCUS' : 'UNFOCUS'}`]
+            }
+          />
+        </View>
       );
     case 'Messages':
       return (
-        <Image
-          source={
-            assets[themeName][`MESSAGES_${focused ? 'FOCUS' : 'UNFOCUS'}`]
-          }
-        />
+        <View style={{position: 'relative'}}>
+          {hasUnreadPrivateMessage && (
+            <View
+              style={[styles.dotNotification, {backgroundColor: theme.tiltRed}]}
+            />
+          )}
+          <Image
+            source={
+              assets[themeName][`MESSAGES_${focused ? 'FOCUS' : 'UNFOCUS'}`]
+            }
+          />
+        </View>
       );
     case 'Profile':
       return (
@@ -39,6 +77,11 @@ const TabBarIcon = ({routeName, focused, themeName}) => {
   }
 };
 
-const mapStateToProps = ({themes}) => ({themeName: themes.current});
+const mapStateToProps = state => ({
+  themeName: state.themes.current,
+  theme: state.themes[state.themes.current],
+  hasUnreadPrivateMessage: notifyMessageIconForPrivateTab(state),
+  hasUnreadPublicMessage: notifyMessageIconForPublicTab(state),
+});
 
 export default connect(mapStateToProps)(TabBarIcon);
