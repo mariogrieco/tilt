@@ -67,9 +67,11 @@ class Thread extends React.Component {
     const {me, channelId, editedOrPost, channelsNames, usernames} = this.props;
     const keyboardVerticalOffset =
       Platform.OS === 'ios' ? ifIphoneX(88, 60) : 0;
+    const {theme} = this.props;
 
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         <ScrollView
           keyboardDismissMode="on-drag"
           contentContainerStyle={{flex: 1, paddingTop: 11}}>
@@ -120,6 +122,7 @@ const mapStateToProps = state => {
     channelId: post ? post.channel_id : null,
     editedOrPost: [post || {message: ''}],
     me: state.login.user ? state.login.user.id : null,
+    theme: state.themes[state.themes.current],
   };
 };
 
