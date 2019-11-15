@@ -11,7 +11,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingLeft: 15,
+    paddingLeft: 10,
     paddingRight: 15,
     paddingTop: 0,
     paddingBottom: 0,
@@ -19,7 +19,7 @@ export default StyleSheet.create({
   mentionsProfileImage: {
     width: 30,
     height: 30,
-    borderRadius: 15,
+    borderRadius: 6,
     flex: 0,
   },
   mentionsColor: {
