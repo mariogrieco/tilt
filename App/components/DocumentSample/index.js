@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {Text, View, Image, TouchableOpacity, Linking} from 'react-native';
+import {connect} from 'react-redux';
 // import RNFetchBlob from 'rn-fetch-blob';
 import prettyBytes from 'pretty-bytes';
 import {Files} from '../Input/file_utils';
@@ -21,7 +22,7 @@ const AUDIO = require('../../../assets/themes/light/audio-file/audio.png');
 const VIDEO = require('../../../assets/themes/light/video-file/video.png');
 const IMAGE = require('../../../assets/themes/light/image-file/image.png');
 
-export default class DocumentSample extends PureComponent {
+class DocumentSample extends PureComponent {
   state = {
     downloading: false,
     downloadComplete: false,
@@ -175,20 +176,35 @@ export default class DocumentSample extends PureComponent {
   };
 
   render() {
-    const {extension, name, size} = this.props;
+    const {extension, name, size, theme} = this.props;
 
     return (
-      <View style={[styles.documentContainer]}>
+      <View
+        style={[
+          styles.documentContainer,
+          {
+            borderColor: theme.borderBottomcolor,
+            backgroundColor: theme.primaryBackgroundColor,
+          },
+        ]}>
         <View
           style={{paddingRight: 15, alignItems: 'center', alignSelf: 'center'}}>
           <Image source={this.getCurrentIcon(extension)} />
         </View>
         <View style={{flex: 1}}>
-          <Text style={styles.documentName}>{name}</Text>
-          <Text>{prettyBytes(size)}</Text>
+          <Text style={[styles.documentName, {color: theme.primaryTextColor}]}>
+            {name}
+          </Text>
+          <Text style={{color: theme.primaryTextColor}}>
+            {prettyBytes(size)}
+          </Text>
         </View>
         {this.renderDownloadControls()}
       </View>
     );
   }
 }
+
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+
+export default connect(mapStateToProps)(DocumentSample);
