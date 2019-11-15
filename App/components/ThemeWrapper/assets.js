@@ -31,6 +31,7 @@ const MESSAGES_FOCUS = require('../../../assets/themes/light/message_black/envel
 const MESSAGES_UNFOCUS = require('../../../assets/themes/light/messages-gray/envelope.png');
 const DOWNLOAD_UNFILLED = require('../../../assets/themes/light/download-unfilled/download-unfilled.png');
 const PLAY_UNFILLED = require('../../../assets/themes/light/play/play-unfilled.png');
+const GEAR = require('../../../assets/themes/light/gear/gear.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -65,6 +66,7 @@ const MESSAGES_FOCUS_DARK = require('../../../assets/themes/dark/messages/envelo
 const MESSAGES_UNFOCUS_DARK = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
 const DOWNLOAD_UNFILLED_DARK = require('../../../assets/themes/dark/download-unfilled/download-unfilled.png');
 const PLAY_UNFILLED_DARK = require('../../../assets/themes/dark/play/play-unfilled.png');
+const GEAR_DARK = require('../../../assets/themes/dark/gear/gear.png');
 
 //DARK_GRAY ASSETS
 const LOGO_DARK_GRAY = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -99,6 +101,7 @@ const MESSAGES_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages/e
 const MESSAGES_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
 const DOWNLOAD_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/download-unfilled/download-unfilled.png');
 const PLAY_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/play/play-unfilled.png');
+const GEAR_DARK_GRAY = require('../../../assets/themes/dark/gear/gear.png');
 
 const assets = {
   light: {
@@ -134,6 +137,7 @@ const assets = {
     MESSAGES_UNFOCUS,
     DOWNLOAD_UNFILLED,
     PLAY_UNFILLED,
+    GEAR,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -168,6 +172,7 @@ const assets = {
     MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK,
     DOWNLOAD_UNFILLED: DOWNLOAD_UNFILLED_DARK,
     PLAY_UNFILLED: PLAY_UNFILLED_DARK,
+    GEAR: GEAR_DARK,
   },
   darkGray: {
     LOGO: LOGO_DARK_GRAY,
@@ -202,6 +207,7 @@ const assets = {
     MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK_GRAY,
     DOWNLOAD_UNFILLED: DOWNLOAD_UNFILLED_DARK_GRAY,
     PLAY_UNFILLED: PLAY_UNFILLED_DARK_GRAY,
+    GEAR: GEAR_DARK_GRAY,
   },
 };
 

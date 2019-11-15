@@ -186,7 +186,7 @@ class Channel extends React.Component {
             <TouchableOpacity
               style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
               onPress={() => navigation.navigate('ChannelInfo')}>
-              <Image source={assets[screenProps.themeName].MENU} />
+              <Image source={assets[screenProps.themeName].GEAR} />
             </TouchableOpacity>
           </Fragment>
         )}
