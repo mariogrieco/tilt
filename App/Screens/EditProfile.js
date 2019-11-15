@@ -271,6 +271,7 @@ class EditProfile extends React.PureComponent {
             onChangeText={this.onFirstNameChange}
             selectionColor="#17C491"
             placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
           <View
@@ -300,6 +301,7 @@ class EditProfile extends React.PureComponent {
             onChangeText={this.onLastNameChange}
             selectionColor="#17C491"
             placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
           <View
@@ -332,6 +334,7 @@ class EditProfile extends React.PureComponent {
             autoCapitalize="none"
             selectionColor="#17C491"
             placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
         </KeyboardAvoidingView>

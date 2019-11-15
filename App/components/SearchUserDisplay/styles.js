@@ -10,7 +10,7 @@ export default StyleSheet.create({
   image: {
     width: 34,
     height: 34,
-    borderRadius: 17,
+    borderRadius: 6,
   },
   textContainer: {
     justifyContent: 'center',
