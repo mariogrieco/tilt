@@ -7,6 +7,7 @@ import {Files} from '../Input/file_utils';
 import Client4 from '../../api/MattermostClient';
 
 import styles from './styles';
+import assets from '../ThemeWrapper/assets';
 // import RNFS from 'react-native-fs';
 // import RNBackgroundDownloader from 'react-native-background-downloader';
 
@@ -125,6 +126,7 @@ class DocumentSample extends PureComponent {
       percentage,
       downloadError,
     } = this.state;
+    const {themeName} = this.props;
 
     if (downloading) {
       return (
@@ -153,7 +155,7 @@ class DocumentSample extends PureComponent {
           <TouchableOpacity
             style={styles.downloadIconContainer}
             onPress={this.onPress}>
-            <Image source={DOWNLOAD_UNFILLED} />
+            <Image source={assets[themeName].DOWNLOAD_UNFILLED} />
           </TouchableOpacity>
           <Text>{downloadError}</Text>
         </React.Fragment>
@@ -170,7 +172,7 @@ class DocumentSample extends PureComponent {
       <TouchableOpacity
         style={styles.downloadIconContainer}
         onPress={this.onPress}>
-        <Image source={DOWNLOAD_UNFILLED} style={styles.downloadIcon} />
+        <Image source={assets[themeName].DOWNLOAD_UNFILLED} />
       </TouchableOpacity>
     );
   };
@@ -183,7 +185,7 @@ class DocumentSample extends PureComponent {
         style={[
           styles.documentContainer,
           {
-            borderColor: theme.borderBottomcolor,
+            borderColor: theme.borderBottomColor,
             backgroundColor: theme.primaryBackgroundColor,
           },
         ]}>
@@ -205,6 +207,9 @@ class DocumentSample extends PureComponent {
   }
 }
 
-const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
 
 export default connect(mapStateToProps)(DocumentSample);

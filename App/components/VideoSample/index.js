@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import prettyBytes from 'pretty-bytes';
 import Client4 from '../../api/MattermostClient';
 import styles from './styles';
+import assets from '../ThemeWrapper/assets';
 
 const VIDEO = require('../../../assets/themes/light/video-file/video.png');
 const PLAY = require('../../../assets/themes/light/play/play-unfilled.png');
@@ -20,7 +21,7 @@ class VideoSample extends PureComponent {
   };
 
   render() {
-    const {file, theme} = this.props;
+    const {file, theme, themeName} = this.props;
     const {name, size} = file;
     return (
       <View
@@ -46,13 +47,16 @@ class VideoSample extends PureComponent {
         <TouchableOpacity
           style={styles.downloadIconContainer}
           onPress={this.onPressDownload}>
-          <Image source={PLAY} style={styles.downloadIcon} />
+          <Image source={assets[themeName].PLAY_UNFILLED} />
         </TouchableOpacity>
       </View>
     );
   }
 }
 
-const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
 
 export default connect(mapStateToProps)(VideoSample);

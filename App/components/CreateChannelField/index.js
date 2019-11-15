@@ -25,7 +25,6 @@ export const Input = ({
   placeHolder,
   style,
   value,
-  keyboardAppearanceColor,
 }) => (
   <TextInput
     value={value}
@@ -36,7 +35,7 @@ export const Input = ({
     placeholderTextColor="#8E8E95"
     autoCapitalize="none"
     selectionColor="#17C491"
-    keyboardAppearance={keyboardAppearanceColor}
+    keyboardAppearance="dark"
   />
 );
 

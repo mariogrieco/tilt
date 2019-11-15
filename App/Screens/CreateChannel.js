@@ -289,7 +289,6 @@ class CreateChannel extends React.Component {
             placeholderTextColor={theme.placeholderTextColor}
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
-            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
         </CreateChannelField>
@@ -314,7 +313,6 @@ class CreateChannel extends React.Component {
               }}
               placeholderTextColor={theme.placeholderTextColor}
               multiline
-              keyboardAppearance={theme.keyboardAppearanceColor}
             />
             <Separator />
             <Description
@@ -341,7 +339,6 @@ class CreateChannel extends React.Component {
                 backgroundColor: theme.primaryBackgroundColor,
               }}
               placeholderTextColor={theme.placeholderTextColor}
-              keyboardAppearance={theme.keyboardAppearanceColor}
             />
             <Separator />
             <Description
