@@ -6,7 +6,6 @@ import {
   ScrollView,
   Platform,
   KeyboardAvoidingView,
-  TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -22,13 +21,10 @@ import GoBack from '../components/GoBack';
 import {createChannel} from '../actions/channels';
 import Separator from '../components/Separator';
 import Spacer from '../components/Spacer';
-import {NavigationActions} from 'react-navigation';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
-
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   modal: {
@@ -293,7 +289,6 @@ class CreateChannel extends React.Component {
             placeholderTextColor={theme.placeholderTextColor}
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
-            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
         </CreateChannelField>
@@ -318,7 +313,6 @@ class CreateChannel extends React.Component {
               }}
               placeholderTextColor={theme.placeholderTextColor}
               multiline
-              keyboardAppearance={theme.keyboardAppearanceColor}
             />
             <Separator />
             <Description
@@ -345,7 +339,6 @@ class CreateChannel extends React.Component {
                 backgroundColor: theme.primaryBackgroundColor,
               }}
               placeholderTextColor={theme.placeholderTextColor}
-              keyboardAppearance={theme.keyboardAppearanceColor}
             />
             <Separator />
             <Description
@@ -369,7 +362,4 @@ const mapDispatchToProps = {
   createChannel,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateChannel);

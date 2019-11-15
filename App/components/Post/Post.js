@@ -80,13 +80,20 @@ function reduceReactions(metadata) {
   };
 }
 
-const MemoUrlPreview = React.memo(({text}) => (
+const MemoUrlPreview = React.memo(({text, theme}) => (
   <View style={{height: 120, maxHeight: 120, marginBottom: 10}}>
     <RNUrlPreview
       text={text}
-      containerStyle={styles.linkContainer}
-      titleStyle={[styles.text, styles.mediumText]}
-      descriptionStyle={styles.textLink}
+      containerStyle={[
+        styles.linkContainer,
+        {borderColor: theme.borderBottomColor},
+      ]}
+      titleStyle={[
+        styles.text,
+        styles.mediumText,
+        {color: theme.primaryTextColor},
+      ]}
+      descriptionStyle={[styles.textLink, {color: theme.placeholderTextColor}]}
     />
   </View>
 ));
@@ -549,7 +556,7 @@ class Post extends React.Component {
         )}
         {this.renderFileComponent(files)}
         {hasUrlForPreview && (
-          <MemoUrlPreview text={message.replace(imageUrl, ' ')} />
+          <MemoUrlPreview text={message.replace(imageUrl, ' ')} theme={theme} />
         )}
       </>
     );
@@ -804,7 +811,4 @@ const mapDispatchToProps = {
   deletePost,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
