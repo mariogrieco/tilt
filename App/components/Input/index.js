@@ -41,6 +41,7 @@ import {getRepostById} from '../../selectors/getRepostById';
 import {setRepostActiveOnInput} from '../../actions/repost';
 
 import Client4 from '../../api/MattermostClient';
+import assets from '../ThemeWrapper/assets';
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
@@ -55,7 +56,7 @@ const PHOTO = require('../../../assets/themes/light/photo/photo.png');
 const VIDEO_THIN = require('../../../assets/themes/light/video_thin/video.png');
 // const VIDEO_THIN_DISABLED = require('../../../assets/themes/light/video_disabled/video_disabled.png');
 const SLASH = require('../../../assets/themes/light/slash/slash.png');
-const DELETE = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
+
 const WORD = require('../../../assets/themes/light/word-file/word.png');
 const PDF = require('../../../assets/themes/light/pdf-file/pdf.png');
 const EXCEL = require('../../../assets/themes/light/excel-file/excel.png');
@@ -1277,7 +1278,7 @@ class Input extends React.Component {
       showTags,
     } = this.state;
     console.log('repost: ', repost);
-    const {theme} = this.props;
+    const {theme, themeName} = this.props;
     return (
       <View
         style={[
@@ -1354,7 +1355,7 @@ class Input extends React.Component {
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteImage(index, id)}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1373,7 +1374,7 @@ class Input extends React.Component {
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteVideo(index, id)}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1407,7 +1408,7 @@ class Input extends React.Component {
               </View>
               <View style={styles.deleteDocument}>
                 <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1487,6 +1488,7 @@ class Input extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
+  themeName: state.themes.current,
   repost: getRepostById(state),
   repost_id: state.repost,
   commands: state.commands.map(({name, trigger}) => ({name, trigger})),

@@ -32,6 +32,7 @@ const MESSAGES_UNFOCUS = require('../../../assets/themes/light/messages-gray/env
 const DOWNLOAD_UNFILLED = require('../../../assets/themes/light/download-unfilled/download-unfilled.png');
 const PLAY_UNFILLED = require('../../../assets/themes/light/play/play-unfilled.png');
 const GEAR = require('../../../assets/themes/light/gear/gear.png');
+const DELETE_ITEM = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -67,6 +68,7 @@ const MESSAGES_UNFOCUS_DARK = require('../../../assets/themes/dark/messages_unfo
 const DOWNLOAD_UNFILLED_DARK = require('../../../assets/themes/dark/download-unfilled/download-unfilled.png');
 const PLAY_UNFILLED_DARK = require('../../../assets/themes/dark/play/play-unfilled.png');
 const GEAR_DARK = require('../../../assets/themes/dark/gear/gear.png');
+const DELETE_ITEM_DARK = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
 
 //DARK_GRAY ASSETS
 const LOGO_DARK_GRAY = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -102,7 +104,7 @@ const MESSAGES_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages
 const DOWNLOAD_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/download-unfilled/download-unfilled.png');
 const PLAY_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/play/play-unfilled.png');
 const GEAR_DARK_GRAY = require('../../../assets/themes/dark/gear/gear.png');
-
+const DELETE_ITEM_DARK_GRAY = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
 const assets = {
   light: {
     LOGO,
@@ -138,6 +140,7 @@ const assets = {
     DOWNLOAD_UNFILLED,
     PLAY_UNFILLED,
     GEAR,
+    DELETE_ITEM,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -173,6 +176,7 @@ const assets = {
     DOWNLOAD_UNFILLED: DOWNLOAD_UNFILLED_DARK,
     PLAY_UNFILLED: PLAY_UNFILLED_DARK,
     GEAR: GEAR_DARK,
+    DELETE_ITEM: DELETE_ITEM_DARK,
   },
   darkGray: {
     LOGO: LOGO_DARK_GRAY,
@@ -208,6 +212,7 @@ const assets = {
     DOWNLOAD_UNFILLED: DOWNLOAD_UNFILLED_DARK_GRAY,
     PLAY_UNFILLED: PLAY_UNFILLED_DARK_GRAY,
     GEAR: GEAR_DARK_GRAY,
+    DELETE_ITEM: DELETE_ITEM_DARK_GRAY,
   },
 };
 
