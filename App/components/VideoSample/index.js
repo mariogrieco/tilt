@@ -7,7 +7,6 @@ import styles from './styles';
 import assets from '../ThemeWrapper/assets';
 
 const VIDEO = require('../../../assets/themes/light/video-file/video.png');
-const PLAY = require('../../../assets/themes/light/play/play-unfilled.png');
 
 class VideoSample extends PureComponent {
   onPressDownload = async () => {
