@@ -43,20 +43,22 @@ class Form extends React.Component {
             }}
             keyboardVerticalOffset={keyboardVerticalOffset}
             behavior={Platform.OS === 'ios' ? 'position' : undefined}>
-            {showText && (
-              <TouchableOpacity onPress={navigationToPhoneNumber}>
-                <Text style={styles.forgotPassword}>{linkText}</Text>
+            <View style={{alignItems: 'center'}}>
+              {showText && (
+                <TouchableOpacity onPress={navigationToPhoneNumber}>
+                  <Text style={styles.forgotPassword}>{linkText}</Text>
+                </TouchableOpacity>
+              )}
+              {showTerms && <Terms />}
+              <TouchableOpacity
+                disabled={!canSend}
+                style={canSend ? {} : styles.disabled}
+                onPress={canSend ? navigationTo : () => ({})}>
+                <Text style={[styles.button, {color: theme.buttonTextColor}]}>
+                  {textButton}
+                </Text>
               </TouchableOpacity>
-            )}
-            {showTerms && <Terms />}
-            <TouchableOpacity
-              disabled={!canSend}
-              style={canSend ? {} : styles.disabled}
-              onPress={canSend ? navigationTo : () => ({})}>
-              <Text style={[styles.button, {color: theme.buttonTextColor}]}>
-                {textButton}
-              </Text>
-            </TouchableOpacity>
+            </View>
           </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
