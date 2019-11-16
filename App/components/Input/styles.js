@@ -87,20 +87,13 @@ export default StyleSheet.create({
     letterSpacing: 0.1,
   },
   rightElements: {
-    flex: 0.55,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginRight: 15,
-    marginTop: -5,
   },
   leftElements: {
-    flex: 0.35,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginLeft: 5,
-    marginTop: -5,
   },
   inputOption: {
     paddingLeft: '0.625rem',
@@ -127,6 +120,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1.25,
     borderColor: 'transparent',
+    marginBottom: 5,
   },
   disabled: {
     color: '#585C63',

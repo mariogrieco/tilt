@@ -1417,50 +1417,50 @@ class Input extends React.Component {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.leftElements}>
             {!isPrivateChannel ? (
-              <TouchableHighlight
-                underlayColor="rgba(63, 184, 127, 0.2)"
-                onPress={() => this.showOptionsView(1)}>
+              <TouchableOpacity
+                onPress={() => this.showOptionsView(1)}
+                style={{paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             ) : (
               <View style={{opacity: 0.5}}>
                 <Image source={AT} />
               </View>
             )}
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={() => this.showOptionsView(2)}>
+            <TouchableOpacity
+              onPress={() => this.showOptionsView(2)}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={SLASH} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={this.openTextTags}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.openTextTags}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={POST_TAGS} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <View style={[styles.rightElements]}>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            <TouchableOpacity
               onPress={this.handleImageUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadVideos.length !== 0 || !!uploadDocument}>
               <Image source={PHOTO} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleVideoUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadImages.length !== 0 || !!uploadDocument}>
               <Image source={VIDEO_THIN} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleDocumentUpload}
-              underlayColor="rgba(63, 184, 127, 0.2)"
+              style={{paddingLeft: 10, paddingRight: 15, paddingBottom: 5}}
               disabled={
                 uploadVideos.length !== 0 ||
                 uploadImages.length !== 0 ||
                 !!uploadDocument
               }>
               <Image source={FILE} style={styles.inputOption} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <TouchableOpacity>
               {this.isDisable() || isReadOnlyChannel ? (
                 <Text
