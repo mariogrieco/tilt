@@ -2,16 +2,56 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {View, FlatList, ActivityIndicator, BackHandler} from 'react-native';
 import isEqual from 'lodash/isEqual';
-import {withNavigation} from 'react-navigation';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import StyleSheet from 'react-native-extended-stylesheet';
 import CryptoItem from '../components/CryptoItem';
 import HeaderHome from '../components/HeaderHome';
 import Separator from '../components/Separator';
+import Fees from '../components/Fees';
 import {getSymbols} from '../actions/symbols';
 import {modalActive} from '../actions/modal';
 import {WATCHLIST_INTERVAL} from '../config/refreshIntervals';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-
 const ORIGIN = 'WATCHLIST';
+
+const styles = StyleSheet.create({
+  container: {
+    height: 32,
+    borderColor: 'rgba(118, 118, 128, 0.12)',
+    backgroundColor: 'rgba(118, 118, 128, 0.12)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  commonStyle: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    height: 30,
+    borderTopRightRadius: 8,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    padding: 2,
+    margin: 5,
+    borderWidth: 0,
+  },
+  activeStyle: {
+    backgroundColor: '#fff',
+    shadowOffset: {width: 0, height: 3},
+    shadowColor: 'rgba(0, 0, 0, 0.12)',
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 1,
+  },
+  text: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 14,
+    lineHeight: 18,
+  },
+});
 
 class Home extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -30,6 +70,7 @@ class Home extends React.Component {
   state = {
     name: '',
     page: 1,
+    segmentedIndex: 0,
   };
 
   constructor(props) {
@@ -49,7 +90,7 @@ class Home extends React.Component {
       title: 'All Cryptos',
     });
 
-    this.navigationListener = navigation.addListener('didFocus', () => {
+    this.didFocusListener = navigation.addListener('didFocus', () => {
       dispatchGetSymbols(ORIGIN); // initial fetch for check connection
       BackHandler.addEventListener('hardwareBackPress', () => {
         if (navigation.isFocused()) {
@@ -57,10 +98,16 @@ class Home extends React.Component {
         }
       });
     });
+
+    this.didBlurListener = navigation.addListener('didBlur', () => {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
+    });
   }
 
   componentDidUpdate() {
-    const {navigation, watchlist, getSymbols: dispatchGetSymbols} = this.props;
+    const {watchlist, getSymbols: dispatchGetSymbols} = this.props;
 
     // If SUCCESS start conitues fetching
     if (watchlist.hasData) {
@@ -83,17 +130,12 @@ class Home extends React.Component {
         dispatchGetSymbols(ORIGIN);
       }, 3500);
     }
-
-    // Clear interval if watchlist is not on screen
-    if (!navigation.isFocused()) {
-      clearInterval(this.intervalId);
-    }
   }
 
   componentWillUnmount() {
-    if (this.navigationListener) {
-      this.navigationListener.remove();
-    }
+    this.didFocusListener.remove();
+    this.didBlurListener.remove();
+
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -113,6 +155,18 @@ class Home extends React.Component {
 
   handleEndReach = () =>
     this.setState(prevState => ({page: prevState.page + 0.25}));
+
+  handleSegmentedTabPress = index => this.setState({segmentedIndex: index});
+
+  renderSegment = () => {
+    const {segmentedIndex} = this.state;
+    switch (segmentedIndex) {
+      case 0:
+        return <Fees />;
+      case 1:
+        return this.renderWatchList();
+    }
+  };
 
   renderWatchList = () => {
     const {watchlist} = this.props;
@@ -163,9 +217,26 @@ class Home extends React.Component {
 
   render() {
     const {theme} = this.props;
+    const {segmentedIndex} = this.state;
     return (
       <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
-        {this.renderWatchList()}
+        <View style={{alignItems: 'center'}}>
+          <View style={{width: '50%'}}>
+            <SegmentedControlTab
+              values={['Fees', 'Cryptos']}
+              selectedIndex={segmentedIndex}
+              onTabPress={this.handleSegmentedTabPress}
+              borderRadius={8}
+              tabsContainerStyle={styles.container}
+              tabStyle={styles.commonStyle}
+              activeTabStyle={{...styles.commonStyle, ...styles.activeStyle}}
+              tabTextStyle={styles.text}
+              activeTabTextStyle={styles.text}
+            />
+          </View>
+        </View>
+
+        {this.renderSegment()}
       </View>
     );
   }
@@ -178,12 +249,7 @@ const mapStateToProps = ({watchlist, modal, login, themes}) => ({
   theme: themes[themes.current],
 });
 
-export default withNavigation(
-  connect(
-    mapStateToProps,
-    {
-      getSymbols,
-      modalActive,
-    },
-  )(Home),
-);
+export default connect(mapStateToProps, {
+  getSymbols,
+  modalActive,
+})(Home);
