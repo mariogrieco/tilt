@@ -2,12 +2,11 @@ import React, {PureComponent} from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {connect} from 'react-redux';
-
-const CANCEL = require('../../../assets/themes/light/cancel/cancel.png');
+import assets from '../ThemeWrapper/assets';
 
 class NewMessageLabel extends PureComponent {
   render() {
-    const {onPress, onClose, length, theme} = this.props;
+    const {onPress, onClose, length, theme, themeName} = this.props;
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.textContainer} onPress={onPress}>
@@ -16,12 +15,12 @@ class NewMessageLabel extends PureComponent {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.close} onPress={onClose}>
-          <Image source={CANCEL} />
+          <Image source={assets[themeName].CANCEL} />
         </TouchableOpacity>
       </View>
     );
   }
 }
 
-const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current], themeName: themes.current});
 export default connect(mapStateToProps)(NewMessageLabel);

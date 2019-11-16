@@ -33,6 +33,7 @@ const DOWNLOAD_UNFILLED = require('../../../assets/themes/light/download-unfille
 const PLAY_UNFILLED = require('../../../assets/themes/light/play/play-unfilled.png');
 const GEAR = require('../../../assets/themes/light/gear/gear.png');
 const DELETE_ITEM = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
+const CANCEL = require('../../../assets/themes/light/cancel/cancel.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -69,6 +70,7 @@ const DOWNLOAD_UNFILLED_DARK = require('../../../assets/themes/dark/download-unf
 const PLAY_UNFILLED_DARK = require('../../../assets/themes/dark/play/play-unfilled.png');
 const GEAR_DARK = require('../../../assets/themes/dark/gear/gear.png');
 const DELETE_ITEM_DARK = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
+const CANCEL_DARK = require('../../../assets/themes/dark/cancel/cancel.png');
 
 //DARK_GRAY ASSETS
 const LOGO_DARK_GRAY = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -105,6 +107,7 @@ const DOWNLOAD_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/downloa
 const PLAY_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/play/play-unfilled.png');
 const GEAR_DARK_GRAY = require('../../../assets/themes/dark/gear/gear.png');
 const DELETE_ITEM_DARK_GRAY = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
+const CANCEL_DARK_GRAY = require('../../../assets/themes/dark/cancel/cancel.png');
 const assets = {
   light: {
     LOGO,
@@ -141,6 +144,7 @@ const assets = {
     PLAY_UNFILLED,
     GEAR,
     DELETE_ITEM,
+    CANCEL,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -177,6 +181,7 @@ const assets = {
     PLAY_UNFILLED: PLAY_UNFILLED_DARK,
     GEAR: GEAR_DARK,
     DELETE_ITEM: DELETE_ITEM_DARK,
+    CANCEL: CANCEL_DARK,
   },
   darkGray: {
     LOGO: LOGO_DARK_GRAY,
@@ -213,6 +218,7 @@ const assets = {
     PLAY_UNFILLED: PLAY_UNFILLED_DARK_GRAY,
     GEAR: GEAR_DARK_GRAY,
     DELETE_ITEM: DELETE_ITEM_DARK_GRAY,
+    CANCEL: CANCEL_DARK_GRAY,
   },
 };
 
