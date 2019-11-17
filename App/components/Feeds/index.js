@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
+import Separator from '../Separator';
 import PostPreview from '../PostPreview';
 import {getFeeds} from '../../actions/feeds';
 
@@ -44,6 +45,7 @@ const Feeds = ({navigation}) => {
       data={feeds.channels_keys}
       renderItem={renderItem}
       keyExtractor={item => item}
+      ItemSeparatorComponent={Separator}
     />
   );
 };
