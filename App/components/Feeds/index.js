@@ -3,10 +3,10 @@ import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import PostPreview from '../PostPreview';
-import {getFess} from '../../actions/fees';
+import {getFess} from '../../actions/feeds';
 
-const Fees = ({navigation}) => {
-  const fees = useSelector(state => state.fees);
+const Feeds = ({navigation}) => {
+  const feeds = useSelector(state => state.feeds);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,8 +22,8 @@ const Fees = ({navigation}) => {
   }, [dispatch, navigation]);
 
   const renderItem = ({item: channelId}) => {
-    const channel = fees.channels[channelId];
-    const post = fees.posts[channel.post_id];
+    const channel = feeds.channels[channelId];
+    const post = feeds.posts[channel.post_id];
     return (
       <PostPreview
         id={post.id}
@@ -41,11 +41,11 @@ const Fees = ({navigation}) => {
   return (
     <FlatList
       style={{flex: 1}}
-      data={fees.channels_keys}
+      data={feeds.channels_keys}
       renderItem={renderItem}
       keyExtractor={item => item}
     />
   );
 };
 
-export default withNavigation(Fees);
+export default withNavigation(Feeds);

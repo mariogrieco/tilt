@@ -1,4 +1,4 @@
-import {GET_FEES_SUCCESS} from '../actions/fees';
+import {GET_FEEDS_SUCCESS} from '../actions/feeds';
 
 const initialState = {
   channels: {},
@@ -9,7 +9,7 @@ const initialState = {
 
 const feesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_FEES_SUCCESS:
+    case GET_FEEDS_SUCCESS:
       return {
         ...state,
         ...action.payload,

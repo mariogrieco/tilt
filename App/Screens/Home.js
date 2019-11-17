@@ -7,7 +7,7 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import CryptoItem from '../components/CryptoItem';
 import HeaderHome from '../components/HeaderHome';
 import Separator from '../components/Separator';
-import Fees from '../components/Fees';
+import Feeds from '../components/Feeds';
 import {getSymbols} from '../actions/symbols';
 import {modalActive} from '../actions/modal';
 import {WATCHLIST_INTERVAL} from '../config/refreshIntervals';
@@ -162,7 +162,7 @@ class Home extends React.Component {
     const {segmentedIndex} = this.state;
     switch (segmentedIndex) {
       case 0:
-        return <Fees />;
+        return <Feeds />;
       case 1:
         return this.renderWatchList();
     }
@@ -223,7 +223,7 @@ class Home extends React.Component {
         <View style={{alignItems: 'center'}}>
           <View style={{width: '50%'}}>
             <SegmentedControlTab
-              values={['Fees', 'Cryptos']}
+              values={['Feeds', 'Cryptos']}
               selectedIndex={segmentedIndex}
               onTabPress={this.handleSegmentedTabPress}
               borderRadius={8}
