@@ -381,8 +381,6 @@ class Post extends React.Component {
         {
           text: 'Yes',
           onPress: async () => {
-            console.log(post_id);
-            console.log(postId);
             await this.props.deletePost(post_id);
             await this.props.deletePost(postId);
           },

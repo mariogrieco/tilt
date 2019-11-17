@@ -11,7 +11,6 @@ export const getBlockUserListForUserId = user_id => async dispatch => {
   try {
     const list = await Client4.getBlokedUsers(user_id);
     dispatch(getBlockUserListForUserIdSuccess(list));
-    console.log(list);
     return list;
   } catch (ex) {
     dispatch(getBlockUserListForUserIdError(ex));

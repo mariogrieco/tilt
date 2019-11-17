@@ -91,7 +91,6 @@ const initialState = {
 const themeReducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_THEME_REQUEST:
-      console.log('llamado de nuevo cambio de tema');
       return {
         ...state,
         current: action.payload,

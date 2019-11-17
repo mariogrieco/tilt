@@ -50,7 +50,6 @@ class Discover extends React.Component {
             return null;
           }
           const channels = await this.props.getHashtagChannels(page);
-          console.log(channels);
         } catch (ex) {
           alert(ex.message || ex);
         } finally {
@@ -111,8 +110,5 @@ const mapStateToProps = state => ({
 });
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    {getHashtagChannels, getPageOnFocus},
-  )(Discover),
+  connect(mapStateToProps, {getHashtagChannels, getPageOnFocus})(Discover),
 );
