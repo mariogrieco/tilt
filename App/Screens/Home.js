@@ -21,21 +21,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(118, 118, 128, 0.12)',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    borderRadius: 8,
+    width: '75%',
+    borderRadius: 8.9,
     overflow: 'hidden',
   },
   commonStyle: {
     backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    height: 30,
-    borderTopRightRadius: 8,
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    padding: 2,
-    margin: 5,
-    borderWidth: 0,
+    borderColor: 'rgba(0, 0, 0, 0.04)',
+    height: 28,
+    borderRadius: 6.9,
+    margin: 2,
+    borderWidth: 0.5,
   },
   activeStyle: {
     backgroundColor: '#fff',
@@ -45,18 +41,32 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 1,
   },
-  text: {
+  tabText: {
     color: '#000',
-    fontWeight: 'bold',
     fontSize: 14,
     lineHeight: 18,
+    fontFamily: 'SFProDisplay-Medium',
+    letterSpacing: -0.08,
+  },
+  activeTabText: {
+    fontFamily: 'SFProDisplay-Semibold',
   },
 });
 
 class Home extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
-    // headerLeft: <HeaderLeft navigation={navigation} />,
-    title: navigation.getParam('title', ''),
+    headerTitle: () => (
+      <SegmentedControlTab
+        values={['Feed', 'Cryptos']}
+        selectedIndex={navigation.getParam('segment', 0)}
+        onTabPress={navigation.getParam('handleSegmentedTabPress', () => {})}
+        tabsContainerStyle={styles.container}
+        tabStyle={styles.commonStyle}
+        activeTabStyle={{...styles.commonStyle, ...styles.activeStyle}}
+        tabTextStyle={styles.tabText}
+        activeTabTextStyle={{...styles.tabText, ...styles.activeTabText}}
+      />
+    ),
     headerRight: <HeaderHome navigation={navigation} />,
     ...headerForScreenWithBottomLine({
       headerTintColor: screenProps.theme.headerTintColor,
@@ -70,7 +80,6 @@ class Home extends React.Component {
   state = {
     name: '',
     page: 1,
-    segmentedIndex: 0,
   };
 
   constructor(props) {
@@ -87,7 +96,8 @@ class Home extends React.Component {
 
     navigation.setParams({
       onChangeText: this.searchSymbol,
-      title: 'All Cryptos',
+      segment: 0,
+      handleSegmentedTabPress: this.handleSegmentedTabPress,
     });
 
     this.didFocusListener = navigation.addListener('didFocus', () => {
@@ -156,15 +166,24 @@ class Home extends React.Component {
   handleEndReach = () =>
     this.setState(prevState => ({page: prevState.page + 0.25}));
 
-  handleSegmentedTabPress = index => this.setState({segmentedIndex: index});
+  handleSegmentedTabPress = index => {
+    console.log('new index', index);
+    const {navigation} = this.props;
+    navigation.setParams({
+      segment: index,
+    });
+  };
 
   renderSegment = () => {
-    const {segmentedIndex} = this.state;
-    switch (segmentedIndex) {
+    const {navigation} = this.props;
+    const segment = navigation.getParam('segment');
+    switch (segment) {
       case 0:
         return <Feeds />;
       case 1:
         return this.renderWatchList();
+      default:
+        <Feeds />;
     }
   };
 
@@ -217,25 +236,8 @@ class Home extends React.Component {
 
   render() {
     const {theme} = this.props;
-    const {segmentedIndex} = this.state;
     return (
       <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
-        <View style={{alignItems: 'center'}}>
-          <View style={{width: '50%'}}>
-            <SegmentedControlTab
-              values={['Feeds', 'Cryptos']}
-              selectedIndex={segmentedIndex}
-              onTabPress={this.handleSegmentedTabPress}
-              borderRadius={8}
-              tabsContainerStyle={styles.container}
-              tabStyle={styles.commonStyle}
-              activeTabStyle={{...styles.commonStyle, ...styles.activeStyle}}
-              tabTextStyle={styles.text}
-              activeTabTextStyle={styles.text}
-            />
-          </View>
-        </View>
-
         {this.renderSegment()}
       </View>
     );
