@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import Post from '../Post/Post';
 
@@ -10,23 +11,26 @@ const PostPreview = ({
   createdAt,
   editedAt,
   type,
+  postedChannelName,
 }) => {
   const user = useSelector(state => state.users.data[postUserId]);
   return (
-    <Post
-      postId={id}
-      userId={postUserId}
-      last_picture_update={user.last_picture_update}
-      message={message}
-      metadata={metada}
-      createdAt={createdAt}
-      edit_at={editedAt}
-      type={type}
-      username={user.username}
-      disableInteractions
-      extendedDateFormat
-      disableDots
-    />
+    <View style={{marginTop: 14.5}}>
+      <Post
+        postId={id}
+        userId={postUserId}
+        last_picture_update={user.last_picture_update}
+        message={message}
+        metadata={metada}
+        createdAt={createdAt}
+        edit_at={editedAt}
+        type={type}
+        username={user.username}
+        disableInteractions
+        extendedDateFormat
+        postedChannelName={postedChannelName}
+      />
+    </View>
   );
 };
 

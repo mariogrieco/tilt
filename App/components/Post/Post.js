@@ -604,6 +604,7 @@ class Post extends React.Component {
       isAdminUser,
       postId,
       theme,
+      postedChannelName,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -677,24 +678,33 @@ class Post extends React.Component {
         )}
         <View style={isRepost ? {} : styles.usernameAndPostContent}>
           {!isRepost && (
-            <TouchableOpacity
-              onPress={
-                disableInteractions || isSponsoredUser
-                  ? () => {}
-                  : this.handleNavigationToProfile
-              }>
-              <Text>
-                <Text
-                  style={[styles.username, {color: theme.primaryTextColor}]}>
-                  {typeIsSystem ? 'System' : username}{' '}
+            <>
+              {postedChannelName ? (
+                <PureParsedText
+                  message={postedChannelName}
+                  typeIsSystem={false}
+                  onChannel={navigateIfExists}
+                />
+              ) : null}
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Text>
+                  <Text
+                    style={[styles.username, {color: theme.primaryTextColor}]}>
+                    {typeIsSystem ? 'System' : username}{' '}
+                  </Text>
+                  <Text style={styles.timespan}>
+                    {extendedDateFormat
+                      ? moment(createdAt).format('MMM D, h:mm A')
+                      : moment(createdAt).format('h:mm A')}
+                  </Text>
                 </Text>
-                <Text style={styles.timespan}>
-                  {extendedDateFormat
-                    ? moment(createdAt).format('MMM D, h:mm A')
-                    : moment(createdAt).format('h:mm A')}
-                </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </>
           )}
           {isRepost && (
             <View style={styles.repostProfileImageAndUsername}>
