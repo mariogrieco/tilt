@@ -3,7 +3,7 @@ import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import PostPreview from '../PostPreview';
-import {getFess} from '../../actions/feeds';
+import {getFeeds} from '../../actions/feeds';
 
 const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);
@@ -11,7 +11,7 @@ const Feeds = ({navigation}) => {
 
   useEffect(() => {
     const focusListener = navigation.addListener('didFocus', () => {
-      dispatch(getFess());
+      dispatch(getFeeds());
     });
 
     const clean = () => {
