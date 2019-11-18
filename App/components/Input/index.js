@@ -305,12 +305,18 @@ class Input extends React.Component {
           const {messageText, filesIds} = this.state;
           const {channelId, root_id, repost_id} = this.props;
           const parsedValue = Emoji.parse(messageText);
+          const percent_change = await this.getDollarValuesProps();
+          const props = {};
+          props.repost = repost_id;
+          if (percent_change) {
+            props.percent_change = percent_change;
+          }
           await this.props.createPost(
             parsedValue,
             channelId,
             root_id,
             filesIds,
-            {repost: repost_id},
+            props,
           );
           this.setState({
             messageText: '',
@@ -619,6 +625,41 @@ class Input extends React.Component {
 
     return currentIndex !== null;
   }
+
+   getDollarValuesProps = async () => {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    if (propsFor.length === 0) {
+      return null;
+    }
+
+    return await this.getValuesFor(propsFor);
+  };
+
+   getValuesFor = async propsFor => {
+    const allProps = {};
+
+    for (let index = 0; index < propsFor.length; index++) {
+      const name = propsFor[index];
+        try {
+          const {data} = await Client4.getSymbolPercentChange(name);
+          allProps[name] = data;
+        } catch (err) {
+          console.log(err);
+        }
+    }
+
+    return allProps;
+  };
 
   determineIfOpenTags() {
     const {selection, messageText} = this.state;
