@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import Post from '../Post/Post';
+import styles from './styles';
 
 const PostPreview = ({
   id,
@@ -15,7 +16,7 @@ const PostPreview = ({
 }) => {
   const user = useSelector(state => state.users.data[postUserId]);
   return (
-    <View style={{marginTop: 14.5}}>
+    <View style={styles.container}>
       <Post
         postId={id}
         userId={postUserId}

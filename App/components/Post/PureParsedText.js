@@ -288,6 +288,9 @@ export class PureParsedText extends Component {
   }
 
   onChannelPress(value) {
+    console.log('pure parse');
+    console.log('value', value);
+    console.log(this.props.onChannel);
     this.props.clearjumpToAction();
     this.props.onChannel(value);
   }

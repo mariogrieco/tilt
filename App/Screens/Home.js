@@ -17,8 +17,6 @@ const ORIGIN = 'WATCHLIST';
 const styles = StyleSheet.create({
   container: {
     height: 32,
-    borderColor: 'rgba(118, 118, 128, 0.12)',
-    backgroundColor: 'rgba(118, 118, 128, 0.12)',
     justifyContent: 'center',
     alignItems: 'center',
     width: '75%',
@@ -34,7 +32,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   activeStyle: {
-    backgroundColor: '#fff',
     shadowOffset: {width: 0, height: 3},
     shadowColor: 'rgba(0, 0, 0, 0.12)',
     shadowOpacity: 0.5,
@@ -60,11 +57,26 @@ class Home extends React.Component {
         values={['Feed', 'Cryptos']}
         selectedIndex={navigation.getParam('segment', 0)}
         onTabPress={navigation.getParam('handleSegmentedTabPress', () => {})}
-        tabsContainerStyle={styles.container}
+        tabsContainerStyle={{
+          ...styles.container,
+          backgroundColor: screenProps.theme.segmentedControlBackgroundColor,
+          borderColor: screenProps.theme.segmentedControlBackgroundColor,
+        }}
         tabStyle={styles.commonStyle}
-        activeTabStyle={{...styles.commonStyle, ...styles.activeStyle}}
-        tabTextStyle={styles.tabText}
-        activeTabTextStyle={{...styles.tabText, ...styles.activeTabText}}
+        activeTabStyle={{
+          ...styles.commonStyle,
+          ...styles.activeStyle,
+          backgroundColor: screenProps.theme.primaryBackgroundColor,
+        }}
+        tabTextStyle={{
+          ...styles.tabText,
+          color: screenProps.theme.primaryTextColor,
+        }}
+        activeTabTextStyle={{
+          ...styles.tabText,
+          ...styles.activeTabText,
+          color: screenProps.theme.primaryTextColor,
+        }}
       />
     ),
     headerRight: <HeaderHome navigation={navigation} />,

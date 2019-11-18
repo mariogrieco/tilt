@@ -678,12 +678,12 @@ class Post extends React.Component {
         )}
         <View style={isRepost ? {} : styles.usernameAndPostContent}>
           {!isRepost && (
-            <>
+            <View>
               {postedChannelName ? (
                 <PureParsedText
                   message={postedChannelName}
                   typeIsSystem={false}
-                  onChannel={navigateIfExists}
+                  onChannel={this.props.navigateIfExists}
                 />
               ) : null}
               <TouchableOpacity
@@ -704,7 +704,7 @@ class Post extends React.Component {
                   </Text>
                 </Text>
               </TouchableOpacity>
-            </>
+            </View>
           )}
           {isRepost && (
             <View style={styles.repostProfileImageAndUsername}>
