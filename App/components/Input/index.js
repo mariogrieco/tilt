@@ -1423,7 +1423,8 @@ class Input extends React.Component {
                 <Image source={AT} />
               </TouchableOpacity>
             ) : (
-              <View style={{opacity: 0.5}}>
+              <View
+                style={{opacity: 0.5, paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
               </View>
             )}

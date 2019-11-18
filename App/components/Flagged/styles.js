@@ -28,7 +28,7 @@ export default StyleSheet.create({
     paddingTop: 10,
   },
   channelTitle: {
-    color: '#005493',
+    color: '#017AFE',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1,

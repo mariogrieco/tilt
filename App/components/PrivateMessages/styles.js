@@ -7,7 +7,7 @@ export default StyleSheet.create({
     backgroundColor: '#F6F7F9',
   },
   channelName: {
-    color: '#005493',
+    color: '#017AFE',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1,
