@@ -275,9 +275,17 @@ class Input extends React.Component {
           }
           if (post.props) {
             if (post.percent_change) {
-              const percent_change = await this.getDollarValuesProps();
+              const percent_change = await this.getEditedPropsValues();
               if (percent_change) {
-                post.props.percent_change = percent_change;
+                const nextProps = {};
+                Object.keys(post.props.percent_change).map(key => {
+                  if (percent_change.indexOf(key) !== -1) {
+                    if (percent_change[key] !== '') {
+                      nextProps[key] = percent_change[key];
+                    }
+                  }
+                });
+                post.props.percent_change = nextProps;
               } else {
                 post.props.percent_change = null;
                 delete post.props.percent_change;
@@ -320,7 +328,7 @@ class Input extends React.Component {
           const percent_change = await this.getDollarValuesProps();
           const props = {};
           props.repost = repost_id;
-          if (percent_change) {
+          if (percent_change !== null) {
             props.percent_change = percent_change;
           }
           await this.props.createPost(
@@ -672,17 +680,36 @@ class Input extends React.Component {
     return await this.getValuesFor(propsFor);
   };
 
+  getEditedPropsValues() {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+    if (propsFor.length === 0) {
+      return null;
+    }
+    return propsFor;
+  }
+
    getValuesFor = async propsFor => {
     const allProps = {};
 
     for (let index = 0; index < propsFor.length; index++) {
       const name = propsFor[index];
-        try {
-          const {data} = await Client4.getSymbolPercentChange(name);
+      try {
+        const {data} = await Client4.getSymbolPercentChange(name);
+        if (data !== '') {
           allProps[name] = data;
-        } catch (err) {
-          console.log(err);
         }
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     return allProps;
@@ -1341,7 +1368,6 @@ class Input extends React.Component {
       showDollarTags,
       showTags,
     } = this.state;
-    console.log('repost: ', repost);
     const {theme} = this.props;
     return (
       <View
@@ -1397,6 +1423,7 @@ class Input extends React.Component {
                 edit_at={repost.edit_at}
                 type={repost.type}
                 isPM={false}
+                post_props={repost.props}
               />
             )}
           </View>

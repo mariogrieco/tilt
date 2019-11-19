@@ -89,8 +89,7 @@ class Thread extends React.Component {
               edit_at={post.edit_at}
               onDotsPress={this.handlePostActive}
               replies={post.replies}
-              // channelsNames={channelsNames}
-              // usernames={usernames}
+              post_props={post.props}
             />
           ))}
         </ScrollView>

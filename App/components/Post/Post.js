@@ -737,6 +737,7 @@ class Post extends React.Component {
               userId={repost.user.id}
               last_picture_update={repost.user.last_picture_update}
               username={repost.user.username}
+              post_props={repost.props}
             />
           )}
           {!isRepost && (

@@ -49,6 +49,7 @@ class Flagged extends React.PureComponent {
             edit_at={post.edit_at}
             type={post.type}
             extendedDateFormat
+            post_props={post.props}
           />
         ))}
         <BottomBlockSpaceSmall />
