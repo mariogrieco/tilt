@@ -29,6 +29,9 @@ const W = Dimensions.get('REAL_WINDOW_WIDTH');
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
+  parserName: {
+    padding: 10,
+  },
   modal: {
     width: '20rem',
     alignSelf: 'center',
@@ -110,6 +113,13 @@ class EditChannel extends React.Component {
       };
     }
     return null;
+  }
+
+  parseName(name = '') {
+    return (name||'')
+      .split(' ')
+      .join('-')
+      .toLowerCase();
   }
 
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -194,7 +204,8 @@ class EditChannel extends React.Component {
         if (title !== null && header !== null) {
           try {
             await this.props.patchChannel(channel.id, {
-              name: title,
+              name: this.parseName(title),
+              display_name: title,
               purpose,
               header,
             });
@@ -302,6 +313,7 @@ class EditChannel extends React.Component {
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
           />
+          <Text style={styles.parserName}> URL: {this.parseName(title)}</Text>
           <Separator />
         </CreateChannelField>
         <Spacer />

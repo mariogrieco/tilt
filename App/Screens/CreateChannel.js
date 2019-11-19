@@ -185,6 +185,7 @@ class CreateChannel extends React.Component {
         if (title !== null && header !== null) {
           try {
             await this.props.createChannel({
+              display_name: title,
               title: this.parseName(title),
               purpose,
               header,
@@ -193,8 +194,10 @@ class CreateChannel extends React.Component {
               publicChannelModal: true,
             });
           } catch (ex) {
+            console.log('end');
             alert(ex);
           } finally {
+            console.log('end');
             this.setState({
               loading: false,
             });

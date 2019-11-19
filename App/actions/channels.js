@@ -559,9 +559,9 @@ export const setFavoriteChannelError = err => ({
 
 // {title: "name", purpose: "purpose", header: "header"}
 
-function getChannelSchema({header, title, purpose, team_id}) {
+function getChannelSchema({header, title, purpose, team_id, display_name}) {
   return {
-    display_name: title,
+    display_name,
     header,
     name: parser(title),
     purpose,
@@ -576,6 +576,7 @@ export const createChannel = data => async (dispatch, getState) => {
     const payload = await Client4.createChannel(getChannelSchema(data));
     dispatch(createChannelSucess(payload));
     dispatch(getPostsForChannel(payload.id));
+    console.log(payload);
     return payload;
   } catch (ex) {
     dispatch(createChannelError(ex));
