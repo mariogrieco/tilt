@@ -2,6 +2,14 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import Platform from 'react-native';
 
 export default StyleSheet.create({
+  red: {
+    color: '#fc3e30',
+    textTransform: 'uppercase',
+  },
+  green: {
+    color: '#17c491',
+    textTransform: 'uppercase',
+  },
   container: {
     paddingLeft: 10,
     paddingRight: 15,

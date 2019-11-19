@@ -274,6 +274,26 @@ class Input extends React.Component {
           if (post.metadata.files) {
             file_ids = post.metadata.files.map(({id}) => id);
           }
+          if (post.props) {
+            if (post.percent_change) {
+              const percent_change = await this.getEditedPropsValues();
+              if (percent_change) {
+                const nextProps = {};
+                Object.keys(post.props.percent_change).map(key => {
+                  if (percent_change.indexOf(key) !== -1) {
+                    if (percent_change[key] !== '') {
+                      nextProps[key] = percent_change[key];
+                    }
+                  }
+                });
+                post.props.percent_change = nextProps;
+              } else {
+                post.props.percent_change = null;
+                delete post.props.percent_change;
+              }
+            }
+          }
+
           await this.props.updatePost({
             ...post,
             message: parsedValue,
@@ -309,12 +329,18 @@ class Input extends React.Component {
           const {messageText, filesIds} = this.state;
           const {channelId, root_id, repost_id} = this.props;
           const parsedValue = Emoji.parse(messageText);
+          const percent_change = await this.getDollarValuesProps();
+          const props = {};
+          props.repost = repost_id;
+          if (percent_change !== null) {
+            props.percent_change = percent_change;
+          }
           await this.props.createPost(
             parsedValue,
             channelId,
             root_id,
             filesIds,
-            {repost: repost_id},
+            props,
           );
           this.setState({
             messageText: '',
@@ -623,6 +649,75 @@ class Input extends React.Component {
 
     return currentIndex !== null;
   }
+
+  getPropsEditValuesFor () {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    return propsFor;
+  }
+
+   getDollarValuesProps = async () => {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    if (propsFor.length === 0) {
+      return null;
+    }
+
+    return await this.getValuesFor(propsFor);
+  };
+
+  getEditedPropsValues() {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+    if (propsFor.length === 0) {
+      return null;
+    }
+    return propsFor;
+  }
+
+   getValuesFor = async propsFor => {
+    const allProps = {};
+
+    for (let index = 0; index < propsFor.length; index++) {
+      const name = propsFor[index];
+      try {
+        const {data} = await Client4.getSymbolPercentChange(name);
+        if (data !== '') {
+          allProps[name] = data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    return allProps;
+  };
 
   determineIfOpenTags() {
     const {selection, messageText} = this.state;
@@ -1333,6 +1428,7 @@ class Input extends React.Component {
                 edit_at={repost.edit_at}
                 type={repost.type}
                 isPM={false}
+                post_props={repost.props}
               />
             )}
           </View>

@@ -19,6 +19,7 @@ export class Repost extends PureComponent {
       last_picture_update,
       username,
       deleteAction,
+      post_props,
     } = this.props;
     const {theme} = this.props;
     return (
@@ -45,6 +46,7 @@ export class Repost extends PureComponent {
           deleteAction={deleteAction}
           styles={styles.repost}
           extendedDateFormat
+          post_props={post_props}
         />
       </View>
     );
