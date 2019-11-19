@@ -198,6 +198,64 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
+  renderFeedVersion = () => {
+    const {themeName, theme, postActions, sponsored_id, me} = this.props;
+    return (
+      <View
+        style={[
+          styles.contentContainer,
+          {
+            backgroundColor: theme.modalPopupBackgroundColor,
+            height: 'auto',
+          },
+        ]}>
+        <TouchableOpacity style={styles.button}>
+          <View style={styles.iconButton}>
+            <Image source={assets[themeName].COPY} />
+          </View>
+          <Text
+            onPress={this.onCopyTextMessage}
+            style={[styles.textButton, {color: theme.primaryTextColor}]}>
+            Copy Text
+          </Text>
+        </TouchableOpacity>
+        {postActions &&
+          postActions.userId !== me &&
+          !sponsored_id.match(postActions.userId) &&
+          !mod_user_id.match(postActions.userId) &&
+          !tilt_user_id.match(postActions.userId) &&
+          !moderator_user_id.match(postActions.userId) && (
+            <>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={assets[themeName].REPORT} />
+                </View>
+                <Text
+                  onPress={this.onRepostPost}
+                  style={[styles.textButton, {color: theme.primaryTextColor}]}>
+                  Report Post
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={assets[themeName].BLOCK} />
+                </View>
+                <Text
+                  onPress={this.onBlockUser}
+                  style={[
+                    styles.textButton,
+                    styles.blockUser,
+                    {color: theme.tiltRed},
+                  ]}>
+                  Block User
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+      </View>
+    );
+  };
+
   renderBottomSheetContent = () => {
     const {postActions, me, isFlagged, sponsored_id} = this.props;
     const {themeName, theme} = this.props;
@@ -366,20 +424,17 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
-  evaluateShow() {
-    const {hidePriority} = this.state;
-    const {show} = this.props;
-    if (show && !hidePriority) {
-      return true;
-    }
-    if (show && hidePriority) {
-      return false;
-    }
-    return show;
+  renderCases() {
+    return (
+      <>
+        {this.renderBottomSheetHeader()}
+        {this.renderBottomSheetContent()}
+      </>
+    );
   }
 
   render() {
-    const {me, postActions} = this.props;
+    const {postActions} = this.props;
     return (
       <Modal
         isVisible={postActions.display}
@@ -398,12 +453,12 @@ class PostBottomActions extends React.PureComponent {
           style={{
             height: 'auto',
             width: '100%',
-            backgroundColor: 'white',
             borderRadius: 12,
             overflow: 'hidden',
           }}>
-          {this.renderBottomSheetHeader()}
-          {this.renderBottomSheetContent()}
+          {postActions.options.isFeedPost
+            ? this.renderFeedVersion()
+            : this.renderCases()}
         </View>
       </Modal>
     );

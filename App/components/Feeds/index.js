@@ -38,7 +38,7 @@ const Feeds = ({navigation}) => {
     return (
       <PostFeed
         id={post.id}
-        metada={post.metada}
+        metada={post.metadata}
         postUserId={post.user_id}
         message={post.message}
         createdAt={post.create_at}
