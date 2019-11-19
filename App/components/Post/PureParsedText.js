@@ -334,7 +334,7 @@ export class PureParsedText extends Component {
         </Text>
       );
     }
-    return `$${text}`;
+    return `$${text.toUpperCase()}`;
   }
 
   renderTextH(text) {
