@@ -1181,7 +1181,7 @@ class Input extends React.Component {
               }>
               <View style={styles.commandTagContainer} key={index}>
                 <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
-                  ${name.toLowerCase()}
+                  ${name.toUpperCase()}
                 </Text>
               </View>
             </TouchableHighlight>

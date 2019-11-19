@@ -26,7 +26,12 @@ class ChannelHeader extends PureComponent {
     const diff = moment(create_at).diff(moment(), 'days') >= -3;
     return (
       <View style={styles.headerContainer}>
-        <Text style={[styles.text, {color: theme.primaryTextColor}]}>
+        <Text
+          style={[
+            styles.text,
+            {color: theme.primaryTextColor},
+            isAdminCreator ? {textTransform: 'uppercase'} : {},
+          ]}>
           {!pm ? `${isAdminCreator ? '$' : '#'} ${name}` : `@${name}`}
           {'  '}
         </Text>

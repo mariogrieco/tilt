@@ -575,7 +575,7 @@ class Channel extends React.Component {
       : channel.name;
 
     if (isAdminCreator) {
-      return `Write to $${parseChannelMention(title)}`;
+      return `Write to $${parseChannelMention(title).toUpperCase()}`;
     }
 
     if (isPrivateMessage) {
