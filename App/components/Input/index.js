@@ -41,6 +41,7 @@ import {getRepostById} from '../../selectors/getRepostById';
 import {setRepostActiveOnInput} from '../../actions/repost';
 
 import Client4 from '../../api/MattermostClient';
+import assets from '../ThemeWrapper/assets';
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
@@ -55,7 +56,7 @@ const PHOTO = require('../../../assets/themes/light/photo/photo.png');
 const VIDEO_THIN = require('../../../assets/themes/light/video_thin/video.png');
 // const VIDEO_THIN_DISABLED = require('../../../assets/themes/light/video_disabled/video_disabled.png');
 const SLASH = require('../../../assets/themes/light/slash/slash.png');
-const DELETE = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
+
 const WORD = require('../../../assets/themes/light/word-file/word.png');
 const PDF = require('../../../assets/themes/light/pdf-file/pdf.png');
 const EXCEL = require('../../../assets/themes/light/excel-file/excel.png');
@@ -307,6 +308,9 @@ class Input extends React.Component {
           });
           this.blurInput();
           this.clearState();
+          if (this.props.onEditCallback) {
+            this.props.onEditCallback();
+          }
         }
       },
     );
@@ -1272,7 +1276,7 @@ class Input extends React.Component {
               }>
               <View style={styles.commandTagContainer} key={index}>
                 <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
-                  ${name.toLowerCase()}
+                  ${name.toUpperCase()}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -1368,7 +1372,8 @@ class Input extends React.Component {
       showDollarTags,
       showTags,
     } = this.state;
-    const {theme} = this.props;
+    console.log('repost: ', repost);
+    const {theme, themeName} = this.props;
     return (
       <View
         style={[
@@ -1418,7 +1423,7 @@ class Input extends React.Component {
                 message={repost.message}
                 username={repost.user.username}
                 metadata={repost.metadata}
-                createdAt={repost.create_at}
+                create_at={repost.create_at}
                 replies={repost.replies}
                 edit_at={repost.edit_at}
                 type={repost.type}
@@ -1446,7 +1451,7 @@ class Input extends React.Component {
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteImage(index, id)}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1465,7 +1470,7 @@ class Input extends React.Component {
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteVideo(index, id)}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1499,7 +1504,7 @@ class Input extends React.Component {
               </View>
               <View style={styles.deleteDocument}>
                 <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1508,50 +1513,51 @@ class Input extends React.Component {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.leftElements}>
             {!isPrivateChannel ? (
-              <TouchableHighlight
-                underlayColor="rgba(63, 184, 127, 0.2)"
-                onPress={() => this.showOptionsView(1)}>
+              <TouchableOpacity
+                onPress={() => this.showOptionsView(1)}
+                style={{paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             ) : (
-              <View style={{opacity: 0.5}}>
+              <View
+                style={{opacity: 0.5, paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
               </View>
             )}
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={() => this.showOptionsView(2)}>
+            <TouchableOpacity
+              onPress={() => this.showOptionsView(2)}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={SLASH} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={this.openTextTags}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.openTextTags}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={POST_TAGS} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <View style={[styles.rightElements]}>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            <TouchableOpacity
               onPress={this.handleImageUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadVideos.length !== 0 || !!uploadDocument}>
               <Image source={PHOTO} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleVideoUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadImages.length !== 0 || !!uploadDocument}>
               <Image source={VIDEO_THIN} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleDocumentUpload}
-              underlayColor="rgba(63, 184, 127, 0.2)"
+              style={{paddingLeft: 10, paddingRight: 15, paddingBottom: 5}}
               disabled={
                 uploadVideos.length !== 0 ||
                 uploadImages.length !== 0 ||
                 !!uploadDocument
               }>
               <Image source={FILE} style={styles.inputOption} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <TouchableOpacity>
               {this.isDisable() || isReadOnlyChannel ? (
                 <Text
@@ -1579,6 +1585,7 @@ class Input extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
+  themeName: state.themes.current,
   repost: getRepostById(state),
   repost_id: state.repost,
   commands: state.commands.map(({name, trigger}) => ({name, trigger})),

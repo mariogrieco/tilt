@@ -2,7 +2,15 @@ import {createSelector} from 'reselect';
 
 const postsSelector = state => state.posts;
 const privateChannelsSelector = state =>
-  state.myChannelsMap.filter(({type}) => type === 'D');
+  state.myChannelsMap.filter(
+    ({type, name}) =>
+      type === 'D' &&
+      !state.blockedUsers[
+        name
+          .replace('__', '')
+          .replace(`${state.login.user ? state.login.user.id : ''}`, '')
+      ],
+  );
 const publicChannelsSelector = state =>
   state.myChannelsMap.filter(({type}) => type === 'O');
 const lastViewedSelector = state => state.lastViewed;

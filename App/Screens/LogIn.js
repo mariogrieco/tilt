@@ -246,7 +246,7 @@ class LogIn extends React.Component {
               }}
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />
@@ -259,7 +259,7 @@ class LogIn extends React.Component {
               }}
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               maxLength={64}
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />

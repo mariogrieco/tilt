@@ -6,7 +6,6 @@ import {
   ScrollView,
   Platform,
   KeyboardAvoidingView,
-  TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -22,13 +21,10 @@ import GoBack from '../components/GoBack';
 import {createChannel} from '../actions/channels';
 import Separator from '../components/Separator';
 import Spacer from '../components/Spacer';
-import {NavigationActions} from 'react-navigation';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
-
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   modal: {
@@ -366,7 +362,4 @@ const mapDispatchToProps = {
   createChannel,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateChannel);

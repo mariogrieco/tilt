@@ -20,7 +20,12 @@ export const Description = ({description, containerStyle, textStyle}) => (
   </View>
 );
 
-export const Input = ({onChangeText, placeHolder, style, value, theme}) => (
+export const Input = ({
+  onChangeText,
+  placeHolder,
+  style,
+  value,
+}) => (
   <TextInput
     value={value}
     placeholder={placeHolder}
@@ -30,6 +35,7 @@ export const Input = ({onChangeText, placeHolder, style, value, theme}) => (
     placeholderTextColor="#8E8E95"
     autoCapitalize="none"
     selectionColor="#17C491"
+    keyboardAppearance="dark"
   />
 );
 

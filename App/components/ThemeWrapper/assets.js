@@ -29,6 +29,11 @@ const PROFILE_FOCUS = require('../../../assets/themes/light/profile_focus/profil
 const PROFILE_UNFOCUS = require('../../../assets/themes/light/profile_unfocus/profile.png');
 const MESSAGES_FOCUS = require('../../../assets/themes/light/message_black/envelope.png');
 const MESSAGES_UNFOCUS = require('../../../assets/themes/light/messages-gray/envelope.png');
+const DOWNLOAD_UNFILLED = require('../../../assets/themes/light/download-unfilled/download-unfilled.png');
+const PLAY_UNFILLED = require('../../../assets/themes/light/play/play-unfilled.png');
+const GEAR = require('../../../assets/themes/light/gear/gear.png');
+const DELETE_ITEM = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
+const CANCEL = require('../../../assets/themes/light/cancel/cancel.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -61,6 +66,11 @@ const PROFILE_FOCUS_DARK = require('../../../assets/themes/dark/profile_focus/pr
 const PROFILE_UNFOCUS_DARK = require('../../../assets/themes/dark/profile_unfocus/profile.png');
 const MESSAGES_FOCUS_DARK = require('../../../assets/themes/dark/messages/envelope.png');
 const MESSAGES_UNFOCUS_DARK = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
+const DOWNLOAD_UNFILLED_DARK = require('../../../assets/themes/dark/download-unfilled/download-unfilled.png');
+const PLAY_UNFILLED_DARK = require('../../../assets/themes/dark/play/play-unfilled.png');
+const GEAR_DARK = require('../../../assets/themes/dark/gear/gear.png');
+const DELETE_ITEM_DARK = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
+const CANCEL_DARK = require('../../../assets/themes/dark/cancel/cancel.png');
 
 //DARK_GRAY ASSETS
 const LOGO_DARK_GRAY = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -93,7 +103,11 @@ const PROFILE_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/profile_foc
 const PROFILE_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/profile_unfocus/profile.png');
 const MESSAGES_FOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages/envelope.png');
 const MESSAGES_UNFOCUS_DARK_GRAY = require('../../../assets/themes/dark/messages_unfocus/envelope.png');
-
+const DOWNLOAD_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/download-unfilled/download-unfilled.png');
+const PLAY_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/play/play-unfilled.png');
+const GEAR_DARK_GRAY = require('../../../assets/themes/dark/gear/gear.png');
+const DELETE_ITEM_DARK_GRAY = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
+const CANCEL_DARK_GRAY = require('../../../assets/themes/dark/cancel/cancel.png');
 const assets = {
   light: {
     LOGO,
@@ -126,6 +140,11 @@ const assets = {
     PROFILE_UNFOCUS,
     MESSAGES_FOCUS,
     MESSAGES_UNFOCUS,
+    DOWNLOAD_UNFILLED,
+    PLAY_UNFILLED,
+    GEAR,
+    DELETE_ITEM,
+    CANCEL,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -158,6 +177,11 @@ const assets = {
     PROFILE_UNFOCUS: PROFILE_UNFOCUS_DARK,
     MESSAGES_FOCUS: MESSAGES_FOCUS_DARK,
     MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK,
+    DOWNLOAD_UNFILLED: DOWNLOAD_UNFILLED_DARK,
+    PLAY_UNFILLED: PLAY_UNFILLED_DARK,
+    GEAR: GEAR_DARK,
+    DELETE_ITEM: DELETE_ITEM_DARK,
+    CANCEL: CANCEL_DARK,
   },
   darkGray: {
     LOGO: LOGO_DARK_GRAY,
@@ -190,6 +214,11 @@ const assets = {
     PROFILE_UNFOCUS: PROFILE_UNFOCUS_DARK_GRAY,
     MESSAGES_FOCUS: MESSAGES_FOCUS_DARK_GRAY,
     MESSAGES_UNFOCUS: MESSAGES_UNFOCUS_DARK_GRAY,
+    DOWNLOAD_UNFILLED: DOWNLOAD_UNFILLED_DARK_GRAY,
+    PLAY_UNFILLED: PLAY_UNFILLED_DARK_GRAY,
+    GEAR: GEAR_DARK_GRAY,
+    DELETE_ITEM: DELETE_ITEM_DARK_GRAY,
+    CANCEL: CANCEL_DARK_GRAY,
   },
 };
 

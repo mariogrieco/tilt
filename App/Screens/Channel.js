@@ -186,7 +186,7 @@ class Channel extends React.Component {
             <TouchableOpacity
               style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
               onPress={() => navigation.navigate('ChannelInfo')}>
-              <Image source={assets[screenProps.themeName].MENU} />
+              <Image source={assets[screenProps.themeName].GEAR} />
             </TouchableOpacity>
           </Fragment>
         )}
@@ -576,7 +576,7 @@ class Channel extends React.Component {
       : channel.name;
 
     if (isAdminCreator) {
-      return `Write to $${parseChannelMention(title)}`;
+      return `Write to $${parseChannelMention(title).toUpperCase()}`;
     }
 
     if (isPrivateMessage) {
@@ -662,8 +662,13 @@ class Channel extends React.Component {
         {activeJumpLabel && this.renderJumpLabel()}
 
         {isArchived ? (
-          <View style={styles.archivedContainer}>
-            <Text style={styles.archivedMessage}>
+          <View
+            style={[
+              styles.archivedContainer,
+              {borderTopColor: theme.borderBottomColor},
+            ]}>
+            <Text
+              style={[styles.archivedMessage, {color: theme.primaryTextColor}]}>
               Your are viewing an{' '}
               <Text style={{fontFamily: 'SFProDisplay-Bold'}}>
                 archived channel.
@@ -675,7 +680,13 @@ class Channel extends React.Component {
               onPress={() =>
                 this.props.navigation.dispatch(NavigationActions.back())
               }>
-              <Text style={styles.archivedButtonText}>Close Channel</Text>
+              <Text
+                style={[
+                  styles.archivedButtonText,
+                  {color: theme.primaryBackgroundColor},
+                ]}>
+                Close Channel
+              </Text>
             </TouchableOpacity>
           </View>
         ) : (

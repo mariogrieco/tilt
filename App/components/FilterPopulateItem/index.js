@@ -7,8 +7,6 @@ import {connect} from 'react-redux';
 import styles from './styles';
 import assets from '../ThemeWrapper/assets';
 
-const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
-
 export class FilterPopulateItem extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['channel', 'user']).isRequired,

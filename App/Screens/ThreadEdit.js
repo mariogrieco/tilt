@@ -5,7 +5,7 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions, withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import GoBack from '../components/GoBack';
@@ -62,14 +62,19 @@ class Thread extends React.Component {
     return parser(str);
   }
 
+  _goBack = () => {
+    this.props.navigation.dispatch(NavigationActions.back());
+  };
+
   render() {
-    const {postActive, postId, userId} = this.state;
-    const {me, channelId, editedOrPost, channelsNames, usernames} = this.props;
+    const {channelId, editedOrPost} = this.props;
     const keyboardVerticalOffset =
       Platform.OS === 'ios' ? ifIphoneX(88, 60) : 0;
+    const {theme} = this.props;
 
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         <ScrollView
           keyboardDismissMode="on-drag"
           contentContainerStyle={{flex: 1, paddingTop: 11}}>
@@ -101,6 +106,7 @@ class Thread extends React.Component {
             post={editedOrPost[0]}
             placeholder=""
             channelId={channelId}
+            onEditCallback={this._goBack}
           />
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -119,10 +125,13 @@ const mapStateToProps = state => {
     channelId: post ? post.channel_id : null,
     editedOrPost: [post || {message: ''}],
     me: state.login.user ? state.login.user.id : null,
+    theme: state.themes[state.themes.current],
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Thread);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Thread),
+);

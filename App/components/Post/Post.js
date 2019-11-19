@@ -80,13 +80,20 @@ function reduceReactions(metadata) {
   };
 }
 
-const MemoUrlPreview = React.memo(({text}) => (
+const MemoUrlPreview = React.memo(({text, theme}) => (
   <View style={{height: 120, maxHeight: 120, marginBottom: 10}}>
     <RNUrlPreview
       text={text}
-      containerStyle={styles.linkContainer}
-      titleStyle={[styles.text, styles.mediumText]}
-      descriptionStyle={styles.textLink}
+      containerStyle={[
+        styles.linkContainer,
+        {borderColor: theme.borderBottomColor},
+      ]}
+      titleStyle={[
+        styles.text,
+        styles.mediumText,
+        {color: theme.primaryTextColor},
+      ]}
+      descriptionStyle={[styles.textLink, {color: theme.placeholderTextColor}]}
     />
   </View>
 ));
@@ -385,6 +392,7 @@ class Post extends React.Component {
   };
 
   renderFile(file) {
+    const {theme} = this.props;
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
         return (
@@ -399,7 +407,10 @@ class Post extends React.Component {
               })
             }>
             <Image
-              style={styles.imageContainer}
+              style={[
+                styles.imageContainer,
+                {borderColor: theme.borderBottomColor},
+              ]}
               source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}`}}
             />
           </TouchableOpacity>
@@ -417,7 +428,10 @@ class Post extends React.Component {
             })
           }>
           <Image
-            style={styles.imageContainer}
+            style={[
+              styles.imageContainer,
+              {borderColor: theme.borderBottomColor},
+            ]}
             source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview`}}
           />
         </TouchableOpacity>
@@ -451,7 +465,7 @@ class Post extends React.Component {
     return (
       <Image
         source={FILE_NOT_FOUND}
-        styles={styles.imageContainer}
+        styles={[styles.imageContainer, {borderColor: theme.borderBottomColor}]}
         key={file.id}
       />
     );
@@ -474,6 +488,7 @@ class Post extends React.Component {
       // reported,
       post_props
     } = this.props;
+    const {theme} = this.props;
     const typeIsSystem = type.match('system');
 
     const imageUrl =
@@ -532,14 +547,17 @@ class Post extends React.Component {
               this.props.showPostMediaBox({uri: imageUrl, type: 'image'})
             }>
             <Image
-              style={styles.imageUrlContainer}
+              style={[
+                styles.imageUrlContainer,
+                {borderColor: theme.borderBottomColor},
+              ]}
               source={{uri: `${imageUrl}`}}
             />
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
         {hasUrlForPreview && (
-          <MemoUrlPreview text={message.replace(imageUrl, ' ')} />
+          <MemoUrlPreview text={message.replace(imageUrl, ' ')} theme={theme} />
         )}
       </>
     );
@@ -707,7 +725,8 @@ class Post extends React.Component {
                     : this.handleNavigationToProfile
                 }>
                 <Text>
-                  <Text style={[styles.username, {color: theme.primaryTextColor}]}>
+                  <Text
+                    style={[styles.username, {color: theme.primaryTextColor}]}>
                     {typeIsSystem ? 'System' : username}{' '}
                   </Text>
                   <Text style={styles.timespan}>
@@ -730,7 +749,7 @@ class Post extends React.Component {
               message={repost.message}
               metadata={repost.metadata}
               deleteAction={reported}
-              create_at={repost.created_at}
+              create_at={repost.create_at}
               replies={repost.replies}
               edit_at={repost.edit_at}
               type={repost.type}
@@ -795,7 +814,4 @@ const mapDispatchToProps = {
   deletePost,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
