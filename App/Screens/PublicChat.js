@@ -86,9 +86,9 @@ class PublicChat extends React.Component {
       </TouchableOpacity>
     ) : (
       <TouchableOpacity
-        style={{paddingHorizontal: 15}}
+        style={{paddingHorizontal: 15, paddingBottom: 6}}
         onPress={() => navigation.navigate('CreateChannel')}>
-        <Image source={assets[screenProps.themeName].TILT_ROCKET} />
+        <Image source={assets[screenProps.themeName].CREATE_CHANNEL} />
       </TouchableOpacity>
     ),
   });
@@ -96,7 +96,7 @@ class PublicChat extends React.Component {
   state = {
     index: 0,
     routes: [
-      {key: 'channels', title: 'MY CHANNELS'},
+      {key: 'channels', title: 'CHANNELS'},
       {key: 'discover', title: 'DISCOVER'},
     ],
     searchValue: '',

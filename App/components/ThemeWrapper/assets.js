@@ -34,6 +34,7 @@ const PLAY_UNFILLED = require('../../../assets/themes/light/play/play-unfilled.p
 const GEAR = require('../../../assets/themes/light/gear/gear.png');
 const DELETE_ITEM = require('../../../assets/themes/light/delete-image-from-input/blackCircleCancel.png');
 const CANCEL = require('../../../assets/themes/light/cancel/cancel.png');
+const CREATE_CHANNEL = require('../../../assets/themes/light/create-channel/createChannelPlus.png');
 
 //DARK ASSETS
 const LOGO_DARK = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -71,6 +72,7 @@ const PLAY_UNFILLED_DARK = require('../../../assets/themes/dark/play/play-unfill
 const GEAR_DARK = require('../../../assets/themes/dark/gear/gear.png');
 const DELETE_ITEM_DARK = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
 const CANCEL_DARK = require('../../../assets/themes/dark/cancel/cancel.png');
+const CREATE_CHANNEL_DARK = require('../../../assets/themes/dark/create-channel/createChannelPlus.png');
 
 //DARK_GRAY ASSETS
 const LOGO_DARK_GRAY = require('../../../assets/themes/dark/logo/logo-sign-up-dark.png');
@@ -108,6 +110,7 @@ const PLAY_UNFILLED_DARK_GRAY = require('../../../assets/themes/dark/play/play-u
 const GEAR_DARK_GRAY = require('../../../assets/themes/dark/gear/gear.png');
 const DELETE_ITEM_DARK_GRAY = require('../../../assets/themes/dark/delete-image-from-input/blackCircleCancel.png');
 const CANCEL_DARK_GRAY = require('../../../assets/themes/dark/cancel/cancel.png');
+const CREATE_CHANNEL_DARK_GRAY = require('../../../assets/themes/dark/create-channel/createChannelPlus.png');
 const assets = {
   light: {
     LOGO,
@@ -145,6 +148,7 @@ const assets = {
     GEAR,
     DELETE_ITEM,
     CANCEL,
+    CREATE_CHANNEL,
   },
   dark: {
     LOGO: LOGO_DARK,
@@ -182,6 +186,7 @@ const assets = {
     GEAR: GEAR_DARK,
     DELETE_ITEM: DELETE_ITEM_DARK,
     CANCEL: CANCEL_DARK,
+    CREATE_CHANNEL: CREATE_CHANNEL_DARK,
   },
   darkGray: {
     LOGO: LOGO_DARK_GRAY,
@@ -219,6 +224,7 @@ const assets = {
     GEAR: GEAR_DARK_GRAY,
     DELETE_ITEM: DELETE_ITEM_DARK_GRAY,
     CANCEL: CANCEL_DARK_GRAY,
+    CREATE_CHANNEL: CREATE_CHANNEL_DARK_GRAY,
   },
 };
 
