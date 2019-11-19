@@ -374,8 +374,6 @@ class Post extends React.Component {
         {
           text: 'Yes',
           onPress: async () => {
-            console.log(post_id);
-            console.log(postId);
             await this.props.deletePost(post_id);
             await this.props.deletePost(postId);
           },
@@ -474,6 +472,7 @@ class Post extends React.Component {
       disableInteractions,
       isPM,
       // reported,
+      post_props
     } = this.props;
     const typeIsSystem = type.match('system');
 
@@ -518,7 +517,9 @@ class Post extends React.Component {
                 typeIsSystem={typeIsSystem}
                 onChannel={navigateIfExists}
                 onUser={onUser}
+                props={post_props}
                 disableUserPattern={isPM}
+                post_props={post_props}
               />
               {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
             </View>
@@ -588,6 +589,7 @@ class Post extends React.Component {
       isAdminUser,
       postId,
       theme,
+      post_props,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);

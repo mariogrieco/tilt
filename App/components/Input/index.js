@@ -273,6 +273,18 @@ class Input extends React.Component {
           if (post.metadata.files) {
             file_ids = post.metadata.files.map(({id}) => id);
           }
+          if (post.props) {
+            if (post.percent_change) {
+              const percent_change = await this.getDollarValuesProps();
+              if (percent_change) {
+                post.props.percent_change = percent_change;
+              } else {
+                post.props.percent_change = null;
+                delete post.props.percent_change;
+              }
+            }
+          }
+
           await this.props.updatePost({
             ...post,
             message: parsedValue,
@@ -624,6 +636,21 @@ class Input extends React.Component {
     }
 
     return currentIndex !== null;
+  }
+
+  getPropsEditValuesFor () {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    return propsFor;
   }
 
    getDollarValuesProps = async () => {

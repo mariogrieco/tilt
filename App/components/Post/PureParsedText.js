@@ -58,7 +58,7 @@ export class PureParsedText extends Component {
             pattern: this.getChannelDollarPattern(),
             style: styles.channelPatter,
             onPress: this.onChannelPress.bind(this),
-            renderText: this.renderTextD,
+            renderText: this.renderTextD.bind(this),
           },
           {
             pattern: this.getChannelTagPatter(),
@@ -99,7 +99,7 @@ export class PureParsedText extends Component {
           pattern: this.getChannelDollarPattern(),
           style: styles.channelPatter,
           onPress: this.onChannelPress.bind(this),
-          renderText: this.renderTextD,
+          renderText: this.renderTextD.bind(this),
         },
         {
           pattern: this.getMentionPatter(),
@@ -314,7 +314,19 @@ export class PureParsedText extends Component {
   }
 
   renderTextD(text) {
-    return `$${text.replace('$', '')}`;
+    const {post_props} = this.props;
+    if (post_props) {
+      console.log('post_props: ', post_props.percent_change);
+    }
+    text = text.replace('$', '');
+    if (
+      post_props &&
+      post_props.percent_change &&
+      post_props.percent_change[text]
+    ) {
+      return `$${text}  ${post_props.percent_change[text] || ''}`;
+    }
+    return `$${text}`;
   }
 
   renderTextH(text) {
