@@ -14,7 +14,7 @@ const PostFeed = ({
   type,
   postedChannelName,
 }) => {
-  const user = useSelector(state => state.users.data[postUserId]);
+  const user = useSelector(state => state.users.data[postUserId] || {});
   return (
     <View style={styles.container}>
       <Post
