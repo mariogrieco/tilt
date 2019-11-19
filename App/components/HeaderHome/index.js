@@ -4,9 +4,7 @@ import {TouchableOpacity, Image, View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import Search from '../WatchListSearch';
 import styles from './styles';
-import assets from '../ThemeWrapper/assets';
-
-// const MENU_IMAGE = require('../../../assets/themes/light/menu/menu.png');
+import assets from '../../config/themeAssets/assets'; // const MENU_IMAGE = require('../../../assets/themes/light/menu/menu.png');
 
 class HeaderHome extends React.Component {
   state = {

@@ -27,7 +27,7 @@ import {navigateIfExists} from '../../actions/channels';
 import {mod_user_id, tilt_user_id, moderator_user_id} from '../../globals';
 import styles from './styles';
 
-import assets from '../ThemeWrapper/assets';
+import assets from '../../config/themeAssets/assets';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -446,7 +446,4 @@ const mapDispatchToProps = {
   addOrRemoveOne,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PostBottomActions);
+export default connect(mapStateToProps, mapDispatchToProps)(PostBottomActions);

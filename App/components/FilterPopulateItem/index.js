@@ -5,9 +5,7 @@ import isEqual from 'lodash/isEqual';
 import {connect} from 'react-redux';
 
 import styles from './styles';
-import assets from '../ThemeWrapper/assets';
-
-const PLUS_BOX = require('../../../assets/themes/light/plus-box/plus-box.png');
+import assets from '../../config/themeAssets/assets';
 
 export class FilterPopulateItem extends Component {
   static propTypes = {
@@ -87,7 +85,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilterPopulateItem);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterPopulateItem);

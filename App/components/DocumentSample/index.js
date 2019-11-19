@@ -7,8 +7,7 @@ import {Files} from '../Input/file_utils';
 import Client4 from '../../api/MattermostClient';
 
 import styles from './styles';
-import assets from '../ThemeWrapper/assets';
-// import RNFS from 'react-native-fs';
+import assets from '../../config/themeAssets/assets'// import RNFS from 'react-native-fs';
 // import RNBackgroundDownloader from 'react-native-background-downloader';
 
 // const DOWNLOAD_FILLED = require('../../../assets/themes/light/download-filled/download-filled.png');

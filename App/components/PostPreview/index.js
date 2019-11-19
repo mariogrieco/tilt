@@ -27,7 +27,6 @@ const PostPreview = ({
         edit_at={editedAt}
         type={type}
         username={user.username}
-        disableInteractions
         extendedDateFormat
         postedChannelName={postedChannelName}
       />
