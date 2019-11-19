@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
+  FlatList,
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
-import {NavigationActions, withNavigation} from 'react-navigation';
+import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import GoBack from '../components/GoBack';
 import Input from '../components/Input';
@@ -14,7 +14,6 @@ import getThreadForPost from '../selectors/getThreadForPost';
 import getPostById from '../selectors/getPostById';
 
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import parser from '../utils/parse_display_name';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 class Thread extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -31,9 +30,25 @@ class Thread extends React.Component {
     }),
   });
 
-  parsePlaceHolder(str = '') {
-    return parser(str);
-  }
+  renderItem = ({item: post}) => (
+    <Post
+      postId={post.id}
+      userId={post.user_id}
+      last_picture_update={post.user ? post.user.last_picture_update : ''}
+      key={post.id}
+      message={post.message}
+      username={post.user ? post.user.username : ''}
+      metadata={post.metadata}
+      createdAt={post.create_at}
+      type={post.type}
+      edit_at={post.edit_at}
+      thread
+      replies={post.replies}
+      // channelsNames={channelsNames}
+      // usernames={usernames}
+      isReply
+    />
+  );
 
   render() {
     const {channelId, thread, root_id, replyTo, theme} = this.props;
@@ -42,31 +57,13 @@ class Thread extends React.Component {
     return (
       <SafeAreaView
         style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
-        <ScrollView
+        <FlatList
           keyboardDismissMode="on-drag"
-          contentContainerStyle={{paddingTop: 0}}>
-          {thread.map(post => (
-            <Post
-              postId={post.id}
-              userId={post.user ? post.user.id : ''}
-              last_picture_update={
-                post.user ? post.user.last_picture_update : ''
-              }
-              key={post.id}
-              message={post.message}
-              username={post.user ? post.user.username : ''}
-              metadata={post.metadata}
-              createdAt={post.create_at}
-              type={post.type}
-              edit_at={post.edit_at}
-              thread
-              replies={post.replies}
-              // channelsNames={channelsNames}
-              // usernames={usernames}
-              isReply
-            />
-          ))}
-        </ScrollView>
+          contentContainerStyle={{paddingTop: 0}}
+          data={thread}
+          renderItem={this.renderItem}
+        />
+
         <KeyboardAvoidingView
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>
@@ -94,23 +91,63 @@ function getRootID(post) {
   return post.id;
 }
 
-const mapStateToProps = state => {
-  const postData = state.posts.entities[state.appNavigation.active_thread_data];
-  const root_id = postData ? getRootID(postData) : null;
-  const rootPost = getPostById(state, root_id);
+// this will me move to selector folder soon.
+
+const threadSelector = state => {
+  const activePost = state.appNavigation.active_thread_data;
+  const postEntity = state.posts.entities[activePost];
+  const postFeed = state.feeds.posts[activePost];
+
+  if (postEntity) {
+    console.log('lo encontre en entities');
+    const root_id = getRootID(postEntity);
+    const rootPost = getPostById(state, root_id);
+    return {
+      thread: getThreadForPost(state, postEntity),
+      root_id,
+      channel_id: postEntity.channel_id,
+      replyTo: rootPost && rootPost.user ? rootPost.user.username : null,
+      replyMessage: rootPost.message,
+    };
+  }
+
+  if (postFeed) {
+    console.log('lo encontre en feed');
+    const thread = [
+      postFeed,
+      ...postFeed.feed_thread.map(
+        postReplyKey => state.feeds.posts[postReplyKey],
+      ),
+    ];
+    console.log('thread a renderizar', thread);
+
+    return {
+      thread,
+      root_id: postFeed.id,
+      channel_id: postFeed.channel_id,
+      replyTo: state.users.data[postFeed.user_id].username,
+      replyMessage: postFeed.message,
+    };
+  }
+
+  console.log('no encontre nada');
+
   return {
-    thread: getThreadForPost(state, postData),
-    replyTo: rootPost && rootPost.user ? rootPost.user.username : null,
-    channelId: postData ? postData.channel_id : null,
-    root_id,
-    replyMessage: rootPost ? rootPost.message : '',
+    thread: [],
+    replyTo: null,
+    channelId: null,
+    root_id: null,
+    replyMessage: '',
+  };
+};
+
+const mapStateToProps = state => {
+  console.log('post id para thread', state.appNavigation.active_thread_data);
+
+  return {
+    ...threadSelector(state),
     theme: state.themes[state.themes.current],
   };
 };
 
-export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Thread),
-);
+export default connect(mapStateToProps, mapDispatchToProps)(Thread);
