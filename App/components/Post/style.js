@@ -8,6 +8,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     marginVertical: 10,
+    position: 'relative',
   },
   repostContainer: {
     paddingLeft: 10,
@@ -86,18 +87,35 @@ export default StyleSheet.create({
     borderRadius: 3.5,
     marginLeft: 3,
   },
+  dots: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   dotContainer: {
-    paddingTop: 8,
-    paddingBottom: 10,
-    paddingLeft: 60,
     paddingRight: 15,
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     position: 'absolute',
     zIndex: 999,
     top: 0,
     right: 0,
   },
+
+  joinText: {
+    fontSize: 15,
+    fontFamily: 'SFProDisplay-Bold',
+    color: '#FFF',
+  },
+
+  joinButton: {
+    paddingRight: 12,
+    paddingLeft: 13,
+    paddingVertical: 3,
+    borderRadius: 14,
+    marginRight: 15,
+  },
+
   jumpContainer: {
     paddingTop: 0,
     paddingBottom: 10,

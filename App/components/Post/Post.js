@@ -36,6 +36,7 @@ import Repost from '../Repost';
 import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
 import {getReportIfNeeded} from '../../selectors/getReportIfNeeded';
 import styles from './style';
+import ChannelDisplayNameStyles from '../ChannelDisplayName/styles';
 
 const FILE_NOT_FOUND = require('../../../assets/themes/light/file-not-found/file-not-found.png');
 const TILT_SYSTEM_LOGO = require('../../../assets/themes/light/tilt-logo/tilt-logo.png');
@@ -622,12 +623,18 @@ class Post extends React.Component {
       userId,
       last_picture_update,
     );
+    console.log('join style', ChannelDisplayNameStyles);
     return (
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
-        {!typeIsSystem && !disableDots && !isRepost && (
-          <View style={styles.dotContainer}>
+        <View style={styles.dotContainer}>
+          <TouchableOpacity
+            style={[styles.joinButton, {backgroundColor: '#17c491'}]}>
+            <Text style={[styles.joinText, {color: '#FFF'}]}>JOIN</Text>
+          </TouchableOpacity>
+
+          {!typeIsSystem && !disableDots && !isRepost && (
             <TouchableOpacity
-              style={[styles.dotContainer]}
+              style={[styles.dots]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
               <View
                 style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
@@ -639,8 +646,8 @@ class Post extends React.Component {
                 style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />
             </TouchableOpacity>
-          </View>
-        )}
+          )}
+        </View>
         {deleteAction && isAdminUser && this.renderDelteText()}
         {jumpTo && !isRepost && (
           <TouchableOpacity
