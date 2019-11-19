@@ -28,7 +28,8 @@ const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
 const styles = StyleSheet.create({
   parserName: {
-    padding: 10,
+    paddingLeft: 10,
+    paddingTop: 10,
     fontFamily: 'SFProDisplay-Regular',
     fontSize: 16,
     letterSpacing: 0.1,

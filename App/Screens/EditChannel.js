@@ -30,7 +30,8 @@ const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   parserName: {
-    padding: 10,
+    paddingLeft: 10,
+    paddingTop: 10,
     fontFamily: 'SFProDisplay-Regular',
     fontSize: 16,
     letterSpacing: 0.1,
@@ -317,7 +318,8 @@ class EditChannel extends React.Component {
             onChangeText={this.onChangeTitle}
           />
           <Separator />
-          <Text style={[styles.parserName, {color: theme.placeholderTextColor}]}>
+          <Text
+            style={[styles.parserName, {color: theme.placeholderTextColor}]}>
             {' '}
             URL: {this.parseName(title)}
           </Text>
