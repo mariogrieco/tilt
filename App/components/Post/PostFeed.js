@@ -1,10 +1,10 @@
 import React from 'react';
+import StyleSheet from 'react-native-extended-stylesheet';
 import {View} from 'react-native';
 import {useSelector} from 'react-redux';
-import Post from '../Post/Post';
-import styles from './styles';
+import Post from './Post';
 
-const PostPreview = ({
+const PostFeed = ({
   id,
   postUserId,
   message,
@@ -29,9 +29,16 @@ const PostPreview = ({
         username={user.username}
         extendedDateFormat
         postedChannelName={postedChannelName}
+        isFeedPost
       />
     </View>
   );
 };
 
-export default PostPreview;
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 4,
+  },
+});
+
+export default PostFeed;

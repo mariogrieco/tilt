@@ -3,7 +3,7 @@ import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import Separator from '../Separator';
-import PostPreview from '../PostPreview';
+import PostFeed from '../Post/PostFeed';
 import {getFeeds} from '../../actions/feeds';
 
 const Feeds = ({navigation}) => {
@@ -36,7 +36,7 @@ const Feeds = ({navigation}) => {
     }${channel.display_name}`;
 
     return (
-      <PostPreview
+      <PostFeed
         id={post.id}
         metada={post.metada}
         postUserId={post.user_id}

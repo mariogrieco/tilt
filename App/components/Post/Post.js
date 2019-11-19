@@ -325,13 +325,22 @@ class Post extends React.Component {
   };
 
   onPostPress = () => {
-    const {postId, userId, isReply, isPM, allowRepost, repost} = this.props;
+    const {
+      postId,
+      userId,
+      isReply,
+      isPM,
+      allowRepost,
+      repost,
+      isFeedPost,
+    } = this.props;
     this.props.showPostActions(userId, postId, {
       hideReply: isReply,
       isPM,
       showRepost: postId,
       showRepostNoRequieredRedirect:
         repost && !allowRepost ? repost.channel_id : null,
+      isFeedPost,
     });
   };
 
