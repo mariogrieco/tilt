@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   containerJoin: {
     flexDirection: 'row',
-    marginTop: '1rem',
+    marginTop: 10,
     marginLeft: 15,
   },
   header: {
