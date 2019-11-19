@@ -29,6 +29,9 @@ const W = Dimensions.get('REAL_WINDOW_WIDTH');
 const styles = StyleSheet.create({
   parserName: {
     padding: 10,
+    fontFamily: 'SFProDisplay-Regular',
+    fontSize: 16,
+    letterSpacing: 0.1,
   },
   modal: {
     width: '20rem',
@@ -226,7 +229,7 @@ class CreateChannel extends React.Component {
   };
 
   parseName(name = '') {
-    return (name||'')
+    return (name || '')
       .split(' ')
       .join('-')
       .toLowerCase();
@@ -303,8 +306,12 @@ class CreateChannel extends React.Component {
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
           />
-          <Text style={styles.parserName}> URL: {this.parseName(title)}</Text>
           <Separator />
+          <Text
+            style={[styles.parserName, {color: theme.placeholderTextColor}]}>
+            {' '}
+            URL: {this.parseName(title)}
+          </Text>
         </CreateChannelField>
         <Spacer />
         <KeyboardAvoidingView
@@ -376,4 +383,7 @@ const mapDispatchToProps = {
   createChannel,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateChannel);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CreateChannel);
