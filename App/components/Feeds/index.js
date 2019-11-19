@@ -5,6 +5,7 @@ import {withNavigation} from 'react-navigation';
 import Separator from '../Separator';
 import PostFeed from '../Post/PostFeed';
 import {getFeeds} from '../../actions/feeds';
+import parse_channel_name from '../../utils/fix_name_if_need';
 
 const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);
@@ -28,12 +29,22 @@ const Feeds = ({navigation}) => {
     return clean;
   }, [dispatch, navigation]);
 
+  const evaluateChannelForMention = channel => {
+    if (channel.name === 'welcome') {
+      return '#welcome';
+    }
+
+    const name = `${adminCreators.includes(channel.creator_id) ? '$' : '#'}${
+      channel.name
+    }`;
+
+    return name;
+  };
+
   const renderItem = ({item: postId}) => {
     const post = feeds.posts[postId];
-    const channel = feeds.channels[post.channel_id];
-    const postedChannelName = `${
-      adminCreators.includes(channel.creator_id) ? '$' : '#'
-    }${channel.display_name}`;
+    const channel = parse_channel_name(feeds.channels[post.channel_id]);
+    const postedChannelName = evaluateChannelForMention(channel);
 
     return (
       <PostFeed
