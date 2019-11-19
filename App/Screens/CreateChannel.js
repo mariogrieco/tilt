@@ -27,6 +27,9 @@ const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
 const styles = StyleSheet.create({
+  parserName: {
+    padding: 10,
+  },
   modal: {
     width: '20rem',
     alignSelf: 'center',
@@ -182,7 +185,7 @@ class CreateChannel extends React.Component {
         if (title !== null && header !== null) {
           try {
             await this.props.createChannel({
-              title,
+              title: this.parseName(title),
               purpose,
               header,
             });
@@ -218,6 +221,13 @@ class CreateChannel extends React.Component {
       },
     );
   };
+
+  parseName(name = '') {
+    return (name||'')
+      .split(' ')
+      .join('-')
+      .toLowerCase();
+  }
 
   renderModalPublic = () => {
     const {theme} = this.props;
@@ -290,6 +300,7 @@ class CreateChannel extends React.Component {
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
           />
+          <Text style={styles.parserName}> URL: {this.parseName(title)}</Text>
           <Separator />
         </CreateChannelField>
         <Spacer />
