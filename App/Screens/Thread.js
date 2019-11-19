@@ -105,7 +105,7 @@ const threadSelector = state => {
     return {
       thread: getThreadForPost(state, postEntity),
       root_id,
-      channel_id: postEntity.channel_id,
+      channelId: postEntity.channel_id,
       replyTo: rootPost && rootPost.user ? rootPost.user.username : null,
       replyMessage: rootPost.message,
     };
@@ -124,7 +124,7 @@ const threadSelector = state => {
     return {
       thread,
       root_id: postFeed.id,
-      channel_id: postFeed.channel_id,
+      channelId: postFeed.channel_id,
       replyTo: state.users.data[postFeed.user_id].username,
       replyMessage: postFeed.message,
     };
