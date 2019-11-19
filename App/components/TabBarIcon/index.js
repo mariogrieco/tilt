@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, View} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {connect} from 'react-redux';
-import assets from '../ThemeWrapper/assets';
+import assets from '../../config/themeAssets/assets';
 import {
   notifyMessageIconForPrivateTab,
   notifyMessageIconForPublicTab,
@@ -28,14 +28,11 @@ const TabBarIcon = ({
   hasUnreadPrivateMessage,
   hasUnreadPublicMessage,
 }) => {
-  console.log(routeName);
   switch (routeName) {
     case 'Watchlist':
       return (
         <Image
-          source={
-            assets[themeName][`WATCHLIST_${focused ? 'FOCUS' : 'UNFOCUS'}`]
-          }
+          source={assets[themeName][`HOME_${focused ? 'FOCUS' : 'UNFOCUS'}`]}
         />
       );
     case 'Chat':
