@@ -1,8 +1,9 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import ThemeTabBar from '../components/ThemeTabBar';
+import TabBarIcon from '../components/TabBarIcon';
 import Home from '../Screens/Home';
 import PublicChat from '../Screens/PublicChat';
 import CryptoRoom from '../Screens/CryptoRoom';
@@ -13,7 +14,6 @@ import PhoneNumber from '../Screens/PhoneNumber';
 import LoggedIn from '../Screens/LoggedIn';
 import LoggedInMenu from '../Screens/LoggedInMenu';
 import Verification from '../Screens/Verification';
-import setAvatar from '../Screens/setAvatar';
 import PasswordReset from '../Screens/PasswordReset';
 import CreateChannel from '../Screens/CreateChannel';
 import EditChannel from '../Screens/EditChannel';
@@ -30,17 +30,7 @@ import InviteContacts from '../Screens/InviteContacts';
 import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
-import {stackHeader, headerForScreenWithTabs} from './navigationHeaderStyle';
-import StyleSheet from 'react-native-extended-stylesheet';
-
-const POLL_FOCUS = require('../../assets/images/poll_focus/poll.png');
-const POLL_UNFOCUS = require('../../assets/images/poll_unfocus/poll.png');
-const HASHTAG_FOCUS = require('../../assets/images/hashtag_focus/hashtag_focus.png');
-const HASHTAG_UNFOCUS = require('../../assets/images/hashtag_unfocus/hashtag_unfocus.png');
-const PROFILE_FOCUS = require('../../assets/images/profile_focus/profile.png');
-const PROFILE_UNFOCUS = require('../../assets/images/profile_unfocus/profile.png');
-const MESSAGES_FOCUS = require('../../assets/images/message_black/envelope.png');
-const MESSAGES_UNFOCUS = require('../../assets/images/messages-gray/envelope.png');
+import Themes from '../Screens/Themes';
 
 const HomeStack = createStackNavigator(
   {
@@ -48,17 +38,6 @@ const HomeStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={POLL_FOCUS} />
-        ) : (
-          <Image source={POLL_UNFOCUS} />
-        ),
-    },
   },
 );
 
@@ -68,9 +47,6 @@ const RoomStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -82,24 +58,12 @@ const SignUpStack = createStackNavigator(
     TermsWeb,
     PhoneNumber,
     Verification,
-    setAvatar,
     PasswordReset,
     Recovery,
   },
   {
     // headerMode: 'none',
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...headerForScreenWithTabs,
-    },
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={PROFILE_FOCUS} />
-        ) : (
-          <Image source={PROFILE_UNFOCUS} />
-        ),
-    },
   },
 );
 
@@ -110,17 +74,6 @@ const LoggedInTab = createStackNavigator(
   {
     // headerMode: 'none',
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={PROFILE_FOCUS} />
-        ) : (
-          <Image source={PROFILE_UNFOCUS} />
-        ),
-    },
   },
 );
 
@@ -130,17 +83,6 @@ const PublicChatStack = createStackNavigator(
     CreateChannel,
   },
   {
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={HASHTAG_FOCUS} />
-        ) : (
-          <Image source={HASHTAG_UNFOCUS} />
-        ),
-    },
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
     headerLayoutPreset: 'center',
   },
 );
@@ -150,17 +92,6 @@ const MessagesStack = createStackNavigator(
     Messages,
   },
   {
-    navigationOptions: {
-      tabBarIcon: ({focused}) =>
-        focused ? (
-          <Image source={MESSAGES_FOCUS} />
-        ) : (
-          <Image source={MESSAGES_UNFOCUS} />
-        ),
-    },
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
     headerLayoutPreset: 'center',
   },
 );
@@ -173,22 +104,17 @@ const TabBarPrincipal = createBottomTabNavigator(
     Profile: LoggedInTab,
   },
   {
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused}) => {
+        const {routeName} = navigation.state;
+        return <TabBarIcon routeName={routeName} focused={focused} />;
+      },
+    }),
+    tabBarComponent: props => <ThemeTabBar {...props} />,
     tabBarOptions: {
       labelStyle: {
         fontSize: 18,
         letterSpacing: 0.1,
-      },
-      style: {
-        borderTopColor: '#DCDCDC',
-        borderTopWidth: StyleSheet.hairlineWidth,
-        // shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        // shadowOpacity: 0.15,
-        // shadowRadius: 3.84,
-        elevation: 0,
       },
       showIcon: true,
       showLabel: false,
@@ -201,13 +127,10 @@ const LoggedInMenuStack = createStackNavigator(
     LoggedInMenu,
     BlockUser,
     EditProfile,
-    BlockUser,
+    Themes,
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -217,9 +140,6 @@ const MemberStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -233,9 +153,6 @@ const ChannelStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -245,9 +162,6 @@ const ThreadStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -257,9 +171,6 @@ const ThreadEditStack = createStackNavigator(
   },
   {
     headerLayoutPreset: 'center',
-    defaultNavigationOptions: {
-      ...stackHeader,
-    },
   },
 );
 
@@ -268,10 +179,6 @@ const InviteContactsStack = createStackNavigator(
     InviteContacts,
   },
   {
-    defaultNavigationOptions: {
-      title: 'Invite Contacts',
-      ...stackHeader,
-    },
     headerLayoutPreset: 'center',
   },
 );

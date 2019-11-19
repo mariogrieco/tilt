@@ -22,8 +22,11 @@ import {
   encodeHeaderURIStringToUTF8,
   // buildFileUploadData
 } from '../components/Input/file_utils';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import {Input} from '../components/CreateChannelField';
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
   profilePictureContainer: {
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   rowTitle: {
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   rowInput: {
     backgroundColor: '#FFF',
@@ -83,20 +86,29 @@ class EditProfile extends React.PureComponent {
     return null;
   }
 
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Edit Profile',
-    headerLeft: <GoBack onPress={() => navigation.goBack()} icon={BACK} />,
+    headerLeft: (
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+    ),
     headerRight: (
       <TouchableOpacity
         style={{
           paddingHorizontal: 15,
           paddingVertical: 13,
-          backgroundColor: '#fff',
+          backgroundColor: screenProps.theme.primaryBackgroundColor,
         }}
         onPress={navigation.getParam('onSave', () => {})}>
         <Text style={styles.saveButton}>Save</Text>
       </TouchableOpacity>
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -107,7 +119,9 @@ class EditProfile extends React.PureComponent {
   };
 
   _updateUser = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
@@ -193,7 +207,9 @@ class EditProfile extends React.PureComponent {
 
   _saveProfilePicture = async () => {
     const {profilePicture, newProfile} = this.state;
-    if (!newProfile) return null;
+    if (!newProfile) {
+      return null;
+    }
     const {data} = this.prepareFileToUpload(profilePicture);
     try {
       const userId = this.props.user.id;
@@ -208,58 +224,117 @@ class EditProfile extends React.PureComponent {
   render() {
     const {firstName, lastName, position, profilePicture} = this.state;
     const {pictureUrl} = this.props;
+    const {theme} = this.props;
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 85 : 0;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         <KeyboardAvoidingView
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>
-          <View style={styles.profilePictureContainer}>
+          <View
+            style={[
+              styles.profilePictureContainer,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
             <Picture
               source={{uri: profilePicture ? profilePicture.uri : pictureUrl}}
               camera
               onPressCamera={this.onProfilePictureChange}
             />
           </View>
-          <Separator />
-          <View style={[styles.row, styles.rowTitle]}>
-            <Text style={styles.title}>First Name</Text>
+          <View
+            style={[
+              styles.row,
+              styles.rowTitle,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
+            <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+              First Name
+            </Text>
           </View>
           <Separator />
           <TextInput
             ref={this.inputRefFirst}
-            style={[styles.row, styles.rowInput, styles.input]}
+            style={[
+              styles.row,
+              styles.rowInput,
+              styles.input,
+              {
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              },
+            ]}
             value={firstName}
             placeholder="Enter you first name"
             onChangeText={this.onFirstNameChange}
+            selectionColor="#17C491"
+            placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
-          <View style={[styles.row, styles.rowTitle]}>
-            <Text style={styles.title}>Last Name</Text>
+          <View
+            style={[
+              styles.row,
+              styles.rowTitle,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
+            <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+              Last Name
+            </Text>
           </View>
           <Separator />
           <TextInput
             ref={this.inputRefName}
-            style={[styles.row, styles.rowInput, styles.input]}
+            style={[
+              styles.row,
+              styles.rowInput,
+              styles.input,
+              {
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              },
+            ]}
             value={lastName}
             placeholder="Enter your last name"
             onChangeText={this.onLastNameChange}
+            selectionColor="#17C491"
+            placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
-          <View style={[styles.row, styles.rowTitle]}>
-            <Text style={styles.title}>Bio</Text>
+          <View
+            style={[
+              styles.row,
+              styles.rowTitle,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
+            <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+              Bio
+            </Text>
           </View>
           <Separator />
           <TextInput
             ref={this.inputRefPosition}
-            style={[styles.row, styles.rowInput, styles.input, styles.bio]}
+            style={[
+              styles.row,
+              styles.rowInput,
+              styles.input,
+              styles.bio,
+              {
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              },
+            ]}
             value={position}
             placeholder="Share something unique about yourself."
             onChangeText={this.onPositionChange}
             multiline
             autoCapitalize="none"
+            selectionColor="#17C491"
+            placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
         </KeyboardAvoidingView>
@@ -268,9 +343,10 @@ class EditProfile extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({login: {user}}) => ({
+const mapStateToProps = ({login: {user}, themes}) => ({
   user: cloneDeep(user),
   pictureUrl: getUserProfilePicture(user.id, user.last_picture_update),
+  theme: themes[themes.current],
 });
 
 const mapDispatchToProps = {

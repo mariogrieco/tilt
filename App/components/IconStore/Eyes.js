@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import {Image, Platform} from 'react-native';
 
-const EYES = require('../../../assets/images/eyes/eyes.png');
-const EYES2 = require('../../../assets/images/eyes2/eyes2.png');
+const EYES = require('../../../assets/themes/light/eyes/eyes.png');
+const EYES2 = require('../../../assets/themes/light/eyes2/eyes2.png');
 
 export default class Eyes extends PureComponent {
   render() {

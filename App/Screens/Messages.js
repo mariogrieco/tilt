@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import Flagged from '../components/Flagged';
 import PrivateMessages from '../components/PrivateMessages';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
+import {connect} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
@@ -38,9 +39,15 @@ const styles = StyleSheet.create({
 });
 
 class Messages extends React.Component {
-  static navigationOptions = () => ({
+  static navigationOptions = ({screenProps}) => ({
     title: 'Messages',
-    ...headerForScreenWithTabs,
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
     headerTitleStyle: {
       fontSize: 18,
       fontFamily: 'SFProDisplay-Bold',
@@ -63,6 +70,7 @@ class Messages extends React.Component {
   }
 
   render() {
+    const {theme} = this.props;
     return (
       <React.Fragment>
         <TabView
@@ -76,7 +84,13 @@ class Messages extends React.Component {
           renderTabBar={props => (
             <TabBar
               {...props}
-              style={styles.tabBar}
+              style={[
+                styles.tabBar,
+                {
+                  backgroundColor: theme.primaryBackgroundColor,
+                  borderBottomColor: theme.borderBottomColor,
+                },
+              ]}
               labelStyle={styles.label}
               indicatorStyle={styles.indicator}
               activeColor={'#17C491'}
@@ -90,4 +104,5 @@ class Messages extends React.Component {
   }
 }
 
-export default Messages;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(Messages);

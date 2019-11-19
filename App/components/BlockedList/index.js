@@ -44,8 +44,16 @@ class BlockedList extends Component {
   };
 
   renderItem({id, last_picture_update, username}) {
+    const {theme} = this.props;
     return (
-      <View style={styles.itemContainer}>
+      <View
+        style={[
+          styles.itemContainer,
+          {
+            backgroundColor: theme.primaryBackgroundColor,
+            borderColor: theme.borderBottomColor,
+          },
+        ]}>
         <View style={styles.imageContainer}>
           <Image
             style={[styles.profileImage, {resizeMode: 'cover'}]}
@@ -53,7 +61,9 @@ class BlockedList extends Component {
               uri: getUserProfilePicture(id, last_picture_update),
             }}
           />
-          <Text style={styles.username}>{username}</Text>
+          <Text style={[styles.username, {color: theme.primaryTextColor}]}>
+            {username}
+          </Text>
         </View>
         <TouchableOpacity onPress={this._addOrRemoveOne.bind(this, id)}>
           <Text style={styles.unlock}>Unblock</Text>
@@ -100,12 +110,13 @@ class BlockedList extends Component {
   }
 
   render() {
+    const {theme} = this.props;
     return (
       <ScrollView
         style={{
           width: '100%',
           paddingRight: 0,
-          backgroundColor: '#F6F7F9',
+          backgroundColor: theme.secondaryBackgroundColor,
         }}>
         {this.props.users.map(user => this.renderItem(user))}
       </ScrollView>
@@ -124,6 +135,7 @@ const mapDispatchToProps = state => {
       .map(key => state.users.data[key])
       .filter(i => i),
     whoIam: state.login.user ? state.login.user.id : null,
+    theme: state.themes[state.themes.current],
   };
 };
 

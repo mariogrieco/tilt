@@ -10,7 +10,7 @@ import styles from './styles';
 import parser from '../../utils/parse_display_name';
 import Separator from '../Separator';
 
-const SATELLITE = require('../../../assets/images/satellite/satellite.png');
+const SATELLITE = require('../../../assets/themes/light/satellite/satellite.png');
 
 class PrivateMessages extends React.Component {
   parseDisplayName(str = '') {
@@ -20,6 +20,7 @@ class PrivateMessages extends React.Component {
   renderItem = ({item: channel}) => {
     const lastPost = channel.posts[0];
     const channelName = channel.show_name;
+    const {theme} = this.props;
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -34,7 +35,7 @@ class PrivateMessages extends React.Component {
             pm: true,
           });
         }}
-        style={{backgroundColor: '#fff', paddingTop: 10}}>
+        style={{backgroundColor: theme.primaryBackgroundColor, paddingTop: 10}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text
             style={[
@@ -45,7 +46,11 @@ class PrivateMessages extends React.Component {
           </Text>
           {channel.unreadMessagesCount > 0 && (
             <View style={styles.unreadMessages}>
-              <Text style={styles.unreadText}>
+              <Text
+                style={[
+                  styles.unreadText,
+                  {color: theme.primaryBackgroundColor},
+                ]}>
                 {channel.unreadMessagesCount}
               </Text>
             </View>
@@ -53,6 +58,7 @@ class PrivateMessages extends React.Component {
         </View>
         {lastPost && (
           <Post
+            post_props={lastPost.props}
             postId={lastPost.id}
             userId={lastPost.user ? lastPost.user.id : ''}
             last_picture_update={lastPost.user.last_picture_update}
@@ -74,25 +80,34 @@ class PrivateMessages extends React.Component {
     );
   };
 
-  renderEmptyList = () => (
-    <View style={styles.emptyContainer}>
-      <Image source={SATELLITE} />
-      <Text style={styles.emptyText}>
-        Your inbox is empty. It's time to send your first direct message.
-      </Text>
-    </View>
-  );
+  renderEmptyList = () => {
+    const {theme} = this.props;
+    return (
+      <View
+        style={[
+          styles.emptyContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}>
+        <Image source={SATELLITE} />
+        <Text style={[styles.emptyText, {color: theme.placeholderTextColor}]}>
+          Your inbox is empty. It's time to send your first direct message.
+        </Text>
+      </View>
+    );
+  };
 
   render() {
     const {privateChanels} = this.props;
-
     const allPosts = privateChanels.map(channel => channel.posts);
-
+    const {theme} = this.props;
     return (
       <FlatList
         data={privateChanels}
         keyExtractor={item => item.id}
-        style={styles.listContainer}
+        style={[
+          styles.listContainer,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}
         renderItem={this.renderItem}
         ListEmptyComponent={this.renderEmptyList}
         extraData={allPosts}
@@ -107,6 +122,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   privateChanels: getPrivateMessagesChnnelsList(state, 'D'),
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(

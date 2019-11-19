@@ -21,14 +21,14 @@ export default StyleSheet.create({
   listContainer: {
     // paddingLeft: 10,
     paddingBottom: 10,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   channelTitleContainer: {
     paddingLeft: 10,
     paddingTop: 10,
   },
   channelTitle: {
-    color: '#005493',
+    color: '#017AFE',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1,

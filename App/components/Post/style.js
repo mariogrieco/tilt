@@ -2,6 +2,14 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import Platform from 'react-native';
 
 export default StyleSheet.create({
+  red: {
+    color: '#fc3e30',
+    textTransform: 'uppercase',
+  },
+  green: {
+    color: '#17c491',
+    textTransform: 'uppercase',
+  },
   container: {
     paddingLeft: 10,
     paddingRight: 15,
@@ -83,7 +91,6 @@ export default StyleSheet.create({
   dot: {
     width: 3.5,
     height: 3.5,
-    backgroundColor: '#0e141e',
     borderRadius: 3.5,
     marginLeft: 3,
   },
@@ -170,7 +177,6 @@ export default StyleSheet.create({
     width: 3,
     minHeight: 10,
     height: '100%',
-    backgroundColor: '#EBEBEB',
     flex: 5,
     borderRadius: 1.5,
   },

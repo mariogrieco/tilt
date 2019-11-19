@@ -4,10 +4,10 @@ import Platform from 'react-native';
 export default StyleSheet.create({
   listContainer: {
     paddingBottom: 10,
-    backgroundColor: '#f6f7f9',
+    backgroundColor: '#F6F7F9',
   },
   channelName: {
-    color: '#005493',
+    color: '#017AFE',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1,
@@ -42,7 +42,7 @@ export default StyleSheet.create({
     borderRadius: 11,
     paddingHorizontal: 8,
     backgroundColor: '#17C491',
-    height: 22,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

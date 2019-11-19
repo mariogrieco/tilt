@@ -32,9 +32,10 @@ import {getStatuses} from '../actions/statuses';
 //   getCommandsList
 // } from '../actions/commands';
 import InputSeparator from '../components/InputSeparator';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
-// const EMAIL = require('../../assets/images/message_black/envelope.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
+// const EMAIL = require('../../assets/themes/light/message_black/envelope.png');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -42,6 +43,9 @@ const DismissKeyboard = ({children}) => (
   </TouchableWithoutFeedback>
 );
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+  },
   placeholders: {
     fontSize: 16,
     letterSpacing: 0.1,
@@ -107,14 +111,21 @@ const styles = StyleSheet.create({
 });
 
 class LogIn extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Log In'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
+    ...headerForScreenWithTabs({
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+      headerTintColor: screenProps.theme.headerTintColor,
+    }),
   });
 
   state = {
@@ -208,9 +219,14 @@ class LogIn extends React.Component {
   );
 
   render() {
+    const {theme} = this.props;
     return (
       <DismissKeyboard>
-        <View style={{flex: 1}}>
+        <View
+          style={[
+            styles.mainContainer,
+            {backgroundColor: theme.primaryBackgroundColor},
+          ]}>
           {this.state.isModalVisible && this.renderModal()}
           <Form
             canSend
@@ -228,8 +244,10 @@ class LogIn extends React.Component {
               onChangeText={username => {
                 this.setState({username});
               }}
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
             <TextInput
@@ -239,8 +257,10 @@ class LogIn extends React.Component {
               onChangeText={password => {
                 this.setState({password});
               }}
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               maxLength={64}
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
           </Form>
@@ -250,7 +270,10 @@ class LogIn extends React.Component {
   }
 }
 
-const mapStateToProps = ({modal}) => ({modal});
+const mapStateToProps = ({modal, themes}) => ({
+  modal,
+  theme: themes[themes.current],
+});
 
 const mapDispatchToProps = {
   isLogin,

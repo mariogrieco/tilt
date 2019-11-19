@@ -1,9 +1,10 @@
 import React from 'react';
 import {TextInput, Animated, Dimensions, View, Image} from 'react-native';
 import styles from './styles';
+import {connect} from 'react-redux';
 
 const {width} = Dimensions.get('window');
-const SEARCH_ICON = require('../../../assets/images/searchIcon/searchIcon.png');
+const SEARCH_ICON = require('../../../assets/themes/light/searchIcon/searchIcon.png');
 
 class SearchBar extends React.Component {
   state = {
@@ -41,6 +42,7 @@ class SearchBar extends React.Component {
       onSelectionChange,
       handleRef,
     } = this.props;
+    const {theme} = this.props;
     const {widthAnim, fadeAnim} = this.state;
     return (
       <Animated.View
@@ -52,7 +54,11 @@ class SearchBar extends React.Component {
           },
           containerStyle,
         ]}>
-        <View style={styles.searchContainer}>
+        <View
+          style={[
+            styles.searchContainer,
+            {backgroundColor: theme.secondaryBackgroundColor},
+          ]}>
           <View style={{marginRight: 6}}>
             <Image source={SEARCH_ICON} />
           </View>
@@ -67,6 +73,8 @@ class SearchBar extends React.Component {
             value={inputValue}
             autoCapitalize="none"
             autoCorrect={false}
+            selectionColor={theme.tiltGreen}
+            keyboardAppearance={theme.keyboardAppearanceColor}
           />
         </View>
       </Animated.View>
@@ -84,4 +92,7 @@ SearchBar.defaultProps = {
   inputValue: '',
 };
 
-export default SearchBar;
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+});
+export default connect(mapStateToProps)(SearchBar);

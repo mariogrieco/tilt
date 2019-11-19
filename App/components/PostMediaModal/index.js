@@ -30,8 +30,8 @@ const deviceHeight =
         'REAL_WINDOW_HEIGHT',
       );
 
-const CLOSE = require('../../../assets/images/cancel-white/cancel-white.png');
-const DOWNLOAD = require('../../../assets/images/download-filled/download-filled.png');
+const CLOSE = require('../../../assets/themes/light/cancel-white/cancel-white.png');
+const DOWNLOAD = require('../../../assets/themes/light/download-filled/download-filled.png');
 
 const PostMediaModal = ({postMedia, closedModal, hideModal}) => {
   const getInnerComponent = () => {

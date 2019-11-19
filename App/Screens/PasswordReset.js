@@ -11,15 +11,15 @@ import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import CountryPicker from 'react-native-country-picker-modal';
 import Form from '../components/Form';
 import {resetPasswordModal} from '../actions/modal';
 import {resetPassword} from '../actions/login';
 import {getVerificationCode} from '../actions/recoveryActions';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -62,14 +62,18 @@ const styles = StyleSheet.create({
 });
 
 class PasswordReset extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Password Reset'),
     headerLeft: (
-      <GoBack
-        icon={BACK}
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -107,9 +111,10 @@ class PasswordReset extends React.Component {
   };
 
   render() {
+    const {theme} = this.props;
     return (
       <DismissKeyboard>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
           <Form
             canSend
             textButton="Reset Password"
@@ -118,7 +123,7 @@ class PasswordReset extends React.Component {
               Platform.OS === 'ios' ? ifIphoneX(95, 80) : 0
             }>
             <View style={styles.textContainer}>
-              <Text style={styles.textBold}>
+              <Text style={[styles.textBold, {color: theme.primaryTextColor}]}>
                 Enter the email and username you used to sign up. We will send
                 you a code to verify.
               </Text>
@@ -136,10 +141,12 @@ class PasswordReset extends React.Component {
                     this.setState({email: _email});
                   }}
                   placeholder="Enter your email"
-                  style={[styles.phoneNumber]}
+                  style={[styles.phoneNumber, {color: theme.primaryTextColor}]}
                   value={this.state.email}
                   autoCapitalize="none"
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCorrect={false}
+                  selectionColor="#17C491"
                 />
               </View>
               <InputSeparator />
@@ -148,9 +155,11 @@ class PasswordReset extends React.Component {
                 onChangeText={username => {
                   this.setState({username});
                 }}
-                style={styles.placeholders}
+                style={[styles.placeholders, {color: theme.primaryTextColor}]}
                 autoCapitalize="none"
+                placeholderTextColor={theme.placeholderTextColor}
                 autoCorrect={false}
+                selectionColor="#17C491"
               />
               <InputSeparator />
             </View>
@@ -169,6 +178,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   me: state.login,
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(

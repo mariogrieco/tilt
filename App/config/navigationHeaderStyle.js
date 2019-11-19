@@ -1,6 +1,7 @@
 import StyleSheet from 'react-native-extended-stylesheet';
+import merge from 'lodash/merge';
 
-export const stackHeader = {
+const headerScreenStyles = {
   headerStyle: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#DCDCDC',
@@ -12,7 +13,7 @@ export const stackHeader = {
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
   },
   headerTitleStyle: {
     fontSize: 18,
@@ -24,7 +25,10 @@ export const stackHeader = {
   headerTintColor: '#0E141E',
 };
 
-export const headerForScreenWithTabs = {
+export const headerForScreenWithBottomLine = (customStyles = {}) =>
+  merge({}, headerScreenStyles, customStyles);
+
+const headerForScreenWithTabsStyle = {
   headerStyle: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -34,11 +38,14 @@ export const headerForScreenWithTabs = {
       height: 0,
     },
     elevation: 0,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFFF',
   },
   headerTitleStyle: {
     fontSize: 18,
     fontFamily: 'SFProDisplay-Bold',
   },
-  headerTintColor: '#0e141e',
+  headerTintColor: '#0E141E',
 };
+
+export const headerForScreenWithTabs = (customStyles = {}) =>
+  merge({}, headerForScreenWithTabsStyle, customStyles);

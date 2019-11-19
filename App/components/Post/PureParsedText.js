@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {View, Linking, Text, StyleSheet} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
+import dropRight from 'lodash/dropRight';
 import ParsedText from 'react-native-parsed-text';
 import {connect} from 'react-redux';
 import Client4 from '../../api/MattermostClient';
 import {clearjumpToAction} from '../../actions/advancedSearch';
 import {Emojis} from '../../utils/emojis';
 import getIsCurrentFocusChannelPrivate from '../../selectors/getIsCurrentFocusChannelPrivate';
-import CodePost from '../CodePost';
 // import {
 //   getHashTagChannelsNames,
 //   getDollarChannelNames,
@@ -52,59 +52,13 @@ export class PureParsedText extends Component {
     super(props);
 
     this.createPatters = memoize(disableUserPattern => {
-      if (disableUserPattern) {
-        return [
-          {
-            pattern: this.getChannelDollarPattern(),
-            style: styles.channelPatter,
-            onPress: this.onChannelPress.bind(this),
-            renderText: this.renderTextD,
-          },
-          {
-            pattern: this.getChannelTagPatter(),
-            style: styles.channelPatter,
-            onPress: this.onChannelPress.bind(this),
-            renderText: this.renderTextH,
-          },
-          {
-            type: 'url',
-            style: styles.url,
-            onPress: this.handleUrlPress.bind(this),
-          },
-          {
-            pattern: this.getUrldotComPatter(),
-            style: styles.url,
-            onPress: this.handleConvertedUrlPress.bind(this),
-          },
-          {
-            pattern: this.getEmojiPatter(),
-            style: {},
-            renderText: this.renderEmoji.bind(this),
-          },
-          {
-            pattern: this.getCodePattern(),
-            style: {},
-            renderText: this.renderCode.bind(this),
-          },
-          {
-            pattern: this.getEmailPattern(),
-            style: {},
-            renderText: this.renderEmailText.bind(this),
-            onPress: this.handleEmailPress.bind(this),
-          },
-        ];
-      }
-      return [
+      const {theme} = this.props;
+      const patterns = [
         {
           pattern: this.getChannelDollarPattern(),
           style: styles.channelPatter,
           onPress: this.onChannelPress.bind(this),
-          renderText: this.renderTextD,
-        },
-        {
-          pattern: this.getMentionPatter(),
-          style: styles.mentions,
-          onPress: this.onUserPress.bind(this),
+          renderText: this.renderTextD.bind(this),
         },
         {
           pattern: this.getChannelTagPatter(),
@@ -223,20 +177,27 @@ export class PureParsedText extends Component {
           style: {},
           renderText: this.renderSatire.bind(this),
         },
+        //please leave at the end the user mention pattern include new patterns behind
+        {
+          pattern: this.getMentionPatter(),
+          style: [
+            styles.mentions,
+            {backgroundColor: theme.userMentionBackgroundColor},
+          ],
+          onPress: this.onUserPress.bind(this),
+        },
       ];
+
+      if (disableUserPattern) {
+        return dropRight(patterns);
+      }
+
+      return patterns;
     });
 
     this.state = {
       parser: this.createPatters(props.disableUserMention),
     };
-  }
-
-  renderCode(text) {
-    return <CodePost str={text} />;
-  }
-
-  getCodePattern() {
-    return /`(.*?)`/;
   }
 
   getEmojiLink(text) {
@@ -319,7 +280,27 @@ export class PureParsedText extends Component {
   }
 
   renderTextD(text) {
-    return `$${text.replace('$', '')}`;
+    const {post_props} = this.props;
+    text = text.replace('$', '');
+    if (
+      post_props &&
+      post_props.percent_change &&
+      post_props.percent_change[text] !== null &&
+      post_props.percent_change[text] !== undefined &&
+      post_props.percent_change[text] !== false &&
+      post_props.percent_change[text] !== ''
+    ) {
+      console.log('---------');
+      console.log(post_props.percent_change[text]);
+      console.log(post_props.percent_change);
+      const value = `${post_props.percent_change[text].toFixed(2)}%`;
+      return (
+        <Text style={value.match('-') ? styles.red : styles.green}>
+          ${text} {value}
+        </Text>
+      );
+    }
+    return `$${text.toUpperCase()}`;
   }
 
   renderTextH(text) {
@@ -327,6 +308,7 @@ export class PureParsedText extends Component {
   }
 
   onChannelPress(value) {
+    value = value.split(' ')[0];
     this.props.clearjumpToAction();
     this.props.onChannel(value);
   }
@@ -353,6 +335,7 @@ export class PureParsedText extends Component {
 
   getMentionPatter() {
     const {usernames} = this.props;
+    const {theme} = this.props;
     return new RegExp(`@(${(usernames || []).join('|')})\\b`);
   }
 
@@ -414,9 +397,7 @@ export class PureParsedText extends Component {
 
   renderYOLO(text) {
     return (
-      <Text style={themeTags.Yolo}>
-        {text.toUpperCase().replace(/-/g, '')}
-      </Text>
+      <Text style={themeTags.Yolo}>{text.toUpperCase().replace(/-/g, '')}</Text>
     );
   }
 
@@ -508,6 +489,23 @@ export class PureParsedText extends Component {
     return <Text style={styles.emailText}>{text}</Text>;
   }
 
+  renderCode(text) {
+    const {theme} = this.props;
+    return (
+      <Text
+        style={[
+          styles.codeText,
+          {color: theme.tiltRed, backgroundColor: theme.codeBackgroundColor},
+        ]}>
+        {text.replace(/`/g, '')}
+      </Text>
+    );
+  }
+
+  getCodePattern() {
+    return /`(.*?)`/;
+  }
+
   messageIsCode(message = '') {
     if (message.length >= 4 && message.slice(0, 4).includes('    ')) {
       return true;
@@ -530,7 +528,7 @@ export class PureParsedText extends Component {
   }
 
   render() {
-    const {typeIsSystem} = this.props;
+    const {typeIsSystem, theme} = this.props;
     let {message} = this.props;
     const {parser} = this.state;
     const containerStyle = this.messageIsCode(message)
@@ -539,8 +537,8 @@ export class PureParsedText extends Component {
           borderRadius: 4,
           paddingVertical: 3,
           paddingHorizontal: 8,
-          backgroundColor: '#F4F4F4',
-          borderColor: '#DCDCDC',
+          backgroundColor: theme.codeBackgroundColor,
+          borderColor: theme.borderBottomColor,
           borderWidth: StyleSheet.hairlineWidth,
         }
       : null;
@@ -551,7 +549,7 @@ export class PureParsedText extends Component {
       }
       return (
         <View style={containerStyle}>
-          <Text style={styles.codeText}>
+          <Text style={[styles.codeText, {color: theme.primaryTextColor}]}>
             {message.replace(/`{3,}$/gmu, '').replace(/^`{3,}/, '')}
           </Text>
         </View>
@@ -562,7 +560,11 @@ export class PureParsedText extends Component {
       <View>
         <ParsedText
           childrenProps={{allowFontScaling: false}}
-          style={[styles.text, typeIsSystem ? styles.systemText : {}]}
+          style={[
+            styles.text,
+            typeIsSystem ? styles.systemText : {},
+            {color: theme.primaryTextColor},
+          ]}
           parse={parser}>
           {`${message}`}
         </ParsedText>
@@ -579,6 +581,7 @@ const mapStateToProps = state => {
       // channelsNames: getHashTagChannelsNames(state),
       usernames: getUsersNames(state),
       // channelDollarNames: getDollarChannelNames(state),
+      theme: state.themes[state.themes.current],
     };
   }
   return {
@@ -586,6 +589,7 @@ const mapStateToProps = state => {
     // channelDollarNames: getDollarChannelNames(state),
     // channelsNames: getHashTagChannelsNames(state),
     usernames: getUsersNames(state),
+    theme: state.themes[state.themes.current],
   };
 };
 
@@ -593,7 +597,4 @@ const mapDispatchToProps = {
   clearjumpToAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PureParsedText);
+export default connect(mapStateToProps, mapDispatchToProps)(PureParsedText);

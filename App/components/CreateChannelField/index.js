@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 import styles from './styles';
+import {connect} from 'react-redux';
 
 export const Title = ({title, containerStyle, textStyle}) => (
   <View style={[styles.fieldContainer, styles.titleContainer, containerStyle]}>
@@ -19,7 +20,12 @@ export const Description = ({description, containerStyle, textStyle}) => (
   </View>
 );
 
-export const Input = ({onChangeText, placeHolder, style, value}) => (
+export const Input = ({
+  onChangeText,
+  placeHolder,
+  style,
+  value,
+}) => (
   <TextInput
     value={value}
     placeholder={placeHolder}
@@ -28,11 +34,21 @@ export const Input = ({onChangeText, placeHolder, style, value}) => (
     style={[styles.fieldContainer, styles.input, style]}
     placeholderTextColor="#8E8E95"
     autoCapitalize="none"
+    selectionColor="#17C491"
+    keyboardAppearance="dark"
   />
 );
 
-const CreateChannelField = ({style, children}) => (
-  <View style={[styles.container, style]}>{children}</View>
+const CreateChannelField = ({style, children, theme}) => (
+  <View
+    style={[
+      styles.container,
+      style,
+      {backgroundColor: theme.secondaryBackgroundColor},
+    ]}>
+    {children}
+  </View>
 );
 
-export default CreateChannelField;
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(CreateChannelField);

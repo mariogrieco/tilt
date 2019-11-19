@@ -11,10 +11,10 @@ export default StyleSheet.create({
     paddingBottom: 6,
   },
   mentionsProfileImage: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    flex: 0,
+    width: 30,
+    height: 30,
+    borderRadius: 6,
+    marginRight: 5,
   },
   commandContainer: {
     display: 'flex',

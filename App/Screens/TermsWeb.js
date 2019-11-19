@@ -11,7 +11,7 @@ export default class TermsWeb extends PureComponent {
     title: 'Terms and Conditions',
     headerLeft: (
       <GoBack
-        icon={BACK}
+        
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),

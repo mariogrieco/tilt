@@ -20,13 +20,22 @@ import GoBack from '../components/GoBack';
 import {createChannel, patchChannel} from '../actions/channels';
 import Separator from '../components/Separator';
 import Spacer from '../components/Spacer';
+import {NavigationActions} from 'react-navigation';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
-const BACK = require('../../assets/images/pin-left-black/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
+  parserName: {
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontFamily: 'SFProDisplay-Regular',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
   modal: {
     width: '20rem',
     alignSelf: 'center',
@@ -110,9 +119,16 @@ class EditChannel extends React.Component {
     return null;
   }
 
-  static navigationOptions = ({navigation}) => ({
+  parseName(name = '') {
+    return (name || '')
+      .split(' ')
+      .join('-')
+      .toLowerCase();
+  }
+
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Edit Channel',
-    headerLeft: <GoBack icon={BACK} onPress={() => navigation.goBack()} />,
+    headerLeft: <GoBack onPress={() => navigation.goBack()} />,
     headerRight: (
       <TouchableOpacity
         style={{paddingHorizontal: 15, paddingVertical: 13}}
@@ -128,26 +144,19 @@ class EditChannel extends React.Component {
         </Text>
       </TouchableOpacity>
     ),
-    headerStyle: {
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: '#DCDCDC',
-      shadowColor: '#D9D8D7',
-      shadowOffset: {
-        width: 0,
-        height: 0,
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
       },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-      backgroundColor: '#fff',
-    },
+    }),
     headerTitleStyle: {
       fontSize: 18,
       marginTop: 10,
       marginBottom: 10,
       fontFamily: 'SFProDisplay-Bold',
     },
-    headerTintColor: '#0E141E',
   });
 
   state = {
@@ -186,7 +195,9 @@ class EditChannel extends React.Component {
   }
 
   modalCreate = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
@@ -197,7 +208,8 @@ class EditChannel extends React.Component {
         if (title !== null && header !== null) {
           try {
             await this.props.patchChannel(channel.id, {
-              name: title,
+              name: this.parseName(title),
+              display_name: title,
               purpose,
               header,
             });
@@ -234,76 +246,138 @@ class EditChannel extends React.Component {
     );
   };
 
-  renderModalPublic = () => (
-    <Modal
-      isVisible={this.state.publicChannelModal}
-      deviceHeight={H}
-      deviceWidth={W}>
-      <View style={styles.modal}>
-        <View style={styles.textContainer}>
-          <Text style={styles.textModalTitle}>Channel Updated 👍</Text>
-          <Text style={styles.textModalDescription}>
-            Invite new members to your channel. Or visit your Channel Info to
-            invite new members to Tilt.
+  renderModalPublic = () => {
+    const {theme} = this.props;
+    return (
+      <Modal
+        isVisible={this.state.publicChannelModal}
+        deviceHeight={H}
+        deviceWidth={W}>
+        <View
+          style={[
+            styles.modal,
+            {backgroundColor: theme.modalPopupBackgroundColor},
+          ]}>
+          <View style={styles.textContainer}>
+            <Text
+              style={[styles.textModalTitle, {color: theme.primaryTextColor}]}>
+              Channel Updated 👍
+            </Text>
+            <Text
+              style={[
+                styles.textModalDescription,
+                {color: theme.primaryTextColor},
+              ]}>
+              Invite new members to your channel. Or visit your Channel Info to
+              invite new members to Tilt.
+            </Text>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.modalOptions,
+            {
+              borderTopColor: theme.borderBottomColor,
+              backgroundColor: theme.modalPopupBackgroundColor,
+            },
+          ]}>
+          <Text
+            style={[styles.textDestructive, {color: theme.tiltGreen}]}
+            onPress={this.toggleModal}>
+            Done
           </Text>
         </View>
-      </View>
-      <View style={styles.modalOptions}>
-        <Text
-          style={[styles.textDestructive, {color: '#17C491'}]}
-          onPress={this.toggleModal}>
-          Done
-        </Text>
-      </View>
-    </Modal>
-  );
+      </Modal>
+    );
+  };
 
   render() {
     const {title, purpose, header, publicChannelModal} = this.state;
+    const {theme} = this.props;
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: '#f6f7f9'}}>
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         {publicChannelModal && this.renderModalPublic()}
         <CreateChannelField>
-          <Title title="Name (required)" />
+          <Title
+            title="Name (required)"
+            containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+            textStyle={{color: theme.primaryTextColor}}
+          />
           <Separator />
           <Input
             value={title}
+            style={{
+              color: theme.primaryTextColor,
+              backgroundColor: theme.primaryBackgroundColor,
+            }}
+            placeholderTextColor={theme.placeholderTextColor}
             placeHolder="Example: ”swing-traders”"
             onChangeText={this.onChangeTitle}
           />
           <Separator />
+          <Text
+            style={[styles.parserName, {color: theme.placeholderTextColor}]}>
+            {' '}
+            URL: {this.parseName(title)}
+          </Text>
         </CreateChannelField>
         <Spacer />
         <KeyboardAvoidingView
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>
           <CreateChannelField>
-            <Title title="Purpose (optional)" />
+            <Title
+              title="Purpose (optional)"
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.primaryTextColor}}
+            />
             <Separator />
             <Input
               placeHolder="Example: “Learn how to swing trade successfully”"
               onChangeText={this.onChangePurpose}
               value={purpose}
+              style={{
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              }}
+              placeholderTextColor={theme.placeholderTextColor}
               multiline
             />
             <Separator />
-            <Description description="Describe how this channel should be used. This text will appear beside the channel name." />
+            <Description
+              description="Describe how this channel should be used. This text will appear beside the channel name."
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.placeholderTextColor}}
+            />
             <Spacer />
           </CreateChannelField>
           <CreateChannelField>
-            <Title title="Header (required)" />
+            <Title
+              title="Header (required)"
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.primaryTextColor}}
+            />
             <Separator />
             <Input
               placeHolder="Example: “Visit http://example.com to learn more.”"
               onChangeText={this.onChangeHeader}
               value={header}
               multiline
+              style={{
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              }}
+              placeholderTextColor={theme.placeholderTextColor}
             />
             <Separator />
-            <Description description="Set text that will appear in the header of the channel. For example, include frequently used links, FAQs, or any additional information that is valuable to investors and traders." />
+            <Description
+              description="Set text that will appear in the header of the channel. For example, include frequently used links, FAQs, or any additional information that is valuable to investors and traders."
+              containerStyle={{backgroundColor: theme.secondaryBackgroundColor}}
+              textStyle={{color: theme.placeholderTextColor}}
+            />
           </CreateChannelField>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -313,6 +387,7 @@ class EditChannel extends React.Component {
 
 const mapStateToProps = state => ({
   me: state.login.user,
+  theme: state.themes[state.themes.current],
   channel: state.myChannelsMap.has(state.appNavigation.active_channel_id)
     ? state.myChannelsMap.get(state.appNavigation.active_channel_id)
     : {},

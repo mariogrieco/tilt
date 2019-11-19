@@ -21,6 +21,7 @@ import {client4CreateUser} from '../actions/signup';
 import {
   // getProfilesInChannels,
   getProfilesInGroupChannels,
+  enableGlobalNotifications,
   // getUsersStatus
 } from '../actions/users';
 import {
@@ -31,8 +32,9 @@ import {getFlagged} from '../actions/flagged';
 import {getMyPreferences} from '../actions/preferences';
 import GoBack from '../components/GoBack';
 import InputSeparator from '../components/InputSeparator';
+import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -54,14 +56,21 @@ const styles = StyleSheet.create({
 });
 
 class CreateAccount extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Create Account'),
     headerLeft: (
       <GoBack
-        icon={BACK}
+
         onPress={() => navigation.dispatch(NavigationActions.back())}
       />
     ),
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -99,6 +108,7 @@ class CreateAccount extends React.Component {
         await this.props.addToTeam(default_team_id.id, user.id);
         await this.props.getMyPreferences();
         await this.props.getFlagged();
+        await this.props.enableGlobalNotifications();
         this.getPostChannelsAndUsersData();
         this.props.modalActive(true);
         this.props.isLogin(true);
@@ -136,9 +146,14 @@ class CreateAccount extends React.Component {
   render() {
     const {email, password, firstName, lastName, username} = this.state;
     const canSend = this.canSend();
+    const {theme} = this.props;
     return (
       <DismissKeyboard>
-        <View style={{flex: 1, marginVertical: 0}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: theme.primaryBackgroundColor,
+          }}>
           <Form
             canSend={canSend}
             textButton="Sign Up"
@@ -149,11 +164,13 @@ class CreateAccount extends React.Component {
             }>
             <TextInput
               value={firstName}
-              onChangeText={firstName => {
-                this.setState({firstName});
+              onChangeText={_firstName => {
+                this.setState({firstName: _firstName});
               }}
               placeholder="First Name"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -163,7 +180,9 @@ class CreateAccount extends React.Component {
                 this.setState({lastName});
               }}
               placeholder="Last Name"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -173,8 +192,10 @@ class CreateAccount extends React.Component {
                 this.setState({email});
               }}
               placeholder="Email"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -184,8 +205,10 @@ class CreateAccount extends React.Component {
                 this.setState({username});
               }}
               placeholder="Username"
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
 
@@ -197,7 +220,9 @@ class CreateAccount extends React.Component {
               placeholder="Password"
               secureTextEntry
               maxLength={12}
-              style={styles.placeholders}
+              style={[styles.placeholders, {color: theme.primaryTextColor}]}
+              placeholderTextColor={theme.placeholderTextColor}
+              selectionColor="#17C491"
             />
             <InputSeparator />
           </Form>
@@ -222,12 +247,14 @@ const mapDispatchToProps = {
   getProfilesInGroupChannels,
   getPostsByChannelId,
   getMyPreferences,
+  enableGlobalNotifications,
 };
 
 const mapStateToProps = state => ({
   phoneOnVerification: state.codeVerification.phoneNumber,
   callingCode: state.codeVerification.callingCode,
   token: state.codeVerification.code,
+  theme: state.themes[state.themes.current],
 });
 
 export default connect(

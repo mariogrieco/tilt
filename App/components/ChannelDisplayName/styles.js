@@ -4,10 +4,12 @@ export default StyleSheet.create({
   container: {
     flexDirection: 'row',
     marginTop: 10,
+    marginLeft: 15,
   },
   containerJoin: {
     flexDirection: 'row',
-    marginTop: '1rem',
+    marginTop: 10,
+    marginLeft: 15,
   },
   header: {
     color: '#0E141E',
@@ -54,7 +56,6 @@ export default StyleSheet.create({
     width: 80,
     height: 34,
     borderRadius: 17,
-    backgroundColor: '#EBEBEB',
     // backgroundColor: 'rgba(16, 115, 240, 0.75)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -76,7 +77,7 @@ export default StyleSheet.create({
     borderRadius: 11,
     paddingHorizontal: 8,
     backgroundColor: '#17C491',
-    height: 22,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

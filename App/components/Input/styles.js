@@ -5,15 +5,13 @@ export default StyleSheet.create({
   container: {
     paddingBottom: ifIphoneX(0, 10),
     // paddingTop: Platform.OS === 'ios' ? 15 : 10,
-    borderTopColor: '#DCDCDC',
     borderTopWidth: StyleSheet.hairlineWidth,
-    backgroundColor: '#fff',
   },
   mentions: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingLeft: 15,
+    paddingLeft: 10,
     paddingRight: 15,
     paddingTop: 0,
     paddingBottom: 0,
@@ -21,7 +19,7 @@ export default StyleSheet.create({
   mentionsProfileImage: {
     width: 30,
     height: 30,
-    borderRadius: 15,
+    borderRadius: 6,
     flex: 0,
   },
   mentionsColor: {
@@ -89,20 +87,13 @@ export default StyleSheet.create({
     letterSpacing: 0.1,
   },
   rightElements: {
-    flex: 0.55,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginRight: 15,
-    marginTop: -5,
   },
   leftElements: {
-    flex: 0.35,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginLeft: 5,
-    marginTop: -5,
   },
   inputOption: {
     paddingLeft: '0.625rem',
@@ -110,7 +101,6 @@ export default StyleSheet.create({
   },
   showOptionsView: {
     height: 180,
-    borderBottomColor: '#DCDCDC',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   notShowOptionsView: {
@@ -119,7 +109,7 @@ export default StyleSheet.create({
   button: {
     width: '4rem',
     textAlign: 'center',
-    backgroundColor: '#017AFE',
+    backgroundColor: '#17C491',
     paddingTop: '0.3rem',
     paddingBottom: '0.3rem',
     color: 'white',
@@ -130,12 +120,12 @@ export default StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1.25,
     borderColor: 'transparent',
+    marginBottom: 5,
   },
   disabled: {
     color: '#585C63',
     borderWidth: 1,
     borderColor: '#585C63',
-    backgroundColor: 'white',
   },
   mediaContainer: {
     position: 'relative',
@@ -157,7 +147,6 @@ export default StyleSheet.create({
     marginRight: 15,
     borderRadius: 4,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#DCDCDC',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -170,7 +159,6 @@ export default StyleSheet.create({
   documentContainer: {
     padding: 15,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#DCDCDC',
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',

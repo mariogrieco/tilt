@@ -5,9 +5,7 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 15,
     marginBottom: 10,
-    borderBottomColor: '#d9d8d7',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    backgroundColor: '#fff',
   },
   userNames: {
     fontFamily: 'SFProDisplay-Bold',
@@ -68,5 +66,10 @@ export default StyleSheet.create({
     color: '#8E8E95',
     textAlign: 'center',
     paddingHorizontal: 15,
+  },
+  joinDate: {
+    fontFamily: 'SFProDisplay-Regular',
+    fontSize: 15,
+    letterSpacing: 0.1,
   },
 });

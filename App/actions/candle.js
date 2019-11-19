@@ -42,7 +42,8 @@ const fetchCandleData = (
         },
       };
       dispatch(action);
-    });
+    })
+    .catch(err => console.log(err));
 };
 
 export default fetchCandleData;

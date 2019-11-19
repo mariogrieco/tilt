@@ -21,8 +21,7 @@ import InputSeparator from '../components/InputSeparator';
 import {updatePassword} from '../actions/recoveryActions';
 import GoBack from '../components/GoBack';
 import Form from '../components/Form';
-
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -160,18 +159,24 @@ class Recovery extends PureComponent {
     modalSuccess: false,
   };
 
-  static navigationOptions = ({navigation}) => ({
-    title: navigation.getParam('title', 'Password Reset'),
+  static navigationOptions = ({navigation, screenProps}) => ({
+    title: 'Password Reset',
     headerLeft: (
-      <GoBack
-        icon={BACK}
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    ...headerForScreenWithBottomLine({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   recoveryAction = async () => {
-    if (this.state.loading) return false;
+    if (this.state.loading) {
+      return false;
+    }
     const {password} = this.state;
     const {recovery} = this.props;
 
@@ -269,13 +274,18 @@ class Recovery extends PureComponent {
 
   validateLength() {
     const {password} = this.state;
-    if (password.length < 5) return false;
-    if (password.length > 64) return false;
+    if (password.length < 5) {
+      return false;
+    }
+    if (password.length > 64) {
+      return false;
+    }
     return true;
   }
 
   render() {
     const {code, password, password2, modalSuccess} = this.state;
+    const {theme} = this.props;
     const {recovery} = this.props;
     console.log(recovery);
     const passAreEquals = this.passwordsAreEquals();
@@ -285,22 +295,30 @@ class Recovery extends PureComponent {
     const keyboardVerticalOffset =
       Platform.OS === 'ios' ? ifIphoneX(95, 80) : 90;
     return (
-      <View>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         {modalSuccess && this.renderModalSucess()}
         {recovery.token !== code && (
           <DismissKeyboard>
             <View>
               <View style={styles.textContainerModal}>
-                <Text style={styles.textBold}>
+                <Text
+                  style={[styles.textBold, {color: theme.primaryTextColor}]}>
                   Please enter the 6-digit verification code sent to your email.
                 </Text>
                 <Text style={styles.textBold}>{recovery.phoneNumber}</Text>
               </View>
               <OTPInputView
-                style={{alignSelf: 'center', width: '80%', height: 100}}
+                style={{
+                  alignSelf: 'center',
+                  width: '80%',
+                  height: 100,
+                }}
                 pinCount={6}
                 code={code}
-                codeInputFieldStyle={styles.underlineStyleBase}
+                codeInputFieldStyle={{
+                  ...styles.underlineStyleBase,
+                  color: theme.primaryTextColor,
+                }}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
                 onCodeFilled={this.setCode}
                 onCodeChanged={_code => {
@@ -315,25 +333,32 @@ class Recovery extends PureComponent {
           <DismissKeyboard>
             <View>
               <View style={styles.textContainerModal}>
-                <Text style={styles.textBold}>Enter your new password.</Text>
+                <Text
+                  style={[styles.textBold, {color: theme.primaryTextColor}]}>
+                  Enter your new password.
+                </Text>
               </View>
               <View style={styles.inputContainer}>
                 <TextInput
                   secureTextEntry
                   placeholder="New password"
                   onChangeText={this.onPassword}
-                  style={styles.placeholders}
+                  style={[styles.placeholders, {color: theme.primaryTextColor}]}
                   value={password}
                   maxLength={64}
+                  placeholderTextColor={theme.secondaryTextColor}
+                  selectionColor="#17C491"
                 />
                 <InputSeparator />
                 <TextInput
                   secureTextEntry
                   placeholder="Confirm new password"
                   onChangeText={this.onPassword2}
-                  style={styles.placeholders}
+                  style={[styles.placeholders, {color: theme.primaryTextColor}]}
                   value={password2}
                   maxLength={64}
+                  placeholderTextColor={theme.secondaryTextColor}
+                  selectionColor="#17C491"
                 />
                 <InputSeparator />
               </View>
@@ -375,13 +400,11 @@ class Recovery extends PureComponent {
 
 const mapStateToProps = state => ({
   recovery: state.recovery,
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {
   updatePassword,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Recovery);
+export default connect(mapStateToProps, mapDispatchToProps)(Recovery);

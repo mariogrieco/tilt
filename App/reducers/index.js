@@ -43,7 +43,9 @@ import adminCreators from './adminCreators';
 import postCount from './postCount';
 import repost from './repost';
 import hashtagChannelsPaginator from './HashtagChannelsPaginator';
+import themes from './themes';
 import blockedUsers from './blockedUsers';
+import channelsProps from './channelsProps';
 
 export default combineReducers({
   flagged,
@@ -90,5 +92,8 @@ export default combineReducers({
   adminCreators,
   postCount,
   hashtagChannelsPaginator,
+  themes,
+  // client4Error
   blockedUsers,
+  channelsProps,
 });

@@ -37,8 +37,8 @@ import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
 import {getReportIfNeeded} from '../../selectors/getReportIfNeeded';
 import styles from './style';
 
-const FILE_NOT_FOUND = require('../../../assets/images/file-not-found/file-not-found.png');
-const TILT_SYSTEM_LOGO = require('../../../assets/images/tilt-logo/tilt-logo.png');
+const FILE_NOT_FOUND = require('../../../assets/themes/light/file-not-found/file-not-found.png');
+const TILT_SYSTEM_LOGO = require('../../../assets/themes/light/tilt-logo/tilt-logo.png');
 
 function reduceReactions(metadata) {
   let likes = 0;
@@ -80,13 +80,20 @@ function reduceReactions(metadata) {
   };
 }
 
-const MemoUrlPreview = React.memo(({text}) => (
+const MemoUrlPreview = React.memo(({text, theme}) => (
   <View style={{height: 120, maxHeight: 120, marginBottom: 10}}>
     <RNUrlPreview
       text={text}
-      containerStyle={styles.linkContainer}
-      titleStyle={[styles.text, styles.mediumText]}
-      descriptionStyle={styles.textLink}
+      containerStyle={[
+        styles.linkContainer,
+        {borderColor: theme.borderBottomColor},
+      ]}
+      titleStyle={[
+        styles.text,
+        styles.mediumText,
+        {color: theme.primaryTextColor},
+      ]}
+      descriptionStyle={[styles.textLink, {color: theme.placeholderTextColor}]}
     />
   </View>
 ));
@@ -374,8 +381,6 @@ class Post extends React.Component {
         {
           text: 'Yes',
           onPress: async () => {
-            console.log(post_id);
-            console.log(postId);
             await this.props.deletePost(post_id);
             await this.props.deletePost(postId);
           },
@@ -387,6 +392,7 @@ class Post extends React.Component {
   };
 
   renderFile(file) {
+    const {theme} = this.props;
     if (isImage(file)) {
       if (file.mime_type === 'image/gif') {
         return (
@@ -401,7 +407,10 @@ class Post extends React.Component {
               })
             }>
             <Image
-              style={styles.imageContainer}
+              style={[
+                styles.imageContainer,
+                {borderColor: theme.borderBottomColor},
+              ]}
               source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}`}}
             />
           </TouchableOpacity>
@@ -419,7 +428,10 @@ class Post extends React.Component {
             })
           }>
           <Image
-            style={styles.imageContainer}
+            style={[
+              styles.imageContainer,
+              {borderColor: theme.borderBottomColor},
+            ]}
             source={{uri: `${getBaseUrl()}/api/v4/files/${file.id}/preview`}}
           />
         </TouchableOpacity>
@@ -453,7 +465,7 @@ class Post extends React.Component {
     return (
       <Image
         source={FILE_NOT_FOUND}
-        styles={styles.imageContainer}
+        styles={[styles.imageContainer, {borderColor: theme.borderBottomColor}]}
         key={file.id}
       />
     );
@@ -474,7 +486,9 @@ class Post extends React.Component {
       disableInteractions,
       isPM,
       // reported,
+      post_props
     } = this.props;
+    const {theme} = this.props;
     const typeIsSystem = type.match('system');
 
     const imageUrl =
@@ -518,7 +532,9 @@ class Post extends React.Component {
                 typeIsSystem={typeIsSystem}
                 onChannel={navigateIfExists}
                 onUser={onUser}
+                props={post_props}
                 disableUserPattern={isPM}
+                post_props={post_props}
               />
               {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
             </View>
@@ -531,14 +547,17 @@ class Post extends React.Component {
               this.props.showPostMediaBox({uri: imageUrl, type: 'image'})
             }>
             <Image
-              style={styles.imageUrlContainer}
+              style={[
+                styles.imageUrlContainer,
+                {borderColor: theme.borderBottomColor},
+              ]}
               source={{uri: `${imageUrl}`}}
             />
           </TouchableOpacity>
         )}
         {this.renderFileComponent(files)}
         {hasUrlForPreview && (
-          <MemoUrlPreview text={message.replace(imageUrl, ' ')} />
+          <MemoUrlPreview text={message.replace(imageUrl, ' ')} theme={theme} />
         )}
       </>
     );
@@ -559,7 +578,7 @@ class Post extends React.Component {
               fontSize: 16,
               letterSpacing: 0.1,
             }}>
-            delete
+            Delete
           </Text>
         </View>
       </TouchableOpacity>
@@ -587,6 +606,8 @@ class Post extends React.Component {
       deleteAction,
       isAdminUser,
       postId,
+      theme,
+      post_props,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -602,9 +623,15 @@ class Post extends React.Component {
             <TouchableOpacity
               style={[styles.dotContainer]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
-              <View style={styles.dot} />
-              <View style={styles.dot} />
-              <View style={styles.dot} />
+              <View
+                style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
+              />
+              <View
+                style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
+              />
+              <View
+                style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
+              />
             </TouchableOpacity>
           </View>
         )}
@@ -642,7 +669,14 @@ class Post extends React.Component {
                 }
               />
             </TouchableOpacity>
-            {thread && <View style={styles.threadSeparator} />}
+            {thread && (
+              <View
+                style={[
+                  styles.threadSeparator,
+                  {backgroundColor: theme.threadSeparatorColor},
+                ]}
+              />
+            )}
           </View>
         )}
         <View style={isRepost ? {} : styles.usernameAndPostContent}>
@@ -654,7 +688,8 @@ class Post extends React.Component {
                   : this.handleNavigationToProfile
               }>
               <Text>
-                <Text style={[styles.username]}>
+                <Text
+                  style={[styles.username, {color: theme.primaryTextColor}]}>
                   {typeIsSystem ? 'System' : username}{' '}
                 </Text>
                 <Text style={styles.timespan}>
@@ -690,7 +725,8 @@ class Post extends React.Component {
                     : this.handleNavigationToProfile
                 }>
                 <Text>
-                  <Text style={[styles.username]}>
+                  <Text
+                    style={[styles.username, {color: theme.primaryTextColor}]}>
                     {typeIsSystem ? 'System' : username}{' '}
                   </Text>
                   <Text style={styles.timespan}>
@@ -713,13 +749,14 @@ class Post extends React.Component {
               message={repost.message}
               metadata={repost.metadata}
               deleteAction={reported}
-              create_at={repost.created_at}
+              create_at={repost.create_at}
               replies={repost.replies}
               edit_at={repost.edit_at}
               type={repost.type}
               userId={repost.user.id}
               last_picture_update={repost.user.last_picture_update}
               username={repost.user.username}
+              post_props={repost.props}
             />
           )}
           {!isRepost && (
@@ -760,6 +797,7 @@ const mapStateToProps = (state, props) => ({
   users: state.users.data,
   repost: getRepostIfneeded(state, props.postId),
   reported: getReportIfNeeded(state, props.postId),
+  theme: state.themes[state.themes.current],
 });
 
 const mapDispatchToProps = {
@@ -776,7 +814,4 @@ const mapDispatchToProps = {
   deletePost,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

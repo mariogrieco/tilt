@@ -41,29 +41,30 @@ import {getRepostById} from '../../selectors/getRepostById';
 import {setRepostActiveOnInput} from '../../actions/repost';
 
 import Client4 from '../../api/MattermostClient';
+import assets from '../ThemeWrapper/assets';
 
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
 
-const AT = require('../../../assets/images/at/at.png');
-const POST_TAGS = require('../../../assets/images/tags/tag.png');
-const FILE = require('../../../assets/images/file/file.png');
-// const FILE_DISABLED = require('../../../assets/images/file_disabled/file_disabled.png');
-const PHOTO = require('../../../assets/images/photo/photo.png');
-// const PHOTO_DISABLED = require('../../../assets/images/photo_disabled/photo_disabled.png');
-const VIDEO_THIN = require('../../../assets/images/video_thin/video.png');
-// const VIDEO_THIN_DISABLED = require('../../../assets/images/video_disabled/video_disabled.png');
-const SLASH = require('../../../assets/images/slash/slash.png');
-const DELETE = require('../../../assets/images/delete-image-from-input/blackCircleCancel.png');
-const WORD = require('../../../assets/images/word-file/word.png');
-const PDF = require('../../../assets/images/pdf-file/pdf.png');
-const EXCEL = require('../../../assets/images/excel-file/excel.png');
-const POWERPOINT = require('../../../assets/images/powerpoint-file/powerpoint.png');
-const AUDIO = require('../../../assets/images/audio-file/audio.png');
-const VIDEO = require('../../../assets/images/video-file/video.png');
-const IMAGE = require('../../../assets/images/image-file/image.png');
-const STANDARD_FILE = require('../../../assets/images/standard-file/folder.png');
+const AT = require('../../../assets/themes/light/at/at.png');
+const POST_TAGS = require('../../../assets/themes/light/tags/tag.png');
+const FILE = require('../../../assets/themes/light/file/file.png');
+// const FILE_DISABLED = require('../../../assets/themes/light/file_disabled/file_disabled.png');
+const PHOTO = require('../../../assets/themes/light/photo/photo.png');
+// const PHOTO_DISABLED = require('../../../assets/themes/light/photo_disabled/photo_disabled.png');
+const VIDEO_THIN = require('../../../assets/themes/light/video_thin/video.png');
+// const VIDEO_THIN_DISABLED = require('../../../assets/themes/light/video_disabled/video_disabled.png');
+const SLASH = require('../../../assets/themes/light/slash/slash.png');
+
+const WORD = require('../../../assets/themes/light/word-file/word.png');
+const PDF = require('../../../assets/themes/light/pdf-file/pdf.png');
+const EXCEL = require('../../../assets/themes/light/excel-file/excel.png');
+const POWERPOINT = require('../../../assets/themes/light/powerpoint-file/powerpoint.png');
+const AUDIO = require('../../../assets/themes/light/audio-file/audio.png');
+const VIDEO = require('../../../assets/themes/light/video-file/video.png');
+const IMAGE = require('../../../assets/themes/light/image-file/image.png');
+const STANDARD_FILE = require('../../../assets/themes/light/standard-file/folder.png');
 
 const getDisplayIconForFile = memoize(extension => {
   if (extension.includes('doc')) {
@@ -273,6 +274,26 @@ class Input extends React.Component {
           if (post.metadata.files) {
             file_ids = post.metadata.files.map(({id}) => id);
           }
+          if (post.props) {
+            if (post.percent_change) {
+              const percent_change = await this.getEditedPropsValues();
+              if (percent_change) {
+                const nextProps = {};
+                Object.keys(post.props.percent_change).map(key => {
+                  if (percent_change.indexOf(key) !== -1) {
+                    if (percent_change[key] !== '') {
+                      nextProps[key] = percent_change[key];
+                    }
+                  }
+                });
+                post.props.percent_change = nextProps;
+              } else {
+                post.props.percent_change = null;
+                delete post.props.percent_change;
+              }
+            }
+          }
+
           await this.props.updatePost({
             ...post,
             message: parsedValue,
@@ -287,6 +308,9 @@ class Input extends React.Component {
           });
           this.blurInput();
           this.clearState();
+          if (this.props.onEditCallback) {
+            this.props.onEditCallback();
+          }
         }
       },
     );
@@ -305,12 +329,18 @@ class Input extends React.Component {
           const {messageText, filesIds} = this.state;
           const {channelId, root_id, repost_id} = this.props;
           const parsedValue = Emoji.parse(messageText);
+          const percent_change = await this.getDollarValuesProps();
+          const props = {};
+          props.repost = repost_id;
+          if (percent_change !== null) {
+            props.percent_change = percent_change;
+          }
           await this.props.createPost(
             parsedValue,
             channelId,
             root_id,
             filesIds,
-            {repost: repost_id},
+            props,
           );
           this.setState({
             messageText: '',
@@ -452,8 +482,13 @@ class Input extends React.Component {
   }
 
   getMentionsComponent() {
+    const {theme} = this.props;
     return (
-      <ScrollView style={styles.showOptionsView}>
+      <ScrollView
+        style={[
+          styles.showOptionsView,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
         {this.filterUsers().map((user, index) => (
           <TouchableHighlight
             underlayColor="#17C491"
@@ -468,7 +503,11 @@ class Input extends React.Component {
                 }}
               />
               <Text
-                style={[styles.commandContainer, styles.mentionsColor]}
+                style={[
+                  styles.commandContainer,
+                  styles.mentionsColor,
+                  {color: theme.primaryTextColor},
+                ]}
                 key={index}>
                 @{user.username}
               </Text>
@@ -495,9 +534,14 @@ class Input extends React.Component {
   }
 
   getCommandComponent() {
+    const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
-        <ScrollView>
+      <View
+        style={[
+          styles.showOptionsView,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
+        <ScrollView style={{backgroundColor: theme.primaryBackgroundColor}}>
           {this.filterCommands().map((data, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
@@ -505,8 +549,17 @@ class Input extends React.Component {
                 this.executeCommands(data.trigger);
               }}>
               <View style={styles.commandContainer} key={index}>
-                <Text style={styles.commandExec}>{data.trigger}</Text>
-                <Text style={styles.commandDescription}>{data.name}</Text>
+                <Text
+                  style={[styles.commandExec, {color: theme.primaryTextColor}]}>
+                  {data.trigger}
+                </Text>
+                <Text
+                  style={[
+                    styles.commandDescription,
+                    {color: theme.primaryTextColor},
+                  ]}>
+                  {data.name}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -516,9 +569,14 @@ class Input extends React.Component {
   }
 
   getTagComponent() {
+    const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
-        <ScrollView>
+      <View
+        style={[
+          styles.showOptionsView,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
+        <ScrollView style={{backgroundColor: theme.primaryBackgroundColor}}>
           {this.filterTags().map((name, index) => (
             <TouchableHighlight
               underlayColor="#17C491"
@@ -526,7 +584,9 @@ class Input extends React.Component {
                 this.interpolateStrToMessage(`${name.toLowerCase()}`, '#')
               }>
               <View style={styles.commandTagContainer} key={index}>
-                <Text style={styles.hashTag}>#{name.toLowerCase()}</Text>
+                <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
+                  #{name.toLowerCase()}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -589,6 +649,75 @@ class Input extends React.Component {
 
     return currentIndex !== null;
   }
+
+  getPropsEditValuesFor () {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    return propsFor;
+  }
+
+   getDollarValuesProps = async () => {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    if (propsFor.length === 0) {
+      return null;
+    }
+
+    return await this.getValuesFor(propsFor);
+  };
+
+  getEditedPropsValues() {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+    if (propsFor.length === 0) {
+      return null;
+    }
+    return propsFor;
+  }
+
+   getValuesFor = async propsFor => {
+    const allProps = {};
+
+    for (let index = 0; index < propsFor.length; index++) {
+      const name = propsFor[index];
+      try {
+        const {data} = await Client4.getSymbolPercentChange(name);
+        if (data !== '') {
+          allProps[name] = data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    return allProps;
+  };
 
   determineIfOpenTags() {
     const {selection, messageText} = this.state;
@@ -1131,8 +1260,13 @@ class Input extends React.Component {
   };
 
   getDollarTagsComponent() {
+    const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
+      <View
+        style={[
+          styles.showOptionsView,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
         <ScrollView>
           {this.filterDollarTags().map((name, index) => (
             <TouchableHighlight
@@ -1141,7 +1275,9 @@ class Input extends React.Component {
                 this.interpolateStrToMessage(`${name.toLowerCase()}`, '$')
               }>
               <View style={styles.commandTagContainer} key={index}>
-                <Text style={styles.hashTag}>${name.toLowerCase()}</Text>
+                <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
+                  ${name.toUpperCase()}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -1174,24 +1310,41 @@ class Input extends React.Component {
   };
 
   renderTextTag() {
+    const {theme} = this.props;
     return (
-      <View style={styles.showOptionsView}>
+      <View
+        style={[
+          styles.showOptionsView,
+          {borderBottomColor: theme.borderBottomColor},
+        ]}>
         <ScrollView>
           <TouchableHighlight
             underlayColor="#17C491"
             onPress={this.closeTextTags}>
-            <View style={styles.commandTagContainer} key={'none'}>
-              <Text style={styles.customTagNoneTextStyle}>None</Text>
+            <View style={[styles.commandTagContainer]} key={'none'}>
+              <Text
+                style={[
+                  styles.customTagNoneTextStyle,
+                  {color: theme.primaryTextColor},
+                ]}>
+                None
+              </Text>
             </View>
           </TouchableHighlight>
-          {this.state.textTags.map((tag, index) => (
+          {this.state.textTags.map(tag => (
             <TouchableHighlight
               underlayColor="#17C491"
               onPress={() => {
                 this.interpolateTextTag(tag.text);
               }}>
-              <View style={styles.commandTagContainer} key={index}>
-                <Text style={[tag.style]}>{tag.text}</Text>
+              <View style={styles.commandTagContainer} key={tag.text}>
+                <Text
+                  style={[
+                    tag.style,
+                    tag.text === 'Shrug' ? {color: theme.primaryTextColor} : {},
+                  ]}>
+                  {tag.text}
+                </Text>
               </View>
             </TouchableHighlight>
           ))}
@@ -1206,7 +1359,7 @@ class Input extends React.Component {
       loggedUserPicture,
       isPrivateChannel,
       isReadOnlyChannel,
-      repost
+      repost,
     } = this.props;
     const {
       messageText,
@@ -1220,8 +1373,17 @@ class Input extends React.Component {
       showTags,
     } = this.state;
     console.log('repost: ', repost);
+    const {theme, themeName} = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.primaryBackgroundColor,
+            borderTopColor: theme.borderBottomColor,
+            borderBottomColor: theme.borderBottomColor,
+          },
+        ]}>
         {showMentionsOptions &&
           !isPrivateChannel &&
           this.getMentionsComponent()}
@@ -1240,7 +1402,8 @@ class Input extends React.Component {
               placeholder={
                 isReadOnlyChannel ? 'This channel is read-only' : placeholder
               }
-              style={styles.input}
+              placeholderTextColor={theme.placeholderTextColor}
+              style={[styles.input, {color: theme.primaryTextColor}]}
               ref={this.refInput}
               onSelectionChange={this.onSelectionChange}
               onChangeText={this.onChangeMessage}
@@ -1249,6 +1412,8 @@ class Input extends React.Component {
               underlineColorAndroid="transparent"
               allowFontScaling
               editable={!isReadOnlyChannel}
+              selectionColor={theme.tiltGreen}
+              keyboardAppearance={theme.keyboardAppearanceColor}
             />
             {repost && (
               <Repost
@@ -1258,11 +1423,12 @@ class Input extends React.Component {
                 message={repost.message}
                 username={repost.user.username}
                 metadata={repost.metadata}
-                createdAt={repost.create_at}
+                create_at={repost.create_at}
                 replies={repost.replies}
                 edit_at={repost.edit_at}
                 type={repost.type}
                 isPM={false}
+                post_props={repost.props}
               />
             )}
           </View>
@@ -1275,11 +1441,17 @@ class Input extends React.Component {
           }}>
           {uploadImages.map(({uri, id}, index) => (
             <View style={styles.mediaContainer} key={id}>
-              <Image source={{uri}} style={styles.mediaUpload} />
+              <Image
+                source={{uri}}
+                style={[
+                  styles.mediaUpload,
+                  {borderColor: theme.mediaBorderColor},
+                ]}
+              />
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteImage(index, id)}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1288,21 +1460,28 @@ class Input extends React.Component {
             <View style={styles.mediaContainer} key={id}>
               <Video
                 source={{uri}}
-                style={styles.mediaUpload}
+                style={[
+                  styles.mediaUpload,
+                  {borderColor: theme.mediaBorderColor},
+                ]}
                 volume={0.0}
                 resizeMode="stretch"
               />
               <View style={styles.deleteMedia}>
                 <TouchableWithoutFeedback
                   onPress={this.handleDeleteVideo(index, id)}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
           ))}
           {this.renderLoadingImages()}
           {uploadDocument && (
-            <View style={styles.documentContainer}>
+            <View
+              style={[
+                styles.documentContainer,
+                {borderColor: theme.mediaBorderColor},
+              ]}>
               <View
                 style={{
                   paddingRight: 15,
@@ -1312,12 +1491,20 @@ class Input extends React.Component {
                 <Image source={uploadDocument.icon} />
               </View>
               <View style={{flex: 1}}>
-                <Text style={styles.documentName}>{uploadDocument.name}</Text>
-                <Text>{prettyBytes(uploadDocument.size)}</Text>
+                <Text
+                  style={[
+                    styles.documentName,
+                    {color: theme.primaryTextColor},
+                  ]}>
+                  {uploadDocument.name}
+                </Text>
+                <Text style={{color: theme.primaryTextColor}}>
+                  {prettyBytes(uploadDocument.size)}
+                </Text>
               </View>
               <View style={styles.deleteDocument}>
                 <TouchableWithoutFeedback onPress={this.handleDeleteDocument}>
-                  <Image source={DELETE} />
+                  <Image source={assets[themeName].DELETE_ITEM} />
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -1326,55 +1513,65 @@ class Input extends React.Component {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.leftElements}>
             {!isPrivateChannel ? (
-              <TouchableHighlight
-                underlayColor="rgba(63, 184, 127, 0.2)"
-                onPress={() => this.showOptionsView(1)}>
+              <TouchableOpacity
+                onPress={() => this.showOptionsView(1)}
+                style={{paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             ) : (
-              <View style={{opacity: 0.5}}>
+              <View
+                style={{opacity: 0.5, paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
               </View>
             )}
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={() => this.showOptionsView(2)}>
+            <TouchableOpacity
+              onPress={() => this.showOptionsView(2)}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={SLASH} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={this.openTextTags}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.openTextTags}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={POST_TAGS} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <View style={[styles.rightElements]}>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            <TouchableOpacity
               onPress={this.handleImageUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadVideos.length !== 0 || !!uploadDocument}>
               <Image source={PHOTO} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleVideoUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadImages.length !== 0 || !!uploadDocument}>
               <Image source={VIDEO_THIN} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleDocumentUpload}
-              underlayColor="rgba(63, 184, 127, 0.2)"
+              style={{paddingLeft: 10, paddingRight: 15, paddingBottom: 5}}
               disabled={
                 uploadVideos.length !== 0 ||
                 uploadImages.length !== 0 ||
                 !!uploadDocument
               }>
               <Image source={FILE} style={styles.inputOption} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <TouchableOpacity>
               {this.isDisable() || isReadOnlyChannel ? (
-                <Text style={[styles.button, styles.disabled]}>Send</Text>
+                <Text
+                  style={[
+                    styles.button,
+                    styles.disabled,
+                    {backgroundColor: theme.primaryBackgroundColor},
+                  ]}>
+                  Send
+                </Text>
               ) : (
-                <Text style={styles.button} onPress={this.send}>
+                <Text
+                  style={[styles.button, {color: theme.buttonTextColor}]}
+                  onPress={this.send}>
                   Send
                 </Text>
               )}
@@ -1387,6 +1584,8 @@ class Input extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.themes[state.themes.current],
+  themeName: state.themes.current,
   repost: getRepostById(state),
   repost_id: state.repost,
   commands: state.commands.map(({name, trigger}) => ({name, trigger})),
