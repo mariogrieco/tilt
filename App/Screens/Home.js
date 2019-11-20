@@ -1,6 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {View, FlatList, ActivityIndicator, BackHandler} from 'react-native';
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  BackHandler,
+} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import StyleSheet from 'react-native-extended-stylesheet';
@@ -16,7 +21,7 @@ const ORIGIN = 'WATCHLIST';
 
 const styles = StyleSheet.create({
   container: {
-    height: 36,
+    height: 34,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
@@ -30,12 +35,8 @@ const styles = StyleSheet.create({
   },
   activeStyle: {
     borderRadius: 8,
-    shadowOffset: {width: 0.95, height: 0.95},
-    shadowColor: '#a2a2a2',
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
     elevation: 1,
-    height: 32,
+    height: 30,
     padding: 2,
     margin: 2,
   },
