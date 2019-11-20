@@ -90,6 +90,7 @@ export default StyleSheet.create({
   dots: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 10,
   },
   dotContainer: {
     paddingRight: 15,
