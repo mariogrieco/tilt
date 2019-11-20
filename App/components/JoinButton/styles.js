@@ -9,7 +9,7 @@ export default StyleSheet.create({
 
   joinButton: {
     paddingRight: 12,
-    paddingLeft: 13,
+    paddingLeft: 12,
     paddingVertical: 3,
     borderRadius: 14,
     marginRight: 15,

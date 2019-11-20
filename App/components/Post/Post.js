@@ -627,14 +627,14 @@ class Post extends React.Component {
     );
     return (
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
-        <View style={styles.dotContainer}>
+        <View style={styles.dotJoinContainer}>
           {displayJoinButton && (
-            <JoinButton channelId={channelId} buttonStyle={{marginRight: 5}} />
+            <JoinButton channelId={channelId} buttonStyle={{marginRight: 25}} />
           )}
 
           {!typeIsSystem && !disableDots && !isRepost && (
             <TouchableOpacity
-              style={[styles.dots]}
+              style={[styles.dotContainer]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
               <View
                 style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
@@ -836,4 +836,7 @@ const mapDispatchToProps = {
   addToChannel,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Post);
