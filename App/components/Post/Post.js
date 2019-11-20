@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import RNUrlPreview from 'react-native-url-preview';
-// import CurrentUserStatus from '../CurrentUserStatus'
+import JoinButton from '../JoinButton';
 import {deletePost} from '../../actions/posts';
 import moment from 'moment';
 import {connect} from 'react-redux';
@@ -35,8 +35,8 @@ import Reactions from './Reactions';
 import Repost from '../Repost';
 import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
 import {getReportIfNeeded} from '../../selectors/getReportIfNeeded';
+import {addToChannel} from '../../actions/channels';
 import styles from './style';
-import ChannelDisplayNameStyles from '../ChannelDisplayName/styles';
 
 const FILE_NOT_FOUND = require('../../../assets/themes/light/file-not-found/file-not-found.png');
 const TILT_SYSTEM_LOGO = require('../../../assets/themes/light/tilt-logo/tilt-logo.png');
@@ -616,6 +616,7 @@ class Post extends React.Component {
       theme,
       postedChannelName,
       displayJoinButton,
+      channelId,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -624,22 +625,10 @@ class Post extends React.Component {
       userId,
       last_picture_update,
     );
-    console.log('join style', ChannelDisplayNameStyles);
     return (
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
         <View style={styles.dotContainer}>
-          {displayJoinButton && (
-            <TouchableOpacity
-              style={[styles.joinButton, {backgroundColor: theme.tiltGreen}]}>
-              <Text
-                style={[
-                  styles.joinText,
-                  {color: theme.primaryBackgroundColor},
-                ]}>
-                JOIN
-              </Text>
-            </TouchableOpacity>
-          )}
+          {displayJoinButton && <JoinButton channelId={channelId} />}
 
           {!typeIsSystem && !disableDots && !isRepost && (
             <TouchableOpacity
@@ -842,6 +831,7 @@ const mapDispatchToProps = {
   jumpToAction,
   showPostMediaBox,
   deletePost,
+  addToChannel,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

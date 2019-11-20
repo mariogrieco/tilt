@@ -4,16 +4,22 @@ import {
   FlatList,
   Platform,
   KeyboardAvoidingView,
+  Text,
+  View,
+  TouchableOpacity,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import StyleSheet from 'react-native-extended-stylesheet';
 import GoBack from '../components/GoBack';
 import Input from '../components/Input';
 import Post from '../components/Post/Post';
+import JoinButton from '../components/JoinButton';
+import {addToChannel} from '../actions/channels';
 import getThreadForPost from '../selectors/getThreadForPost';
 import getPostById from '../selectors/getPostById';
-
-import {ifIphoneX} from 'react-native-iphone-x-helper';
+import updateFeedJoin from '../selectors/feedJoin';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 class Thread extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -21,6 +27,9 @@ class Thread extends React.Component {
     headerLeft: (
       <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
+    headerRight: navigation.getParam('displayJoinButton', false) ? (
+      <JoinButton channelId={navigation.getParam('channelForJoin', '')} />
+    ) : null,
     ...headerForScreenWithBottomLine({
       headerStyle: {
         backgroundColor: screenProps.theme.primaryBackgroundColor,
@@ -50,8 +59,24 @@ class Thread extends React.Component {
     />
   );
 
+  componentDidMount() {
+    const {navigation, needJoin, channelId} = this.props;
+    navigation.setParams({
+      displayJoinButton: needJoin,
+      channelForJoin: channelId,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.needJoin !== this.props.needJoin) {
+      this.props.navigation.setParams({
+        displayJoinButton: this.props.needJoin,
+      });
+    }
+  }
+
   render() {
-    const {channelId, thread, root_id, replyTo, theme} = this.props;
+    const {channelId, thread, root_id, replyTo, theme, needJoin} = this.props;
     const keyboardVerticalOffset =
       Platform.OS === 'ios' ? ifIphoneX(88, 60) : 0;
     return (
@@ -63,22 +88,68 @@ class Thread extends React.Component {
           data={thread}
           renderItem={this.renderItem}
         />
-
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={keyboardVerticalOffset}
-          behavior={Platform.OS === 'ios' ? 'position' : undefined}>
-          <Input
-            root_id={root_id}
-            placeholder={`Reply to ${replyTo}'s message`}
-            channelId={channelId}
-          />
-        </KeyboardAvoidingView>
+        {needJoin ? (
+          //inline styles will removed soon to styles
+          <View
+            style={{
+              height: 122,
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              borderTopWidth: StyleSheet.hairlineWidth,
+              borderTopColor: theme.borderBottomcolor,
+              backgroundColor: theme.primaryBackgroundColor,
+            }}>
+            <Text
+              style={{
+                fontFamily: 'SFProDisplay-Medium',
+                fontSize: 16,
+                letterSpacing: 0.1,
+                color: theme.primaryTextColor,
+              }}>
+              Join to replace-me start commenting.
+            </Text>
+            <View style={[{paddingLeft: 14, paddingRight: 15, width: '100%'}]}>
+              <TouchableOpacity
+                style={{
+                  width: '100%',
+                  height: 44,
+                  borderRadius: 22,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: theme.tiltGreen,
+                }}
+                onPress={() => this.props.addToChannel(null, channelId)}>
+                <Text
+                  style={{
+                    fontFamily: 'SFProDisplay-Medium',
+                    fontSize: 16,
+                    letterSpacing: 0.1,
+                    color: theme.primaryBackgroundColor,
+                  }}>
+                  Join replace-me
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={keyboardVerticalOffset}
+            behavior={Platform.OS === 'ios' ? 'position' : undefined}>
+            <Input
+              root_id={root_id}
+              placeholder={`Reply to ${replyTo}'s message`}
+              channelId={channelId}
+            />
+          </KeyboardAvoidingView>
+        )}
       </SafeAreaView>
     );
   }
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  addToChannel,
+};
 
 function getRootID(post) {
   if (
@@ -97,12 +168,14 @@ const threadSelector = state => {
   const activePost = state.appNavigation.active_thread_data;
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
+  const localFeedJoin = updateFeedJoin();
 
   if (postEntity) {
     console.log('lo encontre en entities');
     const root_id = getRootID(postEntity);
     const rootPost = getPostById(state, root_id);
     return {
+      needJoin: localFeedJoin(state, {id: postEntity.id}),
       thread: getThreadForPost(state, postEntity),
       root_id,
       channelId: postEntity.channel_id,
@@ -122,6 +195,7 @@ const threadSelector = state => {
     console.log('thread a renderizar', thread);
 
     return {
+      needJoin: localFeedJoin(state, {id: postFeed.id}),
       thread,
       root_id: postFeed.id,
       channelId: postFeed.channel_id,
@@ -142,8 +216,6 @@ const threadSelector = state => {
 };
 
 const mapStateToProps = state => {
-  console.log('post id para thread', state.appNavigation.active_thread_data);
-
   return {
     ...threadSelector(state),
     theme: state.themes[state.themes.current],
