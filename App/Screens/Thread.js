@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   Text,
   View,
-  TouchableOpacity,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
@@ -137,6 +136,7 @@ class Thread extends React.Component {
                 buttonStyle={styles.joinButtonContainer}
                 textStyle={styles.joinButtonText}
                 displayText="Join replace-me"
+                channelId={channelId}
               />
             </View>
           </View>
