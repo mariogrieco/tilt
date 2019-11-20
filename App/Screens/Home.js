@@ -16,37 +16,39 @@ const ORIGIN = 'WATCHLIST';
 
 const styles = StyleSheet.create({
   container: {
-    height: 32,
+    height: 36,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '75%',
-    borderRadius: 8.9,
+    width: '100%',
+    borderRadius: 8,
     overflow: 'hidden',
   },
   commonStyle: {
+    borderColor: 'transparent',
+    borderWidth: 0,
     backgroundColor: 'transparent',
-    borderColor: 'rgba(0, 0, 0, 0.04)',
-    height: 28,
-    borderRadius: 6.9,
-    margin: 2,
-    borderWidth: 0.5,
   },
   activeStyle: {
-    shadowOffset: {width: 0, height: 3},
-    shadowColor: 'rgba(0, 0, 0, 0.12)',
+    borderRadius: 8,
+    shadowOffset: {width: 0.95, height: 0.95},
+    shadowColor: '#a2a2a2',
     shadowOpacity: 0.5,
-    shadowRadius: 8,
+    shadowRadius: 2,
     elevation: 1,
+    height: 32,
+    padding: 2,
+    margin: 2,
   },
   tabText: {
-    color: '#000',
     fontSize: 14,
     lineHeight: 18,
     fontFamily: 'SFProDisplay-Medium',
-    letterSpacing: -0.08,
+    letterSpacing: 0.1,
+    textAlign: 'center',
   },
   activeTabText: {
     fontFamily: 'SFProDisplay-Semibold',
+    textAlign: 'center',
   },
 });
 
@@ -62,7 +64,7 @@ class Home extends React.Component {
           backgroundColor: screenProps.theme.segmentedControlBackgroundColor,
           borderColor: screenProps.theme.segmentedControlBackgroundColor,
         }}
-        tabStyle={styles.commonStyle}
+        tabStyle={[styles.commonStyle]}
         activeTabStyle={{
           ...styles.commonStyle,
           ...styles.activeStyle,
@@ -263,7 +265,10 @@ const mapStateToProps = ({watchlist, modal, login, themes}) => ({
   theme: themes[themes.current],
 });
 
-export default connect(mapStateToProps, {
-  getSymbols,
-  modalActive,
-})(Home);
+export default connect(
+  mapStateToProps,
+  {
+    getSymbols,
+    modalActive,
+  },
+)(Home);
