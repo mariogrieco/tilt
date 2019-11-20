@@ -615,6 +615,7 @@ class Post extends React.Component {
       postId,
       theme,
       postedChannelName,
+      displayJoinButton,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -627,10 +628,18 @@ class Post extends React.Component {
     return (
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
         <View style={styles.dotContainer}>
-          <TouchableOpacity
-            style={[styles.joinButton, {backgroundColor: '#17c491'}]}>
-            <Text style={[styles.joinText, {color: '#FFF'}]}>JOIN</Text>
-          </TouchableOpacity>
+          {displayJoinButton && (
+            <TouchableOpacity
+              style={[styles.joinButton, {backgroundColor: theme.tiltGreen}]}>
+              <Text
+                style={[
+                  styles.joinText,
+                  {color: theme.primaryBackgroundColor},
+                ]}>
+                JOIN
+              </Text>
+            </TouchableOpacity>
+          )}
 
           {!typeIsSystem && !disableDots && !isRepost && (
             <TouchableOpacity
