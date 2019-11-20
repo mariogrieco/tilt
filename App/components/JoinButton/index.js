@@ -4,7 +4,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {addToChannel} from '../../actions/channels';
 import styles from './styles';
 
-const JoinButton = ({channelId}) => {
+const JoinButton = ({
+  channelId,
+  buttonStyle = {},
+  textStyle = {},
+  displayText = 'JOIN',
+}) => {
   const loggedUserId = useSelector(state =>
     state.login.user ? state.login.user.id : '',
   );
@@ -17,10 +22,19 @@ const JoinButton = ({channelId}) => {
 
   return (
     <TouchableOpacity
-      style={[styles.joinButton, {backgroundColor: theme.tiltGreen}]}
+      style={[
+        styles.joinButton,
+        buttonStyle,
+        {backgroundColor: theme.tiltGreen},
+      ]}
       onPress={joinInChannel}>
-      <Text style={[styles.joinText, {color: theme.primaryBackgroundColor}]}>
-        JOIN
+      <Text
+        style={[
+          styles.joinText,
+          textStyle,
+          {color: theme.primaryBackgroundColor},
+        ]}>
+        {displayText}
       </Text>
     </TouchableOpacity>
   );

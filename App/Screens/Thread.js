@@ -16,7 +16,6 @@ import GoBack from '../components/GoBack';
 import Input from '../components/Input';
 import Post from '../components/Post/Post';
 import JoinButton from '../components/JoinButton';
-import {addToChannel} from '../actions/channels';
 import getThreadForPost from '../selectors/getThreadForPost';
 import getPostById from '../selectors/getPostById';
 import updateFeedJoin from '../selectors/feedJoin';
@@ -134,24 +133,11 @@ class Thread extends React.Component {
               Join to replace-me start commenting.
             </Text>
             <View style={[{paddingLeft: 14, paddingRight: 15, width: '100%'}]}>
-              <TouchableOpacity
-                style={[
-                  styles.joinButtonContainer,
-                  {
-                    backgroundColor: theme.tiltGreen,
-                  },
-                ]}
-                onPress={() => this.props.addToChannel(null, channelId)}>
-                <Text
-                  style={[
-                    styles.joinButtonText,
-                    {
-                      color: theme.primaryBackgroundColor,
-                    },
-                  ]}>
-                  Join replace-me
-                </Text>
-              </TouchableOpacity>
+              <JoinButton
+                buttonStyle={styles.joinButtonContainer}
+                textStyle={styles.joinButtonText}
+                displayText="Join replace-me"
+              />
             </View>
           </View>
         ) : (
@@ -170,9 +156,7 @@ class Thread extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  addToChannel,
-};
+const mapDispatchToProps = {};
 
 function getRootID(post) {
   if (
