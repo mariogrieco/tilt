@@ -21,6 +21,32 @@ import getThreadForPost from '../selectors/getThreadForPost';
 import getPostById from '../selectors/getPostById';
 import updateFeedJoin from '../selectors/feedJoin';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+
+const styles = StyleSheet.create({
+  joinContainer: {
+    height: 122,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  joinMessageText: {
+    fontFamily: 'SFProDisplay-Medium',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
+  joinButtonContainer: {
+    width: '100%',
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  joinButtonText: {
+    fontFamily: 'SFProDisplay-Medium',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
+});
 class Thread extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Thread',
@@ -91,41 +117,38 @@ class Thread extends React.Component {
         {needJoin ? (
           //inline styles will removed soon to styles
           <View
-            style={{
-              height: 122,
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              borderTopWidth: StyleSheet.hairlineWidth,
-              borderTopColor: theme.borderBottomcolor,
-              backgroundColor: theme.primaryBackgroundColor,
-            }}>
+            style={[
+              styles.joinContainer,
+              {
+                borderTopColor: theme.borderBottomcolor,
+                backgroundColor: theme.primaryBackgroundColor,
+              },
+            ]}>
             <Text
-              style={{
-                fontFamily: 'SFProDisplay-Medium',
-                fontSize: 16,
-                letterSpacing: 0.1,
-                color: theme.primaryTextColor,
-              }}>
+              style={[
+                styles.joinMessageText,
+                {
+                  color: theme.primaryTextColor,
+                },
+              ]}>
               Join to replace-me start commenting.
             </Text>
             <View style={[{paddingLeft: 14, paddingRight: 15, width: '100%'}]}>
               <TouchableOpacity
-                style={{
-                  width: '100%',
-                  height: 44,
-                  borderRadius: 22,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: theme.tiltGreen,
-                }}
+                style={[
+                  styles.joinButtonContainer,
+                  {
+                    backgroundColor: theme.tiltGreen,
+                  },
+                ]}
                 onPress={() => this.props.addToChannel(null, channelId)}>
                 <Text
-                  style={{
-                    fontFamily: 'SFProDisplay-Medium',
-                    fontSize: 16,
-                    letterSpacing: 0.1,
-                    color: theme.primaryBackgroundColor,
-                  }}>
+                  style={[
+                    styles.joinButtonText,
+                    {
+                      color: theme.primaryBackgroundColor,
+                    },
+                  ]}>
                   Join replace-me
                 </Text>
               </TouchableOpacity>
