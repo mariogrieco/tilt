@@ -310,7 +310,8 @@ export class PureParsedText extends Component {
   onChannelPress(value) {
     value = value.split(' ')[0];
     this.props.clearjumpToAction();
-    this.props.onChannel(value);
+    // this.props.onChannel(value);
+    this.props.onChannel2(value);
   }
 
   onUserPress(value) {

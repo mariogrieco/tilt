@@ -23,7 +23,9 @@ Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
 
 Client4.getSymbolPercentChange = symbol_name => {
-  return axios.get(`${baseServicesUrl}/percent-change/${symbol_name}`);
+  return axios.get(
+    `${baseServicesUrl}/symbol-data/${symbol_name}/percent-change`,
+  );
 };
 
 Client4.createUserOld = ({

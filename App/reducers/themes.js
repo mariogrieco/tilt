@@ -28,6 +28,10 @@ const initialState = {
     jumpToHighlightColor: '#FCF4DD',
     barStyleColor: 'dark-content',
     keyboardAppearanceColor: 'light',
+
+    // Chart Popup
+    popupPriceColor: '#0e141e',
+    popupBtnTextColor: '#FFF',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -55,6 +59,10 @@ const initialState = {
     jumpToHighlightColor: 'rgba(252,244,221,0.2)',
     barStyleColor: 'light-content',
     keyboardAppearanceColor: 'dark',
+
+    // chart Popup
+    popupPriceColor: '#ffffff',
+    popupBtnTextColor: '#0e141e',
   },
   darkGray: {
     primaryBackgroundColor: '#262A2F',
@@ -82,6 +90,9 @@ const initialState = {
     jumpToHighlightColor: 'rgba(252,244,221,0.2)',
     barStyleColor: 'light-content',
     keyboardAppearanceColor: 'dark',
+    // chart Popup
+    popupPriceColor: '#FFF',
+    popupBtnTextColor: '#0e141e',
   },
   current: 'light',
   entities: ['light', 'darkGray', 'dark'],
