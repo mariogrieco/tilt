@@ -1,23 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-import isEqual from 'lodash';
+import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
 import {LineChart} from 'react-native-charts-wrapper';
 
 class LineChartContainer extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.props.theme.primaryBackgroundColor !==
-      nextProps.theme.primaryBackgroundColor
-    ) {
-      return true;
-    }
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
   render() {
-    const {theme} = this.props;
+    const {theme, isRed} = this.props;
     return (
       <View
         // eslint-disable-next-line react-native/no-inline-styles
@@ -59,7 +53,7 @@ class LineChartContainer extends Component {
               dataSets: [
                 {
                   config: {
-                    mode: 'CUBIC_BEZIER',
+                    // mode: 'CUBIC_BEZIER',
                     drawValues: false,
                     lineWidth: 1,
                     drawCircles: false,
@@ -67,11 +61,11 @@ class LineChartContainer extends Component {
                     drawCircleHole: false,
                     circleRadius: 0,
                     highlightColor: processColor('transparent'),
-                    color: processColor('#17c491'),
+                    color: processColor(isRed ? '#fc3e30' : '#17c491'),
                     drawFilled: true,
                     fillGradient: {
                       colors: [
-                        processColor('#17c491'),
+                        processColor(isRed ? '#fc3e30' : '#17c491'),
                         processColor('transparent'),
                       ],
                       positions: [0, 0.5],

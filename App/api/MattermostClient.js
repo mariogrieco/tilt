@@ -12,7 +12,6 @@ if (IS_DEV_ENV) {
   baseUrl = 'https://staging.tiltchat.com';
   baseServicesUrl = 'https://staging.tiltchat.com/services';
   socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
-  // server_id = 'itjam868oid65jk34aywnd94jo';
 } else {
   baseUrl = 'https://community.tiltchat.com';
   baseServicesUrl = 'https://community.tiltchat.com/services';
@@ -21,6 +20,23 @@ if (IS_DEV_ENV) {
 
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
+
+Client4.getSymbolTicket = async symbol_name => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/symbol-data/${symbol_name}`,
+    );
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+Client4.getKlines = (symbol, interval, startTime) => {
+  return axios.get(
+    `${baseServicesUrl}/symbol-data/klines?symbol=${symbol}&interval=${interval}&startTime=${startTime}`,
+  );
+};
 
 Client4.getSymbolPercentChange = symbol_name => {
   return axios.get(

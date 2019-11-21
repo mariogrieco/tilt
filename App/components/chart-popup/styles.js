@@ -14,10 +14,13 @@ export default StyleSheet.create({
     textAlign: 'right',
   },
   symbolPercent: {
-    color: '#fc3e30',
+    color: '#17c491',
     fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     textAlign: 'right',
+  },
+  redPercent: {
+    color: '#fc3e30',
   },
   container: {
     paddingLeft: 13,

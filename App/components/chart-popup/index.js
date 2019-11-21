@@ -17,10 +17,12 @@ const ChartPopup = () => {
     symbol_name = symbol_name.toUpperCase();
   }
   const onNavigateIfExists = () => {
-    dispatch(navigateIfExists(state.symbol));
     dispatch(closePopup());
+    dispatch(navigateIfExists(state.symbol));
   };
 
+  const colorIsRed = state.changePercent < 0;
+  
   return (
     <View
       style={[
@@ -33,10 +35,13 @@ const ChartPopup = () => {
           <Text style={[styles.price, {color: theme.popupPriceColor}]}>
             {state.price}
           </Text>
-          <Text style={styles.symbolPercent}>{state.percent}</Text>
+          <Text
+            style={[styles.symbolPercent, colorIsRed ? styles.redPercent : {}]}>
+            {state.change} ({state.changePercent}%)
+          </Text>
         </View>
       </View>
-      <ChartContainer />
+      <ChartContainer isRed={colorIsRed} />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={onNavigateIfExists}>
           <Text style={[styles.btnText, {color: theme.popupBtnTextColor}]}>
