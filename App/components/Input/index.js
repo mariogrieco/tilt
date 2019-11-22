@@ -273,6 +273,26 @@ class Input extends React.Component {
           if (post.metadata.files) {
             file_ids = post.metadata.files.map(({id}) => id);
           }
+          if (post.props) {
+            if (post.percent_change) {
+              const percent_change = await this.getEditedPropsValues();
+              if (percent_change) {
+                const nextProps = {};
+                Object.keys(post.props.percent_change).map(key => {
+                  if (percent_change.indexOf(key) !== -1) {
+                    if (percent_change[key] !== '') {
+                      nextProps[key] = percent_change[key];
+                    }
+                  }
+                });
+                post.props.percent_change = nextProps;
+              } else {
+                post.props.percent_change = null;
+                delete post.props.percent_change;
+              }
+            }
+          }
+
           await this.props.updatePost({
             ...post,
             message: parsedValue,
@@ -308,12 +328,18 @@ class Input extends React.Component {
           const {messageText, filesIds} = this.state;
           const {channelId, root_id, repost_id} = this.props;
           const parsedValue = Emoji.parse(messageText);
+          const percent_change = await this.getDollarValuesProps();
+          const props = {};
+          props.repost = repost_id;
+          if (percent_change !== null) {
+            props.percent_change = percent_change;
+          }
           await this.props.createPost(
             parsedValue,
             channelId,
             root_id,
             filesIds,
-            {repost: repost_id},
+            props,
           );
           this.setState({
             messageText: '',
@@ -622,6 +648,75 @@ class Input extends React.Component {
 
     return currentIndex !== null;
   }
+
+  getPropsEditValuesFor () {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    return propsFor;
+  }
+
+   getDollarValuesProps = async () => {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+
+    if (propsFor.length === 0) {
+      return null;
+    }
+
+    return await this.getValuesFor(propsFor);
+  };
+
+  getEditedPropsValues() {
+    const patt = dollarTagRegx;
+    let match = null;
+    const {messageText} = this.state;
+    const matches = messageText.match(dollarTagRegx);
+    let propsFor = [];
+    while ((match = patt.exec(messageText))) {
+      if (match[0]) {
+        propsFor.push(match[0].replace('$', ''));
+      }
+    }
+    if (propsFor.length === 0) {
+      return null;
+    }
+    return propsFor;
+  }
+
+   getValuesFor = async propsFor => {
+    const allProps = {};
+
+    for (let index = 0; index < propsFor.length; index++) {
+      const name = propsFor[index];
+      try {
+        const {data} = await Client4.getSymbolPercentChange(name);
+        if (data !== '') {
+          allProps[name] = data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    return allProps;
+  };
 
   determineIfOpenTags() {
     const {selection, messageText} = this.state;
@@ -1180,7 +1275,7 @@ class Input extends React.Component {
               }>
               <View style={styles.commandTagContainer} key={index}>
                 <Text style={[styles.hashTag, {color: theme.primaryTextColor}]}>
-                  ${name.toLowerCase()}
+                  ${name.toUpperCase()}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -1332,6 +1427,7 @@ class Input extends React.Component {
                 edit_at={repost.edit_at}
                 type={repost.type}
                 isPM={false}
+                post_props={repost.props}
               />
             )}
           </View>
@@ -1416,50 +1512,51 @@ class Input extends React.Component {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.leftElements}>
             {!isPrivateChannel ? (
-              <TouchableHighlight
-                underlayColor="rgba(63, 184, 127, 0.2)"
-                onPress={() => this.showOptionsView(1)}>
+              <TouchableOpacity
+                onPress={() => this.showOptionsView(1)}
+                style={{paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             ) : (
-              <View style={{opacity: 0.5}}>
+              <View
+                style={{opacity: 0.5, paddingHorizontal: 10, paddingBottom: 5}}>
                 <Image source={AT} />
               </View>
             )}
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={() => this.showOptionsView(2)}>
+            <TouchableOpacity
+              onPress={() => this.showOptionsView(2)}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={SLASH} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
-              onPress={this.openTextTags}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.openTextTags}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}>
               <Image source={POST_TAGS} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <View style={[styles.rightElements]}>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            <TouchableOpacity
               onPress={this.handleImageUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadVideos.length !== 0 || !!uploadDocument}>
               <Image source={PHOTO} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor="rgba(63, 184, 127, 0.2)"
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleVideoUpload}
+              style={{paddingHorizontal: 10, paddingBottom: 5}}
               disabled={uploadImages.length !== 0 || !!uploadDocument}>
               <Image source={VIDEO_THIN} style={styles.inputOption} />
-            </TouchableHighlight>
-            <TouchableHighlight
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleDocumentUpload}
-              underlayColor="rgba(63, 184, 127, 0.2)"
+              style={{paddingLeft: 10, paddingRight: 15, paddingBottom: 5}}
               disabled={
                 uploadVideos.length !== 0 ||
                 uploadImages.length !== 0 ||
                 !!uploadDocument
               }>
               <Image source={FILE} style={styles.inputOption} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <TouchableOpacity>
               {this.isDisable() || isReadOnlyChannel ? (
                 <Text

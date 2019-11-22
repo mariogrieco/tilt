@@ -29,6 +29,13 @@ const W = Dimensions.get('REAL_WINDOW_WIDTH');
 const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 
 const styles = StyleSheet.create({
+  parserName: {
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontFamily: 'SFProDisplay-Regular',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
   modal: {
     width: '20rem',
     alignSelf: 'center',
@@ -110,6 +117,13 @@ class EditChannel extends React.Component {
       };
     }
     return null;
+  }
+
+  parseName(name = '') {
+    return (name || '')
+      .split(' ')
+      .join('-')
+      .toLowerCase();
   }
 
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -194,7 +208,8 @@ class EditChannel extends React.Component {
         if (title !== null && header !== null) {
           try {
             await this.props.patchChannel(channel.id, {
-              name: title,
+              name: this.parseName(title),
+              display_name: title,
               purpose,
               header,
             });
@@ -303,6 +318,11 @@ class EditChannel extends React.Component {
             onChangeText={this.onChangeTitle}
           />
           <Separator />
+          <Text
+            style={[styles.parserName, {color: theme.placeholderTextColor}]}>
+            {' '}
+            URL: {this.parseName(title)}
+          </Text>
         </CreateChannelField>
         <Spacer />
         <KeyboardAvoidingView

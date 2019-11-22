@@ -170,6 +170,7 @@ class UserProfile extends React.PureComponent {
           replies={post.replies}
           edit_at={post.edit_at}
           showLoggedUserProfile={!isSelfProfile}
+          post_props={post.props}
         />
       </View>
     );

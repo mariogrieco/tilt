@@ -94,6 +94,7 @@ class Thread extends React.Component {
               edit_at={post.edit_at}
               onDotsPress={this.handlePostActive}
               replies={post.replies}
+              post_props={post.props}
             />
           ))}
         </ScrollView>

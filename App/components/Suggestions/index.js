@@ -15,7 +15,12 @@ class Suggestions extends PureComponent {
           this.props.onChannel(item.show_name);
         }}
         style={styles.channelName}>
-        <Text style={[styles.channelText, {color: theme.primaryTextColor}]}>
+        <Text
+          style={[
+            styles.channelText,
+            item.isDollar ? {textTransform: 'uppercase'} : {},
+            {color: theme.primaryTextColor},
+          ]}>
           {item.pm ? '@' : item.isDollar ? '$' : '#'}
           {item.show_name}
         </Text>

@@ -144,7 +144,7 @@ class PasswordReset extends React.Component {
                   style={[styles.phoneNumber, {color: theme.primaryTextColor}]}
                   value={this.state.email}
                   autoCapitalize="none"
-                  placeholderTextColor={theme.secondaryTextColor}
+                  placeholderTextColor={theme.placeholderTextColor}
                   autoCorrect={false}
                   selectionColor="#17C491"
                 />
@@ -157,7 +157,7 @@ class PasswordReset extends React.Component {
                 }}
                 style={[styles.placeholders, {color: theme.primaryTextColor}]}
                 autoCapitalize="none"
-                placeholderTextColor={theme.secondaryTextColor}
+                placeholderTextColor={theme.placeholderTextColor}
                 autoCorrect={false}
                 selectionColor="#17C491"
               />
@@ -181,4 +181,7 @@ const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PasswordReset);

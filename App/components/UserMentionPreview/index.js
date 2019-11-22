@@ -29,7 +29,6 @@ class UserMentionPreview extends PureComponent {
               styles.mentionsColor,
               {color: theme.primaryTextColor},
             ]}>
-            {'@'}
             {username}
           </Text>
         </View>

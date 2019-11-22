@@ -62,6 +62,7 @@ export class SearchResults extends PureComponent {
           disableDots
           jumpTo
           extendedDateFormat
+          post_props={item.props}
         />
         <BottomBlockSpaceSmall />
       </View>

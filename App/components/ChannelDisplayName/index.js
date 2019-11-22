@@ -90,6 +90,7 @@ class ChannelDisplayName extends Component {
             styles.header,
             {color: theme.primaryTextColor},
             titleColor ? {color: titleColor} : {},
+            isfromAdmin ? {textTransform: 'uppercase'} : {},
           ]}>
           <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text> {name}{' '}
         </Text>
@@ -156,9 +157,9 @@ class ChannelDisplayName extends Component {
           {backgroundColor: theme.primaryBackgroundColor},
         ]}
         onPress={this.onPress}>
-        <View style={styles.imageContainer}>
-          <Image styles={styles.imageContainer} source={EARTH} />
-        </View>
+        {/*<View style={styles.imageContainer}>*/}
+        {/*  <Image styles={styles.imageContainer} source={EARTH} />*/}
+        {/*</View>*/}
         <View>
           {this.getHeader()}
           {this.getMembersLabel()}
@@ -185,9 +186,9 @@ class ChannelDisplayName extends Component {
     const {theme} = this.props;
     return (
       <TouchableOpacity activeOpacity={1} style={styles.containerJoin}>
-        <View style={styles.imageContainer}>
-          <Image styles={styles.image} source={EARTH} />
-        </View>
+        {/*<View style={styles.imageContainer}>*/}
+        {/*  <Image styles={styles.image} source={EARTH} />*/}
+        {/*</View>*/}
         <View style={{flex: 1}}>
           {this.getHeader()}
           {this.getDescription()}

@@ -58,6 +58,7 @@ class PrivateMessages extends React.Component {
         </View>
         {lastPost && (
           <Post
+            post_props={lastPost.props}
             postId={lastPost.id}
             userId={lastPost.user ? lastPost.user.id : ''}
             last_picture_update={lastPost.user.last_picture_update}

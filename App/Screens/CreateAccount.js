@@ -152,7 +152,6 @@ class CreateAccount extends React.Component {
         <View
           style={{
             flex: 1,
-            marginVertical: 0,
             backgroundColor: theme.primaryBackgroundColor,
           }}>
           <Form
@@ -170,7 +169,7 @@ class CreateAccount extends React.Component {
               }}
               placeholder="First Name"
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />
@@ -182,7 +181,7 @@ class CreateAccount extends React.Component {
               }}
               placeholder="Last Name"
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />
@@ -195,7 +194,7 @@ class CreateAccount extends React.Component {
               placeholder="Email"
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />
@@ -208,7 +207,7 @@ class CreateAccount extends React.Component {
               placeholder="Username"
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
               autoCapitalize="none"
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />
@@ -222,7 +221,7 @@ class CreateAccount extends React.Component {
               secureTextEntry
               maxLength={12}
               style={[styles.placeholders, {color: theme.primaryTextColor}]}
-              placeholderTextColor={theme.secondaryTextColor}
+              placeholderTextColor={theme.placeholderTextColor}
               selectionColor="#17C491"
             />
             <InputSeparator />

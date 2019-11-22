@@ -496,6 +496,7 @@ class Post extends React.Component {
       disableInteractions,
       isPM,
       // reported,
+      post_props,
     } = this.props;
     const {theme} = this.props;
     const typeIsSystem = type.match('system');
@@ -541,7 +542,9 @@ class Post extends React.Component {
                 typeIsSystem={typeIsSystem}
                 onChannel={navigateIfExists}
                 onUser={onUser}
+                props={post_props}
                 disableUserPattern={isPM}
+                post_props={post_props}
               />
               {edit_at > 0 && <Text style={styles.edited}>(edited)</Text>}
             </View>
@@ -617,6 +620,7 @@ class Post extends React.Component {
       postedChannelName,
       displayJoinButton,
       channelId,
+      post_props,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -778,6 +782,7 @@ class Post extends React.Component {
               userId={repost.user.id}
               last_picture_update={repost.user.last_picture_update}
               username={repost.user.username}
+              post_props={repost.props}
             />
           )}
           {!isRepost && (

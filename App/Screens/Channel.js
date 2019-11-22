@@ -418,6 +418,7 @@ class Channel extends React.Component {
             replies={item.replies}
             edit_at={item.edit_at}
             type={item.type}
+            post_props={item.props}
             isPM={this.props.navigation.getParam('pm', false)}
           />
         </View>
@@ -575,7 +576,7 @@ class Channel extends React.Component {
       : channel.name;
 
     if (isAdminCreator) {
-      return `Write to $${parseChannelMention(title)}`;
+      return `Write to $${parseChannelMention(title).toUpperCase()}`;
     }
 
     if (isPrivateMessage) {

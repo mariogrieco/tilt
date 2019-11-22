@@ -1,3 +1,7 @@
-const parser = str => (str.split(' ').join('-').toLowerCase());
+const parser = str =>
+  str
+    .split(' ')
+    .join('-')
+    .toLowerCase();
 
 export default parser;

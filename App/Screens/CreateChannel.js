@@ -27,6 +27,13 @@ const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
 
 const styles = StyleSheet.create({
+  parserName: {
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontFamily: 'SFProDisplay-Regular',
+    fontSize: 16,
+    letterSpacing: 0.1,
+  },
   modal: {
     width: '20rem',
     alignSelf: 'center',
@@ -182,7 +189,8 @@ class CreateChannel extends React.Component {
         if (title !== null && header !== null) {
           try {
             await this.props.createChannel({
-              title,
+              display_name: title,
+              title: this.parseName(title),
               purpose,
               header,
             });
@@ -190,8 +198,10 @@ class CreateChannel extends React.Component {
               publicChannelModal: true,
             });
           } catch (ex) {
+            console.log('end');
             alert(ex);
           } finally {
+            console.log('end');
             this.setState({
               loading: false,
             });
@@ -218,6 +228,13 @@ class CreateChannel extends React.Component {
       },
     );
   };
+
+  parseName(name = '') {
+    return (name || '')
+      .split(' ')
+      .join('-')
+      .toLowerCase();
+  }
 
   renderModalPublic = () => {
     const {theme} = this.props;
@@ -291,6 +308,11 @@ class CreateChannel extends React.Component {
             onChangeText={this.onChangeTitle}
           />
           <Separator />
+          <Text
+            style={[styles.parserName, {color: theme.placeholderTextColor}]}>
+            {' '}
+            URL: {this.parseName(title)}
+          </Text>
         </CreateChannelField>
         <Spacer />
         <KeyboardAvoidingView
@@ -362,4 +384,7 @@ const mapDispatchToProps = {
   createChannel,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateChannel);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CreateChannel);

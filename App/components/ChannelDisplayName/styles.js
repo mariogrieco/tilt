@@ -4,10 +4,12 @@ export default StyleSheet.create({
   container: {
     flexDirection: 'row',
     marginTop: 10,
+    marginLeft: 15,
   },
   containerJoin: {
     flexDirection: 'row',
-    marginTop: '1rem',
+    marginTop: 10,
+    marginLeft: 15,
   },
   header: {
     color: '#0E141E',
