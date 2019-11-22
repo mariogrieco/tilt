@@ -1,4 +1,3 @@
-
 import {Alert} from 'react-native';
 
 import Client4 from '../api/MattermostClient';
@@ -85,8 +84,10 @@ export const GET_MY_CHANNEL_BY_ID_SUCCESS = 'GET_MY_CHANNEL_BY_ID_SUCCESS';
 export const DELETE_CHANNEL_SUCCESS = 'DELETE_CHANNEL_SUCCESS';
 export const DELETE_CHANNEL_ERROR = 'DELETE_CHANNEL_ERROR';
 
-export const GET_MUTE_UNMUTE_PREFERENCES_SUCCESS = 'GET_MUTE_UNMUTE_PREFERENCES_SUCCESS';
-export const GET_MUTE_UNMUTE_PREFERENCES_ERROR = 'GET_MUTE_UNMUTE_PREFERENCES_ERROR';
+export const GET_MUTE_UNMUTE_PREFERENCES_SUCCESS =
+  'GET_MUTE_UNMUTE_PREFERENCES_SUCCESS';
+export const GET_MUTE_UNMUTE_PREFERENCES_ERROR =
+  'GET_MUTE_UNMUTE_PREFERENCES_ERROR';
 
 export const deleteChannel = channelId => async dispatch => {
   try {

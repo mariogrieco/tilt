@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 import {connect} from 'react-redux';
 
 import styles from './styles';
-import assets from '../ThemeWrapper/assets';
+import assets from '../../config/themeAssets/assets';
 
 export class FilterPopulateItem extends Component {
   static propTypes = {

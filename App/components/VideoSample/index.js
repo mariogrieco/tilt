@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import prettyBytes from 'pretty-bytes';
 import Client4 from '../../api/MattermostClient';
 import styles from './styles';
-import assets from '../ThemeWrapper/assets';
-
+import assets from '../../config/themeAssets/assets';
 const VIDEO = require('../../../assets/themes/light/video-file/video.png');
 
 class VideoSample extends PureComponent {

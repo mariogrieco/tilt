@@ -28,11 +28,10 @@ const initialState = {
     jumpToHighlightColor: '#FCF4DD',
     barStyleColor: 'dark-content',
     keyboardAppearanceColor: 'light',
-
-    // Chart Popup
     popupPriceColor: '#0e141e',
     popupBtnTextColor: '#FFF',
     volumeBarColor: '#d9d8d7',
+    segmentedControlBackgroundColor: 'rgba(118, 118, 128, 0.12)',
   },
   dark: {
     primaryBackgroundColor: '#040D14',
@@ -60,11 +59,10 @@ const initialState = {
     jumpToHighlightColor: 'rgba(252,244,221,0.2)',
     barStyleColor: 'light-content',
     keyboardAppearanceColor: 'dark',
-
-    // chart Popup
     popupPriceColor: '#ffffff',
     popupBtnTextColor: '#0e141e',
     volumeBarColor: '#585c63',
+    segmentedControlBackgroundColor: 'rgba(118, 118, 128, 0.24)',
   },
   darkGray: {
     primaryBackgroundColor: '#262A2F',
@@ -92,10 +90,10 @@ const initialState = {
     jumpToHighlightColor: 'rgba(252,244,221,0.2)',
     barStyleColor: 'light-content',
     keyboardAppearanceColor: 'dark',
-    // chart Popup
     popupPriceColor: '#FFF',
     popupBtnTextColor: '#0e141e',
     volumeBarColor: '#585c63',
+    segmentedControlBackgroundColor: 'rgba(118, 118, 128, 0.24)',
   },
   current: 'light',
   entities: ['light', 'darkGray', 'dark'],
@@ -105,7 +103,6 @@ const initialState = {
 const themeReducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_THEME_REQUEST:
-      console.log('llamado de nuevo cambio de tema');
       return {
         ...state,
         current: action.payload,

@@ -17,8 +17,7 @@ import {createDirectChannel} from '../../actions/channels';
 import ReactionSummary from '../ReactionSummary';
 import PostsSummary from '../PostsSummary';
 import styles from './styles';
-import assets from '../ThemeWrapper/assets';
-
+import assets from '../../config/themeAssets/assets';
 const MESSAGE = require('../../../assets/themes/light/profile-envelope/profile-envelope.png');
 const LANDER = require('../../../assets/themes/light/lunar-module/lunar-module.png');
 const CALENDAR = require('../../../assets/themes/light/calendar/001-calendar-1.png');

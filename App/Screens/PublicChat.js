@@ -11,7 +11,7 @@ import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
-import assets from '../components/ThemeWrapper/assets';
+import assets from '../config/themeAssets/assets';
 
 const TILT_ROCKET = require('../../assets/themes/light/tilt_rocket/tiltRoceket.png');
 
@@ -198,8 +198,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(PublicChat),
+  connect(mapStateToProps, mapDispatchToProps)(PublicChat),
 );
