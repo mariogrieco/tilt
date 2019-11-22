@@ -101,10 +101,9 @@ class LineChartContainer extends Component {
                 labelCount: 5,
                 avoidFirstLastClipping: true,
                 position: 'TOP',
-                yOffset: 1,
+                yOffset: 5,
                 valueFormatter: 'date',
                 valueFormatterPattern: 'hh:mm',
-                // valueFormatter: valueFormat,
               }}
               yAxis={{
                 left: {
@@ -118,6 +117,7 @@ class LineChartContainer extends Component {
                   fontFamily: 'SFProDisplay-Regular',
                   labelCount: 5,
                   axisMinimum: 0,
+                  avoidFirstLastClipping: true,
                   textColor: processColor(theme.primaryTextColor),
                 },
               }}
