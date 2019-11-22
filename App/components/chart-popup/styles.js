@@ -29,6 +29,8 @@ export default StyleSheet.create({
     paddingBottom: 13,
     flexDirection: 'column',
     flex: 1,
+    borderRadius: 8,
+    height: 'auto',
     justifyContent: 'space-between',
     alignItems: 'stretch',
   },

@@ -17,13 +17,16 @@ export const setPopupSymbolValue = symbol_value => {
         .replace('$', '')
         .replace('#', '')
         .toLowerCase();
+
+      const is_chat = getState().myChannelsMap.find(({name}) => {
+        return name.toLowerCase() === parseName;
+      });
+
       dispatch({
         type: SET_CHART_POPUP_SYMBOL_VALUE,
         payload: {
           symbol: symbol_value,
-          is_chat: getState().myChannelsMap.find(({name}) => {
-            return name.toLowerCase() === parseName;
-          }),
+          is_chat,
         },
       });
       const data = await Client4.getSymbolTicket(parseName);
@@ -31,6 +34,7 @@ export const setPopupSymbolValue = symbol_value => {
         type: SET_CHART_POPUP_SYMBOL_VALUE,
         payload: {
           ...data,
+          is_chat,
         },
       });
     } catch (ex) {

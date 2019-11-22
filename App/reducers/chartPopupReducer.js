@@ -2,7 +2,7 @@ import {
   SET_CHART_POPUP_VALUE,
   SET_CHART_POPUP_SYMBOL_VALUE,
   CLOSE_CHART_POPUP,
-  OPEN_CHART_POPUP,
+  // OPEN_CHART_POPUP,
 } from '../actions/chartPopup';
 
 const initialState = {
@@ -14,18 +14,18 @@ const initialState = {
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {
-    case SET_CHART_POPUP_SYMBOL_VALUE:
+    case SET_CHART_POPUP_SYMBOL_VALUE: {
       if (payload.changePercent) {
         payload.changePercent = parseFloat(payload.changePercent).toFixed(2);
       }
       if (payload.price) {
         payload.price = parseFloat(payload.price);
       }
-      return {...initialState, ...payload, isActive: true};
+      let nextstate = {...initialState, ...payload, isActive: true};
+      return nextstate;
+    }
     case SET_CHART_POPUP_VALUE:
-      return {...initialState, ...payload};
-    case OPEN_CHART_POPUP:
-      return {...initialState, isActive: true};
+      return {...initialState, ...payload, is_chat: false};
     case CLOSE_CHART_POPUP:
       return {...initialState, isActive: false};
     default:

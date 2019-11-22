@@ -57,7 +57,7 @@ export class PureParsedText extends Component {
         {
           pattern: this.getChannelDollarPattern(),
           style: styles.channelPatter,
-          onPress: this.onChannelPress.bind(this),
+          onPress: this.onDollarChannelPress.bind(this),
           renderText: this.renderTextD.bind(this),
         },
         {
@@ -312,6 +312,13 @@ export class PureParsedText extends Component {
     this.props.clearjumpToAction();
     // this.props.onChannel(value);
     this.props.onChannel2(value);
+  }
+
+  onDollarChannelPress(value) {
+    value = value.split(' ')[0];
+    this.props.clearjumpToAction();
+    this.props.onChannel(value);
+    // this.props.onChannel2(value);
   }
 
   onUserPress(value) {
