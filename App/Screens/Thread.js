@@ -81,7 +81,15 @@ class Thread extends React.Component {
   );
 
   render() {
-    const {channelId, thread, root_id, replyTo, theme, needJoin} = this.props;
+    const {
+      channelId,
+      thread,
+      root_id,
+      replyTo,
+      theme,
+      needJoin,
+      channelName,
+    } = this.props;
     const keyboardVerticalOffset =
       Platform.OS === 'ios' ? ifIphoneX(88, 60) : 0;
     return (
@@ -110,13 +118,13 @@ class Thread extends React.Component {
                   color: theme.primaryTextColor,
                 },
               ]}>
-              Join to replace-me start commenting.
+              Join to {channelName} start commenting.
             </Text>
             <View style={[{paddingLeft: 14, paddingRight: 15, width: '100%'}]}>
               <JoinButton
                 buttonStyle={styles.joinButtonContainer}
                 textStyle={styles.joinButtonText}
-                displayText="Join replace-me"
+                displayText={`Join ${channelName}`}
                 channelId={channelId}
               />
             </View>
@@ -156,12 +164,15 @@ const threadSelector = state => {
   const activePost = state.appNavigation.active_thread_data;
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
+  const mapChannels = state.mapChannels;
   const localFeedJoin = updateFeedJoin();
 
   if (postEntity) {
     console.log('lo encontre en entities');
     const root_id = getRootID(postEntity);
     const rootPost = getPostById(state, root_id);
+    const originChannel = mapChannels.get(postEntity.channel_id);
+    const channelName = `${originChannel ? originChannel.display_name : ''}`;
     return {
       needJoin: localFeedJoin(state, {id: postEntity.id}),
       thread: getThreadForPost(state, postEntity),
@@ -169,6 +180,7 @@ const threadSelector = state => {
       channelId: postEntity.channel_id,
       replyTo: rootPost && rootPost.user ? rootPost.user.username : null,
       replyMessage: rootPost.message,
+      channelName,
     };
   }
 
@@ -180,8 +192,8 @@ const threadSelector = state => {
         postReplyKey => state.feeds.posts[postReplyKey],
       ),
     ];
-    console.log('thread a renderizar', thread);
-
+    const originChannel = mapChannels.get(postFeed.channel_id);
+    const channelName = `${originChannel ? originChannel.display_name : ''}`;
     return {
       needJoin: localFeedJoin(state, {id: postFeed.id}),
       thread,
@@ -189,6 +201,7 @@ const threadSelector = state => {
       channelId: postFeed.channel_id,
       replyTo: state.users.data[postFeed.user_id].username,
       replyMessage: postFeed.message,
+      channelName,
     };
   }
 
