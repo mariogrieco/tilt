@@ -620,7 +620,7 @@ class Post extends React.Component {
       postedChannelName,
       displayJoinButton,
       channelId,
-      post_props,
+      enablePostActions,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -788,7 +788,7 @@ class Post extends React.Component {
           {!isRepost && (
             <Reactions
               reactions={reactions}
-              disableInteractions={disableInteractions}
+              disableInteractions={disableInteractions || !enablePostActions}
               onLikes={this.onLikes}
               onDislike={this.onDislike}
               onLaughs={this.onLaughs}
