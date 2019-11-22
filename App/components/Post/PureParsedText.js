@@ -280,7 +280,7 @@ export class PureParsedText extends Component {
   }
 
   renderTextD(text) {
-    const {post_props} = this.props;
+    const {post_props, props} = this.props;
     text = text.replace('$', '');
     if (
       post_props &&
