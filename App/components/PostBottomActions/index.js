@@ -198,7 +198,7 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
-  renderFeedVersion = () => {
+  renderWithoutActions = () => {
     const {themeName, theme, postActions, sponsored_id, me} = this.props;
     return (
       <View
@@ -456,9 +456,9 @@ class PostBottomActions extends React.PureComponent {
             borderRadius: 12,
             overflow: 'hidden',
           }}>
-          {postActions.options.isFeedPost
-            ? this.renderFeedVersion()
-            : this.renderCases()}
+          {postActions.options.enablePostActions
+            ? this.renderCases()
+            : this.renderWithoutActions()}
         </View>
       </Modal>
     );
@@ -501,4 +501,7 @@ const mapDispatchToProps = {
   addOrRemoveOne,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostBottomActions);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PostBottomActions);
