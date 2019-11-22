@@ -333,7 +333,7 @@ class Post extends React.Component {
       isPM,
       allowRepost,
       repost,
-      isFeedPost,
+      enablePostActions,
     } = this.props;
     this.props.showPostActions(userId, postId, {
       hideReply: isReply,
@@ -341,7 +341,7 @@ class Post extends React.Component {
       showRepost: postId,
       showRepostNoRequieredRedirect:
         repost && !allowRepost ? repost.channel_id : null,
-      isFeedPost,
+      enablePostActions,
     });
   };
 
@@ -629,7 +629,7 @@ class Post extends React.Component {
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
         <View style={styles.dotJoinContainer}>
           {displayJoinButton && (
-            <JoinButton channelId={channelId} buttonStyle={{marginRight: 25}} />
+            <JoinButton channelId={channelId} buttonStyle={{marginRight: 0}} />
           )}
 
           {!typeIsSystem && !disableDots && !isRepost && (
@@ -819,6 +819,15 @@ const mapStateToProps = (state, props) => ({
   repost: getRepostIfneeded(state, props.postId),
   reported: getReportIfNeeded(state, props.postId),
   theme: state.themes[state.themes.current],
+  enablePostActions: Boolean(
+    state.myChannelsMap.get(props.channelId) ||
+      state.myChannelsMap.get(state.appNavigation.active_channel_id) ||
+      state.myChannelsMap.get(
+        state.posts.entities[props.postId]
+          ? state.posts.entities[props.postId].channel_id
+          : null,
+      ),
+  ),
 });
 
 const mapDispatchToProps = {
