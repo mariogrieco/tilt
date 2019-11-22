@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import StyleSheet, { value } from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
-import {LineChart} from 'react-native-charts-wrapper';
+import {LineChart, BarChart} from 'react-native-charts-wrapper';
 import Client4 from '../../api/MattermostClient';
 import moment from 'moment';
 
@@ -48,14 +48,14 @@ class LineChartContainer extends Component {
   }
 
   setDataState(items) {
-    const valueFormat = [];
+    const barChartData = [];
     const nextState = items.map(item => {
-      valueFormat.push(moment(item[0]).format('hh:mm'));
+      barChartData.push({y: parseFloat(item[4])});
       return {x: parseFloat(item[0]), y: parseFloat(item[4])};
     });
     this.setState({
       data: nextState,
-      valueFormat,
+      barChartData,
     });
   }
 
@@ -69,7 +69,7 @@ class LineChartContainer extends Component {
 
   render() {
     const {theme, isRed} = this.props;
-    const {data, valueFormat} = this.state;
+    const {data, barChartData} = this.state;
     return (
       <View
         // eslint-disable-next-line react-native/no-inline-styles
@@ -82,7 +82,7 @@ class LineChartContainer extends Component {
               backgroundColor={theme.primaryBackgroundColor}
               drawGridBackground={false}
               drawBorders={false}
-              touchEnabled={true}
+              touchEnabled={false}
               dragEnabled={false}
               scaleEnabled={false}
               scaleXEnabled={false}
@@ -154,6 +154,60 @@ class LineChartContainer extends Component {
               }}
             />
           )}
+          {barChartData && (
+            <BarChart
+              style={styles.barChart}
+              chartDescription={{text: ''}}
+              backgroundColor={theme.primaryBackgroundColor}
+              drawGridBackground={false}
+              drawBorders={false}
+              touchEnabled={false}
+              dragEnabled={false}
+              scaleEnabled={false}
+              scaleXEnabled={false}
+              scaleYEnabled={false}
+              drawValueAboveBar={false}
+              drawBarShadow={false}
+              legend={{
+                enabled: false,
+              }}
+              xAxis={{
+                drawAxisLine: false,
+                drawGridLines: false,
+                drawLabels: false,
+              }}
+              yAxis={{
+                drawAxisLine: false,
+                drawGridLines: false,
+                drawLabels: false,
+                left: {
+                  drawAxisLine: false,
+                  drawGridLines: false,
+                  drawLabels: false,
+                },
+                right: {
+                  drawAxisLine: false,
+                  drawGridLines: false,
+                  drawLabels: false,
+                },
+              }}
+              data={{
+                dataSets: [
+                  {
+                    textColor: processColor('transparent'),
+                    values: barChartData,
+                    label: '',
+                    config: {
+                      color: processColor(theme.volumeBarColor),
+                    },
+                  },
+                ],
+                config: {
+                  barWidth: 0.65,
+                },
+              }}
+            />
+          )}
         </View>
       </View>
     );
@@ -165,7 +219,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   chart: {
-    flex: 1,
+    flex: 3,
+    marginBottom: 0,
+    paddingBottom: 0,
+  },
+  barChart: {
+    flex: 0.9,
+    paddingTop: 0,
+    marginTop: 0,
   },
 });
 
