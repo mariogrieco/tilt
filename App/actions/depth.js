@@ -81,11 +81,9 @@ const prepareBooks = data => {
 };
 
 const fetchDepthData = (symbol, hasGraph, hasBooks, dispatch) => {
-  console.log(symbol);
   fetch(`https://api.binance.com/api/v1/depth?symbol=${symbol}&limit=100`)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       const emptyGraph = {
         asks: [{x: 0, y: 0}],
         bids: [{x: 0, y: 0}],

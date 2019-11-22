@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import filterPostBy from './filterPostBy';
 
 const postsSelector = state => state.posts;
 const privateChannelsSelector = state =>
@@ -21,9 +22,11 @@ const looper = (posts, channels, lastViewed) => {
     const channelData = posts.orders[channel.id];
     if (channelData) {
       channelData.order.some(postKey => {
+        const post = posts.entities[postKey];
         if (
-          posts.entities[postKey].create_at > lastViewed[channel.id] ||
-          posts.entities[postKey].edit_at > lastViewed[channel.id]
+          filterPostBy(post) &&
+          (post.create_at > lastViewed[channel.id] ||
+            post.edit_at > lastViewed[channel.id])
         ) {
           hasUnreadMessage = true;
         }

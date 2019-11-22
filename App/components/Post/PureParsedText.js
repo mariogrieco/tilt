@@ -280,14 +280,14 @@ export class PureParsedText extends Component {
   }
 
   renderTextD(text) {
-    const {post_props} = this.props;
+    const {post_props, props} = this.props;
     text = text.replace('$', '');
     if (
       post_props &&
       post_props.percent_change &&
       post_props.percent_change[text] !== null &&
       post_props.percent_change[text] !== undefined &&
-      post_props.percent_change[text] !== false &&
+      props.percent_change[text] !== false &&
       post_props.percent_change[text] !== ''
     ) {
       console.log('---------');
@@ -597,4 +597,7 @@ const mapDispatchToProps = {
   clearjumpToAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PureParsedText);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PureParsedText);

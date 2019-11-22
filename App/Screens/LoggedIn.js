@@ -7,7 +7,7 @@ import {getChannels, getMyChannels} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
 import {getProfilesInGroupChannels} from '../actions/users';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-import assets from '../components/ThemeWrapper/assets';
+import assets from '../config/themeAssets/assets';
 
 class LoggedIn extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -69,8 +69,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(
-    () => ({}),
-    mapDispatchToProps,
-  )(LoggedIn),
+  connect(() => ({}), mapDispatchToProps)(LoggedIn),
 );

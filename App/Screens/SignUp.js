@@ -12,7 +12,7 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-import assets from '../components/ThemeWrapper/assets';
+import assets from '../config/themeAssets/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
@@ -299,8 +299,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SignUp),
+  connect(mapStateToProps, mapDispatchToProps)(SignUp),
 );

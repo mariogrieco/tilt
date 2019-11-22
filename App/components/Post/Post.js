@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import RNUrlPreview from 'react-native-url-preview';
-// import CurrentUserStatus from '../CurrentUserStatus'
+import JoinButton from '../JoinButton';
 import {deletePost} from '../../actions/posts';
 import moment from 'moment';
 import {connect} from 'react-redux';
@@ -35,6 +35,7 @@ import Reactions from './Reactions';
 import Repost from '../Repost';
 import {getRepostIfneeded} from '../../selectors/getRepostIfneeded';
 import {getReportIfNeeded} from '../../selectors/getReportIfNeeded';
+import {addToChannel} from '../../actions/channels';
 import styles from './style';
 
 const FILE_NOT_FOUND = require('../../../assets/themes/light/file-not-found/file-not-found.png');
@@ -325,13 +326,22 @@ class Post extends React.Component {
   };
 
   onPostPress = () => {
-    const {postId, userId, isReply, isPM, allowRepost, repost} = this.props;
+    const {
+      postId,
+      userId,
+      isReply,
+      isPM,
+      allowRepost,
+      repost,
+      enablePostActions,
+    } = this.props;
     this.props.showPostActions(userId, postId, {
       hideReply: isReply,
       isPM,
       showRepost: postId,
       showRepostNoRequieredRedirect:
         repost && !allowRepost ? repost.channel_id : null,
+      enablePostActions,
     });
   };
 
@@ -486,7 +496,7 @@ class Post extends React.Component {
       disableInteractions,
       isPM,
       // reported,
-      post_props
+      post_props,
     } = this.props;
     const {theme} = this.props;
     const typeIsSystem = type.match('system');
@@ -607,7 +617,10 @@ class Post extends React.Component {
       isAdminUser,
       postId,
       theme,
-      post_props,
+      postedChannelName,
+      displayJoinButton,
+      channelId,
+      enablePostActions,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -618,8 +631,12 @@ class Post extends React.Component {
     );
     return (
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
-        {!typeIsSystem && !disableDots && !isRepost && (
-          <View style={styles.dotContainer}>
+        <View style={styles.dotJoinContainer}>
+          {displayJoinButton && (
+            <JoinButton channelId={channelId} buttonStyle={{marginRight: 5}} />
+          )}
+
+          {!typeIsSystem && !disableDots && !isRepost && (
             <TouchableOpacity
               style={[styles.dotContainer]}
               onPress={disableInteractions ? () => {} : this.onPostPress}>
@@ -633,8 +650,8 @@ class Post extends React.Component {
                 style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />
             </TouchableOpacity>
-          </View>
-        )}
+          )}
+        </View>
         {deleteAction && isAdminUser && this.renderDelteText()}
         {jumpTo && !isRepost && (
           <TouchableOpacity
@@ -681,24 +698,33 @@ class Post extends React.Component {
         )}
         <View style={isRepost ? {} : styles.usernameAndPostContent}>
           {!isRepost && (
-            <TouchableOpacity
-              onPress={
-                disableInteractions || isSponsoredUser
-                  ? () => {}
-                  : this.handleNavigationToProfile
-              }>
-              <Text>
-                <Text
-                  style={[styles.username, {color: theme.primaryTextColor}]}>
-                  {typeIsSystem ? 'System' : username}{' '}
+            <View>
+              {postedChannelName ? (
+                <PureParsedText
+                  message={postedChannelName}
+                  typeIsSystem={false}
+                  onChannel={this.props.navigateIfExists}
+                />
+              ) : null}
+              <TouchableOpacity
+                onPress={
+                  disableInteractions || isSponsoredUser
+                    ? () => {}
+                    : this.handleNavigationToProfile
+                }>
+                <Text>
+                  <Text
+                    style={[styles.username, {color: theme.primaryTextColor}]}>
+                    {typeIsSystem ? 'System' : username}{' '}
+                  </Text>
+                  <Text style={styles.timespan}>
+                    {extendedDateFormat
+                      ? moment(createdAt).format('MMM D, h:mm A')
+                      : moment(createdAt).format('h:mm A')}
+                  </Text>
                 </Text>
-                <Text style={styles.timespan}>
-                  {extendedDateFormat
-                    ? moment(createdAt).format('MMM D, h:mm A')
-                    : moment(createdAt).format('h:mm A')}
-                </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           )}
           {isRepost && (
             <View style={styles.repostProfileImageAndUsername}>
@@ -762,7 +788,7 @@ class Post extends React.Component {
           {!isRepost && (
             <Reactions
               reactions={reactions}
-              disableInteractions={disableInteractions}
+              disableInteractions={disableInteractions || !enablePostActions}
               onLikes={this.onLikes}
               onDislike={this.onDislike}
               onLaughs={this.onLaughs}
@@ -798,6 +824,15 @@ const mapStateToProps = (state, props) => ({
   repost: getRepostIfneeded(state, props.postId),
   reported: getReportIfNeeded(state, props.postId),
   theme: state.themes[state.themes.current],
+  enablePostActions: Boolean(
+    state.myChannelsMap.get(props.channelId) ||
+      state.myChannelsMap.get(state.appNavigation.active_channel_id) ||
+      state.myChannelsMap.get(
+        state.posts.entities[props.postId]
+          ? state.posts.entities[props.postId].channel_id
+          : null,
+      ),
+  ),
 });
 
 const mapDispatchToProps = {
@@ -812,6 +847,10 @@ const mapDispatchToProps = {
   jumpToAction,
   showPostMediaBox,
   deletePost,
+  addToChannel,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Post);

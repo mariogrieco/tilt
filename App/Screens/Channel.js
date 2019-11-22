@@ -35,7 +35,7 @@ import parseChannelMention from '../utils/parseChannelMention';
 import {channelScreen, channelTab} from '../utils/keyboardHelper';
 import {setRepostActiveOnInput} from '../actions/repost';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-import assets from '../components/ThemeWrapper/assets';
+import assets from '../config/themeAssets/assets';
 import NewMessageSeparator from '../components/NewMessageSeparator';
 
 const styles = StyleSheet.create({
@@ -742,8 +742,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Channel),
+  connect(mapStateToProps, mapDispatchToProps)(Channel),
 );

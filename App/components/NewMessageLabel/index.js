@@ -2,8 +2,7 @@ import React, {PureComponent} from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {connect} from 'react-redux';
-import assets from '../ThemeWrapper/assets';
-
+import assets from '../../config/themeAssets/assets';
 class NewMessageLabel extends PureComponent {
   render() {
     const {onPress, onClose, length, theme, themeName} = this.props;
@@ -22,5 +21,8 @@ class NewMessageLabel extends PureComponent {
   }
 }
 
-const mapStateToProps = ({themes}) => ({theme: themes[themes.current], themeName: themes.current});
+const mapStateToProps = ({themes}) => ({
+  theme: themes[themes.current],
+  themeName: themes.current,
+});
 export default connect(mapStateToProps)(NewMessageLabel);
