@@ -75,8 +75,14 @@ class LineChartContainer extends Component {
     const {data, barChartData} = this.state;
     return (
       <View
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{flex: 1, width: '100%', paddingTop: 10}}>
+        style={
+          data
+            ? {
+                paddingTop: 5,
+                height: 465,
+              }
+            : {}
+        }>
         <View style={styles.container}>
           {data && (
             <LineChart
@@ -243,16 +249,16 @@ class LineChartContainer extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    height: 500,
     backgroundColor: 'transparent',
+    flex: 1,
   },
   chart: {
-    flex: 0.7,
+    flex: 3,
     marginBottom: 0,
     paddingBottom: 0,
   },
   barChart: {
-    flex: 0.15,
+    flex: 0.8,
     paddingTop: 0,
     marginTop: 0,
   },

@@ -31,7 +31,7 @@ export default StyleSheet.create({
     paddingBottom: 15,
     flexDirection: 'column',
     borderRadius: 8,
-    height: 565,
+    // height: 565,
   },
   headerContainer: {
     justifyContent: 'space-between',
