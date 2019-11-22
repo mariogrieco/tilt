@@ -290,9 +290,6 @@ export class PureParsedText extends Component {
       post_props.percent_change[text] !== false &&
       post_props.percent_change[text] !== ''
     ) {
-      console.log('---------');
-      console.log(post_props.percent_change[text]);
-      console.log(post_props.percent_change);
       const value = `${post_props.percent_change[text].toFixed(2)}%`;
       return (
         <Text style={value.match('-') ? styles.red : styles.green}>
@@ -303,6 +300,26 @@ export class PureParsedText extends Component {
     return `$${text.toUpperCase()}`;
   }
 
+  onDollarChannelPress(value) {
+    const {post_props} = this.props;
+    value = value.replace('$', '');
+    value = value.split(' ')[0];
+    this.props.clearjumpToAction();
+    if (
+      post_props &&
+      post_props.percent_change &&
+      post_props.percent_change[value] !== null &&
+      post_props.percent_change[value] !== undefined &&
+      post_props.percent_change[value] !== false &&
+      post_props.percent_change[value] !== ''
+    ) {
+      this.props.onChannel2(value);
+    } else {
+      this.props.onChannel(value);
+    }
+  }
+
+
   renderTextH(text) {
     return `#${text.replace('#', '')}`;
   }
@@ -312,13 +329,6 @@ export class PureParsedText extends Component {
     this.props.clearjumpToAction();
     this.props.onChannel(value);
     // this.props.onChannel2(value);
-  }
-
-  onDollarChannelPress(value) {
-    value = value.split(' ')[0];
-    this.props.clearjumpToAction();
-    // this.props.onChannel(value);
-    this.props.onChannel2(value);
   }
 
   onUserPress(value) {
