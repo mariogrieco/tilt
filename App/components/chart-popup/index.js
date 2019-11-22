@@ -27,10 +27,13 @@ const ChartPopup = () => {
     <View
       style={[
         styles.container,
-        {backgroundColor: theme.primaryBackgroundColor},
+        {backgroundColor: theme.modalPopupBackgroundColor},
       ]}>
       <View style={styles.headerContainer}>
-        <Text style={styles.symbolTitle}> {symbol_name} </Text>
+        <Text style={[styles.symbolTitle, {color: theme.primaryTextColor}]}>
+          {' '}
+          {symbol_name}{' '}
+        </Text>
         <View>
           <Text style={[styles.price, {color: theme.popupPriceColor}]}>
             {state.price}
@@ -44,8 +47,9 @@ const ChartPopup = () => {
       <ChartContainer isRed={colorIsRed} symbol={symbol_name} />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={onNavigateIfExists}>
-          <Text style={[styles.btnText, {color: theme.popupBtnTextColor}]}>
-            {state.is_chat ? 'Chat' : 'Join'}
+          <Text
+            style={[styles.btnText, {color: theme.modalPopupBackgroundColor}]}>
+            {state.is_chat ? 'Chat' : 'Join the chat'}
           </Text>
         </TouchableOpacity>
       </View>

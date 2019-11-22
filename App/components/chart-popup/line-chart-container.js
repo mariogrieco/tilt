@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import StyleSheet, { value } from 'react-native-extended-stylesheet';
+import StyleSheet, {value} from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
 import {LineChart, BarChart} from 'react-native-charts-wrapper';
@@ -79,7 +79,7 @@ class LineChartContainer extends Component {
             <LineChart
               chartDescription={{text: ''}}
               style={styles.chart}
-              backgroundColor={theme.primaryBackgroundColor}
+              backgroundColor={theme.modalPopupBackgroundColor}
               drawGridBackground={false}
               drawBorders={false}
               touchEnabled={false}
@@ -92,7 +92,7 @@ class LineChartContainer extends Component {
               }}
               animation={{
                 durationX: 0,
-                durationY: 1500,
+                durationY: 1000,
                 easingY: 'EaseInOutQuart',
               }}
               xAxis={{
@@ -104,10 +104,19 @@ class LineChartContainer extends Component {
                 yOffset: 5,
                 valueFormatter: 'date',
                 valueFormatterPattern: 'hh:mm',
+                axisLineColor: processColor(theme.borderBottomColor),
+                axisLineWidth: StyleSheet.hairlineWidth,
+                gridLineWidth: StyleSheet.hairlineWidth,
+                gridColor: processColor(theme.borderBottomColor),
               }}
               yAxis={{
                 left: {
-                  enabled: false,
+                  enabled: true,
+                  drawAxisLine: true,
+                  axisLineWidth: StyleSheet.hairlineWidth,
+                  axisLineColor: processColor(theme.borderBottomColor),
+                  drawGridLines: false,
+                  drawLabels: false,
                 },
                 right: {
                   enabled: true,
@@ -119,6 +128,10 @@ class LineChartContainer extends Component {
                   axisMinimum: 0,
                   avoidFirstLastClipping: true,
                   textColor: processColor(theme.primaryTextColor),
+                  axisLineColor: processColor(theme.borderBottomColor),
+                  axisLineWidth: StyleSheet.hairlineWidth,
+                  gridLineWidth: StyleSheet.hairlineWidth,
+                  gridColor: processColor(theme.borderBottomColor),
                 },
               }}
               data={{
@@ -137,14 +150,18 @@ class LineChartContainer extends Component {
                       drawFilled: true,
                       fillGradient: {
                         colors: [
-                          processColor(isRed ? '#fc3e30' : '#17c491'),
+                          processColor(
+                            isRed
+                              ? theme.modalPopupBackgroundColor
+                              : theme.modalPopupBackgroundColor,
+                          ),
                           processColor(isRed ? '#fc3e30' : '#17c491'),
                         ],
                         positions: [0, 0.5],
                         angle: 90,
                         orientation: 'TOP_BOTTOM',
                       },
-                      fillAlpha: 1000,
+                      fillAlpha: 100,
                     },
                     values: data,
                     label: 'A',
@@ -158,7 +175,7 @@ class LineChartContainer extends Component {
             <BarChart
               style={styles.barChart}
               chartDescription={{text: ''}}
-              backgroundColor={theme.primaryBackgroundColor}
+              backgroundColor={theme.modalPopupBackgroundColor}
               drawGridBackground={false}
               drawBorders={false}
               touchEnabled={false}
@@ -224,16 +241,16 @@ class LineChartContainer extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
+    height: 500,
+    backgroundColor: 'transparent',
   },
   chart: {
-    flex: 3,
+    flex: 0.7,
     marginBottom: 0,
     paddingBottom: 0,
   },
   barChart: {
-    flex: 0.9,
+    flex: 0.15,
     paddingTop: 0,
     marginTop: 0,
   },
