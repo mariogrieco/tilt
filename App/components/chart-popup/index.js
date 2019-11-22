@@ -11,14 +11,18 @@ const ChartPopup = () => {
   let state = useSelector(_state => _state.chartPopup);
   const theme = useSelector(_state => _state.themes[_state.themes.current]);
   let symbol_name = state.symbol;
+
+  console.log(state);
+
   if (symbol_name) {
     symbol_name = symbol_name.replace('$', '');
     symbol_name = symbol_name.replace('#', '');
     symbol_name = symbol_name.toUpperCase();
   }
+
   const onNavigateIfExists = () => {
     dispatch(closePopup());
-    dispatch(navigateIfExists(state.symbol.toLowerCase()));
+    dispatch(navigateIfExists(state.symbol.toLowerCase(), null, true, {}));
   };
 
   const colorIsRed = state.changePercent < 0;

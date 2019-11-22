@@ -158,7 +158,6 @@ export const navigateIfExists = (
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
-
   if (channel_id && !channelDisplayName) {
     let channel = null;
     channel = state.myChannelsMap.get(channel_id);
@@ -170,7 +169,7 @@ export const navigateIfExists = (
     }
   }
 
-  [...channels, ...myChannels].forEach(item => {
+  [...channels, ...myChannels].forEach(async item => {
     let formatName = item.name;
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
@@ -197,7 +196,22 @@ export const navigateIfExists = (
           ...props,
         });
       } else {
-        dispatch(openModal(item.id));
+        if (direct) {
+          await dispatch(addToChannel(whoIam, item.id));
+          dispatch(setActiveFocusChannel(item.id));
+          NavigationService.navigate('Channel', {
+            name: formatName,
+            create_at: item.create_at,
+            members: item.members,
+            fav: getFavoriteChannelById(state, item.id),
+            focusOn: false,
+            isAdminCreator: channelDisplayName[0] === '$',
+            pm: false,
+            ...props,
+          });
+        } else {
+          dispatch(openModal(item.id));
+        }
       }
     }
   });
@@ -207,8 +221,24 @@ export const navigateIfExists = (
         channelDisplayName.replace('$', '').replace('#', ''),
       );
       if (r.channel) {
-        dispatch(getChannelsSucess([r.channel]));
-        dispatch(openModal(r.channel.id));
+        if (direct) {
+          dispatch(getChannelsSucess([r.channel]));
+          await dispatch(addToChannel(whoIam, r.channel.id));
+          dispatch(setActiveFocusChannel(r.channel.id));
+          NavigationService.navigate('Channel', {
+            name: r.channel.name,
+            create_at: r.channel.create_at,
+            members: r.channel.members,
+            fav: getFavoriteChannelById(state, r.channel.id),
+            focusOn: false,
+            isAdminCreator: channelDisplayName[0] === '$',
+            pm: false,
+            ...props,
+          });
+        } else {
+          dispatch(getChannelsSucess([r.channel]));
+          dispatch(openModal(r.channel.id));
+        }
       } else {
         const needAdminCredentials = channelDisplayName[0] === '$';
         const isAdmin = state.adminCreators.includes(whoIam);
@@ -221,7 +251,7 @@ export const navigateIfExists = (
           } else {
             showNativeAlert(channelDisplayName);
           }
-        } else if (!needAdminCredentials){
+        } else if (!needAdminCredentials) {
           if (direct) {
             naviteNavigation(channelDisplayName, props);
           } else {

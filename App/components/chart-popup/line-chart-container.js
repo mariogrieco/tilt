@@ -16,6 +16,7 @@ class LineChartContainer extends Component {
   componentWillUnmount() {
     this.setState({
       data: null,
+      barChartData: null,
     });
   }
 

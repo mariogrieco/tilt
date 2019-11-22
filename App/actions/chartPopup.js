@@ -13,6 +13,7 @@ export const setPopupValue = data => ({
 export const setPopupSymbolValue = symbol_value => {
   return async (dispatch, getState) => {
     try {
+      // const isAdmin = symbol_value.match('$');
       const parseName = symbol_value
         .replace('$', '')
         .replace('#', '')
@@ -25,7 +26,7 @@ export const setPopupSymbolValue = symbol_value => {
       dispatch({
         type: SET_CHART_POPUP_SYMBOL_VALUE,
         payload: {
-          symbol: symbol_value,
+          symbol: `${symbol_value}`,
           is_chat,
         },
       });
@@ -34,6 +35,7 @@ export const setPopupSymbolValue = symbol_value => {
         type: SET_CHART_POPUP_SYMBOL_VALUE,
         payload: {
           ...data,
+          symbol: `${symbol_value}`,
           is_chat,
         },
       });

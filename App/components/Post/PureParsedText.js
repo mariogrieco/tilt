@@ -302,23 +302,22 @@ export class PureParsedText extends Component {
 
   onDollarChannelPress(value) {
     const {post_props} = this.props;
-    value = value.replace('$', '');
     value = value.split(' ')[0];
+    const text = value.replace('$', '');
     this.props.clearjumpToAction();
     if (
       post_props &&
       post_props.percent_change &&
-      post_props.percent_change[value] !== null &&
-      post_props.percent_change[value] !== undefined &&
-      post_props.percent_change[value] !== false &&
-      post_props.percent_change[value] !== ''
+      post_props.percent_change[text] !== null &&
+      post_props.percent_change[text] !== undefined &&
+      post_props.percent_change[text] !== false &&
+      post_props.percent_change[text] !== ''
     ) {
       this.props.onChannel2(value);
     } else {
       this.props.onChannel(value);
     }
   }
-
 
   renderTextH(text) {
     return `#${text.replace('#', '')}`;
