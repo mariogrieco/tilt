@@ -176,6 +176,7 @@ const mapStateToProps = ({candle, themes}) => ({
   theme: themes[themes.current],
 });
 
-export default connect(mapStateToProps, {fetchData: fetchCandle})(
-  CandleSection,
-);
+export default connect(
+  mapStateToProps,
+  {fetchData: fetchCandle},
+)(CandleSection);

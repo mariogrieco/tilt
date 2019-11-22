@@ -19,6 +19,7 @@ import {navigateIfExists} from '../../actions/channels';
 import {removeReaction, addReaction} from '../../actions/reactions';
 import {setCurrentDisplayUserProfile, onUser} from '../../actions/users';
 import {showPostActions, showPostMediaBox} from '../../actions/posts';
+import {setPopupSymbolValue} from '../../actions/chartPopup';
 import {getBaseUrl} from '../../api/MattermostClient';
 import NavigationService from '../../config/NavigationService';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
@@ -497,6 +498,7 @@ class Post extends React.Component {
       isPM,
       // reported,
       post_props,
+      setPopupSymbolValue,
     } = this.props;
     const {theme} = this.props;
     const typeIsSystem = type.match('system');
@@ -541,6 +543,7 @@ class Post extends React.Component {
                 message={message}
                 typeIsSystem={typeIsSystem}
                 onChannel={navigateIfExists}
+                onChannel2={setPopupSymbolValue}
                 onUser={onUser}
                 props={post_props}
                 disableUserPattern={isPM}
@@ -847,6 +850,7 @@ const mapDispatchToProps = {
   jumpToAction,
   showPostMediaBox,
   deletePost,
+  setPopupSymbolValue,
   addToChannel,
 };
 
