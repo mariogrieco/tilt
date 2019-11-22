@@ -51,9 +51,11 @@ class LineChartContainer extends Component {
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
-      barChartData.push({y: parseFloat(item[8])});
+      console.log(item);
+      barChartData.push({y: parseFloat(item[5])});
       return {x: parseFloat(item[0]), y: parseFloat(item[4])};
     });
+
     this.setState({
       data: nextState,
       barChartData,
@@ -102,9 +104,8 @@ class LineChartContainer extends Component {
                 labelCount: 5,
                 avoidFirstLastClipping: true,
                 position: 'TOP',
-                yOffset: 5,
                 valueFormatter: 'date',
-                valueFormatterPattern: 'hh:mm',
+                valueFormatterPattern: 'HH:MM',
                 axisLineColor: processColor(theme.borderBottomColor),
                 axisLineWidth: StyleSheet.hairlineWidth,
                 gridLineWidth: StyleSheet.hairlineWidth,
@@ -126,7 +127,7 @@ class LineChartContainer extends Component {
                   textSize: 11,
                   fontFamily: 'SFProDisplay-Regular',
                   labelCount: 5,
-                  axisMinimum: 0,
+                  // axisMinimum: 0,
                   avoidFirstLastClipping: true,
                   textColor: processColor(theme.primaryTextColor),
                   axisLineColor: processColor(theme.borderBottomColor),

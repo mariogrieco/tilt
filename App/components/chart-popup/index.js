@@ -12,8 +12,6 @@ const ChartPopup = () => {
   const theme = useSelector(_state => _state.themes[_state.themes.current]);
   let symbol_name = state.symbol;
 
-  console.log(state);
-
   if (symbol_name) {
     symbol_name = symbol_name.replace('$', '');
     symbol_name = symbol_name.replace('#', '');
