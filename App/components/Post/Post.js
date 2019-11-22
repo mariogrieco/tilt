@@ -629,7 +629,7 @@ class Post extends React.Component {
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
         <View style={styles.dotJoinContainer}>
           {displayJoinButton && (
-            <JoinButton channelId={channelId} buttonStyle={{marginRight: 0}} />
+            <JoinButton channelId={channelId} buttonStyle={{marginRight: 5}} />
           )}
 
           {!typeIsSystem && !disableDots && !isRepost && (

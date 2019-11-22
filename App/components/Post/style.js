@@ -90,18 +90,13 @@ export default StyleSheet.create({
   dotContainer: {
     paddingTop: 8,
     paddingBottom: 10,
-    paddingLeft: 30,
+    paddingLeft: 15,
     paddingRight: 15,
     display: 'flex',
     flexDirection: 'row',
-    position: 'absolute',
-    zIndex: 999,
-    top: 0,
-    right: 0,
+    backgroundColor: 'red',
   },
   dotJoinContainer: {
-    paddingLeft: 15,
-    paddingRight: 25,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -109,6 +104,7 @@ export default StyleSheet.create({
     zIndex: 999,
     top: 0,
     right: 0,
+    backgroundColor: 'blue',
   },
   jumpContainer: {
     paddingTop: 0,
