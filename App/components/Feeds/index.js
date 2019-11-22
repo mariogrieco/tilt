@@ -12,8 +12,10 @@ const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);
   const adminCreators = useSelector(state => state.adminCreators);
   const mapChannels = useSelector(state => state.mapChannels);
+  const blockedUsers = useSelector(state => state.blockedUsers);
   const dispatch = useDispatch();
 
+  console.log('block', blockedUsers);
   useEffect(() => {
     dispatch(getFeeds());
   }, [dispatch]);
@@ -25,7 +27,9 @@ const Feeds = ({navigation}) => {
           key => !mapChannels.get(key),
         );
         console.log(
-          `ejecutado efecto para sincronizar feeds para ${keysForInclude.length} canales`,
+          `ejecutado efecto para sincronizar feeds para ${
+            keysForInclude.length
+          } canales`,
         );
         const searchs = [];
         keysForInclude.forEach(key =>
@@ -39,7 +43,7 @@ const Feeds = ({navigation}) => {
       }
     };
     includeFeedsIntoChannels();
-  }, [feeds]);
+  }, [dispatch, feeds, mapChannels]);
 
   useEffect(() => {
     const focusListener = navigation.addListener('didFocus', () => {
@@ -88,7 +92,9 @@ const Feeds = ({navigation}) => {
   return (
     <FlatList
       style={{flex: 1}}
-      data={feeds.posts_keys}
+      data={feeds.posts_keys.filter(
+        key => !blockedUsers[feeds.posts[key].user_id],
+      )}
       renderItem={renderItem}
       keyExtractor={item => item}
       ItemSeparatorComponent={Separator}
