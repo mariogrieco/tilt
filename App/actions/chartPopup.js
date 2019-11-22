@@ -1,4 +1,5 @@
 import Client4 from '../api/MattermostClient';
+import moment from 'moment';
 
 export const SET_CHART_POPUP_VALUE = 'SET_CHART_POPUP_VALUE';
 export const SET_CHART_POPUP_SYMBOL_VALUE = 'SET_CHART_POPUP_SYMBOL_VALUE';
@@ -23,20 +24,23 @@ export const setPopupSymbolValue = symbol_value => {
         return name.toLowerCase() === parseName;
       });
 
+      const infoTicket = await Client4.getSymbolTicket(parseName);
+      const {data} = await Client4.getKlines(
+        parseName,
+        '30m',
+        moment()
+          .subtract(1, 'days')
+          .utc()
+          .valueOf(),
+      );
+
       dispatch({
         type: SET_CHART_POPUP_SYMBOL_VALUE,
         payload: {
+          ...infoTicket,
           symbol: `${symbol_value}`,
           is_chat,
-        },
-      });
-      const data = await Client4.getSymbolTicket(parseName);
-      dispatch({
-        type: SET_CHART_POPUP_SYMBOL_VALUE,
-        payload: {
-          ...data,
-          symbol: `${symbol_value}`,
-          is_chat,
+          chart_data: data,
         },
       });
     } catch (ex) {

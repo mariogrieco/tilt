@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import StyleSheet, {value} from 'react-native-extended-stylesheet';
+import StyleSheet from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
 import {LineChart, BarChart} from 'react-native-charts-wrapper';
@@ -13,45 +13,44 @@ class LineChartContainer extends Component {
     loading: false,
   };
 
-  componentWillUnmount() {
-    this.setState({
-      data: null,
-      barChartData: null,
-    });
-  }
+  // componentWillUnmount() {
+  //   this.setState({
+  //     data: null,
+  //     barChartData: null,
+  //   });
+  // }
 
-  getKlinesData(symbol) {
-    this.setState(
-      {
-        loading: true,
-      },
-      async () => {
-        try {
-          const {data} = await Client4.getKlines(
-            symbol,
-            '30m',
-            moment()
-              .subtract(1, 'days')
-              .utc()
-              .valueOf(),
-          );
-          this.setDataState(data);
-        } catch (ex) {
-          console.log('ex: ', ex);
-          return ex;
-        } finally {
-          this.setState({
-            loading: false,
-          });
-        }
-      },
-    );
-  }
+  // getKlinesData(symbol) {
+  //   this.setState(
+  //     {
+  //       loading: true,
+  //     },
+  //     async () => {
+  //       try {
+  //         const {data} = await Client4.getKlines(
+  //           symbol,
+  //           '30m',
+  //           moment()
+  //             .subtract(1, 'days')
+  //             .utc()
+  //             .valueOf(),
+  //         );
+  //         this.setDataState(data);
+  //       } catch (ex) {
+  //         console.log('ex: ', ex);
+  //         return ex;
+  //       } finally {
+  //         this.setState({
+  //           loading: false,
+  //         });
+  //       }
+  //     },
+  //   );
+  // }
 
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
-      console.log(item);
       barChartData.push({y: parseFloat(item[5])});
       return {x: parseFloat(item[0]), y: parseFloat(item[4])};
     });
@@ -63,7 +62,9 @@ class LineChartContainer extends Component {
   }
 
   componentDidMount() {
-    this.getKlinesData(this.props.symbol);
+    if (this.props.data) {
+      this.setDataState(this.props.data);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -79,7 +80,7 @@ class LineChartContainer extends Component {
           data
             ? {
                 paddingTop: 5,
-                height: 465,
+                height: 460,
               }
             : {}
         }>
@@ -99,11 +100,11 @@ class LineChartContainer extends Component {
               legend={{
                 enabled: false,
               }}
-              animation={{
-                durationX: 0,
-                durationY: 1000,
-                easingY: 'EaseInOutQuart',
-              }}
+              // animation={{
+              //   durationX: 0,
+              //   durationY: 1000,
+              //   easingY: 'EaseInOutQuart',
+              // }}
               xAxis={{
                 textColor: processColor(theme.primaryTextColor),
                 granularity: 1,

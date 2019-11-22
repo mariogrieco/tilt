@@ -46,7 +46,11 @@ const ChartPopup = () => {
           </Text>
         </View>
       </View>
-      <ChartContainer isRed={colorIsRed} symbol={symbol_name} />
+      <ChartContainer
+        isRed={colorIsRed}
+        symbol={symbol_name}
+        data={state.chart_data}
+      />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={onNavigateIfExists}>
           <Text
