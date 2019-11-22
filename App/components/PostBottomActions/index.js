@@ -228,16 +228,6 @@ class PostBottomActions extends React.PureComponent {
             <>
               <TouchableOpacity style={styles.button}>
                 <View style={styles.iconButton}>
-                  <Image source={assets[themeName].REPORT} />
-                </View>
-                <Text
-                  onPress={this.onRepostPost}
-                  style={[styles.textButton, {color: theme.primaryTextColor}]}>
-                  Report Post
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                <View style={styles.iconButton}>
                   <Image source={assets[themeName].BLOCK} />
                 </View>
                 <Text
