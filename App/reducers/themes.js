@@ -64,7 +64,7 @@ const initialState = {
     // chart Popup
     popupPriceColor: '#ffffff',
     popupBtnTextColor: '#0e141e',
-    volumeBarColor: '##585c63',
+    volumeBarColor: '#585c63',
   },
   darkGray: {
     primaryBackgroundColor: '#262A2F',
@@ -95,7 +95,7 @@ const initialState = {
     // chart Popup
     popupPriceColor: '#FFF',
     popupBtnTextColor: '#0e141e',
-    volumeBarColor: '##585c63',
+    volumeBarColor: '#585c63',
   },
   current: 'light',
   entities: ['light', 'darkGray', 'dark'],

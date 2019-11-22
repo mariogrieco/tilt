@@ -50,7 +50,7 @@ class LineChartContainer extends Component {
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
-      barChartData.push({y: parseFloat(item[4])});
+      barChartData.push({y: parseFloat(item[8])});
       return {x: parseFloat(item[0]), y: parseFloat(item[4])};
     });
     this.setState({
