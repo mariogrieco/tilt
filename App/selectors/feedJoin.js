@@ -1,17 +1,17 @@
 import {createSelector} from 'reselect';
 
 const channelPostIdSelector = (state, props) =>
-  state.feeds.posts[props.id].channel_id;
+  state.feeds.posts[props.id] || state.posts.entities[props.id] || {};
 const myChannelsMapSelector = state => state.myChannelsMap;
 const mapChannelsSelector = state => state.mapChannels;
 
 const updateFeedJoin = () =>
   createSelector(
     [channelPostIdSelector, myChannelsMapSelector, mapChannelsSelector],
-    (channelPostId, myChannelsMap, mapChannels) => {
-      if (myChannelsMap.get(channelPostId)) {
+    (post, myChannelsMap, mapChannels) => {
+      if (myChannelsMap.get(post.channel_id)) {
         return false;
-      } else if (mapChannels.get(channelPostId)) {
+      } else if (mapChannels.get(post.channel_id)) {
         return true;
       } else {
         //waiting sync, but the join is available anyway
