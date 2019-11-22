@@ -51,9 +51,6 @@ class Thread extends React.Component {
     headerLeft: (
       <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
-    headerRight: navigation.getParam('displayJoinButton', false) ? (
-      <JoinButton channelId={navigation.getParam('channelForJoin', '')} />
-    ) : null,
     ...headerForScreenWithBottomLine({
       headerStyle: {
         backgroundColor: screenProps.theme.primaryBackgroundColor,
@@ -82,22 +79,6 @@ class Thread extends React.Component {
       isReply
     />
   );
-
-  componentDidMount() {
-    const {navigation, needJoin, channelId} = this.props;
-    navigation.setParams({
-      displayJoinButton: needJoin,
-      channelForJoin: channelId,
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.needJoin !== this.props.needJoin) {
-      this.props.navigation.setParams({
-        displayJoinButton: this.props.needJoin,
-      });
-    }
-  }
 
   render() {
     const {channelId, thread, root_id, replyTo, theme, needJoin} = this.props;
@@ -229,4 +210,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Thread);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Thread);
