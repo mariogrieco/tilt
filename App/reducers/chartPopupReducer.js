@@ -19,7 +19,7 @@ export default (state = initialState, {type, payload}) => {
         payload.changePercent = parseFloat(payload.changePercent).toFixed(2);
       }
       if (payload.price) {
-        payload.price = parseFloat(payload.price).toFixed(2);
+        payload.price = parseFloat(payload.price);
       }
       return {...initialState, ...payload, isActive: true};
     case SET_CHART_POPUP_VALUE:
