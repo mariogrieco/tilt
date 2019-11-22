@@ -159,7 +159,7 @@ class LineChartContainer extends Component {
                         ],
                         positions: [0, 0.5],
                         angle: 90,
-                        orientation: 'TOP_BOTTOM',
+                        orientation: 'BOTTOM_TOP',
                       },
                       fillAlpha: 100,
                     },
