@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import StyleSheet from 'react-native-extended-stylesheet';
+import StyleSheet, { value } from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
 import {LineChart} from 'react-native-charts-wrapper';
@@ -48,11 +48,14 @@ class LineChartContainer extends Component {
   }
 
   setDataState(items) {
+    const valueFormat = [];
     const nextState = items.map(item => {
+      valueFormat.push(moment(item[0]).format('hh:mm'));
       return {x: parseFloat(item[0]), y: parseFloat(item[4])};
     });
     this.setState({
       data: nextState,
+      valueFormat,
     });
   }
 
@@ -66,7 +69,7 @@ class LineChartContainer extends Component {
 
   render() {
     const {theme, isRed} = this.props;
-    const {data} = this.state;
+    const {data, valueFormat} = this.state;
     return (
       <View
         // eslint-disable-next-line react-native/no-inline-styles
@@ -94,16 +97,27 @@ class LineChartContainer extends Component {
               }}
               xAxis={{
                 textColor: processColor(theme.primaryTextColor),
-                // granularity: 1,
+                granularity: 1,
+                labelCount: 5,
+                avoidFirstLastClipping: true,
+                position: 'TOP',
+                yOffset: 1,
+                valueFormatter: 'date',
+                valueFormatterPattern: 'hh:mm',
+                // valueFormatter: valueFormat,
               }}
               yAxis={{
-                axisMinValue: 0,
-                axisMinimum: 0,
                 left: {
                   enabled: false,
                 },
                 right: {
                   enabled: true,
+                  position: 'INSIDE_CHART',
+                  axisMinValue: 0,
+                  textSize: 11,
+                  fontFamily: 'SFProDisplay-Regular',
+                  labelCount: 5,
+                  axisMinimum: 0,
                   textColor: processColor(theme.primaryTextColor),
                 },
               }}

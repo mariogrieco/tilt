@@ -18,7 +18,7 @@ const ChartPopup = () => {
   }
   const onNavigateIfExists = () => {
     dispatch(closePopup());
-    dispatch(navigateIfExists(state.symbol));
+    dispatch(navigateIfExists(state.symbol.toLowerCase()));
   };
 
   const colorIsRed = state.changePercent < 0;
