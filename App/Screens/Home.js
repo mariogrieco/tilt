@@ -1,11 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {
-  View,
-  FlatList,
-  ActivityIndicator,
-  BackHandler,
-} from 'react-native';
+import {View, FlatList, ActivityIndicator, BackHandler} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import StyleSheet from 'react-native-extended-stylesheet';
@@ -54,43 +49,53 @@ const styles = StyleSheet.create({
 });
 
 class Home extends React.Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
-    headerTitle: () => (
-      <SegmentedControlTab
-        values={['Feed', 'Cryptos']}
-        selectedIndex={navigation.getParam('segment', 0)}
-        onTabPress={navigation.getParam('handleSegmentedTabPress', () => {})}
-        tabsContainerStyle={{
-          ...styles.container,
-          backgroundColor: screenProps.theme.segmentedControlBackgroundColor,
-          borderColor: screenProps.theme.segmentedControlBackgroundColor,
-        }}
-        tabStyle={[styles.commonStyle]}
-        activeTabStyle={{
-          ...styles.commonStyle,
-          ...styles.activeStyle,
+  static navigationOptions = ({navigation, screenProps}) => {
+    const currentSegmentIndex = navigation.getParam('segment', 0);
+    const handleTab = navigation.getParam('handleSegmentedTabPress', () => {});
+
+    return {
+      headerTitle: () => (
+        <SegmentedControlTab
+          values={['Feed', 'Cryptos']}
+          selectedIndex={currentSegmentIndex}
+          onTabPress={handleTab}
+          tabsContainerStyle={{
+            ...styles.container,
+            backgroundColor: screenProps.theme.segmentedControlBackgroundColor,
+            borderColor: screenProps.theme.segmentedControlBackgroundColor,
+          }}
+          tabStyle={[styles.commonStyle]}
+          activeTabStyle={{
+            ...styles.commonStyle,
+            ...styles.activeStyle,
+            backgroundColor: screenProps.theme.primaryBackgroundColor,
+          }}
+          tabTextStyle={{
+            ...styles.tabText,
+            color: screenProps.theme.primaryTextColor,
+          }}
+          activeTabTextStyle={{
+            ...styles.tabText,
+            ...styles.activeTabText,
+            color: screenProps.theme.primaryTextColor,
+          }}
+        />
+      ),
+      headerRight: (
+        <HeaderHome
+          navigation={navigation}
+          allowSearch={Boolean(currentSegmentIndex)}
+        />
+      ),
+      ...headerForScreenWithBottomLine({
+        headerTintColor: screenProps.theme.headerTintColor,
+        headerStyle: {
           backgroundColor: screenProps.theme.primaryBackgroundColor,
-        }}
-        tabTextStyle={{
-          ...styles.tabText,
-          color: screenProps.theme.primaryTextColor,
-        }}
-        activeTabTextStyle={{
-          ...styles.tabText,
-          ...styles.activeTabText,
-          color: screenProps.theme.primaryTextColor,
-        }}
-      />
-    ),
-    headerRight: <HeaderHome navigation={navigation} />,
-    ...headerForScreenWithBottomLine({
-      headerTintColor: screenProps.theme.headerTintColor,
-      headerStyle: {
-        backgroundColor: screenProps.theme.primaryBackgroundColor,
-        borderBottomColor: screenProps.theme.borderBottomColor,
-      },
-    }),
-  });
+          borderBottomColor: screenProps.theme.borderBottomColor,
+        },
+      }),
+    };
+  };
 
   state = {
     name: '',
