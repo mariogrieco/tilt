@@ -175,7 +175,7 @@ const threadSelector = state => {
     const originChannel = mapChannels.get(postEntity.channel_id);
     const channelName = `${
       adminIds.includes(originChannel.creator_id) ? '$' : '#'
-    }${originChannel ? originChannel.display_name : ''}`;
+    }${originChannel ? originChannel.name : ''}`;
     return {
       needJoin: localFeedJoin(state, {id: postEntity.id}),
       thread: getThreadForPost(state, postEntity),
@@ -198,7 +198,7 @@ const threadSelector = state => {
     const originChannel = mapChannels.get(postFeed.channel_id);
     const channelName = `${
       adminIds.includes(originChannel.creator_id) ? '$' : '#'
-    }${originChannel ? originChannel.display_name : ''}`;
+    }${originChannel ? originChannel.name : ''}`;
     return {
       needJoin: localFeedJoin(state, {id: postFeed.id}),
       thread,

@@ -15,7 +15,6 @@ const Feeds = ({navigation}) => {
   const blockedUsers = useSelector(state => state.blockedUsers);
   const dispatch = useDispatch();
 
-  console.log('block', blockedUsers);
   useEffect(() => {
     dispatch(getFeeds());
   }, [dispatch]);
