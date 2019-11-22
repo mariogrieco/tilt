@@ -6,7 +6,10 @@ export default StyleSheet.create({
     marginVertical: 80,
     borderRadius: 8,
     overflow: 'hidden',
-    flex: 1,
     padding: 0,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });

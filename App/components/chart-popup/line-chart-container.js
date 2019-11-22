@@ -138,7 +138,7 @@ class LineChartContainer extends Component {
                       fillGradient: {
                         colors: [
                           processColor(isRed ? '#fc3e30' : '#17c491'),
-                          processColor(isRed ? '#fc3e30' : '#17c491'),
+                          processColor(isRed ? 'transparent' : 'transparent'),
                         ],
                         positions: [0, 0.5],
                         angle: 90,
