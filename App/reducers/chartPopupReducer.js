@@ -16,10 +16,10 @@ export default (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_CHART_POPUP_SYMBOL_VALUE: {
       if (payload.changePercent) {
-        payload.changePercent = parseFloat(payload.changePercent).toFixed(2);
+        payload.changePercent = (payload.changePercent||0).toFixed(2);
       }
       if (payload.price) {
-        payload.price = parseFloat(payload.price);
+        payload.price = (payload.price||0);
       }
       let nextstate = {...initialState, ...payload, isActive: true};
       return nextstate;
