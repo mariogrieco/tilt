@@ -118,7 +118,7 @@ class Thread extends React.Component {
                   color: theme.primaryTextColor,
                 },
               ]}>
-              Join to {channelName} start commenting.
+              Join {channelName} to start commenting.
             </Text>
             <View style={[{paddingLeft: 14, paddingRight: 15, width: '100%'}]}>
               <JoinButton
@@ -165,6 +165,7 @@ const threadSelector = state => {
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
   const mapChannels = state.mapChannels;
+  const adminIds = state.adminCreators;
   const localFeedJoin = updateFeedJoin();
 
   if (postEntity) {
@@ -172,7 +173,9 @@ const threadSelector = state => {
     const root_id = getRootID(postEntity);
     const rootPost = getPostById(state, root_id);
     const originChannel = mapChannels.get(postEntity.channel_id);
-    const channelName = `${originChannel ? originChannel.display_name : ''}`;
+    const channelName = `${
+      adminIds.includes(originChannel.creator_id) ? '$' : '#'
+    }${originChannel ? originChannel.display_name : ''}`;
     return {
       needJoin: localFeedJoin(state, {id: postEntity.id}),
       thread: getThreadForPost(state, postEntity),
@@ -193,7 +196,9 @@ const threadSelector = state => {
       ),
     ];
     const originChannel = mapChannels.get(postFeed.channel_id);
-    const channelName = `${originChannel ? originChannel.display_name : ''}`;
+    const channelName = `${
+      adminIds.includes(originChannel.creator_id) ? '$' : '#'
+    }${originChannel ? originChannel.display_name : ''}`;
     return {
       needJoin: localFeedJoin(state, {id: postFeed.id}),
       thread,
