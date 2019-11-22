@@ -17,7 +17,9 @@ const JoinButton = ({
   const dispatch = useDispatch();
 
   const joinInChannel = useCallback(() => {
-    dispatch(addToChannel(loggedUserId, channelId));
+    dispatch(addToChannel(loggedUserId, channelId))
+      .then(() => console.log('Ok Join'))
+      .catch(err => console.log(err));
   }, [loggedUserId, channelId, dispatch]);
 
   return (
