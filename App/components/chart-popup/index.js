@@ -22,7 +22,7 @@ const ChartPopup = () => {
   };
 
   const colorIsRed = state.changePercent < 0;
-  
+
   return (
     <View
       style={[
@@ -41,7 +41,7 @@ const ChartPopup = () => {
           </Text>
         </View>
       </View>
-      <ChartContainer isRed={colorIsRed} />
+      <ChartContainer isRed={colorIsRed} symbol={symbol_name} />
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.btn} onPress={onNavigateIfExists}>
           <Text style={[styles.btnText, {color: theme.popupBtnTextColor}]}>

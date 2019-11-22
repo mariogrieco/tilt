@@ -33,9 +33,8 @@ Client4.getSymbolTicket = async symbol_name => {
 };
 
 Client4.getKlines = (symbol, interval, startTime) => {
-  return axios.get(
-    `${baseServicesUrl}/symbol-data/klines?symbol=${symbol}&interval=${interval}&startTime=${startTime}`,
-  );
+  const url = `${baseServicesUrl}/symbol-data/klines?symbol=${symbol}&interval=${interval}&startTime=${startTime}`;
+  return axios.get(url);
 };
 
 Client4.getSymbolPercentChange = symbol_name => {
