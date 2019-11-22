@@ -18,6 +18,7 @@ const PostFeed = ({
   const joinFeedProps = {id};
   const user = useSelector(state => state.users.data[postUserId] || {});
   const channelPostId = useSelector(state => state.feeds.posts[id].channel_id);
+
   const isChannelForJoin = useSelector(state => {
     const localSelector = updateFeedJoin();
     return localSelector(state, joinFeedProps);
@@ -37,7 +38,6 @@ const PostFeed = ({
         username={user.username}
         extendedDateFormat
         postedChannelName={postedChannelName}
-        isFeedPost
         displayJoinButton={isChannelForJoin}
         channelId={channelPostId}
       />
