@@ -172,9 +172,13 @@ class LineChartContainer extends Component {
                 enabled: false,
               }}
               xAxis={{
-                drawAxisLine: false,
+                granularityEnabled: false,
+                granularity: 1,
                 drawGridLines: false,
                 drawLabels: false,
+                drawAxisLine: false,
+                fontSize: 0,
+                yOffset: 0,
               }}
               yAxis={{
                 drawAxisLine: false,
@@ -184,11 +188,15 @@ class LineChartContainer extends Component {
                   drawAxisLine: false,
                   drawGridLines: false,
                   drawLabels: false,
+                  spaceTop: 0,
+                  spaceBottom: 0,
                 },
                 right: {
                   drawAxisLine: false,
                   drawGridLines: false,
                   drawLabels: false,
+                  spaceTop: 0,
+                  spaceBottom: 0,
                 },
               }}
               data={{
@@ -199,11 +207,12 @@ class LineChartContainer extends Component {
                     label: '',
                     config: {
                       color: processColor(theme.volumeBarColor),
+                      drawValues: false,
                     },
                   },
                 ],
                 config: {
-                  barWidth: 0.65,
+                  barWidth: 0.8,
                 },
               }}
             />
