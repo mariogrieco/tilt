@@ -35,6 +35,7 @@ const DELETE_ITEM = require('../../../assets/themes/dark/delete-image-from-input
 const CANCEL = require('../../../assets/themes/dark/cancel/cancel.png');
 const HOME_FOCUS = require('../../../assets/themes/dark/home-focus/home-filled-dark.png');
 const HOME_UNFOCUS = require('../../../assets/themes/dark/home-unfocus/home-unfilled-dark.png');
+const CREATE_CHANNEL = require('../../../assets/themes/dark/create-channel/createChannelPlus.png');
 
 export default {
   darkGray: {
@@ -75,5 +76,6 @@ export default {
     CANCEL,
     HOME_FOCUS,
     HOME_UNFOCUS,
+    CREATE_CHANNEL,
   },
 };

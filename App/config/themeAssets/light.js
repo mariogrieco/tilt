@@ -35,6 +35,7 @@ const DELETE_ITEM = require('../../../assets/themes/light/delete-image-from-inpu
 const CANCEL = require('../../../assets/themes/light/cancel/cancel.png');
 const HOME_FOCUS = require('../../../assets/themes/light/home-focus/home.png');
 const HOME_UNFOCUS = require('../../../assets/themes/light/home-unfocus/home-unfilled-light.png');
+const CREATE_CHANNEL = require('../../../assets/themes/light/create-channel/createChannelPlus.png');
 
 export default {
   light: {
@@ -75,5 +76,6 @@ export default {
     CANCEL,
     HOME_FOCUS,
     HOME_UNFOCUS,
+    CREATE_CHANNEL,
   },
 };

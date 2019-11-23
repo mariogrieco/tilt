@@ -13,8 +13,6 @@ import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 import assets from '../config/themeAssets/assets';
 
-const TILT_ROCKET = require('../../assets/themes/light/tilt_rocket/tiltRoceket.png');
-
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
