@@ -196,9 +196,13 @@ const threadSelector = state => {
       ),
     ];
     const originChannel = mapChannels.get(postFeed.channel_id);
-    const channelName = `${
-      adminIds.includes(originChannel.creator_id) ? '$' : '#'
-    }${originChannel ? originChannel.name : ''}`;
+    const channelName = originChannel
+      ? `${
+          adminIds.includes(originChannel.creator_id)
+            ? `$${originChannel.name.toUpperCase()}`
+            : `#${originChannel.name}`
+        }`
+      : '';
     return {
       needJoin: localFeedJoin(state, {id: postFeed.id}),
       thread,
