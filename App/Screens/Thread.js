@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   joinButtonText: {
-    fontFamily: 'SFProDisplay-Medium',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
     letterSpacing: 0.1,
   },
@@ -107,7 +107,7 @@ class Thread extends React.Component {
             style={[
               styles.joinContainer,
               {
-                borderTopColor: theme.borderBottomcolor,
+                borderTopColor: theme.borderBottomColor,
                 backgroundColor: theme.primaryBackgroundColor,
               },
             ]}>
@@ -120,7 +120,7 @@ class Thread extends React.Component {
               ]}>
               Join {channelName} to start commenting.
             </Text>
-            <View style={[{paddingLeft: 14, paddingRight: 15, width: '100%'}]}>
+            <View style={[{paddingLeft: 15, paddingRight: 15, width: '100%'}]}>
               <JoinButton
                 buttonStyle={styles.joinButtonContainer}
                 textStyle={styles.joinButtonText}
