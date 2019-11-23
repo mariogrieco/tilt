@@ -18,6 +18,11 @@ const ChartModal = ({children}) => {
   return (
     <Modal
       isVisible={chartPopupModalIsActive}
+      animationInTiming={200}
+      animationOutTiming={350}
+      hideModalContentWhileAnimating
+      useNativeDriver
+      animationOut="slideOutDown"
       onBackdropPress={closePopupCallback}>
       <View style={styles.container}>{children}</View>
     </Modal>
