@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
-import {View, processColor} from 'react-native';
+import {View, processColor, Platform} from 'react-native';
 import {LineChart, BarChart} from 'react-native-charts-wrapper';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 // import Client4 from '../../api/MattermostClient';
 // import moment from 'moment';
 
@@ -88,7 +89,7 @@ class LineChartContainer extends Component {
           data
             ? {
                 paddingTop: 5,
-                height: 460,
+                height: Platform.OS === 'ios' ? ifIphoneX(350, 300) : 320,
               }
             : {}
         }>
@@ -157,7 +158,7 @@ class LineChartContainer extends Component {
                     config: {
                       // mode: 'CUBIC_BEZIER',
                       drawValues: false,
-                      lineWidth: 1,
+                      lineWidth: 1.2,
                       drawCircles: false,
                       circleColor: processColor('transparent'),
                       drawCircleHole: false,
@@ -174,7 +175,7 @@ class LineChartContainer extends Component {
                           ),
                           processColor(isRed ? '#fc3e30' : '#17c491'),
                         ],
-                        positions: [0, 0.5],
+                        positions: [0, 0.7],
                         angle: 90,
                         orientation: 'BOTTOM_TOP',
                       },
