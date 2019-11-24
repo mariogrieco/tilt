@@ -4,8 +4,8 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
 import {LineChart, BarChart} from 'react-native-charts-wrapper';
-import Client4 from '../../api/MattermostClient';
-import moment from 'moment';
+// import Client4 from '../../api/MattermostClient';
+// import moment from 'moment';
 
 class LineChartContainer extends Component {
   state = {
@@ -51,8 +51,8 @@ class LineChartContainer extends Component {
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
-      barChartData.push({y: parseFloat(item[5])});
-      return {x: parseFloat(item[0]), y: parseFloat(item[4])};
+      barChartData.push({y: item.volume});
+      return {x: item.date, y: item.close};
     });
 
     this.setState({
@@ -62,8 +62,16 @@ class LineChartContainer extends Component {
   }
 
   componentDidMount() {
-    if (this.props.data && this.props.data.length > 0) {
-      this.setDataState(this.props.data);
+    if (
+      this.props.data &&
+      this.props.data.items &&
+      this.props.data.items.length > 0
+    ) {
+      this.setDataState(this.props.data.items);
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        isIex: this.props.data.isIex,
+      });
     }
   }
 
@@ -73,7 +81,7 @@ class LineChartContainer extends Component {
 
   render() {
     const {theme, isRed} = this.props;
-    const {data, barChartData} = this.state;
+    const {data, barChartData, isIex} = this.state;
     return (
       <View
         style={
@@ -112,7 +120,7 @@ class LineChartContainer extends Component {
                 avoidFirstLastClipping: true,
                 position: 'TOP',
                 valueFormatter: 'date',
-                valueFormatterPattern: 'HH:MM',
+                valueFormatterPattern: isIex ? 'MMM d' : 'H:MM',
                 axisLineColor: processColor(theme.borderBottomColor),
                 axisLineWidth: StyleSheet.hairlineWidth,
                 gridLineWidth: StyleSheet.hairlineWidth,

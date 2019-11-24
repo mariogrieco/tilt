@@ -74,9 +74,8 @@ class Thread extends React.Component {
       edit_at={post.edit_at}
       thread
       replies={post.replies}
-      // channelsNames={channelsNames}
-      // usernames={usernames}
       isReply
+      post_props={post.props}
     />
   );
 

@@ -65,7 +65,7 @@ const eventsDispatched = data => {
     }
     case 'user_updated': {
       const {user} = data.data;
-      user.last_picture_update = moment().unix();
+      user.last_picture_update = moment().valueOf();
       return store.dispatch(userUpdatedSuccess(user));
     }
     case 'channel_deleted': {

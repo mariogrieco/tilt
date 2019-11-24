@@ -83,6 +83,7 @@ const Feeds = ({navigation}) => {
         createdAt={post.create_at}
         editedAt={post.edit_at}
         type={post.type}
+        post_props={post.props}
         postedChannelName={postedChannelName}
       />
     );
