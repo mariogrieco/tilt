@@ -120,7 +120,7 @@ class LineChartContainer extends Component {
                 avoidFirstLastClipping: true,
                 position: 'TOP',
                 valueFormatter: 'date',
-                valueFormatterPattern: isIex ? 'MMM dd' : 'HH:MM',
+                valueFormatterPattern: isIex ? 'MMM d' : 'H:MM',
                 axisLineColor: processColor(theme.borderBottomColor),
                 axisLineWidth: StyleSheet.hairlineWidth,
                 gridLineWidth: StyleSheet.hairlineWidth,
