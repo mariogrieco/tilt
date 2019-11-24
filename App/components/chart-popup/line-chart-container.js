@@ -4,8 +4,8 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import isEqual from 'lodash/isEqual';
 import {View, processColor} from 'react-native';
 import {LineChart, BarChart} from 'react-native-charts-wrapper';
-import Client4 from '../../api/MattermostClient';
-import moment from 'moment';
+// import Client4 from '../../api/MattermostClient';
+// import moment from 'moment';
 
 class LineChartContainer extends Component {
   state = {
@@ -51,8 +51,8 @@ class LineChartContainer extends Component {
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
-      barChartData.push({y: parseFloat(item[5])});
-      return {x: parseFloat(item[0]), y: parseFloat(item[4])};
+      barChartData.push({y: item.volume});
+      return {x: item.date, y: item.close};
     });
 
     this.setState({

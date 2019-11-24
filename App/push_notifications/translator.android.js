@@ -24,7 +24,7 @@ const eventsDispatched = (data, _messageId) => {
         .setBody(message);
 
       notification.android.setLargeIcon(
-        getUserProfilePicture(sender_id, moment().unix()),
+        getUserProfilePicture(sender_id, moment().valueOf()),
       );
 
       notification.android.setSmallIcon('ic_stat_name');

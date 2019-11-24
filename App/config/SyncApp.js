@@ -23,7 +23,7 @@ const sync = async (dispatch, callback) => {
   try {
     await Client4.getMe()
       .then(user => {
-        user.last_picture_update = moment().unix();
+        user.last_picture_update = moment().valueOf();
         dispatch(getBlockUserListForUserId(user.id));
         dispatch(loginSuccess(user));
       })
