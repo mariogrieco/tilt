@@ -68,6 +68,10 @@ class LineChartContainer extends Component {
       this.props.data.items.length > 0
     ) {
       this.setDataState(this.props.data.items);
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        isIex: this.props.data.isIex,
+      });
     }
   }
 
@@ -77,7 +81,7 @@ class LineChartContainer extends Component {
 
   render() {
     const {theme, isRed} = this.props;
-    const {data, barChartData} = this.state;
+    const {data, barChartData, isIex} = this.state;
     return (
       <View
         style={
@@ -116,7 +120,7 @@ class LineChartContainer extends Component {
                 avoidFirstLastClipping: true,
                 position: 'TOP',
                 valueFormatter: 'date',
-                valueFormatterPattern: 'HH:MM',
+                valueFormatterPattern: isIex ? 'MMM dd' : 'HH:MM',
                 axisLineColor: processColor(theme.borderBottomColor),
                 axisLineWidth: StyleSheet.hairlineWidth,
                 gridLineWidth: StyleSheet.hairlineWidth,
