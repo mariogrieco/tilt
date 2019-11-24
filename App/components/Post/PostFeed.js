@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {View} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -14,6 +14,7 @@ const PostFeed = ({
   editedAt,
   type,
   postedChannelName,
+  post_props,
 }) => {
   const joinFeedProps = {id};
   const user = useSelector(state => state.users.data[postUserId] || {});
@@ -40,6 +41,7 @@ const PostFeed = ({
         postedChannelName={postedChannelName}
         displayJoinButton={isChannelForJoin}
         channelId={channelPostId}
+        post_props={post_props}
       />
     </View>
   );
