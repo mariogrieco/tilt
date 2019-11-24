@@ -62,8 +62,8 @@ class LineChartContainer extends Component {
   }
 
   componentDidMount() {
-    if (this.props.data && this.props.data.length > 0) {
-      this.setDataState(this.props.data);
+    if (this.props.data && this.props.data.items && this.props.data.items.length > 0) {
+      this.setDataState(this.props.data.items);
     }
   }
 
