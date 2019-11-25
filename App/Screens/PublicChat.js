@@ -11,6 +11,8 @@ import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
+import TabButtonLayout from '../components/TabButtonLayout';
+
 import assets from '../config/themeAssets/assets';
 
 const {width} = Dimensions.get('window');
@@ -142,11 +144,12 @@ class PublicChat extends React.Component {
     const {theme} = this.props;
     return (
       <React.Fragment>
+        <TabButtonLayout />
         <TabView
           navigationState={{...this.state}}
           renderScene={SceneMap({
-            channels: Channels,
-            discover: Discover,
+            channels: Discover,
+            discover: Channels,
           })}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}
@@ -196,5 +199,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(PublicChat),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PublicChat),
 );

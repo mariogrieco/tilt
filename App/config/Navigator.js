@@ -31,6 +31,8 @@ import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
 import Themes from '../Screens/Themes';
+import NewChannels from '../Screens/NewChannels';
+import TrendingChannels from '../Screens/TrendingChannels';
 
 const HomeStack = createStackNavigator(
   {
@@ -81,6 +83,8 @@ const PublicChatStack = createStackNavigator(
   {
     PublicChat,
     CreateChannel,
+    NewChannels,
+    TrendingChannels,
   },
   {
     headerLayoutPreset: 'center',
