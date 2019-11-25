@@ -1,4 +1,3 @@
-
 import {Alert} from 'react-native';
 
 import Client4 from '../api/MattermostClient';
@@ -85,8 +84,10 @@ export const GET_MY_CHANNEL_BY_ID_SUCCESS = 'GET_MY_CHANNEL_BY_ID_SUCCESS';
 export const DELETE_CHANNEL_SUCCESS = 'DELETE_CHANNEL_SUCCESS';
 export const DELETE_CHANNEL_ERROR = 'DELETE_CHANNEL_ERROR';
 
-export const GET_MUTE_UNMUTE_PREFERENCES_SUCCESS = 'GET_MUTE_UNMUTE_PREFERENCES_SUCCESS';
-export const GET_MUTE_UNMUTE_PREFERENCES_ERROR = 'GET_MUTE_UNMUTE_PREFERENCES_ERROR';
+export const GET_MUTE_UNMUTE_PREFERENCES_SUCCESS =
+  'GET_MUTE_UNMUTE_PREFERENCES_SUCCESS';
+export const GET_MUTE_UNMUTE_PREFERENCES_ERROR =
+  'GET_MUTE_UNMUTE_PREFERENCES_ERROR';
 
 export const deleteChannel = channelId => async dispatch => {
   try {
@@ -158,7 +159,6 @@ export const navigateIfExists = (
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
-
   if (channel_id && !channelDisplayName) {
     let channel = null;
     channel = state.myChannelsMap.get(channel_id);
@@ -170,7 +170,7 @@ export const navigateIfExists = (
     }
   }
 
-  [...channels, ...myChannels].forEach(item => {
+  [...channels, ...myChannels].forEach(async item => {
     let formatName = item.name;
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
@@ -197,7 +197,22 @@ export const navigateIfExists = (
           ...props,
         });
       } else {
-        dispatch(openModal(item.id));
+        if (direct) {
+          await dispatch(addToChannel(whoIam, item.id));
+          dispatch(setActiveFocusChannel(item.id));
+          NavigationService.navigate('Channel', {
+            name: formatName,
+            create_at: item.create_at,
+            members: item.members,
+            fav: getFavoriteChannelById(state, item.id),
+            focusOn: false,
+            isAdminCreator: channelDisplayName[0] === '$',
+            pm: false,
+            ...props,
+          });
+        } else {
+          dispatch(openModal(item.id));
+        }
       }
     }
   });
@@ -207,8 +222,24 @@ export const navigateIfExists = (
         channelDisplayName.replace('$', '').replace('#', ''),
       );
       if (r.channel) {
-        dispatch(getChannelsSucess([r.channel]));
-        dispatch(openModal(r.channel.id));
+        if (direct) {
+          dispatch(getChannelsSucess([r.channel]));
+          await dispatch(addToChannel(whoIam, r.channel.id));
+          dispatch(setActiveFocusChannel(r.channel.id));
+          NavigationService.navigate('Channel', {
+            name: r.channel.name,
+            create_at: r.channel.create_at,
+            members: r.channel.members,
+            fav: getFavoriteChannelById(state, r.channel.id),
+            focusOn: false,
+            isAdminCreator: channelDisplayName[0] === '$',
+            pm: false,
+            ...props,
+          });
+        } else {
+          dispatch(getChannelsSucess([r.channel]));
+          dispatch(openModal(r.channel.id));
+        }
       } else {
         const needAdminCredentials = channelDisplayName[0] === '$';
         const isAdmin = state.adminCreators.includes(whoIam);
@@ -221,7 +252,7 @@ export const navigateIfExists = (
           } else {
             showNativeAlert(channelDisplayName);
           }
-        } else if (!needAdminCredentials){
+        } else if (!needAdminCredentials) {
           if (direct) {
             naviteNavigation(channelDisplayName, props);
           } else {
@@ -272,7 +303,7 @@ function getViewChannelSchema(channelId, userId, value) {
     category: 'channel_approximate_view_time',
     name: channelId,
     user_id: userId,
-    value: value ? value : `${moment().unix()}`,
+    value: value ? value : `${moment().valueOf()}`,
   };
 }
 

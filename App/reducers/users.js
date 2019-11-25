@@ -48,7 +48,9 @@ const users = (state = initialState, action) => {
       const nextState = cloneDeep(state);
       mergeWith(nextState.data[action.payload.id], action.payload, customizer);
       if (nextState.data[action.payload.id]) {
-        nextState.data[action.payload.id].last_picture_update = moment().unix();
+        nextState.data[
+          action.payload.id
+        ].last_picture_update = moment().valueOf();
       }
       return nextState;
     }

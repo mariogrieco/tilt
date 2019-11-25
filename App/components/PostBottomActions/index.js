@@ -27,7 +27,7 @@ import {navigateIfExists} from '../../actions/channels';
 import {mod_user_id, tilt_user_id, moderator_user_id} from '../../globals';
 import styles from './styles';
 
-import assets from '../ThemeWrapper/assets';
+import assets from '../../config/themeAssets/assets';
 
 const H = Dimensions.get('REAL_WINDOW_HEIGHT');
 const W = Dimensions.get('REAL_WINDOW_WIDTH');
@@ -195,6 +195,54 @@ class PostBottomActions extends React.PureComponent {
           });
         }
       },
+    );
+  };
+
+  renderWithoutActions = () => {
+    const {themeName, theme, postActions, sponsored_id, me} = this.props;
+    return (
+      <View
+        style={[
+          styles.contentContainer,
+          {
+            backgroundColor: theme.modalPopupBackgroundColor,
+            height: 'auto',
+          },
+        ]}>
+        <TouchableOpacity style={styles.button}>
+          <View style={styles.iconButton}>
+            <Image source={assets[themeName].COPY} />
+          </View>
+          <Text
+            onPress={this.onCopyTextMessage}
+            style={[styles.textButton, {color: theme.primaryTextColor}]}>
+            Copy Text
+          </Text>
+        </TouchableOpacity>
+        {postActions &&
+          postActions.userId !== me &&
+          !sponsored_id.match(postActions.userId) &&
+          !mod_user_id.match(postActions.userId) &&
+          !tilt_user_id.match(postActions.userId) &&
+          !moderator_user_id.match(postActions.userId) && (
+            <>
+              <TouchableOpacity style={styles.button}>
+                <View style={styles.iconButton}>
+                  <Image source={assets[themeName].BLOCK} />
+                </View>
+                <Text
+                  onPress={this.onBlockUser}
+                  style={[
+                    styles.textButton,
+                    styles.blockUser,
+                    {color: theme.tiltRed},
+                  ]}>
+                  Block User
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+      </View>
     );
   };
 
@@ -366,20 +414,17 @@ class PostBottomActions extends React.PureComponent {
     );
   };
 
-  evaluateShow() {
-    const {hidePriority} = this.state;
-    const {show} = this.props;
-    if (show && !hidePriority) {
-      return true;
-    }
-    if (show && hidePriority) {
-      return false;
-    }
-    return show;
+  renderCases() {
+    return (
+      <>
+        {this.renderBottomSheetHeader()}
+        {this.renderBottomSheetContent()}
+      </>
+    );
   }
 
   render() {
-    const {me, postActions} = this.props;
+    const {postActions} = this.props;
     return (
       <Modal
         isVisible={postActions.display}
@@ -398,12 +443,12 @@ class PostBottomActions extends React.PureComponent {
           style={{
             height: 'auto',
             width: '100%',
-            backgroundColor: 'white',
             borderRadius: 12,
             overflow: 'hidden',
           }}>
-          {this.renderBottomSheetHeader()}
-          {this.renderBottomSheetContent()}
+          {postActions.options.enablePostActions
+            ? this.renderCases()
+            : this.renderWithoutActions()}
         </View>
       </Modal>
     );

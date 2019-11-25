@@ -7,9 +7,15 @@ const LIKE2 = require('../../../assets/themes/light/like2/like2.png');
 export default class Like extends PureComponent {
   render() {
     return Platform.OS === 'ios' ? (
-      <Image source={LIKE} />
+      <Image
+        source={LIKE}
+        style={{width: 20, height: 20, resizeMode: 'contain'}}
+      />
     ) : (
-      <Image source={LIKE2} />
+      <Image
+        source={LIKE2}
+        style={{width: 20, height: 20, resizeMode: 'contain'}}
+      />
     );
   }
 }

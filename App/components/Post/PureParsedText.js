@@ -57,7 +57,7 @@ export class PureParsedText extends Component {
         {
           pattern: this.getChannelDollarPattern(),
           style: styles.channelPatter,
-          onPress: this.onChannelPress.bind(this),
+          onPress: this.onDollarChannelPress.bind(this),
           renderText: this.renderTextD.bind(this),
         },
         {
@@ -280,19 +280,16 @@ export class PureParsedText extends Component {
   }
 
   renderTextD(text) {
-    const {post_props} = this.props;
+    const {post_props, props} = this.props;
     text = text.replace('$', '');
     if (
       post_props &&
       post_props.percent_change &&
       post_props.percent_change[text] !== null &&
       post_props.percent_change[text] !== undefined &&
-      post_props.percent_change[text] !== false &&
+      props.percent_change[text] !== false &&
       post_props.percent_change[text] !== ''
     ) {
-      console.log('---------');
-      console.log(post_props.percent_change[text]);
-      console.log(post_props.percent_change);
       const value = `${post_props.percent_change[text].toFixed(2)}%`;
       return (
         <Text style={value.match('-') ? styles.red : styles.green}>
@@ -303,6 +300,25 @@ export class PureParsedText extends Component {
     return `$${text.toUpperCase()}`;
   }
 
+  onDollarChannelPress(value) {
+    const {post_props} = this.props;
+    value = value.split(' ')[0];
+    const text = value.replace('$', '');
+    this.props.clearjumpToAction();
+    if (
+      post_props &&
+      post_props.percent_change &&
+      post_props.percent_change[text] !== null &&
+      post_props.percent_change[text] !== undefined &&
+      post_props.percent_change[text] !== false &&
+      post_props.percent_change[text] !== ''
+    ) {
+      this.props.onChannel2(value);
+    } else {
+      this.props.onChannel(value);
+    }
+  }
+
   renderTextH(text) {
     return `#${text.replace('#', '')}`;
   }
@@ -311,6 +327,7 @@ export class PureParsedText extends Component {
     value = value.split(' ')[0];
     this.props.clearjumpToAction();
     this.props.onChannel(value);
+    // this.props.onChannel2(value);
   }
 
   onUserPress(value) {
@@ -597,4 +614,7 @@ const mapDispatchToProps = {
   clearjumpToAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PureParsedText);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PureParsedText);

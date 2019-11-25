@@ -54,7 +54,7 @@ const login = (state = initialState, action) => {
       const nextState = {...state};
       if (action.payload.id === state.user.id) {
         mergeWith(nextState.user, action.payload, customizer);
-        nextState.user.last_picture_update = moment().unix();
+        nextState.user.last_picture_update = moment().valueOf();
       }
       return nextState;
     }

@@ -20,12 +20,7 @@ export const Description = ({description, containerStyle, textStyle}) => (
   </View>
 );
 
-export const Input = ({
-  onChangeText,
-  placeHolder,
-  style,
-  value,
-}) => (
+export const Input = ({onChangeText, placeHolder, style, value}) => (
   <TextInput
     value={value}
     placeholder={placeHolder}

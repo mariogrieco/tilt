@@ -41,8 +41,7 @@ import {getRepostById} from '../../selectors/getRepostById';
 import {setRepostActiveOnInput} from '../../actions/repost';
 
 import Client4 from '../../api/MattermostClient';
-import assets from '../ThemeWrapper/assets';
-
+import assets from '../../config/themeAssets/assets';
 const tagRegx = /\B(\#[a-z0-9_-]+)|(\#)/gi;
 const dollarTagRegx = /\B(\$[a-z0-9_-]+)|(\$)/gi;
 const mentionsRegx = /\B(\@[a-z0-9_-]+)|(\@)/gi;
@@ -1614,7 +1613,4 @@ const mapDispatchToProps = {
   setRepostActiveOnInput,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Input);
+export default connect(mapStateToProps, mapDispatchToProps)(Input);

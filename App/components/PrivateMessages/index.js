@@ -9,6 +9,7 @@ import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import styles from './styles';
 import parser from '../../utils/parse_display_name';
 import Separator from '../Separator';
+import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 
 const SATELLITE = require('../../../assets/themes/light/satellite/satellite.png');
 
@@ -17,10 +18,25 @@ class PrivateMessages extends React.Component {
     return parser(str);
   }
 
+  messageInjection = lastPost => {
+    const {loggedUserId} = this.props;
+
+    if (lastPost) {
+      return lastPost.user_id === loggedUserId
+        ? `You: ${lastPost.message}`
+        : lastPost.message;
+    }
+    return '';
+  };
+
   renderItem = ({item: channel}) => {
     const lastPost = channel.posts[0];
-    const channelName = channel.show_name;
+    const injectInMessage = this.messageInjection(lastPost);
     const {theme} = this.props;
+    const profilePictureUrl = getUserProfilePicture(
+      channel.chattingUser.id,
+      channel.chattingUser.last_picture_update,
+    );
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -28,34 +44,14 @@ class PrivateMessages extends React.Component {
         onPress={() => {
           this.props.setActiveFocusChannel(channel.id);
           NavigationService.navigate('Channel', {
-            name: channelName,
+            name: channel.chattingUser.username,
             create_at: channel.create_at,
             members: channel.members,
             fav: channel.fav,
             pm: true,
           });
         }}
-        style={{backgroundColor: theme.primaryBackgroundColor, paddingTop: 10}}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text
-            style={[
-              styles.channelName,
-              channel.titleColor ? {color: channel.titleColor} : {},
-            ]}>
-            {`@${channelName}`}
-          </Text>
-          {channel.unreadMessagesCount > 0 && (
-            <View style={styles.unreadMessages}>
-              <Text
-                style={[
-                  styles.unreadText,
-                  {color: theme.primaryBackgroundColor},
-                ]}>
-                {channel.unreadMessagesCount}
-              </Text>
-            </View>
-          )}
-        </View>
+        style={{backgroundColor: theme.primaryBackgroundColor}}>
         {lastPost && (
           <Post
             post_props={lastPost.props}
@@ -63,8 +59,38 @@ class PrivateMessages extends React.Component {
             userId={lastPost.user ? lastPost.user.id : ''}
             last_picture_update={lastPost.user.last_picture_update}
             key={lastPost.id}
-            message={lastPost.message}
+            message={injectInMessage}
             username={lastPost.user ? lastPost.user.username : ''}
+            usernameComponent={() => (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text
+                  style={[
+                    {
+                      color: theme.primaryTextColor,
+                      fontSize: 16,
+                      letterSpacing: 0.1,
+                      fontFamily: 'SFProDisplay-Bold',
+                    },
+                    channel.titleColor ? {color: channel.titleColor} : {},
+                  ]}>
+                  {`${channel.chattingUser.username}`}
+                </Text>
+                {channel.unreadMessagesCount > 0 && (
+                  <View style={styles.unreadMessages}>
+                    <Text
+                      style={[
+                        styles.unreadText,
+                        {color: theme.primaryBackgroundColor},
+                      ]}>
+                      {channel.unreadMessagesCount}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
+            userPictureComponent={({style}) => (
+              <Image source={{uri: profilePictureUrl}} style={style} />
+            )}
             metadata={lastPost.metadata}
             createdAt={lastPost.create_at}
             edit_at={lastPost.edit_at}
@@ -122,6 +148,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   privateChanels: getPrivateMessagesChnnelsList(state, 'D'),
+  loggedUserId: state.login.user ? state.login.user.id : '',
   theme: state.themes[state.themes.current],
 });
 

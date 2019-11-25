@@ -7,7 +7,6 @@ import store, {persistor} from './config/store';
 import {init} from './api/Sockets';
 import pushNotification from './push_notifications/firebase_client';
 import translator from './push_notifications/translator';
-
 init();
 
 class App extends React.PureComponent {

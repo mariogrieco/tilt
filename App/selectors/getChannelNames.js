@@ -17,7 +17,6 @@ export const getHashTagChannelsNames = createSelector(
     adminCreatorsSelector,
   ],
   (channelsNames, mapChannels, myChannelsMap, users, adminCreators) => {
-    console.log('llamado calculo de hashtags en PureParser');
     const keys = getKeys(channelsNames);
     const allData = keys
       .filter(key => {
@@ -48,7 +47,6 @@ export const getDollarChannelNames = createSelector(
     adminCreatorsSelector,
   ],
   (channelsNames, mapChannels, myChannelsMap, users, adminCreators) => {
-    console.log('llamado calculo de dollars en PureParser');
     const keys = getKeys(channelsNames);
     const allData = keys
       .filter(key => {

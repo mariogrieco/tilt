@@ -9,10 +9,10 @@ export default StyleSheet.create({
     textTransform: 'uppercase',
   },
   emojiReactions: {
-    borderRadius: 16,
+    borderRadius: 15,
     borderWidth: StyleSheet.hairlineWidth,
-    width: 58,
-    height: 32,
+    width: 50,
+    height: 30,
     padding: 4,
     marginRight: 6,
     marginTop: 10,

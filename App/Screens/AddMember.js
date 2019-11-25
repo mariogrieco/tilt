@@ -16,11 +16,9 @@ import NavigationService from '../config/NavigationService';
 import {sendEmailGuestInvitesToChannels} from '../actions/invitations';
 import TopBlockSpace from '../components/TopBlockSpace';
 import GoBack from '../components/GoBack';
-import {NavigationActions} from 'react-navigation';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-import assets from '../components/ThemeWrapper/assets';
+import assets from '../config/themeAssets/assets';
 
-const EMAIL = require('../../assets/themes/light/envelope/envelope.png');
 // const GROUP = require('../../assets/themes/light/group/group.png');
 const ANTENNA = require('../../assets/themes/light/radio-antenna/radio-antenna.png');
 
@@ -296,7 +294,4 @@ const mapDispatchToProps = {
   sendEmailGuestInvitesToChannels,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AddMember);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMember);

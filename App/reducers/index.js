@@ -46,6 +46,8 @@ import hashtagChannelsPaginator from './HashtagChannelsPaginator';
 import themes from './themes';
 import blockedUsers from './blockedUsers';
 import channelsProps from './channelsProps';
+import chartPopup from './chartPopupReducer';
+import feeds from './feeds';
 
 export default combineReducers({
   flagged,
@@ -96,4 +98,6 @@ export default combineReducers({
   // client4Error
   blockedUsers,
   channelsProps,
+  chartPopup,
+  feeds,
 });

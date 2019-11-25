@@ -16,6 +16,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     marginVertical: 10,
+    position: 'relative',
   },
   repostContainer: {
     paddingLeft: 10,
@@ -97,10 +98,15 @@ export default StyleSheet.create({
   dotContainer: {
     paddingTop: 8,
     paddingBottom: 10,
-    paddingLeft: 60,
+    paddingLeft: 15,
     paddingRight: 15,
     display: 'flex',
     flexDirection: 'row',
+  },
+  dotJoinContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
     position: 'absolute',
     zIndex: 999,
     top: 0,
