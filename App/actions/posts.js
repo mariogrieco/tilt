@@ -157,7 +157,7 @@ export const createPost = (
     const post = getCreatePostSchema(
       message,
       meId,
-      moment().unix(),
+      moment().valueOf(),
       channelId,
       root_id,
       file_ids,
