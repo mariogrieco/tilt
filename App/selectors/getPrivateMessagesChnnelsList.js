@@ -38,7 +38,11 @@ const getPrivateMessagesChnnelsList = createSelector(
   ) => {
     const data = [];
     myChannelsMap
-      .filter(({type, name}) => type === 'D' && !blockedUsers[name.replace('__', '').replace(`${myId}`, '')])
+      .filter(
+        ({type, name}) =>
+          type === 'D' &&
+          !blockedUsers[name.replace('__', '').replace(`${myId}`, '')],
+      )
       .valueSeq()
       .forEach(channel => {
         const channelData = cloneDeep(orders[channel.id]);
@@ -47,9 +51,7 @@ const getPrivateMessagesChnnelsList = createSelector(
             const userId = channel.name
               .replace(`${myId}`, '')
               .replace('__', '');
-            channel.show_name = usersData[userId]
-              ? usersData[userId].username
-              : '';
+            channel.chattingUser = usersData[userId] || {};
           }
           let titleColor = '';
           let unreadMessagesCount = 0;
