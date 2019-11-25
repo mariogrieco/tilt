@@ -5,7 +5,7 @@ export const GET_FEEDS_SUCCESS = 'GET_FEEDS_SUCCESS';
 
 export const getFeeds = () => async dispatch => {
   try {
-    const response = await fetch(`${baseServicesUrl}/feed'`);
+    const response = await fetch(`${baseServicesUrl}/feed`);
     const data = await response.json();
     const postsSortedByDate = orderBy(
       data.posts_keys,
@@ -20,6 +20,6 @@ export const getFeeds = () => async dispatch => {
       },
     });
   } catch (err) {
-    console.log(err);
+    console.log('err feeds!', err);
   }
 };
