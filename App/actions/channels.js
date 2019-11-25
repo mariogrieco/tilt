@@ -303,7 +303,7 @@ function getViewChannelSchema(channelId, userId, value) {
     category: 'channel_approximate_view_time',
     name: channelId,
     user_id: userId,
-    value: value ? value : `${moment().unix()}`,
+    value: value ? value : `${moment().valueOf()}`,
   };
 }
 
