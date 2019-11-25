@@ -51,7 +51,7 @@ class PrivateMessages extends React.Component {
             pm: true,
           });
         }}
-        style={{backgroundColor: theme.primaryBackgroundColor, paddingTop: 10}}>
+        style={{backgroundColor: theme.primaryBackgroundColor}}>
         {lastPost && (
           <Post
             post_props={lastPost.props}
