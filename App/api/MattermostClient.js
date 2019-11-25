@@ -8,15 +8,15 @@ export let server_id;
 
 const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
-// if (IS_DEV_ENV) {
-//   baseUrl = 'https://staging.tiltchat.com';
-//   baseServicesUrl = 'https://staging.tiltchat.com/services';
-//   socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
-// } else {
+if (IS_DEV_ENV) {
+  baseUrl = 'https://staging.tiltchat.com';
+  baseServicesUrl = 'https://staging.tiltchat.com/services';
+  socketURL = 'wss://staging.tiltchat.com/api/v4/websocket';
+} else {
   baseUrl = 'https://community.tiltchat.com';
   baseServicesUrl = 'https://community.tiltchat.com/services';
   socketURL = 'wss://community.tiltchat.com/api/v4/websocket';
-// }
+}
 
 Client4.setUrl(baseUrl);
 Client4.setIncludeCookies(true);
