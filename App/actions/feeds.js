@@ -1,10 +1,11 @@
 import orderBy from 'lodash/orderBy';
+import {baseServicesUrl} from './../api/MattermostClient';
 
 export const GET_FEEDS_SUCCESS = 'GET_FEEDS_SUCCESS';
 
 export const getFeeds = () => async dispatch => {
   try {
-    const response = await fetch('https://staging.tiltchat.com/services/feed');
+    const response = await fetch(`${baseServicesUrl}/feed'`);
     const data = await response.json();
     const postsSortedByDate = orderBy(
       data.posts_keys,
