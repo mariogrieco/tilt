@@ -624,6 +624,8 @@ class Post extends React.Component {
       displayJoinButton,
       channelId,
       enablePostActions,
+      usernameComponent,
+      userPictureComponent,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -682,12 +684,18 @@ class Post extends React.Component {
                   ? () => {}
                   : this.handleNavigationToProfile
               }>
-              <Image
-                style={[styles.profileImage, {resizeMode: 'cover'}]}
-                source={
-                  typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
-                }
-              />
+              {userPictureComponent ? (
+                userPictureComponent({
+                  style: [styles.profileImage, {resizeMode: 'cover'}],
+                })
+              ) : (
+                <Image
+                  style={[styles.profileImage, {resizeMode: 'cover'}]}
+                  source={
+                    typeIsSystem ? TILT_SYSTEM_LOGO : {uri: profilePictureUrl}
+                  }
+                />
+              )}
             </TouchableOpacity>
             {thread && (
               <View
@@ -709,24 +717,37 @@ class Post extends React.Component {
                   onChannel={this.props.navigateIfExists}
                 />
               ) : null}
-              <TouchableOpacity
-                onPress={
-                  disableInteractions || isSponsoredUser
-                    ? () => {}
-                    : this.handleNavigationToProfile
-                }>
-                <Text>
+              {usernameComponent ? (
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  {usernameComponent()}
                   <Text
-                    style={[styles.username, {color: theme.primaryTextColor}]}>
-                    {typeIsSystem ? 'System' : username}{' '}
+                    style={[styles.timespan, {flex: 1, textAlign: 'right'}]}>
+                    {moment(createdAt).format('M/D/YY, h:mm A')}
                   </Text>
-                  <Text style={styles.timespan}>
-                    {extendedDateFormat
-                      ? moment(createdAt).format('MMM D, h:mm A')
-                      : moment(createdAt).format('h:mm A')}
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={
+                    disableInteractions || isSponsoredUser
+                      ? () => {}
+                      : this.handleNavigationToProfile
+                  }>
+                  <Text>
+                    <Text
+                      style={[
+                        styles.username,
+                        {color: theme.primaryTextColor},
+                      ]}>
+                      {typeIsSystem ? 'System' : username}{' '}
+                    </Text>
+                    <Text style={styles.timespan}>
+                      {extendedDateFormat
+                        ? moment(createdAt).format('MMM D, h:mm A')
+                        : moment(createdAt).format('h:mm A')}
+                    </Text>
                   </Text>
-                </Text>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              )}
             </View>
           )}
           {isRepost && (
