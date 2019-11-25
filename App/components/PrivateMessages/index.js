@@ -101,6 +101,7 @@ class PrivateMessages extends React.Component {
             disableDots
           />
         )}
+        <Separator />
       </TouchableOpacity>
     );
   };
@@ -136,7 +137,6 @@ class PrivateMessages extends React.Component {
         renderItem={this.renderItem}
         ListEmptyComponent={this.renderEmptyList}
         extraData={allPosts}
-        ItemSeparatorComponent={Separator}
       />
     );
   }
