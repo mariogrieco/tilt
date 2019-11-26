@@ -10,7 +10,6 @@ import parse_channel_name from '../../utils/fix_name_if_need';
 
 const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);
-  const adminCreators = useSelector(state => state.adminCreators);
   const mapChannels = useSelector(state => state.mapChannels);
   const blockedUsers = useSelector(state => state.blockedUsers);
   const dispatch = useDispatch();
@@ -24,11 +23,6 @@ const Feeds = ({navigation}) => {
       try {
         const keysForInclude = feeds.channels_keys.filter(
           key => !mapChannels.get(key),
-        );
-        console.log(
-          `ejecutado efecto para sincronizar feeds para ${
-            keysForInclude.length
-          } canales`,
         );
         const searchs = [];
         keysForInclude.forEach(key =>
@@ -46,7 +40,6 @@ const Feeds = ({navigation}) => {
 
   useEffect(() => {
     const focusListener = navigation.addListener('didFocus', () => {
-      console.log('foco');
       dispatch(getFeeds());
     });
 
@@ -61,11 +54,7 @@ const Feeds = ({navigation}) => {
     if (channel.name === 'welcome') {
       return '#welcome';
     }
-
-    const name = `${adminCreators.includes(channel.creator_id) ? '$' : '#'}${
-      channel.name
-    }`;
-
+    const name = `${channel.content_type !== 'N' ? '$' : '#'}${channel.name}`;
     return name;
   };
 

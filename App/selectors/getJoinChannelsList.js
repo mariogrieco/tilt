@@ -1,7 +1,6 @@
 // import _ from 'lodash';
 import {getFavoriteChannelById} from './getFavoriteChannels';
 import filterPostBy from './filterPostBy';
-import isChannelCreatorAdmin from './isChannelCreatorAdmin';
 
 const getChnnelsList = state => {
   const {entities} = state.posts;
@@ -9,12 +8,7 @@ const getChnnelsList = state => {
   const data = [];
 
   mapChannels
-    .filter(
-      ({type, id}) =>
-        type === 'O' &&
-        !myChannelsMap.has(id) &&
-        !isChannelCreatorAdmin(state, id),
-    )
+    .filter(({type, id}) => type === 'O' && !myChannelsMap.has(id))
     .valueSeq()
     .forEach(channel => {
       const channelData = state.posts.orders[channel.id];

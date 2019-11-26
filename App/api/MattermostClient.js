@@ -32,6 +32,17 @@ Client4.getSymbolTicket = async symbol_name => {
   }
 };
 
+Client4.getMyChannels = async user_id => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/my?user_id=${user_id}`,
+    );
+    return data;
+  } catch (er) {
+    return Promise.reject(er);
+  }
+};
+
 Client4.getKlines = async (symbol, interval, startTime) => {
   try {
     const url = `${baseServicesUrl}/symbol-data/klines?symbol=${symbol}&interval=${interval}&startTime=${startTime}`;

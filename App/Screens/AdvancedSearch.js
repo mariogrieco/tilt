@@ -1,6 +1,6 @@
 import React, {Component, createRef} from 'react';
 import {FlatList, View, Text, TouchableOpacity} from 'react-native';
-import {NavigationActions, withNavigation} from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 import isEqual from 'lodash/isEqual';
 import {connect} from 'react-redux';
 import Separator from '../components/Separator';
@@ -11,10 +11,7 @@ import SearchBar from '../components/SearchBar';
 import {searchPostsWithParams} from '../actions/advancedSearch';
 import getAdvancedSearchList from '../selectors/getAdvancedSearchList';
 import Suggestions from '../components/Suggestions';
-import isChannelCreatorAdmin from '../selectors/isChannelCreatorAdmin';
-import GoBack from '../components/GoBack';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-// import PropTypes from 'prop-types'
 
 const fromRegx = /(from:.[a-z0-9_-]+)|(from:)/gi;
 const inRegx = /(in:.[a-z0-9_-]+)|(in:)/gi;
@@ -404,7 +401,7 @@ const mapStateToProps = state => {
                   ],
                 )
               : channel.name,
-          isDollar: isChannelCreatorAdmin(state, channel.id),
+          isDollar: channel.content_type !== 'N',
         };
       })
       .valueSeq()

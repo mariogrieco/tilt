@@ -452,15 +452,15 @@ export const getChannelById = (channelId, meChannel) => async (
   getState,
 ) => {
   try {
-    const meId = getState().login.user.id;
-    const channel = await Client4.getChannel(channelId);
-    dispatch(getPostsForChannel(channel.id));
-    if (meChannel || channel.creator_id === meId) {
-      dispatch(getMyChannelByIdSucess(channel, meId));
-    } else {
-      dispatch(getChannelByIdSucess(channel, meId));
-    }
-    return channel;
+    // const meId = getState().login.user.id;
+    // const channel = await Client4.getChannel(channelId);
+    // dispatch(getPostsForChannel(channel.id));
+    // if (meChannel || channel.creator_id === meId) {
+    //   dispatch(getMyChannelByIdSucess(channel, meId));
+    // } else {
+    //   dispatch(getChannelByIdSucess(channel, meId));
+    // }
+    // return channel;
   } catch (ex) {
     dispatch(getChannelByIdError(ex));
     return Promise.reject(ex.message);
@@ -726,26 +726,10 @@ export const createDirectChannelError = err => ({
   payload: err,
 });
 
-export const getMyChannels = () => async dispatch => {
+export const getMyChannels = () => async (dispatch, getState) => {
   try {
-    const teams = await Client4.getMyTeams();
-    const payload = [];
-    const asyncCalls = [];
-    let results = [];
-
-    for (const team of teams) {
-      asyncCalls.push(Client4.getMyChannels(team.id));
-    }
-
-    results = await Promise.all(asyncCalls);
-    results.forEach(result => {
-      if (result) {
-        result.forEach(channel => {
-          payload.push(channel);
-        });
-      }
-    });
-
+    const meId = getState().login.user.id;
+    const payload = await Client4.getMyChannels(meId);
     dispatch(getMyChannelsSucess(payload));
     return payload;
   } catch (ex) {
@@ -769,25 +753,25 @@ export const getChannels = (
   perPage = PER_PAGE_DEFAULT,
 ) => async dispatch => {
   try {
-    const teams = await Client4.getMyTeams();
+    // const teams = await Client4.getMyTeams();
     const payload = [];
-    const asyncCalls = [];
-    let results = [];
+    // const asyncCalls = [];
+    // let results = [];
 
-    for (const team of teams) {
-      asyncCalls.push(Client4.getChannels(team.id, page, perPage));
-    }
+    // for (const team of teams) {
+    //   // asyncCalls.push(Client4.getChannels(team.id, page, perPage));
+    // }
 
-    results = await Promise.all(asyncCalls);
-    results.forEach(result => {
-      if (result) {
-        result.forEach(channel => {
-          payload.push(channel);
-        });
-      }
-    });
+    // results = await Promise.all(asyncCalls);
+    // results.forEach(result => {
+    //   if (result) {
+    //     result.forEach(channel => {
+    //       payload.push(channel);
+    //     });
+    //   }
+    // });
 
-    dispatch(getChannelsSucess(payload));
+    // dispatch(getChannelsSucess(payload));
     return payload;
   } catch (ex) {
     dispatch(getChannelsError(ex));

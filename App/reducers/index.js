@@ -91,7 +91,7 @@ export default combineReducers({
   archivedChannels,
   mapChannels,
   myChannelsMap,
-  adminCreators,
+  // adminCreators,
   postCount,
   hashtagChannelsPaginator,
   themes,
