@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {FlatList, ActivityIndicator, Platform} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import {withNavigation} from 'react-navigation';
-import getChannels from '../../selectors/getChannels.js';
+import getMyChannels from '../../selectors/getMyChannels';
 import ChannelDisplayName from '../ChannelDisplayName';
 import {
   getHashtagChannels,
@@ -75,8 +75,8 @@ class Discover extends React.Component {
         create_at={item.create_at}
         channel_id={item.id}
         channel={item}
-        join={item.join}
         content_type={item.content_type}
+        fav={item.fav}
       />
     );
   }
@@ -109,7 +109,7 @@ class Discover extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getChannels(state, ['content_type', 'N']),
+  channels: getMyChannels(state, channel => channel.type === 'O'),
   page: state.hashtagChannelsPaginator.page,
   stop: state.hashtagChannelsPaginator.stop,
   theme: state.themes[state.themes.current],

@@ -22,7 +22,7 @@ class ChannelDisplayName extends Component {
   };
 
   onPress = () => {
-    const {channel_id, name, channel, isDollar} = this.props;
+    const {channel_id, name, channel} = this.props;
     this.props.setActiveFocusChannel(channel_id);
     NavigationService.navigate('Channel', {
       name: name,

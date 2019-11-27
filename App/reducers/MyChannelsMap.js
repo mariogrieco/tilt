@@ -11,7 +11,7 @@ import {LOGOUT_SUCESS} from '../actions/login';
 
 import Immutable from 'immutable';
 
-const initialState = new Immutable.Map({});
+const initialState = new Immutable.OrderedMap({});
 
 const myChannels = (state = initialState, action) => {
   switch (action.type) {

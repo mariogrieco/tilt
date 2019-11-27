@@ -3,11 +3,60 @@ import {PER_PAGE_DEFAULT} from '../api/globals';
 import {getChannelsSucess} from './channels';
 import moment from 'moment';
 
-export const ALL_CHANNELS_TAB_PAGINATOR_SUCCESS = 'ALL_CHANNELS_TAB_PAGINATOR_SUCCESS';
-export const ALL_CHANNELS_TAB_PAGINATOR_ERROR = 'ALL_CHANNELS_TAB_PAGINATOR_ERROR';
+export const ALL_CHANNELS_TAB_PAGINATOR_SUCCESS =
+  'ALL_CHANNELS_TAB_PAGINATOR_SUCCESS';
+export const ALL_CHANNELS_TAB_PAGINATOR_ERROR =
+  'ALL_CHANNELS_TAB_PAGINATOR_ERROR';
 
-export const NEW_CHANNELS_TAB_PAGINATOR_SUCCESS = 'NEW_CHANNELS_TAB_PAGINATOR_SUCCESS';
-export const NEW_CHANNELS_TAB_PAGINATOR_ERROR = 'NEW_CHANNELS_TAB_PAGINATOR_ERROR';
+export const NEW_CHANNELS_TAB_PAGINATOR_SUCCESS =
+  'NEW_CHANNELS_TAB_PAGINATOR_SUCCESS';
+export const NEW_CHANNELS_TAB_PAGINATOR_ERROR =
+  'NEW_CHANNELS_TAB_PAGINATOR_ERROR';
+
+export const STOCKS_CHANNELS_TAB_PAGINATOR_SUCCESS =
+'STOCKS_CHANNELS_TAB_PAGINATOR_SUCCESS';
+export const STOCKS_CHANNELS_TAB_PAGINATOR_ERROR =
+  'STOCKS_CHANNELS_TAB_PAGINATOR_ERROR';
+
+export const getPageForStocksTab = () => async (dispatch, getState) => {
+  try {
+    const current_tab_state = getState().stocks_channels_tab_paginator;
+    if (current_tab_state.stop) {
+      return [];
+    }
+    const nextPage = ++current_tab_state.page;
+    const list = await Client4.getChannelsBy({
+      page: nextPage,
+      per_page: PER_PAGE_DEFAULT,
+      is_stock: true,
+    });
+    dispatch(
+      getPageForStocksTabSuccess({
+        page: nextPage,
+        stop: list.length === 0,
+      }),
+    );
+    dispatch(getChannelsSucess(list));
+    return list;
+  } catch (ex) {
+    dispatch(getPageForStocksTabError(ex));
+    return await Promise.reject(ex);
+  }
+};
+
+function getPageForStocksTabSuccess(payload) {
+  return {
+    type: STOCKS_CHANNELS_TAB_PAGINATOR_SUCCESS,
+    payload,
+  };
+}
+
+function getPageForStocksTabError(err) {
+  return {
+    type: STOCKS_CHANNELS_TAB_PAGINATOR_ERROR,
+    payload: err,
+  };
+}
 
 export const getPageForNewTab = () => async (dispatch, getState) => {
   try {

@@ -7,8 +7,18 @@ const channelsMapSelector = (state, filterMethod) => {
   }
   return state.mapChannels;
 };
-const preferencesSelector = state =>
-  state.preferences.filter(pre => pre.category === 'favorite_channel');
+
+const preferencesSelector = state => {
+  const pref = {};
+  state.preferences.forEach(pre => {
+    if (pre.category === 'favorite_channel') {
+      pref[pre.name] = true;
+    } else {
+      pref[pre.name] = false;
+    }
+  });
+  return pref;
+};
 
 const getAllChannels = createSelector(
   [myChannelsMapSelector, channelsMapSelector, preferencesSelector],
@@ -20,7 +30,7 @@ const getAllChannels = createSelector(
       .forEach(element => {
         results.push({
           ...element,
-          fav: favChannels.find(({name}) => name === element.id),
+          fav: favChannels[element.id],
           join: !myChannels.get(element.id),
         });
       });

@@ -53,7 +53,7 @@ class TabButtonLayout extends PureComponent {
           onPress={this.onTrendingChannelsPress}
         />
         <TabButton file_name={'new'} text={'New'} onPress={this.onNewPress} />
-        <TabButton file_name={'new'} text={'All'} onPress={this.onAllPress} />
+        <TabButton file_name={'all'} text={'All'} onPress={this.onAllPress} />
         <Text>{'   '}</Text>
         <Text>{'   '}</Text>
         <Text>{'   '}</Text>

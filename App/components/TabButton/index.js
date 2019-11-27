@@ -6,6 +6,7 @@ const PULL_BLUE = require('../../../assets/images/poll-blue/poll-blue.png');
 const FIRE = require('../../../assets/images/fire/fire.png');
 const NEW = require('../../../assets/images/new/new.png');
 const BITNAMI = require('../../../assets/images/bitnami/bitcoin.png');
+const ALL = require('../../../assets/images/all/all-included.png');
 
 import styles from './styles';
 
@@ -20,8 +21,10 @@ export default class TabButton extends PureComponent {
         return <Image source={PULL_BLUE} />;
       case 'fire':
         return <Image source={FIRE} />;
+      case 'all':
+        return <Image source={ALL} />;
       default:
-        return <Text>{file_name}</Text>;
+        return null;
     }
   }
 
