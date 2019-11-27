@@ -96,8 +96,8 @@ class PublicChat extends React.Component {
   state = {
     index: 0,
     routes: [
-      {key: 'channels', title: 'CHANNELS'},
-      {key: 'discover', title: 'DISCOVER'},
+      {key: 'channels', title: 'Channels'},
+      {key: 'discover', title: 'Watchlist'},
     ],
     searchValue: '',
     currentToggleSelected: 'left',

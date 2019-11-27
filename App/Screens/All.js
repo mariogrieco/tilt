@@ -8,13 +8,19 @@ import GoBack from '../components/GoBack';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import ChannelDisplayName from '../components/ChannelDisplayName';
-import getChannelsList from '../selectors/getChannelsList';
+import getAllChannels from '../selectors/getAllChannels';
+
+import {getPageForAllTab} from '../actions/tab_channels_actions';
 
 // import styles from './styles';
 
-export class TrendingChannels extends Component {
+export class AllChannels extends Component {
+  state = {
+    loading: false,
+  };
+
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: 'Trending Channels',
+    title: 'All Channels',
     headerLeft: <GoBack onPress={() => navigation.goBack()} />,
     headerRight: (
       // eslint-disable-next-line react-native/no-inline-styles
@@ -53,6 +59,25 @@ export class TrendingChannels extends Component {
     return channel.id;
   }
 
+  _fetchMore = ({distanceFromEnd}) => {
+    if (distanceFromEnd <= 0) {
+      if (this.state.loading) return null;
+      this.setState({
+        loading: true
+      }, () => {
+        try {
+          this.props.getPageForAllTab([]);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          this.setState({
+            loading: false,
+          })
+        }
+      })
+    }
+  };
+
   renderItem = ({item}) => {
     const {channelStatsGroup} = this.props;
     return (
@@ -66,6 +91,8 @@ export class TrendingChannels extends Component {
         channel_id={item.id}
         titleColor={item.titleColor}
         unreadMessagesCount={item.unreadMessagesCount}
+        join={item.join}
+        content_type={item.content_type}
       />
     );
   };
@@ -78,7 +105,12 @@ export class TrendingChannels extends Component {
         data={channels}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
-        initialNumToRender={8}
+        initialNumToRender={50}
+        onEndReached={this._fetchMore}
+        onEndReachedThreshold={0}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={150}
+        viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
@@ -89,15 +121,17 @@ export class TrendingChannels extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getChannelsList(state),
+  channels: getAllChannels(state),
   theme: state.themes[state.themes.current],
   isAuth: state.login.isLogin,
   channelStatsGroup: state.channelStatsGroup,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getPageForAllTab,
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TrendingChannels);
+)(AllChannels);

@@ -39,7 +39,8 @@ import postMedia from './postMedia';
 import sponsored from './sponsored';
 import mapChannels from './MapChannels';
 import myChannelsMap from './MyChannelsMap';
-import adminCreators from './adminCreators';
+import all_channels_tab_paginator from './all_channels_tab_paginator';
+import new_channels_tab_paginator from './new_channels_tab_paginator';
 import postCount from './postCount';
 import repost from './repost';
 import hashtagChannelsPaginator from './HashtagChannelsPaginator';
@@ -100,4 +101,6 @@ export default combineReducers({
   channelsProps,
   chartPopup,
   feeds,
+  all_channels_tab_paginator,
+  new_channels_tab_paginator,
 });

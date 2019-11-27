@@ -33,6 +33,9 @@ import BlockUser from '../Screens/BlockUser';
 import Themes from '../Screens/Themes';
 import NewChannels from '../Screens/NewChannels';
 import TrendingChannels from '../Screens/TrendingChannels';
+import Stocks from '../Screens/Stocks';
+import Cryptos from '../Screens/Cryptos';
+import All from '../Screens/All';
 
 const HomeStack = createStackNavigator(
   {
@@ -85,6 +88,9 @@ const PublicChatStack = createStackNavigator(
     CreateChannel,
     NewChannels,
     TrendingChannels,
+    Stocks,
+    Cryptos,
+    All,
   },
   {
     headerLayoutPreset: 'center',

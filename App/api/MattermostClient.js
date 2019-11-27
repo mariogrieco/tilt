@@ -1,5 +1,6 @@
 import {Client4} from 'mattermost-redux/client';
 import axios from 'axios';
+import queryString from 'query-string';
 
 export let baseUrl;
 export let baseServicesUrl;
@@ -169,6 +170,17 @@ Client4.getBlokedUsers = async user_id => {
     return data;
   } catch (ex) {
     return Promise.reject(ex);
+  }
+};
+
+Client4.getChannelsBy = async query => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/filter_by?${queryString.stringify(query)}`,
+    );
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
   }
 };
 

@@ -15,6 +15,21 @@ class TabButtonLayout extends PureComponent {
     navigation.navigate('TrendingChannels');
   };
 
+  onStocksPress = () => {
+    const {navigation} = this.props;
+    navigation.navigate('Stocks');
+  };
+
+  onCryptos = () => {
+    const {navigation} = this.props;
+    navigation.navigate('Cryptos');
+  };
+
+  onAllPress = () => {
+    const {navigation} = this.props;
+    navigation.navigate('All');
+  };
+
   render() {
     return (
       <ScrollView
@@ -22,15 +37,23 @@ class TabButtonLayout extends PureComponent {
         horizontal={true}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
-        <TabButton file_name={'pull'} text={'Stocks'} />
-        <TabButton file_name={'bitnami'} text={'Cryptos'} />
+        <TabButton
+          file_name={'pull'}
+          text={'Stocks'}
+          onPress={this.onStocksPress}
+        />
+        <TabButton
+          file_name={'bitnami'}
+          text={'Cryptos'}
+          onPress={this.onCryptos}
+        />
         <TabButton
           file_name={'fire'}
           text={'Trending'}
           onPress={this.onTrendingChannelsPress}
         />
         <TabButton file_name={'new'} text={'New'} onPress={this.onNewPress} />
-        <TabButton file_name={'new'} text={'All'} />
+        <TabButton file_name={'new'} text={'All'} onPress={this.onAllPress} />
         <Text>{'   '}</Text>
         <Text>{'   '}</Text>
         <Text>{'   '}</Text>

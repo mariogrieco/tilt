@@ -82,7 +82,7 @@ export const getChannelDisplayNameAsDictionary = createSelector(
 
     keys
       .filter(key => {
-        const isAdmin = channelsNames[key].content_type !== 'N'; 
+        const isAdmin = channelsNames[key].content_type !== 'N';
         return (
           channelsNames[key].type === 'O' &&
           !isAdmin &&

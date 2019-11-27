@@ -8,6 +8,9 @@ import {
   GET_CHANNEL_BY_NAME_SUCCESS,
   ADD_TO_CHANNEL_SUCESS,
   DELETE_CHANNEL_SUCCESS,
+  GET_MY_CHANNELS_SUCESS,
+  CREATE_CHANNEL_SUCESS,
+  GET_MY_CHANNEL_BY_ID_SUCCESS,
 } from '../actions/channels';
 import {GET_PAGE_SUCCESS} from '../actions/HashtagChannelsPaginator';
 import {IS_SIGN_UP} from '../actions/signup';
@@ -16,12 +19,31 @@ import {SEARCH_CHANNELS_SUCCESS} from '../actions/search';
 
 import Immutable from 'immutable';
 
-const initialState = new Immutable.Map({});
+const initialState = new Immutable.OrderedMap({});
 
 import fix_name_if_need from '../utils/fix_name_if_need';
 
 const channels = (state = initialState, action) => {
   switch (action.type) {
+    case GET_MY_CHANNELS_SUCESS: {
+      let nextState = state;
+      action.payload.forEach(element => {
+        nextState = nextState.set(element.id, fix_name_if_need(element));
+      });
+      return nextState;
+    }
+    case CREATE_CHANNEL_SUCESS: {
+      let nextState = state;
+      nextState = state.set(
+        action.payload.id,
+        fix_name_if_need(action.payload),
+      );
+      return nextState;
+    }
+    case GET_MY_CHANNEL_BY_ID_SUCCESS: {
+      const {channel} = action.payload;
+      return state.set(channel.id, fix_name_if_need(channel));
+    }
     case GET_CHANNELS_SUCESS: {
       let nextState = state;
       action.payload.forEach(element => {
