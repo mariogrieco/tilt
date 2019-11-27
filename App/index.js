@@ -1,6 +1,5 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import ThemeWrapper from './components/ThemeWrapper';
 import store, {persistor} from './config/store';
@@ -15,10 +14,6 @@ class App extends React.PureComponent {
   };
 
   async componentDidMount() {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 500);
-
     await pushNotification.requirePermission(async () => {
       await pushNotification.requestPermissions();
     });
