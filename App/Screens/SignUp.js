@@ -12,6 +12,7 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
+import SplashScreen from 'react-native-splash-screen';
 import assets from '../config/themeAssets/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
@@ -180,11 +181,9 @@ class SignUp extends React.Component {
       'didFocus',
       this.handleisAuth,
     );
-    // SplashScreen.close({
-    //   animationType: SplashScreen.animationType.scale,
-    //   duration: 180,
-    //   delay: 1000,
-    // });
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 700);
   }
 
   componentWillUnmount() {
@@ -299,5 +298,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(SignUp),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SignUp),
 );
