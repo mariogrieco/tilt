@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, FlatList} from 'react-native';
+import {Platform, FlatList, View} from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import ChannelDisplayName from '../ChannelDisplayName';
@@ -42,6 +42,10 @@ export class StockGainers extends Component {
     }
   };
 
+  renderSeparator = () => {
+    return <View style={{flex: 1, height: 1.65, backgroundColor: '#f6f7f9'}} />;
+  };
+
   renderItem = ({item}) => {
     return (
       <SymbolSummary
@@ -64,6 +68,7 @@ export class StockGainers extends Component {
         onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
+        ItemSeparatorComponent={this.renderSeparator}
         updateCellsBatchingPeriod={150}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
         ListEmptyComponent={this.renderActivityIndicator}
