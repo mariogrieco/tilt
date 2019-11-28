@@ -12,6 +12,7 @@ import isEqual from 'lodash/isEqual';
 // import ChannelDisplayName from '../components/ChannelDisplayName';
 // import getChannelsList from '../selectors/getChannelsList';
 import StyleSheet from 'react-native-extended-stylesheet';
+// import {setFilterValue} from '../../actions/StockTabActions';
 
 // const {width} = Dimensions.get('window');
 
@@ -65,7 +66,6 @@ export class Stocks extends Component {
       {key: 'active', title: 'ACTIVE'},
     ],
     searchValue: '',
-    currentToggleSelected: 'left',
   };
 
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -123,19 +123,17 @@ export class Stocks extends Component {
   }
 
   handleSearch = text => {
-    // const {navigation} = this.props;
-    // this.setState(
-    //   () => {
-    //     navigation.setParams({
-    //       isSearching: text !== '',
-    //       searchValue: text,
-    //     });
-    //     return {searchValue: text};
-    //   },
-    //   () => {
-    //     this.searchFor(text);
-    //   },
-    // );
+    // this.props.setFilterValue(text);
+    this.setState(() => {
+      const {navigation} = this.props;
+      navigation.setParams({
+        isSearching: text !== '',
+        searchValue: text,
+      });
+      return {
+        searchValue: text,
+      };
+    });
   };
 
   keyExtractor(channel) {
@@ -144,14 +142,15 @@ export class Stocks extends Component {
 
   render() {
     const {theme} = this.props;
+    const {searchValue} = this.state;
     return (
       <React.Fragment>
         <TabView
           navigationState={{...this.state}}
           renderScene={SceneMap({
-            gainers: StockGainers,
-            losers: StockLosers,
-            active: StockActive,
+            gainers: () => <StockGainers searchValue={searchValue} />,
+            losers: () => <StockLosers searchValue={searchValue} />,
+            active: () => <StockActive searchValue={searchValue} />,
           })}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}
@@ -179,13 +178,12 @@ export class Stocks extends Component {
 }
 
 const mapStateToProps = state => ({
-  // channels: getChannelsList(state),
   theme: state.themes[state.themes.current],
-  // isAuth: state.login.isLogin,
-  // channelStatsGroup: state.channelStatsGroup,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  // setFilterValue,
+};
 
 export default connect(
   mapStateToProps,

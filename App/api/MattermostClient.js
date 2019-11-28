@@ -184,6 +184,39 @@ Client4.getChannelsBy = async query => {
   }
 };
 
+Client4.getStocksMarketLosersList = async () => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/symbol-data/stocks/market/list/losers`,
+    );
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+Client4.getStocksMarketGainersList = async () => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/symbol-data//stocks/market/list/gainers`,
+    );
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+Client4.getStocksMarketMostactiveList = async () => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/symbol-data//stocks/market/list/mostactive`,
+    );
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 export default Client4;
 
 export const setToken = token => {

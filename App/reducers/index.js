@@ -47,6 +47,7 @@ import blockedUsers from './blockedUsers';
 import channelsProps from './channelsProps';
 import chartPopup from './chartPopupReducer';
 import feeds from './feeds';
+import stockTab from './StockTab';
 
 import all_channels_tab_paginator from './all_channels_tab_paginator';
 import new_channels_tab_paginator from './new_channels_tab_paginator';
@@ -94,11 +95,10 @@ export default combineReducers({
   archivedChannels,
   mapChannels,
   myChannelsMap,
-  // adminCreators,
+  stockTab,
   postCount,
   hashtagChannelsPaginator,
   themes,
-  // client4Error
   blockedUsers,
   channelsProps,
   chartPopup,

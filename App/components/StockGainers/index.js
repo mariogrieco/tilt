@@ -1,57 +1,35 @@
 import React, {Component} from 'react';
-import {Platform, FlatList, View} from 'react-native';
+import {Platform, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import ChannelDisplayName from '../ChannelDisplayName';
-import getAllChannels from '../../selectors/getAllChannels';
-
-import {getPageForStocksTab} from '../../actions/tab_channels_actions';
+import {getStocksMarketGainersList} from '../../actions/StockTabActions';
 import SymbolSummary from '../SymbolSummary';
-
-// import styles from './styles';
+import Separator from '../Separator';
 
 export class StockGainers extends Component {
-  state = {
-    loading: false,
-  };
-
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
   keyExtractor(channel) {
-    return channel.id;
+    return channel.symbol;
   }
 
-  _fetchMore = ({distanceFromEnd}) => {
-    if (distanceFromEnd <= 0) {
-      if (this.state.loading) return null;
-      this.setState({
-        loading: true
-      }, () => {
-        try {
-          this.props.getPageForStocksTab([]);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          this.setState({
-            loading: false,
-          })
-        }
-      })
-    }
+  renderSeparator = () => {
+    return <Separator />;
   };
 
-  renderSeparator = () => {
-    return <View style={{flex: 1, height: 1.65, backgroundColor: '#f6f7f9'}} />;
-  };
+  componentDidMount() {
+    this.props.getStocksMarketGainersList();
+  }
 
   renderItem = ({item}) => {
     return (
       <SymbolSummary
-        name={item.name}
-        header={item.header}
-        purpose={item.purpose}
+        name={item.symbol}
+        header={item.companyName}
+        latest_price={item.latestPrice}
+        change_percent={item.changePercent}
       />
     );
   };
@@ -81,16 +59,12 @@ export class StockGainers extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getAllChannels(state, channel => {
-    return channel.content_type === 'S';
-  }),
+  channels: state.stockTab.gainers,
   theme: state.themes[state.themes.current],
-  isAuth: state.login.isLogin,
-  channelStatsGroup: state.channelStatsGroup,
 });
 
 const mapDispatchToProps = {
-  getPageForStocksTab,
+  getStocksMarketGainersList,
 };
 
 export default connect(

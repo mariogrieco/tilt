@@ -2,15 +2,11 @@ import React, {Component} from 'react';
 import {Platform, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import ChannelDisplayName from '../ChannelDisplayName';
-import getAllChannels from '../../selectors/getAllChannels';
-
-import {getPageForStocksTab} from '../../actions/tab_channels_actions';
+import {getStocksMarketLosersList} from '../../actions/StockTabActions';
+import Separator from '../Separator';
 import SymbolSummary from '../SymbolSummary';
 
-// import styles from './styles';
-
-export class StockLosers extends Component {
+export class StocksLosers extends Component {
   state = {
     loading: false,
   };
@@ -20,49 +16,58 @@ export class StockLosers extends Component {
   }
 
   keyExtractor(channel) {
-    return channel.id;
+    return channel.symbol;
   }
 
-  _fetchMore = ({distanceFromEnd}) => {
-    if (distanceFromEnd <= 0) {
-      if (this.state.loading) return null;
-      this.setState({
-        loading: true
-      }, () => {
-        try {
-          this.props.getPageForStocksTab([]);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          this.setState({
-            loading: false,
-          })
-        }
-      })
-    }
+  renderSeparator = () => {
+    return <Separator />;
   };
+
+  componentDidMount() {
+    this.props.getStocksMarketLosersList();
+  }
+
+  filterIsNeeded() {
+    let {searchValue, channels} = this.props;
+    if (searchValue && !!searchValue.trim()) {
+      searchValue = searchValue.toLowerCase();
+      return channels.filter(channel => {
+        if (
+          channel.symbol.toLowerCase().includes(searchValue) ||
+          channel.companyName.toLowerCase().includes(searchValue)
+        ) {
+          return true;
+        }
+        return false;
+      });
+    }
+    return channels;
+  }
+
   renderItem = ({item}) => {
     return (
       <SymbolSummary
-        name={item.name}
-        header={item.header}
-        purpose={item.purpose}
+        name={item.symbol}
+        header={item.companyName}
+        latest_price={item.latestPrice}
+        change_percent={item.changePercent}
       />
     );
   };
 
   render() {
-    const {channels, theme} = this.props;
+    const {theme} = this.props;
     return (
       <FlatList
-        extraData={channels}
-        data={channels}
+        extraData={this.filterIsNeeded()}
+        data={this.filterIsNeeded()}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
         onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
+        ItemSeparatorComponent={this.renderSeparator}
         updateCellsBatchingPeriod={150}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
         ListEmptyComponent={this.renderActivityIndicator}
@@ -75,19 +80,15 @@ export class StockLosers extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getAllChannels(state, channel => {
-    return channel.content_type === 'S';
-  }),
+  channels: state.stockTab.actives,
   theme: state.themes[state.themes.current],
-  isAuth: state.login.isLogin,
-  channelStatsGroup: state.channelStatsGroup,
 });
 
 const mapDispatchToProps = {
-  getPageForStocksTab,
+  getStocksMarketLosersList,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(StockLosers);
+)(StocksLosers);
