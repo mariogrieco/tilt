@@ -170,7 +170,11 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   selectedSymbol: state.watchlist.selectedSymbol,
   channels: state.mapChannels.valueSeq().toJS(),
-  myChannels: state.myChannelsMap.valueSeq().toJS(),
+  myChannels: state.myChannelsMap
+    .map(id => state.mapChannels.get(id))
+    .filter(channel => channel)
+    .valueSeq()
+    .toJS(),
   theme: state.themes[state.themes.current],
 });
 

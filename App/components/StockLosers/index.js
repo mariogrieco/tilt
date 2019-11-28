@@ -47,6 +47,7 @@ export class StocksLosers extends Component {
   renderItem = ({item}) => {
     return (
       <SymbolSummary
+        onPress={() => this.props.onPress(item.symbol)}
         name={item.symbol}
         header={item.companyName}
         latest_price={item.latestPrice}

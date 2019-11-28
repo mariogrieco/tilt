@@ -27,10 +27,10 @@ class CryptoItem extends React.Component {
       dispatchResetHistories,
     } = this.props;
     const symbol = omit(this.props, ['navigation', 'selectedSymbol']);
-    dispatchSelectedSymbol({...symbol});
     dispatchResetInterval();
     dispatchResetDepthChart();
     dispatchResetHistories();
+    dispatchSelectedSymbol({...symbol});
     navigation.navigate('Room');
   };
 

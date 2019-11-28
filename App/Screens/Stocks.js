@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
 import {Dimensions} from 'react-native';
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
-// import {NavigationActions} from 'react-navigation';
-// import moment from 'moment';
-// import GoBack from '../components/GoBack';
+import NavigationService from '../config/NavigationService';
+import {selectedSymbol} from '../actions/symbols';
 import SearchBar from '../components/SearchBar';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
-// import ChannelDisplayName from '../components/ChannelDisplayName';
-// import getChannelsList from '../selectors/getChannelsList';
 import StyleSheet from 'react-native-extended-stylesheet';
-// import {setFilterValue} from '../../actions/StockTabActions';
-
-// const {width} = Dimensions.get('window');
 
 import StockLosers from '../components/StockLosers';
 import StockGainers from '../components/StockGainers';
@@ -33,14 +26,12 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   label: {
-    // color: '#0E141E',
     fontSize: 14,
     letterSpacing: 0.1,
     fontFamily: 'SFProDisplay-Bold',
   },
   indicator: {
     backgroundColor: '#17C491',
-    // backgroundColor: 'rgba(16, 115, 240, 0.75)',
     height: 3,
   },
   searchContainer: {
@@ -54,8 +45,6 @@ const styles = StyleSheet.create({
 });
 
 const {width} = Dimensions.get('window');
-
-// import assets from '../config/themeAssets/assets';
 
 export class Stocks extends Component {
   state = {
@@ -123,7 +112,6 @@ export class Stocks extends Component {
   }
 
   handleSearch = text => {
-    // this.props.setFilterValue(text);
     this.setState(() => {
       const {navigation} = this.props;
       navigation.setParams({
@@ -140,6 +128,12 @@ export class Stocks extends Component {
     return channel.id;
   }
 
+  handleOnSymbolPress = symbol => {
+    const {dispatchSelectedSymbol} = this.props;
+    dispatchSelectedSymbol({symbol});
+    NavigationService.navigate('Room');
+  };
+
   render() {
     const {theme} = this.props;
     const {searchValue} = this.state;
@@ -148,9 +142,24 @@ export class Stocks extends Component {
         <TabView
           navigationState={{...this.state}}
           renderScene={SceneMap({
-            gainers: () => <StockGainers searchValue={searchValue} />,
-            losers: () => <StockLosers searchValue={searchValue} />,
-            active: () => <StockActive searchValue={searchValue} />,
+            gainers: () => (
+              <StockGainers
+                searchValue={searchValue}
+                onPress={this.handleOnSymbolPress}
+              />
+            ),
+            losers: () => (
+              <StockLosers
+                searchValue={searchValue}
+                onPress={this.handleOnSymbolPress}
+              />
+            ),
+            active: () => (
+              <StockActive
+                searchValue={searchValue}
+                onPress={this.handleOnSymbolPress}
+              />
+            ),
           })}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}
@@ -182,7 +191,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  // setFilterValue,
+  dispatchSelectedSymbol: selectedSymbol,
 };
 
 export default connect(

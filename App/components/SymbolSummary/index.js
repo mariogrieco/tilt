@@ -19,6 +19,10 @@ class SymbolSummary extends PureComponent {
     );
   };
 
+  handleOnPress = () => {
+    this.props.onPress();
+  };
+
   render() {
     const {name, header, theme, latest_price} = this.props;
     return (
