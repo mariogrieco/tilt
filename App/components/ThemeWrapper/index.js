@@ -8,6 +8,7 @@ import {
   // Platform,
   View,
 } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import ChannelJoinModalAlert from '../ChannelJoinModalAlert';
 import PostBottomActions from '../PostBottomActions';
 import PostMediaModal from '../PostMediaModal';
@@ -22,6 +23,10 @@ class ThemeWrapper extends React.Component {
   constructor(props) {
     super(props);
     styles(defaultConfig);
+  }
+
+  componentDidMount() {
+    SplashScreen.hide();
   }
 
   render() {

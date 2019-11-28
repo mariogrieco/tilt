@@ -1,17 +1,12 @@
 import React from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
 
 class AuthVerification extends React.Component {
   componentDidMount() {
     const {navigation, login} = this.props;
 
     navigation.navigate(login.user ? 'App' : 'Auth');
-
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 700);
   }
 
   render() {
