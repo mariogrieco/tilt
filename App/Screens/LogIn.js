@@ -34,7 +34,6 @@ import {getStatuses} from '../actions/statuses';
 import InputSeparator from '../components/InputSeparator';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 
-const BACK = require('../../assets/themes/light/pin-left/pin-left.png');
 // const EMAIL = require('../../assets/themes/light/message_black/envelope.png');
 
 const DismissKeyboard = ({children}) => (
@@ -114,10 +113,7 @@ class LogIn extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'Log In'),
     headerLeft: (
-      <GoBack
-
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
     ...headerForScreenWithTabs({
       headerStyle: {
@@ -152,7 +148,9 @@ class LogIn extends React.Component {
   };
 
   navigationToHome = () => {
-    if (this.state.loading) return null;
+    if (this.state.loading) {
+      return null;
+    }
     this.setState(
       {
         loading: true,
@@ -166,7 +164,7 @@ class LogIn extends React.Component {
             const preferences = await this.props.getMyPreferences();
             await this.props.getFlagged();
             this.getPostChannelsAndUsersData();
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('App');
           } catch (ex) {
             alert(ex);
           } finally {
