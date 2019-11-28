@@ -12,7 +12,6 @@ import {
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import StyleSheet from 'react-native-extended-stylesheet';
-import SplashScreen from 'react-native-splash-screen';
 import assets from '../config/themeAssets/assets';
 import isSignUp from '../actions/signup';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
@@ -175,16 +174,6 @@ class SignUp extends React.Component {
       },
     }),
   });
-
-  componentDidMount() {
-    this.navigationListener = this.props.navigation.addListener(
-      'didFocus',
-      this.handleisAuth,
-    );
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 700);
-  }
 
   componentWillUnmount() {
     if (this.navigationListener) {
