@@ -1,11 +1,16 @@
 import {createSelector} from 'reselect';
 
 const myChannelsMapSelector = state => state.myChannelsMap;
-const channelsMapSelector = (state, filterMethod) => {
+const channelsMapSelector = (state, filterMethod, sortMethod) => {
+  let channels = state.mapChannels;
   if (filterMethod) {
-    return state.mapChannels.filter(filterMethod);
+    channels = state.mapChannels.filter(filterMethod);
   }
-  return state.mapChannels;
+  if (sortMethod) {
+    channels = channels.sort(sortMethod);
+  }
+
+  return channels;
 };
 
 const preferencesSelector = state => {

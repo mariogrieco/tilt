@@ -187,7 +187,6 @@ class Home extends React.Component {
     this.setState(prevState => ({page: prevState.page + 0.25}));
 
   handleSegmentedTabPress = index => {
-    console.log('new index', index);
     const {navigation} = this.props;
     navigation.setParams({
       segment: index,

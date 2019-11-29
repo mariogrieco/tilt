@@ -60,7 +60,7 @@ class Home extends React.Component {
               styles.input,
               {color: screenProps.theme.primaryTextColor},
             ]}
-            placeholderText="Search for a channel or username"
+            placeholderText="Search for a channel"
             placeholderTextColor={screenProps.theme.placeholderTextColor}
             growPercentage={0.78}
             onChangeText={navigation.getParam('onSearch', () => {})}
@@ -96,7 +96,7 @@ class Home extends React.Component {
     const {navigation, getSymbols: dispatchGetSymbols} = this.props;
 
     navigation.setParams({
-      // onSearch: this.handleSearch,
+      onSearch: this.searchSymbol,
     });
 
     this.didFocusListener = navigation.addListener('didFocus', () => {
@@ -151,7 +151,13 @@ class Home extends React.Component {
   }
 
   // eslint-disable-next-line react/no-unused-state
-  searchSymbol = name => this.setState({name: name.toUpperCase()});
+  searchSymbol = name => {
+    this.setState({name: name.toUpperCase()}, () => {
+      this.props.navigation.setParams({
+        searchValue: name,
+      });
+    });
+  };
 
   renderItem = ({item}) => (
     <CryptoItem

@@ -52,6 +52,7 @@ import stockTab from './StockTab';
 import all_channels_tab_paginator from './all_channels_tab_paginator';
 import new_channels_tab_paginator from './new_channels_tab_paginator';
 import stocks_channels_tab_paginator from './stocks_channels_tab_paginator';
+import trending_channels_tab_paginator from './trending_channels_tab_paginator';
 
 export default combineReducers({
   flagged,
@@ -106,4 +107,5 @@ export default combineReducers({
   all_channels_tab_paginator,
   new_channels_tab_paginator,
   stocks_channels_tab_paginator,
+  trending_channels_tab_paginator,
 });

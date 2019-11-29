@@ -198,7 +198,7 @@ Client4.getStocksMarketLosersList = async () => {
 Client4.getStocksMarketGainersList = async () => {
   try {
     const {data} = await axios.get(
-      `${baseServicesUrl}/symbol-data//stocks/market/list/gainers`,
+      `${baseServicesUrl}/symbol-data/stocks/market/list/gainers`,
     );
     return data;
   } catch (err) {
@@ -209,7 +209,7 @@ Client4.getStocksMarketGainersList = async () => {
 Client4.getStocksMarketMostactiveList = async () => {
   try {
     const {data} = await axios.get(
-      `${baseServicesUrl}/symbol-data//stocks/market/list/mostactive`,
+      `${baseServicesUrl}/symbol-data/stocks/market/list/mostactive`,
     );
     return data;
   } catch (err) {

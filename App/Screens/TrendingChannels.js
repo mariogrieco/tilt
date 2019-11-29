@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, Platform, FlatList} from 'react-native';
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
-// import {NavigationActions} from 'react-navigation';
-// // import moment from 'moment';
 import GoBack from '../components/GoBack';
+import {getPageForTrendingTab} from '../actions/tab_channels_actions';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import ChannelDisplayName from '../components/ChannelDisplayName';
-import getChannelsList from '../selectors/getChannelsList';
+import getAllChannels from '../selectors/getAllChannels';
 
 // import styles from './styles';
 
 export class TrendingChannels extends Component {
+  state = {
+    loading: false,
+  };
+
   static navigationOptions = ({navigation, screenProps}) => ({
     title: 'Trending Channels',
     headerLeft: <GoBack onPress={() => navigation.goBack()} />,
@@ -45,6 +47,30 @@ export class TrendingChannels extends Component {
     },
   });
 
+  _fetchMore = ({distanceFromEnd}) => {
+    if (distanceFromEnd <= 0) {
+      if (this.state.loading) {
+        return null;
+      }
+      this.setState(
+        {
+          loading: true,
+        },
+        () => {
+          try {
+            this.props.getPageForTrendingTab();
+          } catch (err) {
+            console.log(err);
+          } finally {
+            this.setState({
+              loading: false,
+            });
+          }
+        },
+      );
+    }
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
@@ -65,6 +91,7 @@ export class TrendingChannels extends Component {
         key={item.id}
         channel_id={item.id}
         titleColor={item.titleColor}
+        join={item.join}
         unreadMessagesCount={item.unreadMessagesCount}
       />
     );
@@ -78,7 +105,12 @@ export class TrendingChannels extends Component {
         data={channels}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
-        initialNumToRender={8}
+        initialNumToRender={50}
+        onEndReached={this._fetchMore}
+        onEndReachedThreshold={0}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={150}
+        viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
@@ -89,13 +121,19 @@ export class TrendingChannels extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getChannelsList(state),
+  channels: getAllChannels(
+    state,
+    channel => channel.total_msg_count > 2,
+    // (a, b) => b.total_message_count - a.total_message_count,
+  ),
   theme: state.themes[state.themes.current],
   isAuth: state.login.isLogin,
   channelStatsGroup: state.channelStatsGroup,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getPageForTrendingTab,
+};
 
 export default connect(
   mapStateToProps,

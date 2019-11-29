@@ -124,11 +124,7 @@ export class AllChannels extends Component {
 const mapStateToProps = state => ({
   channels: getAllChannels(
     state,
-    ({create_at}) =>
-      create_at >=
-      moment()
-        .add(-3, 'days')
-        .valueOf(),
+    ({create_at}) => moment(create_at).diff(moment(), 'days') >= -3,
   ),
   theme: state.themes[state.themes.current],
   isAuth: state.login.isLogin,
