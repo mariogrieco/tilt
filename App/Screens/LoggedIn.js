@@ -1,11 +1,13 @@
 import React from 'react';
 import {TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {withNavigation} from 'react-navigation';
 import UserProfile from '../components/UserProfile';
 import {getChannels, getMyChannels} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
-import {getProfilesInGroupChannels} from '../actions/users';
+import {
+  getProfilesInGroupChannels,
+  setCurrentDisplayUserProfile,
+} from '../actions/users';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import assets from '../config/themeAssets/assets';
 
@@ -30,10 +32,12 @@ class LoggedIn extends React.Component {
   });
 
   componentDidMount() {
-    const {navigation} = this.props;
+    const {navigation, loggedUserId} = this.props;
 
+    this.props.setCurrentDisplayUserProfile(loggedUserId);
     this.navigationListener = navigation.addListener('didFocus', () => {
       this.getPostChannelsAndUsersData();
+      this.props.setCurrentDisplayUserProfile(loggedUserId);
     });
   }
 
@@ -66,9 +70,14 @@ const mapDispatchToProps = {
   getMyChannels,
   getPostsByChannelId,
   getProfilesInGroupChannels,
+  setCurrentDisplayUserProfile,
 };
 
+const mapStateToProps = ({login}) => ({
+  loggedUserId: login.user ? login.user.id : '',
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(LoggedIn);

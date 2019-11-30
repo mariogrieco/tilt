@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 
 const userSelector = (state, props) => state.users.data[props.userId] || {};
-const followingUsers = state => state.follow.following;
+const followingUsers = state => state.loggedUserFollow.following;
 
 const makeUserWithFollowState = () =>
   createSelector(
@@ -24,32 +24,40 @@ const UserFollow = ({userId}) => {
   }, [userId]);
 
   const user = useSelector(getUserWithFollowState());
+  const loggedUserId = useSelector(state =>
+    state.login.user ? state.login.user.id : '',
+  );
   const pictureUrl = getUserProfilePicture(user.id, user.last_picture_update);
 
   return (
     <View style={styles.container}>
-      <Image source={{uri: pictureUrl}} style={styles.userPicture} />
-      <View>
-        <Text style={styles.userNames}>{`${user.name || ''} ${
-          user.last_name
-        }`}</Text>
-        <Text style={styles.username}>@{user.username}</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Image source={{uri: pictureUrl}} style={styles.userPicture} />
+        <View>
+          <Text style={styles.userNames}>{`${user.name || ''} ${
+            user.last_name
+          }`}</Text>
+          <Text style={styles.username}>@{user.username}</Text>
+        </View>
+        <View style={styles.followSection}>
+          {loggedUserId !== user.id && (
+            <TouchableOpacity
+              style={[
+                styles.followContainer,
+                user.isFollowed ? styles.unfollow : styles.follow,
+              ]}>
+              <Text
+                style={[
+                  styles.followButtonText,
+                  user.isFollowed ? styles.unfollowText : styles.followText,
+                ]}>
+                {user.isFollowed ? 'Unfollow' : 'Follow'}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
-      <View style={styles.followSection}>
-        <TouchableOpacity
-          style={[
-            styles.followContainer,
-            user.isFollowed ? styles.follow : styles.unfollow,
-          ]}>
-          <Text
-            style={[
-              styles.followButtonText,
-              user.isFollowed ? styles.followText : styles.unfollowText,
-            ]}>
-            {user.isFollowed ? 'Follow' : 'Unfollow'}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.userBio}>{user.position}</Text>
     </View>
   );
 };
@@ -57,9 +65,8 @@ const UserFollow = ({userId}) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    paddingVertical: 13.5,
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingTop: 13.5,
+    paddingBottom: 15.5,
   },
   followSection: {
     flex: 1,
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
     borderColor: '#17c491',
   },
   follow: {
-    backgroundColor: '#FFF',
+    backgroundColor: 'transparent',
   },
   unfollow: {
     backgroundColor: '#17c491',
@@ -108,6 +115,12 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 4,
     marginRight: 10,
+  },
+  userBio: {
+    marginTop: 12,
+    fontFamily: 'SFProDisplay-Regular',
+    fontSize: 16,
+    color: '#1c2431',
   },
 });
 

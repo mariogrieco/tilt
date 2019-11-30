@@ -1,54 +1,55 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {useDispatch, useSelector} from 'react-redux';
-import Client4 from '../../api/MattermostClient';
-import getFollows from '../../actions/follow';
+import {getMyFollows, getFollowsForFocusUser} from '../../actions/follow';
 
 const FollowSummary = ({navigation, userId}) => {
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
   const loggedUserId = useSelector(state =>
     state.login.user ? state.login.user.id : '',
   );
+  const user = useSelector(state => state.users.data[userId]);
+  const {following, followers} = useSelector(state => {
+    return state.login.user.id === userId
+      ? state.loggedUserFollow
+      : state.currentFollowUserData;
+  });
   const dispatch = useDispatch();
 
   const handleFollowing = useCallback(() => {
     navigation.navigate('Follow', {
       activeTab: 0,
-      followers,
-      following,
+      title: `@${user.username}`,
     });
-  }, [followers, following, navigation]);
+  }, [navigation, user.username]);
 
   const handleFollowers = useCallback(() => {
     navigation.navigate('Follow', {
       activeTab: 1,
-      followers,
-      following,
+      title: `@${user.username}`,
     });
-  }, [followers, following, navigation]);
+  }, [navigation, user.username]);
 
   useEffect(() => {
-    dispatch(getFollows(loggedUserId));
-  }, [dispatch, loggedUserId]);
+    if (user.id === loggedUserId) {
+      dispatch(getMyFollows());
+    } else {
+      dispatch(getFollowsForFocusUser());
+    }
+  }, [dispatch, loggedUserId, user.id]);
 
   useEffect(() => {
-    const getFollowersAndFollowing = async () => {
-      try {
-        const [dataFollowers, dataFollowing] = await Promise.all([
-          Client4.getUserFollowers(userId),
-          Client4.getUserFollowings(userId),
-        ]);
-        setFollowers(dataFollowers);
-        setFollowing(dataFollowing);
-      } catch (err) {
-        console.log(err);
+    const focusListener = navigation.addListener('didFocus', () => {
+      console.log('hola');
+      if (user.id === loggedUserId) {
+        dispatch(getMyFollows());
+      } else {
+        dispatch(getFollowsForFocusUser());
       }
-    };
+    });
 
-    getFollowersAndFollowing();
-  }, [userId]);
+    return () => focusListener.remove();
+  }, [dispatch, loggedUserId, navigation, user.id]);
 
   return (
     <View style={styles.container}>

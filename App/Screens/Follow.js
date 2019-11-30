@@ -6,8 +6,8 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {connect} from 'react-redux';
 import GoBack from '../components/GoBack';
 import UserFollow from '../components/UserFollow';
+import Separator from '../components/Separator';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
-import getFollows from '../actions/follow';
 
 const {width} = Dimensions.get('window');
 
@@ -33,13 +33,14 @@ class Follow extends React.Component {
   };
 
   buildList = paramKey => {
-    const {navigation} = this.props;
-    const data = navigation.getParam(paramKey, []);
+    const {follow} = this.props;
+    const data = follow[paramKey];
     return (
       <FlatList
         data={data}
         renderItem={this.renderItem}
         keyExtractor={item => item}
+        ItemSeparatorComponent={Separator}
       />
     );
   };
@@ -105,17 +106,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = {
-  getFollows,
+const mapStateToProps = ({
+  themes,
+  login,
+  users,
+  loggedUserFollow,
+  currentFollowUserData,
+}) => {
+  console.log(
+    'el user focus es el login',
+    login.user.id === users.currentUserIdProfile,
+  );
+
+  const follow =
+    login.user.id === users.currentUserIdProfile
+      ? loggedUserFollow
+      : currentFollowUserData;
+  return {
+    loggedUserId: login.user ? login.user.id : '',
+    theme: themes[themes.current],
+    follow,
+  };
 };
 
-const mapStateToProps = ({follows, themes, login}) => ({
-  loggedUserId: login.user ? login.user.id : '',
-  follows,
-  theme: themes[themes.current],
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Follow);
+export default connect(mapStateToProps)(Follow);

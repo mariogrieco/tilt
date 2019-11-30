@@ -181,6 +181,32 @@ Client4.getUserFollowings = async user_id => {
   }
 };
 
+Client4.followUser = async ({user_id, following_id}) => {
+  try {
+    const {data} = await axios.post(`${baseServicesUrl}/follow`, {
+      user_id,
+      following_id,
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+Client4.unfollowUser = async ({user_id, following_id}) => {
+  try {
+    const {data} = await axios.delete(`${baseServicesUrl}/follow`, {
+      user_id,
+      following_id,
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export default Client4;
 
 export const setToken = token => {

@@ -48,7 +48,8 @@ import blockedUsers from './blockedUsers';
 import channelsProps from './channelsProps';
 import chartPopup from './chartPopupReducer';
 import feeds from './feeds';
-import follow from './follow';
+import loggedUserFollow from './loggedUserFollow';
+import currentFollowUserData from './currentFollowUserData';
 
 export default combineReducers({
   flagged,
@@ -101,5 +102,6 @@ export default combineReducers({
   channelsProps,
   chartPopup,
   feeds,
-  follow,
+  loggedUserFollow,
+  currentFollowUserData,
 });

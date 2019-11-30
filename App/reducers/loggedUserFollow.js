@@ -9,6 +9,7 @@ const initialState = {
 const followReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_MY_FOLLOWS_SUCCESS:
+      console.log('hola desde reducer');
       return {
         ...state,
         ...action.payload,
