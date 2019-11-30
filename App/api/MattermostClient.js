@@ -161,6 +161,26 @@ Client4.getBlokedUsers = async user_id => {
   }
 };
 
+Client4.getUserFollowers = async user_id => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/followers/${user_id}`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+Client4.getUserFollowings = async user_id => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/following/${user_id}`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export default Client4;
 
 export const setToken = token => {
