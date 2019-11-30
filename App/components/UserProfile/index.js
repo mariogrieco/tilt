@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import FollowSummary from '../FollowSummary';
 import Post from '../Post/Post';
 import {getAllPostByUserId} from '../../selectors/getUserById';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
@@ -17,7 +18,7 @@ import {createDirectChannel} from '../../actions/channels';
 import ReactionSummary from '../ReactionSummary';
 import PostsSummary from '../PostsSummary';
 import styles from './styles';
-import assets from '../../config/themeAssets/assets';
+
 const MESSAGE = require('../../../assets/themes/light/profile-envelope/profile-envelope.png');
 const LANDER = require('../../../assets/themes/light/lunar-module/lunar-module.png');
 const CALENDAR = require('../../../assets/themes/light/calendar/001-calendar-1.png');
@@ -90,6 +91,7 @@ export const Header = ({
         Joined {moment(createAt).format('MMMM YYYY')}
       </Text>
     </View>
+    <FollowSummary userId={userId} />
     <PostsSummary userId={userId} />
     <ReactionSummary userId={userId} />
   </View>
@@ -243,4 +245,7 @@ const mapDispatchToProps = {
   createDirectChannel,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UserProfile);
