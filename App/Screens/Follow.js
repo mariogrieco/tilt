@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Dimensions, FlatList} from 'react-native';
+import {Dimensions, FlatList} from 'react-native';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {NavigationActions} from 'react-navigation';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
@@ -27,11 +27,6 @@ class Follow extends React.Component {
       {key: 'followers', title: 'FOLLOWERS'},
     ],
   };
-
-  componentDidMount() {
-    const {loggedUserId} = this.props;
-    this.props.getFollows(loggedUserId);
-  }
 
   renderItem = ({item}) => {
     return <UserFollow userId={item} />;

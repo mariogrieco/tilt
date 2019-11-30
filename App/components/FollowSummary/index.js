@@ -1,11 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {withNavigation} from 'react-navigation';
+import {useDispatch, useSelector} from 'react-redux';
 import Client4 from '../../api/MattermostClient';
+import getFollows from '../../actions/follow';
 
 const FollowSummary = ({navigation, userId}) => {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const loggedUserId = useSelector(state =>
+    state.login.user ? state.login.user.id : '',
+  );
+  const dispatch = useDispatch();
 
   const handleFollowing = useCallback(() => {
     navigation.navigate('Follow', {
@@ -22,6 +28,10 @@ const FollowSummary = ({navigation, userId}) => {
       following,
     });
   }, [followers, following, navigation]);
+
+  useEffect(() => {
+    dispatch(getFollows(loggedUserId));
+  }, [dispatch, loggedUserId]);
 
   useEffect(() => {
     const getFollowersAndFollowing = async () => {
