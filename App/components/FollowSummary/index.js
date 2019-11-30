@@ -40,7 +40,6 @@ const FollowSummary = ({navigation, userId}) => {
 
   useEffect(() => {
     const focusListener = navigation.addListener('didFocus', () => {
-      console.log('hola');
       if (user.id === loggedUserId) {
         dispatch(getMyFollows());
       } else {

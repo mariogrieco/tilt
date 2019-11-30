@@ -1,8 +1,9 @@
 import React, {useCallback} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {createSelector} from 'reselect';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
+import {setFollow, setUnfollow} from '../../actions/follow';
 
 const userSelector = (state, props) => state.users.data[props.userId] || {};
 const followingUsers = state => state.loggedUserFollow.following;
@@ -18,15 +19,31 @@ const makeUserWithFollowState = () =>
   );
 
 const UserFollow = ({userId}) => {
+  const dispatch = useDispatch();
+
   const getUserWithFollowState = useCallback(() => {
     const getUser = makeUserWithFollowState();
     return state => getUser(state, {userId});
   }, [userId]);
 
+  const handleFollow = useCallback(() => {
+    dispatch(setFollow(userId));
+  }, [dispatch, userId]);
+
+  const handleUnfollow = useCallback(() => {
+    dispatch(setUnfollow(userId));
+  }, [dispatch, userId]);
+
   const user = useSelector(getUserWithFollowState());
+
   const loggedUserId = useSelector(state =>
     state.login.user ? state.login.user.id : '',
   );
+
+  const loadingFollowChange = useSelector(
+    state => state.loggedUserFollow.loadingChange,
+  );
+
   const pictureUrl = getUserProfilePicture(user.id, user.last_picture_update);
 
   return (
@@ -45,7 +62,9 @@ const UserFollow = ({userId}) => {
               style={[
                 styles.followContainer,
                 user.isFollowed ? styles.unfollow : styles.follow,
-              ]}>
+              ]}
+              onPress={user.isFollowed ? handleUnfollow : handleFollow}
+              disabled={loadingFollowChange}>
               <Text
                 style={[
                   styles.followButtonText,

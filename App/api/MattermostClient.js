@@ -183,9 +183,10 @@ Client4.getUserFollowings = async user_id => {
 
 Client4.followUser = async ({user_id, following_id}) => {
   try {
-    const {data} = await axios.post(`${baseServicesUrl}/follow`, {
-      user_id,
-      following_id,
+    const {data} = await axios({
+      method: 'POST',
+      url: `${baseServicesUrl}/follow`,
+      data: {user_id, following_id},
     });
     return data;
   } catch (err) {
@@ -196,9 +197,10 @@ Client4.followUser = async ({user_id, following_id}) => {
 
 Client4.unfollowUser = async ({user_id, following_id}) => {
   try {
-    const {data} = await axios.delete(`${baseServicesUrl}/follow`, {
-      user_id,
-      following_id,
+    const {data} = await axios({
+      method: 'DELETE',
+      url: `${baseServicesUrl}/follow`,
+      data: {user_id, following_id},
     });
     return data;
   } catch (err) {

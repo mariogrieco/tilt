@@ -4,6 +4,7 @@ import StyleSheet from 'react-native-extended-stylesheet';
 import {NavigationActions} from 'react-navigation';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 import GoBack from '../components/GoBack';
 import UserFollow from '../components/UserFollow';
 import Separator from '../components/Separator';
@@ -26,38 +27,65 @@ class Follow extends React.Component {
       {key: 'following', title: 'FOLLOWING'},
       {key: 'followers', title: 'FOLLOWERS'},
     ],
+    temporalFollowings: [],
   };
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.follow.following.length > this.props.follow.following.length
+    ) {
+      const temporalFollowings = _.xor(
+        prevProps.follow.following,
+        this.props.follow.following,
+      );
+      this.setState({
+        temporalFollowings,
+      });
+    }
+  }
 
   renderItem = ({item}) => {
     return <UserFollow userId={item} />;
   };
 
   buildList = paramKey => {
-    const {follow} = this.props;
-    const data = follow[paramKey];
-    return (
+    const {follow, users} = this.props;
+    const {temporalFollowings} = this.state;
+    const data =
+      paramKey === 'followers'
+        ? follow[paramKey]
+        : [...follow[paramKey], ...temporalFollowings];
+
+    const sortedValues =
+      paramKey === 'followers'
+        ? _.sortBy(data, [userId => users.data[userId].username])
+        : _.sortedUniq(_.sortBy(data, [userId => users.data[userId].username]));
+
+    return () => (
       <FlatList
-        data={data}
+        data={sortedValues}
         renderItem={this.renderItem}
         keyExtractor={item => item}
         ItemSeparatorComponent={Separator}
+        extraData={follow}
       />
     );
   };
 
-  Followers = () => this.buildList('followers');
+  followers = () => this.buildList('followers');
 
-  Following = () => this.buildList('following');
+  following = () => this.buildList('following');
 
   render() {
     const {theme} = this.props;
-
+    const FollowerList = this.followers();
+    const FollowingList = this.following();
     return (
       <TabView
         navigationState={{...this.state}}
         renderScene={SceneMap({
-          following: this.Following,
-          followers: this.Followers,
+          following: FollowingList,
+          followers: FollowerList,
         })}
         onIndexChange={index => this.setState({index})}
         initialLayout={{width}}
@@ -113,19 +141,16 @@ const mapStateToProps = ({
   loggedUserFollow,
   currentFollowUserData,
 }) => {
-  console.log(
-    'el user focus es el login',
-    login.user.id === users.currentUserIdProfile,
-  );
-
   const follow =
     login.user.id === users.currentUserIdProfile
       ? loggedUserFollow
       : currentFollowUserData;
+
   return {
     loggedUserId: login.user ? login.user.id : '',
     theme: themes[themes.current],
     follow,
+    users,
   };
 };
 
