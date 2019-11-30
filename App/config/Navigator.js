@@ -5,6 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import ThemeTabBar from '../components/ThemeTabBar';
 import TabBarIcon from '../components/TabBarIcon';
+import Follow from '../Screens/Follow';
 import AuthVerification from '../Screens/AuthVerification';
 import Home from '../Screens/Home';
 import PublicChat from '../Screens/PublicChat';
@@ -74,7 +75,6 @@ const LoggedInTab = createStackNavigator(
     LoggedIn,
   },
   {
-    // headerMode: 'none',
     headerLayoutPreset: 'center',
   },
 );
@@ -139,6 +139,7 @@ const LoggedInMenuStack = createStackNavigator(
 const MemberStack = createStackNavigator(
   {
     MemberProfile,
+    Follow,
   },
   {
     headerLayoutPreset: 'center',
@@ -185,6 +186,15 @@ const InviteContactsStack = createStackNavigator(
   },
 );
 
+const FollowStack = createStackNavigator(
+  {
+    Follow,
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
+
 // const RootStack = createStackNavigator(
 //   {
 //     SignUpStack,
@@ -208,6 +218,7 @@ const AppStack = createStackNavigator(
     Room: RoomStack,
     LoggedInMenuStack,
     ChannelStack,
+    FollowStack,
     MemberStack,
     ThreadStack,
     ThreadEditStack,
