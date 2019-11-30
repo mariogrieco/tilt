@@ -52,7 +52,7 @@ export class StockGainers extends Component {
         ItemSeparatorComponent={this.renderSeparator}
         updateCellsBatchingPeriod={150}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
-        ListEmptyComponent={this.renderActivityIndicator}
+        // ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
         style={{backgroundColor: theme.primaryBackgroundColor}}

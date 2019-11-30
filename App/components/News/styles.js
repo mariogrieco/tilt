@@ -2,11 +2,13 @@ import StyleSheet from 'react-native-extended-stylesheet';
 
 export default StyleSheet.create({
   container: {
-    height: 80,
+    minHeight: 80,
     paddingHorizontal: 15,
+    paddingVertical: 13,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
+    marginTop: 13,
   },
   title: {
     color: '#0e141e',
@@ -17,6 +19,7 @@ export default StyleSheet.create({
     color: '#585c63',
     fontFamily:'SFProDisplay',
     fontSize: 14,
+    marginTop: 10,
   },
   left: {
     flex: 1,
@@ -24,7 +27,7 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
   },
   image: {
-    height: 80,
+    minHeight: 80,
     width: 100,
     borderRadius: 6,
   },

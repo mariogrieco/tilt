@@ -217,6 +217,15 @@ Client4.getStocksMarketMostactiveList = async () => {
   }
 };
 
+Client4.getNews = async symbol => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/news/${symbol}`);
+    return data;
+  } catch (err) {
+    return Promise.resolve([]);
+  }
+};
+
 export default Client4;
 
 export const setToken = token => {

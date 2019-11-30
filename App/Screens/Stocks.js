@@ -131,7 +131,7 @@ export class Stocks extends Component {
   handleOnSymbolPress = symbol => {
     const {dispatchSelectedSymbol} = this.props;
     dispatchSelectedSymbol({symbol});
-    NavigationService.navigate('Room');
+    NavigationService.navigate('StockRoom');
   };
 
   render() {

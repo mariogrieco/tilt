@@ -108,7 +108,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  dispatchSelectedSymbol: selectedSymbol,
+  // // dispatchSelectedSymbol: selectedSymbol,
 };
 
 export default connect(

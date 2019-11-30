@@ -35,6 +35,7 @@ import NewChannels from '../Screens/NewChannels';
 import TrendingChannels from '../Screens/TrendingChannels';
 import Stocks from '../Screens/Stocks';
 import Cryptos from '../Screens/Cryptos';
+import StockRoom from '../Screens/StockRoom';
 import All from '../Screens/All';
 
 const HomeStack = createStackNavigator(
@@ -46,9 +47,18 @@ const HomeStack = createStackNavigator(
   },
 );
 
-const RoomStack = createStackNavigator(
+const CryptoRoomStack = createStackNavigator(
   {
     CryptoRoom,
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
+
+const StockRoomStack = createStackNavigator(
+  {
+    StockRoom,
   },
   {
     headerLayoutPreset: 'center',
@@ -197,7 +207,8 @@ const RootStack = createStackNavigator(
   {
     SignUpStack,
     Root: TabBarPrincipal,
-    Room: RoomStack,
+    StockRoom: StockRoomStack,
+    Room: CryptoRoomStack,
     LoggedInMenuStack,
     ChannelStack,
     MemberStack,
