@@ -94,11 +94,9 @@ const styles = StyleSheet.create({
   followContainer: {
     width: 80,
     height: 30,
-    paddingTop: 6,
-    paddingBottom: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 16.5,
+    borderRadius: 15,
     borderWidth: 1.5,
     borderColor: '#17c491',
   },
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#17c491',
   },
   followButtonText: {
-    fontFamily: 'SFProDisplay-Regular',
+    fontFamily: 'SFProDisplay-Medium',
     fontSize: 16,
     letterSpacing: 0.1,
   },
