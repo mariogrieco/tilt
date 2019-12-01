@@ -13,12 +13,18 @@ import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 const {width} = Dimensions.get('window');
 
 class Follow extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation, screenProps}) => ({
     title: navigation.getParam('title', 'hola'),
     headerLeft: (
       <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
-    ...headerForScreenWithTabs(),
+    ...headerForScreenWithTabs({
+      headerTintColor: screenProps.theme.headerTintColor,
+      headerStyle: {
+        backgroundColor: screenProps.theme.primaryBackgroundColor,
+        borderBottomColor: screenProps.theme.borderBottomColor,
+      },
+    }),
   });
 
   state = {
@@ -49,7 +55,7 @@ class Follow extends React.Component {
   };
 
   buildList = paramKey => {
-    const {follow, users} = this.props;
+    const {follow, users, theme} = this.props;
     const {temporalFollowings} = this.state;
     const data =
       paramKey === 'followers'
@@ -68,6 +74,10 @@ class Follow extends React.Component {
         keyExtractor={item => item}
         ItemSeparatorComponent={Separator}
         extraData={follow}
+        style={{
+          flex: 1,
+          backgroundColor: theme.primaryBackgroundColor,
+        }}
       />
     );
   };

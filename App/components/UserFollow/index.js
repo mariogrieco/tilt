@@ -26,14 +26,6 @@ const UserFollow = ({userId}) => {
     return state => getUser(state, {userId});
   }, [userId]);
 
-  const handleFollow = useCallback(() => {
-    dispatch(setFollow(userId));
-  }, [dispatch, userId]);
-
-  const handleUnfollow = useCallback(() => {
-    dispatch(setUnfollow(userId));
-  }, [dispatch, userId]);
-
   const user = useSelector(getUserWithFollowState());
 
   const loggedUserId = useSelector(state =>
@@ -44,6 +36,15 @@ const UserFollow = ({userId}) => {
     state => state.loggedUserFollow.loadingChange,
   );
 
+  const theme = useSelector(state => state.themes[state.themes.current]);
+
+  const handleFollow = useCallback(() => {
+    dispatch(setFollow(userId));
+  }, [dispatch, userId]);
+
+  const handleUnfollow = useCallback(() => {
+    dispatch(setUnfollow(userId));
+  }, [dispatch, userId]);
   const pictureUrl = getUserProfilePicture(user.id, user.last_picture_update);
 
   return (
@@ -51,9 +52,11 @@ const UserFollow = ({userId}) => {
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image source={{uri: pictureUrl}} style={styles.userPicture} />
         <View>
-          <Text style={styles.userNames}>{`${user.name || ''} ${
-            user.last_name
-          }`}</Text>
+          <Text
+            style={[
+              styles.userNames,
+              {color: theme.primaryTextColor},
+            ]}>{`${user.name || ''} ${user.last_name}`}</Text>
           <Text style={styles.username}>@{user.username}</Text>
         </View>
         <View style={styles.followSection}>
@@ -76,7 +79,9 @@ const UserFollow = ({userId}) => {
           )}
         </View>
       </View>
-      <Text style={styles.userBio}>{user.position}</Text>
+      <Text style={[styles.userBio, {color: theme.primaryTextColor}]}>
+        {user.position}
+      </Text>
     </View>
   );
 };

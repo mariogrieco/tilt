@@ -14,6 +14,7 @@ const FollowSummary = ({navigation, userId}) => {
       ? state.loggedUserFollow
       : state.currentFollowUserData;
   });
+  const theme = useSelector(state => state.themes[state.themes.current]);
   const dispatch = useDispatch();
 
   const handleFollowing = useCallback(() => {
@@ -55,11 +56,15 @@ const FollowSummary = ({navigation, userId}) => {
       <TouchableOpacity
         style={[styles.button, {marginRight: 15}]}
         onPress={handleFollowing}>
-        <Text style={styles.usersCountText}>{following.length}</Text>
+        <Text style={[styles.usersCountText, {color: theme.primaryTextColor}]}>
+          {following.length}
+        </Text>
         <Text style={styles.buttonLabelText}>Following</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleFollowers}>
-        <Text style={styles.usersCountText}>{followers.length}</Text>
+        <Text style={[styles.usersCountText, {color: theme.primaryTextColor}]}>
+          {followers.length}
+        </Text>
         <Text style={styles.buttonLabelText}>Followers</Text>
       </TouchableOpacity>
     </View>
