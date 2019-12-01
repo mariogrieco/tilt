@@ -90,7 +90,7 @@ class PublicSearch extends React.Component {
 PublicSearch.defaultProps = {
   channels: [],
   users: {},
-  myChannels: [],
+  // myChannels: [],
   searchValue: '',
 };
 
@@ -105,7 +105,7 @@ const mapStateToProps = state => {
   const searchResult = state.search;
 
   getChannelsList(state).forEach(channel => {
-    mapChannelsForJoin[channel.id] = true;
+    mapChannelsForJoin[channel.id] = myChannelsMap.has(channel.id);
     mapFavoritesChannels[channel.id] = getFavoriteChannelById(
       state,
       channel.id,
@@ -127,7 +127,7 @@ const mapStateToProps = state => {
     mapFavoritesChannels,
     channelStatsGroup,
     mapChannelsColors,
-    myChannels: myChannelsMap.keySeq(),
+    // myChannels: myChannelsMap.keySeq(),
     theme: state.themes[state.themes.current],
   };
 };

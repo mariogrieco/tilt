@@ -34,10 +34,10 @@ const getChnnelsList = createSelector(
     let channels = [];
 
     myChannelsMap
-      .filter(id =>
-        allChannels.get(id) ? allChannels.get(id).type === 'O' : false,
-      )
-      .valueSeq()
+      .keySeq()
+      .filter(id => {
+        return allChannels.has(id) ? allChannels.get(id).type === 'O' : false;
+      })
       .forEach(id => {
         const channel = allChannels.get(id);
         const channelData = orders[channel.id];
