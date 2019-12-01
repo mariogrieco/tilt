@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
 import {createSelector} from 'reselect';
 import getUserProfilePicture from '../../selectors/getUserProfilePicture';
-import {setFollow, setUnfollow} from '../../actions/follow';
+import FollowButton from '../FollowButton';
 
 const userSelector = (state, props) => state.users.data[props.userId] || {};
 const followingUsers = state => state.loggedUserFollow.following;
@@ -19,8 +19,6 @@ const makeUserWithFollowState = () =>
   );
 
 const UserFollow = ({userId}) => {
-  const dispatch = useDispatch();
-
   const getUserWithFollowState = useCallback(() => {
     const getUser = makeUserWithFollowState();
     return state => getUser(state, {userId});
@@ -32,19 +30,8 @@ const UserFollow = ({userId}) => {
     state.login.user ? state.login.user.id : '',
   );
 
-  const loadingFollowChange = useSelector(
-    state => state.loggedUserFollow.loadingChange,
-  );
-
   const theme = useSelector(state => state.themes[state.themes.current]);
 
-  const handleFollow = useCallback(() => {
-    dispatch(setFollow(userId));
-  }, [dispatch, userId]);
-
-  const handleUnfollow = useCallback(() => {
-    dispatch(setUnfollow(userId));
-  }, [dispatch, userId]);
   const pictureUrl = getUserProfilePicture(user.id, user.last_picture_update);
 
   return (
@@ -61,21 +48,7 @@ const UserFollow = ({userId}) => {
         </View>
         <View style={styles.followSection}>
           {loggedUserId !== user.id && (
-            <TouchableOpacity
-              style={[
-                styles.followContainer,
-                user.isFollowed ? styles.unfollow : styles.follow,
-              ]}
-              onPress={user.isFollowed ? handleUnfollow : handleFollow}
-              disabled={loadingFollowChange}>
-              <Text
-                style={[
-                  styles.followButtonText,
-                  user.isFollowed ? styles.unfollowText : styles.followText,
-                ]}>
-                {user.isFollowed ? 'Unfollow' : 'Follow'}
-              </Text>
-            </TouchableOpacity>
+            <FollowButton userId={user.id} isFollowing={user.isFollowed} />
           )}
         </View>
       </View>
@@ -95,32 +68,6 @@ const styles = StyleSheet.create({
   followSection: {
     flex: 1,
     alignItems: 'flex-end',
-  },
-  followContainer: {
-    width: 80,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    borderWidth: 1.5,
-    borderColor: '#17c491',
-  },
-  follow: {
-    backgroundColor: 'transparent',
-  },
-  unfollow: {
-    backgroundColor: '#17c491',
-  },
-  followButtonText: {
-    fontFamily: 'SFProDisplay-Medium',
-    fontSize: 16,
-    letterSpacing: 0.1,
-  },
-  followText: {
-    color: '#17c491',
-  },
-  unfollowText: {
-    color: '#FFF',
   },
   userNames: {
     fontSize: 16,
