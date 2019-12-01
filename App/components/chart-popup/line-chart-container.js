@@ -14,41 +14,6 @@ class LineChartContainer extends Component {
     loading: false,
   };
 
-  // componentWillUnmount() {
-  //   this.setState({
-  //     data: null,
-  //     barChartData: null,
-  //   });
-  // }
-
-  // getKlinesData(symbol) {
-  //   this.setState(
-  //     {
-  //       loading: true,
-  //     },
-  //     async () => {
-  //       try {
-  //         const {data} = await Client4.getKlines(
-  //           symbol,
-  //           '30m',
-  //           moment()
-  //             .subtract(1, 'days')
-  //             .utc()
-  //             .valueOf(),
-  //         );
-  //         this.setDataState(data);
-  //       } catch (ex) {
-  //         console.log('ex: ', ex);
-  //         return ex;
-  //       } finally {
-  //         this.setState({
-  //           loading: false,
-  //         });
-  //       }
-  //     },
-  //   );
-  // }
-
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
@@ -81,17 +46,20 @@ class LineChartContainer extends Component {
   }
 
   render() {
-    const {theme, isRed} = this.props;
+    const {theme, isRed, fullHeight} = this.props;
     const {data, barChartData, isIex} = this.state;
     return (
       <View
         style={
-          data
+          data && !fullHeight
             ? {
                 paddingTop: 5,
                 height: Platform.OS === 'ios' ? ifIphoneX(350, 300) : 320,
               }
-            : {}
+            : {
+              height: '100%',
+              flex: 1,
+            }
         }>
         <View style={styles.container}>
           {data && (

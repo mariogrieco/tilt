@@ -487,7 +487,7 @@ class Post extends React.Component {
   }
 
   handleOnChannelChartMention = value => {
-    this.props.setPopupSymbolValue(value);
+    this.props.setPopupSymbolValue(value, true);
   };
 
   renderMessage = () => {

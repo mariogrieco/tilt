@@ -3,11 +3,14 @@ import {Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import NavigationService from '../config/NavigationService';
 import {selectedSymbol} from '../actions/symbols';
+import {setPopupSymbolValue} from '../actions/chartPopup';
 import SearchBar from '../components/SearchBar';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import StyleSheet from 'react-native-extended-stylesheet';
+import {setActiveFocusChannel} from '../actions/AppNavigation';
+import {getChannelByName} from '../actions/channels';
 
 import StockLosers from '../components/StockLosers';
 import StockGainers from '../components/StockGainers';
@@ -103,7 +106,7 @@ export class Stocks extends Component {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const {navigation} = this.props;
 
     navigation.setParams({
@@ -128,10 +131,46 @@ export class Stocks extends Component {
     return channel.id;
   }
 
-  handleOnSymbolPress = symbol => {
-    const {dispatchSelectedSymbol} = this.props;
+  handleOnSymbolPress = async symbol => {
+    const {
+      dispatchSelectedSymbol,
+      dispatchSetPopupSymbolValue,
+      channels,
+      myChannels,
+    } = this.props;
     dispatchSelectedSymbol({symbol});
-    NavigationService.navigate('StockRoom');
+    dispatchSetPopupSymbolValue(`$${symbol}`, false);
+    NavigationService.navigate('StockRoom', {
+      title: symbol,
+    });
+
+    const notInbutFound = channels.find(
+      channel => channel.name === symbol.toLowerCase(),
+    );
+
+    const foundOnMy = myChannels.find(
+      channel => channel.name === symbol.toLowerCase(),
+    );
+
+    if (foundOnMy) {
+      this.props.setActiveFocusChannel(foundOnMy.id);
+      return null;
+    }
+
+    if (notInbutFound) {
+      this.props.setActiveFocusChannel(notInbutFound.id);
+      return null;
+    }
+
+    try {
+      const result = await getChannelByName(symbol);
+      if (result) {
+        this.props.setActiveFocusChannel(result.id);
+      }
+    } catch (err) {
+      alert(`${err.message || err}`);
+    }
+    return null;
   };
 
   render() {
@@ -188,10 +227,20 @@ export class Stocks extends Component {
 
 const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
+  selectedSymbol: state.watchlist.selectedSymbol,
+  channels: state.mapChannels.valueSeq().toJS(),
+  myChannels: state.myChannelsMap
+    .map(id => state.mapChannels.get(id))
+    .filter(channel => channel)
+    .valueSeq()
+    .toJS(),
 });
 
 const mapDispatchToProps = {
   dispatchSelectedSymbol: selectedSymbol,
+  dispatchSetPopupSymbolValue: setPopupSymbolValue,
+  setActiveFocusChannel,
+  getChannelByName,
 };
 
 export default connect(

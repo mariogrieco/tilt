@@ -11,7 +11,7 @@ export const setPopupValue = data => ({
   payload: data,
 });
 
-export const setPopupSymbolValue = symbol_value => {
+export const setPopupSymbolValue = (symbol_value, showModal) => {
   return async (dispatch, getState) => {
     try {
       const {mapChannels} = getState();
@@ -43,6 +43,7 @@ export const setPopupSymbolValue = symbol_value => {
           symbol: `${symbol_value}`,
           is_chat,
           chart_data: data,
+          isActive: showModal,
         },
       });
     } catch (ex) {

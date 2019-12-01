@@ -127,6 +127,15 @@ Client4.getPostCountForUser = async (teamId, userID) => {
   }
 };
 
+Client4.getChannel = async id => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/channel?id={${id}}`);
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
 Client4.getChannelByNameService = async (name, delete_at = 0) => {
   try {
     name = name.length < 2 ? `${name}11` : name;

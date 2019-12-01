@@ -5,8 +5,13 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import StyleSheet from 'react-native-extended-stylesheet';
-
+import GoBack from '../components/GoBack';
 import StockNewsLayout from '../components/StockNewsLayout';
+import ChannelOptionalView from '../components/ChannelOptionalView';
+import StockChart from '../components/StockChart';
+import {NavigationActions} from 'react-navigation';
+
+const ChannelTab = () => <ChannelOptionalView />;
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -53,7 +58,7 @@ export class StockRoom extends Component {
   };
 
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: '',
+    title: navigation.getParam('title', ''),
     ...headerForScreenWithTabs({
       headerTintColor: screenProps.theme.headerTintColor,
       headerStyle: {
@@ -61,6 +66,9 @@ export class StockRoom extends Component {
         borderBottomColor: screenProps.theme.borderBottomColor,
       },
     }),
+    headerLeft: (
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+    ),
   });
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -75,8 +83,8 @@ export class StockRoom extends Component {
           navigationState={{...this.state}}
           renderScene={SceneMap({
             news: StockNewsLayout,
-            chart: StockNewsLayout,
-            chat: StockNewsLayout,
+            chart: StockChart,
+            chat: ChannelTab,
           })}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}

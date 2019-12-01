@@ -10,7 +10,7 @@ let store = null;
 // Middleware: Redux Persist Config
 const persistConfig = {
   // Root?
-  key: 'AC1X12_PR1AA',
+  key: 'AC1X12_PR1AADD',
   // Storage Method (React Native)
   storage: AsyncStorage,
   // Whitelist (Save Specific Reducers)
@@ -31,10 +31,7 @@ const persistConfig = {
     'displayUserProfile',
     'teams',
     'preferences',
-    // 'channels',
     'reactions',
-    // 'mapChannels',
-    // 'myChannelsMap',
     'adminCreators',
     'blockedUsers',
     'themes',

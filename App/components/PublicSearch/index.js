@@ -125,7 +125,7 @@ const mapStateToProps = state => {
     mapFavoritesChannels,
     channelStatsGroup,
     mapChannelsColors,
-    myChannels: myChannelsMap.valueSeq().toJS(),
+    myChannels: myChannelsMap.keySeq(),
     theme: state.themes[state.themes.current],
   };
 };

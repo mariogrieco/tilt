@@ -35,7 +35,7 @@ const sync = async (dispatch, callback) => {
     await dispatch(getTeams());
     const MyChannels = await dispatch(getMyChannels());
     asyncFetchs.push(dispatch(getLastViewForChannels()));
-    asyncFetchs.push(dispatch(getChannels()));
+    // asyncFetchs.push(dispatch(getChannels()));
     asyncFetchs.push(dispatch(getPostsByChannelId(MyChannels)));
     await Promise.all(asyncFetchs);
     await dispatch(getProfilesInGroupChannels());

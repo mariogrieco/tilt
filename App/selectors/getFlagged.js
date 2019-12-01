@@ -32,7 +32,9 @@ const getFlagged = createSelector(
   ) => {
     const flagged_channels = [];
 
-    myChannelsMap.valueSeq().forEach(channel => {
+    myChannelsMap.keySeq().forEach(id => {
+      const channel = mapChannels.get(id);
+      if (!channel) return null;
       const data = {
         ...channel,
         creator: usersData[channel.creator_id] || {},

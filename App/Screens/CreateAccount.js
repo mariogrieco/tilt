@@ -123,7 +123,7 @@ class CreateAccount extends React.Component {
     try {
       const [myChannels, channels, profiles] = await Promise.all([
         this.props.getMyChannels(),
-        this.props.getChannels(),
+        // this.props.getChannels(),
         this.props.getProfilesInGroupChannels(),
       ]);
       const posts = await this.props.getPostsByChannelId(myChannels);

@@ -154,8 +154,8 @@ export const navigateIfExists = (
 ) => async (dispatch, getState) => {
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
-  const myChannels = state.myChannelsMap.valueSeq().toJS();
-  const channels = state.mapChannels.valueSeq().toJS();
+  const myChannels = state.myChannelsMap.keySeq();
+  const channels = state.mapChannels.valueSeq();
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
@@ -453,17 +453,19 @@ export const getChannelById = (channelId, meChannel) => async (
 ) => {
   try {
     // const meId = getState().login.user.id;
-    // const channel = await Client4.getChannel(channelId);
+    // const data = await Client4.getChannel(channelId);
+    // console.log('data -> ', data);
     // dispatch(getPostsForChannel(channel.id));
-    // if (meChannel || channel.creator_id === meId) {
+    // if ((channel && meChannel) || (channel && channel.creator_id === meId)) {
     //   dispatch(getMyChannelByIdSucess(channel, meId));
     // } else {
     //   dispatch(getChannelByIdSucess(channel, meId));
     // }
     // return channel;
   } catch (ex) {
-    dispatch(getChannelByIdError(ex));
-    return Promise.reject(ex.message);
+    // console.log(ex);
+    // dispatch(getChannelByIdError(ex));
+    // return ex.message;
   }
 };
 
@@ -684,14 +686,19 @@ export const createAndRedirectDirect = userIds => async dispatch => {
 export const createDirectChannel = userId => async (dispatch, getState) => {
   try {
     dispatch(clearjumpToAction());
+    const channels = getState().mapChannels;
     const meId = getState().login.user.id;
     const comparator = `${userId}`;
-    let channel = getState().myChannelsMap.find(_channel => {
-      if (_channel.name.includes(comparator)) {
-        return _channel;
+    let channel = null;
+
+    getState().myChannelsMap.find(id => {
+      const _channel = channels.get(id);
+      if (_channel && _channel.name.includes(comparator)) {
+        channel = _channel;
       }
       return false;
     });
+
     if (!channel) {
       const r = await Client4.createDirectChannel([meId, userId]);
       dispatch(createDirectChannelSucess(r));
