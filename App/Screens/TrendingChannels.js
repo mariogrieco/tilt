@@ -92,6 +92,7 @@ export class TrendingChannels extends Component {
         channel_id={item.id}
         titleColor={item.titleColor}
         join={item.join}
+        content_type={item.content_type}
         unreadMessagesCount={item.unreadMessagesCount}
       />
     );
