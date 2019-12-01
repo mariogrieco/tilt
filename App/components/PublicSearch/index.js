@@ -70,7 +70,7 @@ class PublicSearch extends React.Component {
                   showMembersLabel={!!mapChannelsForJoin[channel.id]}
                   join={!mapChannelsForJoin[channel.id]}
                   fav={mapFavoritesChannels[channel.id]}
-                  content_type={item.content_type}
+                  content_type={channel.content_type}
                   titleColor={mapChannelsColors[channel.id]}
                 />
               ))
