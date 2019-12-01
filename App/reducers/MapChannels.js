@@ -125,12 +125,12 @@ const channels = (state = initialState, action) => {
       });
       return nextState;
     }
-    case ADD_TO_CHANNEL_SUCESS: {
-      if (state.has(action.payload.id)) {
-        return state.delete(action.payload.id);
-      }
-      return state;
-    }
+    // case ADD_TO_CHANNEL_SUCESS: {
+      // if (state.has(action.payload.id)) {
+      //   return state.delete(action.payload.id);
+      // }
+      // return state;
+    // }
     default:
       return state;
   }

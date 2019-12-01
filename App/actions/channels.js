@@ -633,8 +633,9 @@ export const addToChannel = (user_id, channel_id, postRootId) => async (
     await Client4.addToChannel(user_id, channel_id, postRootId);
     const channel = state.mapChannels.get(channel_id);
     if (channel) {
-      dispatch(getPostsForChannel(channel.id));
       dispatch(addToChannelSucess(channel));
+      dispatch(getPostsForChannel(channel.id));
+      console.log(channel);
     }
     return channel;
   } catch (ex) {
