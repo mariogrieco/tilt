@@ -11,6 +11,8 @@ const FollowButton = ({userId, isFollowing}) => {
     state => state.loggedUserFollow.loadingChange,
   );
 
+  const theme = useSelector(state => state.themes[state.themes.current]);
+
   const handleFollow = useCallback(() => {
     dispatch(setFollow(userId));
   }, [dispatch, userId]);
@@ -29,7 +31,9 @@ const FollowButton = ({userId, isFollowing}) => {
       <Text
         style={[
           styles.followButtonText,
-          isFollowing ? styles.unfollowText : styles.followText,
+          isFollowing
+            ? {...styles.unfollowText, color: theme.primaryBackgroundColor}
+            : styles.followText,
         ]}>
         {isFollowing ? 'Unfollow' : 'Follow'}
       </Text>
