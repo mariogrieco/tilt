@@ -48,10 +48,10 @@ const eventsDispatched = data => {
         store.dispatch(editPost(post)),
       ]);
     }
-    // case 'direct_added': {
-    //   const {channel_id} = data.broadcast;
-    //   return store.dispatch(getChannelById(channel_id, true));
-    // }
+    case 'direct_added': {
+      const {channel_id} = data.broadcast;
+      return store.dispatch(getChannelById(channel_id, true));
+    }
     // case 'channel_created': {
     //   const {channel_id} = data.data;
     //   return store.dispatch(getChannelById(channel_id));

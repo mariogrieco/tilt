@@ -134,7 +134,7 @@ class PublicChat extends React.Component {
   async searchFor(queryStr) {
     // if (this.state.searchValue !== queryStr) return null;
     try {
-      await this.props.searchChannels('k1df69t1ibryue11z5wd4n48nr', queryStr);
+      await this.props.searchChannels(queryStr);
     } catch (ex) {
       alert(ex.message || ex);
     }

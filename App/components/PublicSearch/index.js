@@ -96,7 +96,9 @@ PublicSearch.defaultProps = {
 
 const mapStateToProps = state => {
   const {users, myChannelsMap, channelStatsGroup} = state;
-  let channels = [...state.mapChannels.valueSeq().toJS()];
+  let channels = [...state.mapChannels.valueSeq()].filter(
+    channel => channel.type !== 'D',
+  );
   const mapChannelsForJoin = {};
   const mapFavoritesChannels = {};
   const mapChannelsColors = {};

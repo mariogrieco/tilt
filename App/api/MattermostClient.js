@@ -33,6 +33,17 @@ Client4.getSymbolTicket = async symbol_name => {
   }
 };
 
+Client4.searchChannels = async terms => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/search/${terms}`,
+    );
+    return data;
+  } catch (ex) {
+    return [];
+  }
+};
+
 Client4.getMyChannels = async user_id => {
   try {
     const {data} = await axios.get(

@@ -26,9 +26,7 @@ const Feeds = ({navigation}) => {
         );
         const searchs = [];
         keysForInclude.forEach(key =>
-          searchs.push(
-            dispatch(searchChannels(null, feeds.channels[key].name)),
-          ),
+          searchs.push(dispatch(searchChannels(feeds.channels[key].name))),
         );
         await Promise.all(searchs);
       } catch (err) {

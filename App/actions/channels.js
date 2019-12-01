@@ -452,20 +452,18 @@ export const getChannelById = (channelId, meChannel) => async (
   getState,
 ) => {
   try {
-    // const meId = getState().login.user.id;
-    // const data = await Client4.getChannel(channelId);
-    // console.log('data -> ', data);
-    // dispatch(getPostsForChannel(channel.id));
-    // if ((channel && meChannel) || (channel && channel.creator_id === meId)) {
-    //   dispatch(getMyChannelByIdSucess(channel, meId));
-    // } else {
-    //   dispatch(getChannelByIdSucess(channel, meId));
-    // }
-    // return channel;
+    const meId = getState().login.user.id;
+    const {channel} = await Client4.getChannel(channelId);
+    dispatch(getPostsForChannel(channel.id));
+    if ((channel && meChannel) || (channel && channel.creator_id === meId)) {
+      dispatch(getMyChannelByIdSucess(channel, meId));
+    } else {
+      dispatch(getChannelByIdSucess(channel, meId));
+    }
+    return channel;
   } catch (ex) {
-    // console.log(ex);
-    // dispatch(getChannelByIdError(ex));
-    // return ex.message;
+    dispatch(getChannelByIdError(ex));
+    return null;
   }
 };
 
@@ -609,7 +607,6 @@ export const createChannel = data => async (dispatch, getState) => {
     const payload = await Client4.createChannel(getChannelSchema(data));
     dispatch(createChannelSucess(payload));
     dispatch(getPostsForChannel(payload.id));
-    console.log(payload);
     return payload;
   } catch (ex) {
     dispatch(createChannelError(ex));
@@ -634,10 +631,12 @@ export const addToChannel = (user_id, channel_id, postRootId) => async (
   try {
     const state = getState();
     await Client4.addToChannel(user_id, channel_id, postRootId);
-    const payload = state.mapChannels.find(({id}) => channel_id === id);
-    dispatch(getPostsForChannel(channel_id));
-    dispatch(addToChannelSucess(payload));
-    return payload;
+    const channel = state.mapChannels.get(channel_id);
+    if (channel) {
+      dispatch(getPostsForChannel(channel.id));
+      dispatch(addToChannelSucess(channel));
+    }
+    return channel;
   } catch (ex) {
     dispatch(addToChannelError(ex));
     return Promise.reject(ex.message);
@@ -691,13 +690,15 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
     const comparator = `${userId}`;
     let channel = null;
 
-    getState().myChannelsMap.find(id => {
-      const _channel = channels.get(id);
-      if (_channel && _channel.name.includes(comparator)) {
-        channel = _channel;
-      }
-      return false;
-    });
+    getState()
+      .myChannelsMap.keySeq()
+      .find(id => {
+        const _channel = channels.get(id);
+        if (_channel && _channel.name.includes(comparator)) {
+          channel = _channel;
+        }
+        return false;
+      });
 
     if (!channel) {
       const r = await Client4.createDirectChannel([meId, userId]);
