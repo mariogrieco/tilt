@@ -175,18 +175,6 @@ class SignUp extends React.Component {
     }),
   });
 
-  componentDidMount() {
-    this.navigationListener = this.props.navigation.addListener(
-      'didFocus',
-      this.handleisAuth,
-    );
-    // SplashScreen.close({
-    //   animationType: SplashScreen.animationType.scale,
-    //   duration: 180,
-    //   delay: 1000,
-    // });
-  }
-
   componentWillUnmount() {
     if (this.navigationListener) {
       this.navigationListener.remove();
@@ -299,5 +287,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(SignUp),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SignUp),
 );

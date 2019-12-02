@@ -68,6 +68,7 @@ const mapDispatchToProps = {
   getProfilesInGroupChannels,
 };
 
-export default withNavigation(
-  connect(() => ({}), mapDispatchToProps)(LoggedIn),
-);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LoggedIn);
