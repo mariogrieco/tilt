@@ -5,9 +5,7 @@ import {
 } from '../actions/StockTabActions';
 
 const initialState = {
-  gainers: [{
-    symbol: 'A',
-  }],
+  gainers: [],
   losers: [],
   actives: [],
 };
@@ -18,8 +16,8 @@ export default (state = initialState, {type, payload}) => {
       return {...state, actives: payload};
     case GET_LOSERS_MARKET_LIST_SUCCESS:
       return {...state, losers: payload};
-    // case GET_GAINERS_MARKET_LIST_SUCCESS:
-      // return {...state, gainers: payload};
+    case GET_GAINERS_MARKET_LIST_SUCCESS:
+      return {...state, gainers: payload};
     default:
       return state;
   }

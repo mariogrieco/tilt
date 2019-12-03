@@ -79,6 +79,7 @@ class CreateAccount extends React.Component {
     password: '',
     firstName: '',
     lastName: '',
+    loading: false,
   };
 
   validateEmail = email => {
@@ -91,32 +92,52 @@ class CreateAccount extends React.Component {
   }
 
   navigationToHome = async () => {
-    const {username, email, password, firstName, lastName} = this.state;
-    // const {phoneOnVerification, callingCode} = this.props;
-    if (username && this.validateEmail(email) && password) {
-      try {
-        const {user} = await this.props.client4CreateUser({
-          username,
-          email,
-          password,
-          first_name: firstName,
-          last_name: lastName,
-        });
-        await this.props.login(password, username);
-        const teams = await this.props.getTeams();
-        const default_team_id = teams.find(({name}) => name === 'default');
-        await this.props.addToTeam(default_team_id.id, user.id);
-        await this.props.getMyPreferences();
-        await this.props.getFlagged();
-        await this.props.enableGlobalNotifications();
-        this.getPostChannelsAndUsersData();
-        this.props.modalActive(true);
-        this.props.isLogin(true);
-        this.props.navigation.navigate('Home');
-      } catch (ex) {
-        alert(ex.message);
-      }
-    }
+    const {
+      username,
+      email,
+      password,
+      firstName,
+      lastName,
+      loading,
+    } = this.state;
+    if (loading) {
+      return null;
+    };
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        if (username && this.validateEmail(email) && password) {
+          try {
+            const {user} = await this.props.client4CreateUser({
+              username,
+              email,
+              password,
+              first_name: firstName,
+              last_name: lastName,
+            });
+            await this.props.login(password, username);
+            const teams = await this.props.getTeams();
+            const default_team_id = teams.find(({name}) => name === 'default');
+            await this.props.addToTeam(default_team_id.id, user.id);
+            await this.props.getMyPreferences();
+            await this.props.getFlagged();
+            await this.props.enableGlobalNotifications();
+            this.getPostChannelsAndUsersData();
+            this.props.modalActive(true);
+            this.props.isLogin(true);
+            this.props.navigation.navigate('Home');
+          } catch (ex) {
+            // eslint-disable-next-line no-alert
+            alert(ex.message);
+          } finally {
+            this.setState({
+              loading: false,
+            });
+          }
+        }
+    });
   };
 
   getPostChannelsAndUsersData = async () => {

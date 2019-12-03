@@ -79,27 +79,6 @@ export class Stocks extends Component {
         inputValue={navigation.getParam('searchValue', '')}
       />
     ),
-    // headerRight: navigation.getParam('isSearching', false) ? (
-    //   <TouchableOpacity
-    //     style={{paddingHorizontal: 15, paddingBottom: 8}}
-    //     onPress={() => {
-    //       navigation.setParams({
-    //         isSearching: false,
-    //       });
-    //       navigation.getParam('onSearch', () => {})('');
-    //     }}>
-    //     <Text
-    //       style={[styles.cancel, {color: screenProps.theme.primaryTextColor}]}>
-    //       Cancel
-    //     </Text>
-    //   </TouchableOpacity>
-    // ) : (
-    //   <TouchableOpacity
-    //     style={{paddingHorizontal: 15, paddingBottom: 6}}
-    //     onPress={() => navigation.navigate('CreateChannel')}>
-    //     <Image source={assets[screenProps.themeName].CREATE_CHANNEL} />
-    //   </TouchableOpacity>
-    // ),
   });
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -136,8 +115,8 @@ export class Stocks extends Component {
       dispatchSelectedSymbol,
       dispatchSetPopupSymbolValue,
       channels,
-      myChannels,
     } = this.props;
+
     dispatchSelectedSymbol({symbol});
     dispatchSetPopupSymbolValue(`$${symbol}`, false);
     NavigationService.navigate('StockRoom', {
@@ -148,26 +127,18 @@ export class Stocks extends Component {
       channel => channel.name === symbol.toLowerCase(),
     );
 
-    const foundOnMy = myChannels.find(
-      channel => channel.name === symbol.toLowerCase(),
-    );
-
-    if (foundOnMy) {
-      this.props.setActiveFocusChannel(foundOnMy.id);
-      return null;
-    }
-
     if (notInbutFound) {
       this.props.setActiveFocusChannel(notInbutFound.id);
       return null;
     }
 
     try {
-      const result = await getChannelByName(symbol);
+      const result = await this.props.getChannelByName(symbol.toLowerCase());
       if (result) {
         this.props.setActiveFocusChannel(result.id);
       }
     } catch (err) {
+      // eslint-disable-next-line no-alert
       alert(`${err.message || err}`);
     }
     return null;
@@ -229,11 +200,6 @@ const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
   selectedSymbol: state.watchlist.selectedSymbol,
   channels: state.mapChannels.valueSeq().toJS(),
-  myChannels: state.myChannelsMap
-    .map(id => state.mapChannels.get(id))
-    .filter(channel => channel)
-    .valueSeq()
-    .toJS(),
 });
 
 const mapDispatchToProps = {

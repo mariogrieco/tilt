@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {searchChannels} from '../actions/search';
-import Channels from '../components/Channels';
+import Watchlist from '../components/Watchlist';
 import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
@@ -149,7 +149,7 @@ class PublicChat extends React.Component {
           navigationState={{...this.state}}
           renderScene={SceneMap({
             channels: Discover,
-            discover: Channels,
+            discover: Watchlist,
           })}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}
