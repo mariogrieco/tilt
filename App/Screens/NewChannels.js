@@ -9,6 +9,7 @@ import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import ChannelDisplayName from '../components/ChannelDisplayName';
 import getAllChannels from '../selectors/getAllChannels';
+import {getChannelStatsByGroup} from '../actions/channels';
 
 import {getPageForNewTab} from '../actions/tab_channels_actions';
 import moment from 'moment';
@@ -52,6 +53,10 @@ export class AllChannels extends Component {
     },
   });
 
+  componentDidMount() {
+    this.props.getChannelStatsByGroup();
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
@@ -65,9 +70,10 @@ export class AllChannels extends Component {
       if (this.state.loading) return null;
       this.setState({
         loading: true
-      }, () => {
+      }, async () => {
         try {
-          this.props.getPageForNewTab([]);
+          await this.props.getPageForNewTab([]);
+          this.props.getChannelStatsByGroup();
         } catch (err) {
           console.log(err);
         } finally {
@@ -133,6 +139,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getPageForNewTab,
+  getChannelStatsByGroup,
 };
 
 export default connect(

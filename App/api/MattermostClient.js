@@ -237,6 +237,17 @@ Client4.getStocksMarketMostactiveList = async () => {
   }
 };
 
+Client4.getMemberCount = async ids => {
+  try {
+    const {data} = await axios.post(`${baseServicesUrl}/channel/member_count`, {
+      ids: ids.join(','),
+    });
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 Client4.getNews = async symbol => {
   try {
     const {data} = await axios.get(`${baseServicesUrl}/news/${symbol}`);

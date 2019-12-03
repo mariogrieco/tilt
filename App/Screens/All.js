@@ -11,6 +11,7 @@ import ChannelDisplayName from '../components/ChannelDisplayName';
 import getAllChannels from '../selectors/getAllChannels';
 
 import {getPageForAllTab} from '../actions/tab_channels_actions';
+import {getChannelStatsByGroup} from '../actions/channels';
 
 // import styles from './styles';
 
@@ -59,14 +60,19 @@ export class AllChannels extends Component {
     return channel.id;
   }
 
+  componentDidMount() {
+    this.props.getChannelStatsByGroup();
+  } 
+
   _fetchMore = ({distanceFromEnd}) => {
     if (distanceFromEnd <= 0) {
       if (this.state.loading) return null;
       this.setState({
         loading: true
-      }, () => {
+      }, async () => {
         try {
-          this.props.getPageForAllTab([]);
+          await this.props.getPageForAllTab([]);
+          this.props.getChannelStatsByGroup();
         } catch (err) {
           console.log(err);
         } finally {
@@ -129,6 +135,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getPageForAllTab,
+  getChannelStatsByGroup,
 };
 
 export default connect(

@@ -520,14 +520,16 @@ export const getChannelStatsError = err => ({
   payload: err,
 });
 
-export const getChannelStatsByGroup = channels => async dispatch => {
-  const results = [];
-  // console.log('start fetch channel stats')
+export const getChannelStatsByGroup = channels => async (
+  dispatch,
+  getState,
+) => {
+  const ids = [];
   try {
-    channels.forEach(channel =>
-      results.push(Client4.getChannelStats(channel.id)),
-    );
-    dispatch(getChannelStatsByGroupSuccess(await Promise.all(results)));
+    channels = channels ? channels : getState().mapChannels.valueSeq();
+    channels.forEach(channel => ids.push(channel.id));
+    const results = await Client4.getMemberCount(ids);
+    dispatch(getChannelStatsByGroupSuccess(results));
   } catch (err) {
     dispatch(getChannelStatsByGroupError(err));
     console.log(err);
@@ -756,6 +758,8 @@ export const getMyChannelsError = err => ({
   type: GET_MY_CHANNELS_ERROR,
   payload: err,
 });
+
+// getMemberCount
 
 export const getChannels = (
   page = 0,

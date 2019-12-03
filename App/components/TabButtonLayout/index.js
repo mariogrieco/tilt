@@ -68,4 +68,5 @@ class TabButtonLayout extends PureComponent {
 }
 
 const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
-export default connect(mapStateToProps)(TabButtonLayout);
+
+export default withNavigation(connect(mapStateToProps)(TabButtonLayout));

@@ -140,6 +140,17 @@ class PublicChat extends React.Component {
     }
   }
 
+  renderScene = ({route, jumpTo}) => {
+    switch (route.key) {
+      case 'channels':
+        return <Discover jumpTo={jumpTo} />;
+      case 'discover':
+        return <Watchlist jumpTo={jumpTo} />;
+      default:
+        return null;
+    }
+  };
+
   renderChannels = () => {
     const {theme} = this.props;
     return (
@@ -147,10 +158,7 @@ class PublicChat extends React.Component {
         <TabButtonLayout />
         <TabView
           navigationState={{...this.state}}
-          renderScene={SceneMap({
-            channels: Discover,
-            discover: Watchlist,
-          })}
+          renderScene={this.renderScene}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}
           renderTabBar={props => (
@@ -169,7 +177,6 @@ class PublicChat extends React.Component {
               inactiveColor="#585C63"
             />
           )}
-          //swipeEnabled={false}
         />
       </React.Fragment>
     );

@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, Platform, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import GoBack from '../components/GoBack';
 import {getPageForTrendingTab} from '../actions/tab_channels_actions';
+import {getChannelStatsByGroup} from '../actions/channels';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import ChannelDisplayName from '../components/ChannelDisplayName';
@@ -47,6 +48,10 @@ export class TrendingChannels extends Component {
     },
   });
 
+  componentDidMount() {
+    this.props.getChannelStatsByGroup();
+  }
+
   _fetchMore = ({distanceFromEnd}) => {
     if (distanceFromEnd <= 0) {
       if (this.state.loading) {
@@ -56,9 +61,10 @@ export class TrendingChannels extends Component {
         {
           loading: true,
         },
-        () => {
+        async () => {
           try {
-            this.props.getPageForTrendingTab();
+            await this.props.getPageForTrendingTab();
+            this.props.getChannelStatsByGroup();
           } catch (err) {
             console.log(err);
           } finally {
@@ -134,6 +140,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getPageForTrendingTab,
+  getChannelStatsByGroup,
 };
 
 export default connect(
