@@ -742,5 +742,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(Channel),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Channel),
 );

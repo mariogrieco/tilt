@@ -90,7 +90,7 @@ class ChannelDisplayName extends Component {
             titleColor ? {color: titleColor} : {},
             isDollar ? {textTransform: 'uppercase'} : {},
           ]}>
-      <Text style={styles.hashtag}>{isDollar ? '$' : '#'}</Text>{' '}{name}{' '}
+          <Text style={styles.hashtag}>{isDollar ? '$' : '#'}</Text> {name}{' '}
         </Text>
         <View style={styles.icons}>
           {diff && (

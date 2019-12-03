@@ -9,8 +9,9 @@ const BITNAMI = require('../../../assets/images/bitnami/bitcoin.png');
 const ALL = require('../../../assets/images/all/all-included.png');
 
 import styles from './styles';
+import {connect} from 'react-redux';
 
-export default class TabButton extends PureComponent {
+class TabButton extends PureComponent {
   getImage(file_name) {
     switch (file_name.toLowerCase()) {
       case 'bitnami':
@@ -29,14 +30,22 @@ export default class TabButton extends PureComponent {
   }
 
   render() {
-    const {file_name, text, onPress} = this.props;
+    const {file_name, text, onPress, theme} = this.props;
     return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
+      <TouchableOpacity
+        style={[
+          styles.container,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}
+        onPress={onPress}>
         {this.getImage(file_name)}
-        <Text style={styles.text}>
+        <Text style={[styles.text, {color: theme.primaryTextColor}]}>
           {'  '} {text}{' '}
         </Text>
       </TouchableOpacity>
     );
   }
 }
+
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(TabButton);

@@ -4,6 +4,7 @@ import TabButton from '../TabButton';
 import {withNavigation} from 'react-navigation';
 
 import styles from './styles';
+import {connect} from 'react-redux';
 class TabButtonLayout extends PureComponent {
   onNewPress = () => {
     const {navigation} = this.props;
@@ -31,9 +32,13 @@ class TabButtonLayout extends PureComponent {
   };
 
   render() {
+    const {theme} = this.props;
     return (
       <ScrollView
-        style={styles.container}
+        style={[
+          styles.container,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}
         horizontal={true}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
@@ -62,4 +67,5 @@ class TabButtonLayout extends PureComponent {
   }
 }
 
-export default withNavigation(TabButtonLayout);
+const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
+export default connect(mapStateToProps)(TabButtonLayout);
