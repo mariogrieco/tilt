@@ -10,9 +10,8 @@ import NavigationService from '../../config/NavigationService';
 import {setPopupSymbolValue} from '../../actions/chartPopup';
 import {selectedSymbol} from '../../actions/symbols';
 import {getChannelByName} from '../../actions/channels';
+import {withNavigation} from 'react-navigation';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
-
-import moment from 'moment';
 
 import {connect} from 'react-redux';
 
@@ -22,12 +21,35 @@ export class Watchlist extends React.Component {
   state = {
     collapsedCrypto: false,
     collapsedStock: false,
-    refStockInterval: null,
   };
 
+  refInterval = null;
+
   componentDidMount() {
+    this.refInterval = setInterval(this._fetchAll, 1000 * 15);
     this._fetchAll();
-    this.refStockInterval = setInterval(this._fetchAll, 1000 * 15);
+    const {navigation} = this.props;
+    this.navigationListenerDidBlur = navigation.addListener('didBlur', () => {
+      clearInterval(this.refInterval);
+      this.refInterval = null;
+    });
+    this.navigationListenerDidFocus = navigation.addListener('didFocus', () => {
+      if (this.refInterval === null) {
+        this.refInterval = setInterval(this._fetchAll, 1000 * 15);
+      }
+      this._fetchAll();
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.navigationListenerDidBlur) {
+      this.navigationListenerDidBlur.remove();
+    }
+    if (this.navigationListenerDidFocus) {
+      this.navigationListenerDidFocus.remove();
+    }
+    clearInterval(this.refInterval);
+    this.refInterval = null;
   }
 
   _fetchAll = async () => {
@@ -230,7 +252,7 @@ const mapDispatchToProps = {
   setActiveFocusChannel,
 };
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Watchlist);
+)(Watchlist));
