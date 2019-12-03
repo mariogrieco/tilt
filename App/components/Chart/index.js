@@ -3,7 +3,7 @@ import {ActivityIndicator, View, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import Description from '../ChartViewTopDescription';
 import CandleSection from '../CandleSection';
-import {ChartBanner} from '../AdBanner';
+// import {ChartBanner} from '../AdBanner';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 
 const DepthSection = lazy(() => import('../DepthSection'));
@@ -47,7 +47,7 @@ class Chart extends React.PureComponent {
           </Suspense>
         )}
         {/*<View style={{flexDirection: 'row', justifyContent: 'center'}}>*/}
-        {/*  <ChartBanner />*/}
+         <ChartBanner />
         {/*</View>*/}
       </View>
     );

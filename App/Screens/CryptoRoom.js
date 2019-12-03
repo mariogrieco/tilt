@@ -5,6 +5,8 @@ import {
   Dimensions,
   Platform,
   ActivityIndicator,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
@@ -18,6 +20,9 @@ import Stat from '../components/Stat';
 import Chart from '../components/Chart';
 import ChannelOptionalView from '../components/ChannelOptionalView';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import ChannelHeader from '../components/ChannelHeader';
+
+import assets from '../config/themeAssets/assets';
 
 // const ChannelTab = () => <Channel displayAs="tab" />;
 const ChannelTab = () => <ChannelOptionalView />;
@@ -51,9 +56,46 @@ const styles = StyleSheet.create({
 
 class CryptoRoom extends React.PureComponent {
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: navigation.getParam('title', ''),
     headerLeft: (
-      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexDirection: 'row',
+        }}>
+        <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+        <ChannelHeader
+          name={navigation.getParam('title', '')}
+          create_at={navigation.getParam('create_at', '')}
+          members={navigation.getParam('members', '')}
+          fav={navigation.getParam('fav', '')}
+          pm={navigation.getParam('pm', '')}
+          isAdminCreator={navigation.getParam('isAdminCreator', '')}
+        />
+      </View>
+    ),
+    headerRight: (
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <TouchableOpacity
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
+          onPress={() => navigation.navigate('AdvancedSearch')}>
+          <Image source={assets[screenProps.themeName].SEARCH} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
+          onPress={() => navigation.navigate('ChannelInfo')}>
+          <Image source={assets[screenProps.themeName].GEAR} />
+        </TouchableOpacity>
+      </View>
     ),
     ...headerForScreenWithBottomLine({
       headerTintColor: screenProps.theme.headerTintColor,
@@ -82,10 +124,14 @@ class CryptoRoom extends React.PureComponent {
     const {selectedSymbol, getChannelByName, channels, myChannels} = this.props;
 
     const notInbutFound = channels.find(
-      channel => channel.name === selectedSymbol.symbol.toLowerCase(),
+      channel =>
+        channel.display_name.toLowerCase() ===
+        selectedSymbol.symbol.toLowerCase(),
     );
     const foundOnMy = myChannels.find(
-      channel => channel.name === selectedSymbol.symbol.toLowerCase(),
+      channel =>
+        channel.display_name.toLowerCase() ===
+        selectedSymbol.symbol.toLowerCase(),
     );
     if (foundOnMy) {
       this.props.setActiveFocusChannel(foundOnMy.id);

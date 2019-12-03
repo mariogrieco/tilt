@@ -119,16 +119,14 @@ export class Stocks extends Component {
 
     dispatchSelectedSymbol({symbol});
     dispatchSetPopupSymbolValue(`$${symbol}`, false);
-    NavigationService.navigate('StockRoom', {
-      title: symbol,
-    });
 
     const notInbutFound = channels.find(
-      channel => channel.name === symbol.toLowerCase(),
+      channel => channel.display_name.toLowerCase() === symbol.toLowerCase(),
     );
 
     if (notInbutFound) {
       this.props.setActiveFocusChannel(notInbutFound.id);
+      this.navigateAction(notInbutFound);
       return null;
     }
 
@@ -136,6 +134,7 @@ export class Stocks extends Component {
       const result = await this.props.getChannelByName(symbol.toLowerCase());
       if (result) {
         this.props.setActiveFocusChannel(result.id);
+        this.navigateAction(result);
       }
     } catch (err) {
       // eslint-disable-next-line no-alert
@@ -143,6 +142,16 @@ export class Stocks extends Component {
     }
     return null;
   };
+
+  navigateAction(channel) {
+    NavigationService.navigate('StockRoom', {
+      title: channel.display_name,
+      create_at: channel.create_at,
+      members: channel.members,
+      fav: channel.fav,
+      isAdminCreator: true,
+    });
+  }
 
   render() {
     const {theme} = this.props;

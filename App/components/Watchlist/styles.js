@@ -18,7 +18,7 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   article: {
-    flex: 1,
+    // flex: 1,
   },
   section: {
     justifyContent: 'flex-start',

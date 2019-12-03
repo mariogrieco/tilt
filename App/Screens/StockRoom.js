@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Dimensions} from 'react-native';
+import React, {Component, Fragment} from 'react';
+import {Dimensions, TouchableOpacity, Image, View} from 'react-native';
 import {connect} from 'react-redux';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
@@ -9,7 +9,11 @@ import GoBack from '../components/GoBack';
 import StockNewsLayout from '../components/StockNewsLayout';
 import ChannelOptionalView from '../components/ChannelOptionalView';
 import StockChart from '../components/StockChart';
+import ChannelHeader from '../components/ChannelHeader';
 import {NavigationActions} from 'react-navigation';
+import {withNavigation} from 'react-navigation';
+
+import assets from '../config/themeAssets/assets';
 
 const ChannelTab = () => <ChannelOptionalView />;
 
@@ -58,7 +62,7 @@ export class StockRoom extends Component {
   };
 
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: navigation.getParam('title', ''),
+    // title: navigation.getParam('title', ''),
     ...headerForScreenWithTabs({
       headerTintColor: screenProps.theme.headerTintColor,
       headerStyle: {
@@ -67,7 +71,47 @@ export class StockRoom extends Component {
       },
     }),
     headerLeft: (
-      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexDirection: 'row',
+        }}>
+        <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+        <ChannelHeader
+          name={navigation.getParam('title', '')}
+          create_at={navigation.getParam('create_at', '')}
+          members={navigation.getParam('members', '')}
+          fav={navigation.getParam('fav', '')}
+          pm={navigation.getParam('pm', '')}
+          isAdminCreator={navigation.getParam('isAdminCreator', '')}
+        />
+      </View>
+    ),
+    headerRight: (
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <Fragment>
+          <TouchableOpacity
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
+            onPress={() => navigation.navigate('AdvancedSearch')}>
+            <Image source={assets[screenProps.themeName].SEARCH} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
+            onPress={() => navigation.navigate('ChannelInfo')}>
+            <Image source={assets[screenProps.themeName].GEAR} />
+          </TouchableOpacity>
+        </Fragment>
+      </View>
     ),
   });
 
@@ -119,7 +163,9 @@ const mapDispatchToProps = {
   // // dispatchSelectedSymbol: selectedSymbol,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StockRoom);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StockRoom),
+);

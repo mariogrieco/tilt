@@ -5,7 +5,9 @@ import {
 } from '../actions/StockTabActions';
 
 const initialState = {
-  gainers: [],
+  gainers: [{
+    symbol: 'A'
+  }],
   losers: [],
   actives: [],
 };

@@ -16,6 +16,7 @@ import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import {connect} from 'react-redux';
 
 import styles from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export class Watchlist extends React.Component {
   state = {
@@ -77,6 +78,49 @@ export class Watchlist extends React.Component {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
+  navigateAction(channel, to) {
+    this.props.setActiveFocusChannel(channel.id);
+    NavigationService.navigate(to, {
+      title: channel.display_name,
+      create_at: channel.create_at,
+      members: channel.members,
+      fav: channel.fav ? true : false,
+      isAdminCreator: true,
+    });
+  }
+
+  handleCryptoPress = async symbol => {
+    const {
+      dispatchSelectedSymbol,
+      dispatchSetPopupSymbolValue,
+      // stocks,
+      cryptos,
+    } = this.props;
+
+    dispatchSelectedSymbol({symbol});
+    // dispatchSetPopupSymbolValue(`$${symbol}`, false);
+
+    const notInbutFound = cryptos.find(channel => {
+      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+    });
+
+    if (notInbutFound) {
+      this.navigateAction(notInbutFound, 'Room');
+      return null;
+    }
+
+    try {
+      const result = await this.props.getChannelByName(symbol.toLowerCase());
+      if (result) {
+        this.navigateAction(result, 'Room');
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-alert
+      alert(`${err.message || err}`);
+    }
+    return null;
+  };
+
   handleStockPress = async symbol => {
     const {
       dispatchSelectedSymbol,
@@ -87,23 +131,20 @@ export class Watchlist extends React.Component {
 
     dispatchSelectedSymbol({symbol});
     dispatchSetPopupSymbolValue(`$${symbol}`, false);
-    NavigationService.navigate('StockRoom', {
-      title: symbol,
+
+    const notInbutFound = stocks.find(channel => {
+      return channel.display_name.toLowerCase() === symbol.toLowerCase();
     });
 
-    const notInbutFound = [...cryptos, ...stocks].find(
-      channel => channel.display_name === symbol.toLowerCase(),
-    );
-
     if (notInbutFound) {
-      this.props.setActiveFocusChannel(notInbutFound.id);
+      this.navigateAction(notInbutFound, 'StockRoom');
       return null;
     }
 
     try {
       const result = await this.props.getChannelByName(symbol.toLowerCase());
       if (result) {
-        this.props.setActiveFocusChannel(result.id);
+        this.navigateAction(result, 'StockRoom');
       }
     } catch (err) {
       // eslint-disable-next-line no-alert
@@ -170,6 +211,7 @@ export class Watchlist extends React.Component {
         maxToRenderPerBatch={5}
         ItemSeparatorComponent={Separator}
         updateCellsBatchingPeriod={150}
+        scrollEnabled={false}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
@@ -191,6 +233,7 @@ export class Watchlist extends React.Component {
         navigation={NavigationService}
         key={item.symbol}
         priceChangePercent={changePercent}
+        onPress={this.handleCryptoPress}
       />
     );
   };
@@ -212,6 +255,7 @@ export class Watchlist extends React.Component {
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
+        scrollEnabled={false}
         style={{backgroundColor: theme.primaryBackgroundColor}}
       />
     );
@@ -219,17 +263,24 @@ export class Watchlist extends React.Component {
 
   render() {
     const {collapsedStock, collapsedCrypto} = this.state;
+    const {theme} = this.props;
     return (
-      <View style={styles.section}>
-        {this.renderSeparator('Stocks')}
-        {!collapsedStock && (
-          <View style={styles.article}>{this.renderStocksFlatList()}</View>
-        )}
-        {this.renderSeparator('Cryptos')}
-        {!collapsedCrypto && (
-          <View style={styles.article}>{this.renderCryptoFlatlist()}</View>
-        )}
-      </View>
+      <ScrollView
+        // contentContainerStyle={styles.section}
+        keyboardDismissMode="on-drag"
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
+        <View>
+          {this.renderSeparator('Stocks')}
+          {!collapsedStock && (
+            <View style={styles.article}>{this.renderStocksFlatList()}</View>
+          )}
+          {this.renderSeparator('Cryptos')}
+          {!collapsedCrypto && (
+            <View style={styles.article}>{this.renderCryptoFlatlist()}</View>
+          )}
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -252,7 +303,9 @@ const mapDispatchToProps = {
   setActiveFocusChannel,
 };
 
-export default withNavigation(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Watchlist));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Watchlist),
+);

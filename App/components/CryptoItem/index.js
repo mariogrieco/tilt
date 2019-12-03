@@ -25,13 +25,15 @@ class CryptoItem extends React.Component {
       dispatchResetInterval,
       dispatchResetDepthChart,
       dispatchResetHistories,
+      onPress
     } = this.props;
     const symbol = omit(this.props, ['navigation', 'selectedSymbol']);
     dispatchResetInterval();
     dispatchResetDepthChart();
     dispatchResetHistories();
-    dispatchSelectedSymbol({...symbol});
-    navigation.navigate('Room');
+    // dispatchSelectedSymbol({...symbol});
+    // navigation.navigate('Room');
+    onPress(symbol.symbol);
   };
 
   renderChangePrice = price => {
