@@ -121,7 +121,7 @@ export class AllChannels extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getAllChannels(state),
+  channels: getAllChannels(state, channel => channel.content_type === 'N'),
   theme: state.themes[state.themes.current],
   isAuth: state.login.isLogin,
   channelStatsGroup: state.channelStatsGroup,

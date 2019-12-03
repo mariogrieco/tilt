@@ -160,6 +160,8 @@ export const getPageForAllTab = (filter_ids = []) => async (
       page: nextPage,
       per_page: PER_PAGE_DEFAULT,
       orderBy: 'CreateAt,DESC',
+      is_stock: false,
+      is_crypto: false,
     });
     dispatch(
       getPageForAllTabSuccess({
