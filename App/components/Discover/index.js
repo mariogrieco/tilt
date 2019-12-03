@@ -109,7 +109,10 @@ class Discover extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getMyChannels(state, channel => channel.type === 'O'),
+  channels: getMyChannels(
+    state,
+    channel => channel.content_type === 'N' && channel.type === 'O',
+  ),
   page: state.hashtagChannelsPaginator.page,
   stop: state.hashtagChannelsPaginator.stop,
   theme: state.themes[state.themes.current],
