@@ -2,10 +2,18 @@ import React from 'react';
 import {View, Text, FlatList, Platform, TouchableOpacity} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import Separator from '../Separator';
+import Client4 from '../../api/MattermostClient';
 import SymbolSummary from '../SymbolSummary';
 import CryptoItem from '../CryptoItem';
 import getAllChannels from '../../selectors/getAllChannels';
-import Collapsible  from 'react-native-collapsible';
+import NavigationService from '../../config/NavigationService';
+import {setPopupSymbolValue} from '../../actions/chartPopup';
+import {selectedSymbol} from '../../actions/symbols';
+import {getChannelByName} from '../../actions/channels';
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
+
+import moment from 'moment';
+
 import {connect} from 'react-redux';
 
 import styles from './styles';
@@ -14,22 +22,89 @@ export class Watchlist extends React.Component {
   state = {
     collapsedCrypto: false,
     collapsedStock: false,
+    refStockInterval: null,
+  };
+
+  componentDidMount() {
+    this._fetchAll();
+    this.refStockInterval = setInterval(this._fetchAll, 1000 * 15);
+  }
+
+  _fetchAll = async () => {
+    const {stocks, cryptos} = this.props;
+    for (const {display_name} of [...cryptos, ...stocks]) {
+      try {
+        const {changePercent, change} = await Client4.getSymbolTicket(
+          display_name,
+        );
+        this.setState(prevState => {
+          const nextState = {...prevState};
+          nextState[display_name] = {
+            changePercent,
+            change,
+          };
+          return nextState;
+        });
+      } catch (ex) {
+        console.log(ex);
+      }
+    }
   };
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
   }
 
+  handleStockPress = async symbol => {
+    const {
+      dispatchSelectedSymbol,
+      dispatchSetPopupSymbolValue,
+      stocks,
+      cryptos,
+    } = this.props;
+
+    dispatchSelectedSymbol({symbol});
+    dispatchSetPopupSymbolValue(`$${symbol}`, false);
+    NavigationService.navigate('StockRoom', {
+      title: symbol,
+    });
+
+    const notInbutFound = [...cryptos, ...stocks].find(
+      channel => channel.display_name === symbol.toLowerCase(),
+    );
+
+    if (notInbutFound) {
+      this.props.setActiveFocusChannel(notInbutFound.id);
+      return null;
+    }
+
+    try {
+      const result = await this.props.getChannelByName(symbol.toLowerCase());
+      if (result) {
+        this.props.setActiveFocusChannel(result.id);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-alert
+      alert(`${err.message || err}`);
+    }
+    return null;
+  };
+
   renderStockItem = ({item}) => {
+    const data = this.state[item.display_name] || {
+      changePercent: 0,
+      change: 0,
+    };
+    const {changePercent, change} = data;
     return (
       <SymbolSummary
         onPress={() => {
-          // this.props.onPress(item.symbol);
+          this.handleStockPress(item.display_name);
         }}
         name={item.display_name}
         header={item.header}
-        // latest_price={0}
-        // change_percent={0}
+        latest_price={change}
+        change_percent={changePercent}
       />
     );
   };
@@ -82,12 +157,18 @@ export class Watchlist extends React.Component {
   };
 
   renderCryptoItem = ({item}) => {
+    const data = this.state[item.display_name] || {
+      changePercent: 0,
+      change: 0,
+    };
+    const {changePercent, change} = data;
     return (
       <CryptoItem
         symbol={item.display_name}
         // eslint-disable-next-line react/destructuring-assignment
-        navigation={this.props.navigation}
+        navigation={NavigationService}
         key={item.symbol}
+        priceChangePercent={changePercent}
       />
     );
   };
@@ -132,12 +213,22 @@ export class Watchlist extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  stocks: getAllChannels(state, channel => channel.content_type === 'S'),
-  cryptos: getAllChannels(state, channel => channel.content_type === 'C'),
+  stocks: getAllChannels(state, channel => channel.content_type === 'S').filter(
+    c => !c.join,
+  ),
+  cryptos: getAllChannels(
+    state,
+    channel => channel.content_type === 'C',
+  ).filter(c => !c.join),
   theme: state.themes[state.themes.current],
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  dispatchSelectedSymbol: selectedSymbol,
+  dispatchSetPopupSymbolValue: setPopupSymbolValue,
+  getChannelByName,
+  setActiveFocusChannel,
+};
 
 export default connect(
   mapStateToProps,

@@ -309,10 +309,7 @@ function getViewChannelSchema(channelId, userId, value) {
 
 export const getChannelByName = channelName => async (dispatch, getState) => {
   try {
-    const channel = await Client4.getChannelByName(
-      getState().teams.default_team_id,
-      channelName,
-    );
+    const {channel} = await Client4.getChannelByNameService(channelName);
     if (channel) {
       dispatch(getChannelByNameSuccess(channel));
     }
