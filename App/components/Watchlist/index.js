@@ -268,9 +268,9 @@ export class Watchlist extends React.Component {
     const {collapsedStock, collapsedCrypto} = this.state;
     const {theme} = this.props;
     return (
-      <View
-        // contentContainerStyle={styles.section}
-        // keyboardDismissMode="on-drag"
+      <ScrollView
+        contentContainerStyle={styles.section}
+        keyboardDismissMode="on-drag"
         // eslint-disable-next-line react-native/no-inline-styles
         style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         <View>
@@ -283,7 +283,7 @@ export class Watchlist extends React.Component {
             <View style={styles.article}>{this.renderCryptoFlatlist()}</View>
           )}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
