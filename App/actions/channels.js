@@ -794,7 +794,7 @@ export const getChannelsSucess = channels => {
   return {
     type: GET_CHANNELS_SUCESS,
     payload: channels || [],
-  },
+  };
 };
 
 export const getChannelsError = err => ({
