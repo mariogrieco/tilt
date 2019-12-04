@@ -16,7 +16,7 @@ import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import {connect} from 'react-redux';
 
 import styles from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export class Watchlist extends React.Component {
   state = {
@@ -184,11 +184,17 @@ export class Watchlist extends React.Component {
   };
 
   renderSeparator(text) {
+    const {theme} = this.props;
     return (
       <TouchableOpacity
-        style={styles.separator}
+        style={[
+          styles.separator,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}
         onPress={this.onTogglePress.bind(this, text)}>
-        <Text style={styles.separatorText}>{text}</Text>
+        <Text style={[styles.separatorText, {color: theme.secondaryTextColor}]}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -199,6 +205,7 @@ export class Watchlist extends React.Component {
 
   renderStocksFlatList = () => {
     const {stocks, theme} = this.props;
+    if (!stocks || stocks.length === 0) return null;
     return (
       <FlatList
         extraData={stocks}
@@ -236,6 +243,7 @@ export class Watchlist extends React.Component {
 
   renderCryptoFlatlist = () => {
     const {cryptos, theme} = this.props;
+    if (!cryptos || cryptos.length === 0) return null;
     return (
       <FlatList
         extraData={cryptos}
@@ -260,9 +268,9 @@ export class Watchlist extends React.Component {
     const {collapsedStock, collapsedCrypto} = this.state;
     const {theme} = this.props;
     return (
-      <ScrollView
+      <View
         // contentContainerStyle={styles.section}
-        keyboardDismissMode="on-drag"
+        // keyboardDismissMode="on-drag"
         // eslint-disable-next-line react-native/no-inline-styles
         style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         <View>
@@ -275,7 +283,7 @@ export class Watchlist extends React.Component {
             <View style={styles.article}>{this.renderCryptoFlatlist()}</View>
           )}
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }

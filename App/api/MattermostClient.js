@@ -193,10 +193,15 @@ Client4.getBlokedUsers = async user_id => {
   }
 };
 
-Client4.getChannelsBy = async query => {
+Client4.getChannelsBy = async (query, filter_ids) => {
   try {
-    const {data} = await axios.get(
+    const body = {};
+    if (filter_ids) {
+      body.filter_ids = filter_ids.join(',');
+    }
+    const {data} = await axios.post(
       `${baseServicesUrl}/channel/filter_by?${queryString.stringify(query)}`,
+      body,
     );
     return data;
   } catch (err) {

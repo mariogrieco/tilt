@@ -46,7 +46,7 @@ class LineChartContainer extends Component {
   }
 
   render() {
-    const {theme, isRed, fullHeight} = this.props;
+    const {theme, isRed, fullHeight, stockRoom} = this.props;
     const {data, barChartData, isIex} = this.state;
     return (
       <View
@@ -57,16 +57,20 @@ class LineChartContainer extends Component {
                 height: Platform.OS === 'ios' ? ifIphoneX(350, 300) : 320,
               }
             : {
-              height: '100%',
-              flex: 1,
-            }
+                flex: 1,
+                paddingBottom: 15,
+              }
         }>
         <View style={styles.container}>
           {data && (
             <LineChart
               chartDescription={{text: ''}}
               style={styles.chart}
-              backgroundColor={theme.modalPopupBackgroundColor}
+              backgroundColor={
+                !stockRoom
+                  ? theme.modalPopupBackgroundColor
+                  : theme.primaryBackgroundColor
+              }
               drawGridBackground={false}
               drawBorders={false}
               touchEnabled={false}
@@ -161,7 +165,11 @@ class LineChartContainer extends Component {
             <BarChart
               style={styles.barChart}
               chartDescription={{text: ''}}
-              backgroundColor={theme.modalPopupBackgroundColor}
+              backgroundColor={
+                !stockRoom
+                  ? theme.modalPopupBackgroundColor
+                  : theme.primaryBackgroundColor
+              }
               drawGridBackground={false}
               drawBorders={false}
               touchEnabled={false}

@@ -44,7 +44,7 @@ export class StocksActive extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
-        onEndReached={this._fetchMore}
+        // onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
         ItemSeparatorComponent={this.renderSeparator}

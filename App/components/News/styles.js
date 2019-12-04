@@ -2,22 +2,21 @@ import StyleSheet from 'react-native-extended-stylesheet';
 
 export default StyleSheet.create({
   container: {
-    minHeight: 80,
     paddingHorizontal: 15,
-    paddingVertical: 13,
+    paddingVertical: 15,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-    marginTop: 13,
   },
   title: {
-    color: '#0e141e',
-    fontFamily: 'SFProDisplay',
+    fontFamily: 'SFProDisplay-Bold',
     fontSize: 16,
+    letterSpacing: 0.1,
+    marginRight: 10,
   },
   span: {
     color: '#585c63',
-    fontFamily:'SFProDisplay',
+    fontFamily: 'SFProDisplay-Medium',
     fontSize: 14,
     marginTop: 10,
   },
@@ -27,13 +26,11 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
   },
   image: {
-    minHeight: 80,
+    height: 100,
     width: 100,
-    borderRadius: 6,
   },
   right: {
     flex: 0.5,
-    borderRadius: 6,
-    marginLeft: '5%',
+    borderRadius: 8,
   },
 });
