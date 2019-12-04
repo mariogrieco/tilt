@@ -721,10 +721,10 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
       const r = await Client4.createDirectChannel([meId, userId]);
       dispatch(createDirectChannelSucess(r));
       dispatch(getChannelByIdSucess(r));
+      dispatch(getMyChannelByIdSucess(r));
       channel = r;
     }
 
-    dispatch(getMyChannelByIdSucess(channel));
     dispatch(setActiveFocusChannel(channel.id));
     NavigationService.navigate('Channel', {
       name: getState().users.data[userId]

@@ -55,23 +55,27 @@ export class Watchlist extends React.Component {
 
   _fetchAll = async () => {
     const {stocks, cryptos} = this.props;
-    for (const {display_name} of [...cryptos, ...stocks]) {
-      try {
-        const {changePercent, change, price} = await Client4.getSymbolTicket(
-          display_name,
-        );
-        this.setState(prevState => {
-          const nextState = {...prevState};
-          nextState[display_name] = {
-            changePercent,
-            change,
-            price,
-          };
-          return nextState;
-        });
-      } catch (ex) {
-        console.log(ex);
-      }
+    const results = [];
+    const mapKeys = [];
+
+    for (let values of [...cryptos, ...stocks]) {
+      mapKeys.push(values.display_name);
+      results.push(Client4.getSymbolTicket(values.display_name.toLowerCase()));
+    }
+    try {
+      const data = await Promise.all(results);
+      const nextState = {...this.state};
+      data.forEach((item, index) => {
+        const {changePercent, change, price} = item;
+        nextState[mapKeys[index]] = {
+          changePercent,
+          change,
+          price,
+        };
+      });
+      this.setState(nextState);
+    } catch (ex) {
+      console.log('ex: ', ex);
     }
   };
 
@@ -270,20 +274,18 @@ export class Watchlist extends React.Component {
     const {theme} = this.props;
     return (
       <ScrollView
-        contentContainerStyle={styles.section}
+        // contentContainerStyle={styles.section}
         keyboardDismissMode="on-drag"
         // eslint-disable-next-line react-native/no-inline-styles
         style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
-        <View>
-          {this.renderSeparator('Stocks')}
-          {!collapsedStock && (
-            <View style={styles.article}>{this.renderStocksFlatList()}</View>
-          )}
-          {this.renderSeparator('Cryptos')}
-          {!collapsedCrypto && (
-            <View style={styles.article}>{this.renderCryptoFlatlist()}</View>
-          )}
-        </View>
+        {this.renderSeparator('Stocks')}
+        {!collapsedStock && (
+          <View style={styles.article}>{this.renderStocksFlatList()}</View>
+        )}
+        {this.renderSeparator('Cryptos')}
+        {!collapsedCrypto && (
+          <View style={styles.article}>{this.renderCryptoFlatlist()}</View>
+        )}
       </ScrollView>
     );
   }

@@ -29,6 +29,7 @@ Client4.getSymbolTicket = async symbol_name => {
     );
     return data;
   } catch (err) {
+    console.log('err:', err);
     return Promise.reject(err);
   }
 };
