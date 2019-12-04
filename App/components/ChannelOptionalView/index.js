@@ -24,9 +24,9 @@ class ChannelOptionalView extends React.Component {
   };
 
   render() {
-    const {onMychannel, channel, active_channel_id} = this.props;
+    const {onMychannel, channel, active_channel_id, theme} = this.props;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         {!onMychannel && channel && <JoinBigBtn onJoin={this.handleJoin} />}
         {onMychannel && <Channel isDollar displayAs="tab" />}
         {!onMychannel && !channel && !!active_channel_id && (
@@ -48,6 +48,7 @@ const mapStateToProps = state => {
     channel,
     active_channel_id,
     meId: state.login.user ? state.login.user.id : {},
+    theme: state.themes[state.themes.current],
   };
 };
 

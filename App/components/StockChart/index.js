@@ -92,7 +92,7 @@ export class StockChart extends Component {
               styles.changePercent,
               colorIsRed ? styles.redPercent : styles.symbolPercent,
             ]}>
-            {infoTicket.change} ({infoTicket.changePercent}%)
+            {infoTicket.change} ({infoTicket.changePercent.toFixed(2)}%)
           </Text>
         </View>
         {values && (

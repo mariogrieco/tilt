@@ -11,10 +11,9 @@ const ChartModal = ({children}) => {
     state => state.chartPopup.isActive,
   );
   const dispatch = useDispatch();
-  const closePopupCallback = useCallback(
-    () => dispatch(closePopup()),
-    [dispatch],
-  );
+  const closePopupCallback = useCallback(() => dispatch(closePopup()), [
+    dispatch,
+  ]);
   return (
     <Modal
       isVisible={chartPopupModalIsActive}

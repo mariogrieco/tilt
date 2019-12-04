@@ -18,6 +18,8 @@ import {selectedSymbol} from '../actions/symbols';
 import {setActiveFocusChannel} from '../actions/AppNavigation';
 import NavigationService from '../config/NavigationService';
 import {getChannelByName} from '../actions/channels';
+import {NavigationActions} from 'react-navigation';
+import GoBack from '../components/GoBack';
 
 const ORIGIN = 'WATCHLIST';
 
@@ -67,7 +69,7 @@ class Home extends React.Component {
             ]}
             placeholderText="Search for a crypto symbol"
             placeholderTextColor={screenProps.theme.placeholderTextColor}
-            growPercentage={0.78}
+            growPercentage={0.85}
             onChangeText={navigation.getParam('onSearch', () => {})}
             inputValue={navigation.getParam('searchValue', '')}
           />
@@ -80,6 +82,9 @@ class Home extends React.Component {
           borderBottomColor: screenProps.theme.borderBottomColor,
         },
       }),
+      headerLeft: (
+        <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+      ),
     };
   };
 

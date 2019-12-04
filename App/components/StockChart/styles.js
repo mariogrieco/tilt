@@ -17,7 +17,7 @@ export default StyleSheet.create({
   change: {},
   changePercent: {
     fontFamily: 'SFProDisplay-Bold',
-    fontSize: 18,
+    fontSize: 16,
     letterSpacing: 0.1,
   },
   price: {

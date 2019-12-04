@@ -15,6 +15,8 @@ import {getChannelByName} from '../actions/channels';
 import StockLosers from '../components/StockLosers';
 import StockGainers from '../components/StockGainers';
 import StockActive from '../components/StockActive';
+import GoBack from '../components/GoBack';
+import {NavigationActions} from 'react-navigation';
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -60,26 +62,35 @@ export class Stocks extends Component {
     searchValue: '',
   };
 
-  static navigationOptions = ({navigation, screenProps}) => ({
-    title: '',
-    ...headerForScreenWithTabs({
-      headerTintColor: screenProps.theme.headerTintColor,
-      headerStyle: {
-        backgroundColor: screenProps.theme.primaryBackgroundColor,
-        borderBottomColor: screenProps.theme.borderBottomColor,
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      headerTitle: () => {
+        return (
+          <SearchBar
+            inputStyle={[
+              styles.input,
+              {color: screenProps.theme.primaryTextColor},
+            ]}
+            placeholderText="Search for a stock symbol"
+            placeholderTextColor={screenProps.theme.placeholderTextColor}
+            growPercentage={0.85}
+            onChangeText={navigation.getParam('onSearch', () => {})}
+            inputValue={navigation.getParam('searchValue', '')}
+          />
+        );
       },
-    }),
-    headerLeft: (
-      <SearchBar
-        inputStyle={[styles.input, {color: screenProps.theme.primaryTextColor}]}
-        placeholderText="Search companies..."
-        placeholderTextColor={screenProps.theme.placeholderTextColor}
-        growPercentage={0.78}
-        onChangeText={navigation.getParam('onSearch', () => {})}
-        inputValue={navigation.getParam('searchValue', '')}
-      />
-    ),
-  });
+      ...headerForScreenWithTabs({
+        headerTintColor: screenProps.theme.headerTintColor,
+        headerStyle: {
+          backgroundColor: screenProps.theme.primaryBackgroundColor,
+          borderBottomColor: screenProps.theme.borderBottomColor,
+        },
+      }),
+      headerLeft: (
+        <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
+      ),
+    };
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
