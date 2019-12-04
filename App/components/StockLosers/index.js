@@ -80,7 +80,7 @@ export class StocksLosers extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: state.stockTab.actives,
+  channels: state.stockTab.losers,
   theme: state.themes[state.themes.current],
 });
 

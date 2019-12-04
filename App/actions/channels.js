@@ -172,6 +172,14 @@ export const navigateIfExists = (
 
   [...channels, ...myChannels].forEach(async item => {
     let formatName = item.name;
+    let symbolType = '';
+    if (item.content_type === 'S') {
+      symbolType = 'StockRoom';
+    } else if (item.content_type === 'C') {
+      symbolType = 'Room';
+    } else if (item.content_type === 'N' && item.type === 'D') {
+      symbolType = 'Channel';
+    }
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
     ) {
@@ -186,8 +194,8 @@ export const navigateIfExists = (
             : '';
         }
         dispatch(setActiveFocusChannel(item.id));
-        NavigationService.navigate('Channel', {
-          name: formatName,
+        NavigationService.navigate(symbolType, {
+          title: item.display_name,
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(state, item.id),
@@ -200,7 +208,7 @@ export const navigateIfExists = (
         if (direct) {
           await dispatch(addToChannel(whoIam, item.id));
           dispatch(setActiveFocusChannel(item.id));
-          NavigationService.navigate('Channel', {
+          NavigationService.navigate(symbolType, {
             name: formatName,
             create_at: item.create_at,
             members: item.members,
@@ -222,11 +230,19 @@ export const navigateIfExists = (
         channelDisplayName.replace('$', '').replace('#', ''),
       );
       if (r.channel) {
+        let symbolType = '';
+        if (r.channel.content_type === 'S') {
+          symbolType = 'StockRoom';
+        } else if (r.channel.content_type === 'C') {
+          symbolType = 'Room';
+        } else if (r.channel.content_type === 'N' && r.channel.type === 'D') {
+          symbolType = 'Channel';
+        }
         if (direct) {
           dispatch(getChannelsSucess([r.channel]));
           await dispatch(addToChannel(whoIam, r.channel.id));
           dispatch(setActiveFocusChannel(r.channel.id));
-          NavigationService.navigate('Channel', {
+          NavigationService.navigate(symbolType, {
             name: r.channel.name,
             create_at: r.channel.create_at,
             members: r.channel.members,
