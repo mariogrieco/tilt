@@ -57,22 +57,22 @@ const sync = async (dispatch, callback) => {
         });
       });
 
-    Client4.getAdminCreators()
-      .then(str => {
-        if (str) {
-          if (str.trim().length > 0) {
-            if (!str.match('error')) {
-              dispatch(setNewAdminCreators(str));
-            }
-          }
-        }
-      })
-      .catch(ex => {
-        dispatch({
-          type: GET_NEW_ADMIN_CREATOR_ERROR,
-          payload: ex,
-        });
-      });
+    // Client4.getAdminCreators()
+    //   .then(str => {
+    //     if (str) {
+    //       if (str.trim().length > 0) {
+    //         if (!str.match('error')) {
+    //           dispatch(setNewAdminCreators(str));
+    //         }
+    //       }
+    //     }
+    //   })
+    //   .catch(ex => {
+    //     dispatch({
+    //       type: GET_NEW_ADMIN_CREATOR_ERROR,
+    //       payload: ex,
+    //     });
+    //   });
     console.log('Sync.init(store); done!!');
   } catch (err) {
     console.log(err);

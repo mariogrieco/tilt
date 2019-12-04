@@ -20,27 +20,27 @@ class Discover extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.navigationListener) {
-      this.navigationListener.remove();
-    }
+    // if (this.navigationListener) {
+    //   this.navigationListener.remove();
+    // }
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
+    // const {navigation} = this.props;
 
-    this.navigationListener = navigation.addListener('didFocus', () => {
-      this.props.getPageOnFocus();
-    });
+    // this.navigationListener = navigation.addListener('didFocus', () => {
+    //   // this.props.getPageOnFocus();
+    // });
 
-    this.getData();
-    this.props.getPageOnFocus();
+    // this.getData();
+    // this.props.getPageOnFocus();
   }
 
   _fetchMore = ({distanceFromEnd}) => {
     if (distanceFromEnd < 0) {
       return null;
     }
-    this.getData();
+    // this.getData();
   };
 
   getData() {
