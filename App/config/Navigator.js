@@ -60,6 +60,7 @@ const CryptoRoomStack = createStackNavigator(
 const StockRoomStack = createStackNavigator(
   {
     StockRoom,
+    ChannelInfo,
   },
   {
     headerLayoutPreset: 'center',
