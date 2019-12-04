@@ -27,19 +27,17 @@ class Discover extends React.Component {
 
   componentDidMount() {
     // const {navigation} = this.props;
-
     // this.navigationListener = navigation.addListener('didFocus', () => {
     //   // this.props.getPageOnFocus();
     // });
-
     // this.getData();
     // this.props.getPageOnFocus();
   }
 
   _fetchMore = ({distanceFromEnd}) => {
-    if (distanceFromEnd < 0) {
-      return null;
-    }
+    // if (distanceFromEnd < 0) {
+    //   return null;
+    // }
     // this.getData();
   };
 
@@ -95,7 +93,7 @@ class Discover extends React.Component {
           renderItem={this.renderItem}
           viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.15}}
           initialNumToRender={50}
-          onEndReached={this._fetchMore}
+          // onEndReached={this._fetchMore}
           onEndReachedThreshold={0.15}
           keyboardDismissMode="on-drag"
           updateCellsBatchingPerio={150}

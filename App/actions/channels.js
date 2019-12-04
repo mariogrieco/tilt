@@ -782,17 +782,20 @@ export const getChannels = (
     // });
 
     // dispatch(getChannelsSucess(payload));
-    return payload;
+    return [];
   } catch (ex) {
     dispatch(getChannelsError(ex));
     return Promise.reject(ex.message);
   }
 };
 
-export const getChannelsSucess = channels => ({
-  type: GET_CHANNELS_SUCESS,
-  payload: channels,
-});
+export const getChannelsSucess = channels => {
+  console.log('channels: ', channels);
+  return {
+    type: GET_CHANNELS_SUCESS,
+    payload: channels || [],
+  },
+};
 
 export const getChannelsError = err => ({
   type: GET_CHANNELS_ERROR,
