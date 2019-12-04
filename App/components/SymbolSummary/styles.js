@@ -16,10 +16,10 @@ export default StyleSheet.create({
     color: '#fff',
   },
   label: {
-    fontFamily: 'SFProDisplay-Medium',
-    fontSize: 16,
+    fontFamily: 'SFProDisplay-Bold',
+    fontSize: 17,
     // fontWidth: 'bold',
-    color: '#0e141e',
+    letterSpacing: 0.1,
     marginRight: 10,
   },
   rows: {

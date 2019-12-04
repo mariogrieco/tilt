@@ -65,7 +65,7 @@ class Home extends React.Component {
               styles.input,
               {color: screenProps.theme.primaryTextColor},
             ]}
-            placeholderText="Search for a channel"
+            placeholderText="Search for a crypto symbol"
             placeholderTextColor={screenProps.theme.placeholderTextColor}
             growPercentage={0.78}
             onChangeText={navigation.getParam('onSearch', () => {})}
