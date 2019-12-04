@@ -126,7 +126,6 @@ export class Watchlist extends React.Component {
       dispatchSelectedSymbol,
       dispatchSetPopupSymbolValue,
       stocks,
-      cryptos,
     } = this.props;
 
     dispatchSelectedSymbol({symbol});
@@ -221,11 +220,8 @@ export class Watchlist extends React.Component {
   };
 
   renderCryptoItem = ({item}) => {
-    const data = this.state[item.display_name] || {
-      changePercent: 0,
-      change: 0,
-    };
-    const {changePercent, change} = data;
+    const data = this.state[item.display_name] || {changePercent: 0};
+    const {changePercent} = data;
     return (
       <CryptoItem
         symbol={item.display_name}
@@ -245,7 +241,6 @@ export class Watchlist extends React.Component {
         extraData={cryptos}
         data={cryptos}
         renderItem={this.renderCryptoItem}
-        // onEndReached={this.handleEndReach}
         keyExtractor={this.keyExtractor}
         initialNumToRender={15}
         onEndReachedThreshold={0}

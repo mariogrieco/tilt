@@ -13,6 +13,11 @@ import SearchBar from '../components/SearchBar';
 import {modalActive} from '../actions/modal';
 import {WATCHLIST_INTERVAL} from '../config/refreshIntervals';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
+import getAllChannels from '../selectors/getAllChannels';
+import {selectedSymbol} from '../actions/symbols';
+import {setActiveFocusChannel} from '../actions/AppNavigation';
+import NavigationService from '../config/NavigationService';
+import {getChannelByName} from '../actions/channels';
 
 const ORIGIN = 'WATCHLIST';
 
@@ -159,12 +164,54 @@ class Home extends React.Component {
     });
   };
 
+  navigateAction(channel, to) {
+    this.props.setActiveFocusChannel(channel.id);
+    NavigationService.navigate(to, {
+      title: channel.display_name,
+      create_at: channel.create_at,
+      members: channel.members,
+      fav: channel.fav ? true : false,
+      isAdminCreator: true,
+    });
+  }
+
+  handleOnCryptoPress = async symbol => {
+    const {
+      dispatchSelectedSymbol,
+      // dispatchSetPopupSymbolValue,
+      channels,
+    } = this.props;
+
+    dispatchSelectedSymbol({symbol});
+
+    const notInbutFound = channels.find(channel => {
+      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+    });
+
+    if (notInbutFound) {
+      this.navigateAction(notInbutFound, 'Room');
+      return null;
+    }
+
+    try {
+      const result = await this.props.getChannelByName(symbol.toLowerCase());
+      if (result) {
+        this.navigateAction(result, 'Room');
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-alert
+      alert(`${err.message || err}`);
+    }
+    return null;
+  };
+
   renderItem = ({item}) => (
     <CryptoItem
       {...item}
       // eslint-disable-next-line react/destructuring-assignment
       navigation={this.props.navigation}
       key={item.symbol}
+      onPress={this.handleOnCryptoPress}
     />
   );
 
@@ -228,11 +275,12 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = ({watchlist, modal, login, themes}) => ({
-  watchlist,
-  modal,
-  login,
-  theme: themes[themes.current],
+const mapStateToProps = state => ({
+  watchlist: state.watchlist,
+  modal: state.modal,
+  login: state.login,
+  theme: state.themes[state.themes.current],
+  channels: getAllChannels(state, channel => channel.content_type === 'C'),
 });
 
 export default connect(
@@ -240,5 +288,8 @@ export default connect(
   {
     getSymbols,
     modalActive,
+    dispatchSelectedSymbol: selectedSymbol,
+    getChannelByName,
+    setActiveFocusChannel,
   },
 )(Home);

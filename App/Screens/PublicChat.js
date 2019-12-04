@@ -3,7 +3,7 @@ import {TouchableOpacity, Image, Dimensions, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, TabBar} from 'react-native-tab-view';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {searchChannels} from '../actions/search';
 import Watchlist from '../components/Watchlist';
