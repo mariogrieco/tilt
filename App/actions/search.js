@@ -19,6 +19,17 @@ export const searchChannels = term => async (dispatch, getState) => {
   }
 };
 
+export const searchMultiple = (terms = []) => async dispatch => {
+  try {
+    const searchs = [];
+    terms.forEach(term => searchs.push(dispatch(searchChannels(term))));
+    return await Promise.all(searchs);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 export const searchChannelsSucess = results => ({
   type: SEARCH_CHANNELS_SUCCESS,
   payload: results,

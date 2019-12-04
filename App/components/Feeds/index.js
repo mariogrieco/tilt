@@ -1,17 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import Separator from '../Separator';
 import PostFeed from '../Post/PostFeed';
 import {getFeeds} from '../../actions/feeds';
-import {searchChannels} from '../../actions/search';
+import {searchMultiple} from '../../actions/search';
 import parse_channel_name from '../../utils/fix_name_if_need';
 
 const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);
-  const mapChannels = useSelector(state => state.mapChannels);
+  const keysForInclude = useSelector(state =>
+    state.feeds.channels_keys
+      .filter(key => !state.mapChannels.get(key))
+      .map(key => state.feeds.channels[key].name),
+  );
   const blockedUsers = useSelector(state => state.blockedUsers);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,19 +26,14 @@ const Feeds = ({navigation}) => {
   useEffect(() => {
     const includeFeedsIntoChannels = async () => {
       try {
-        const keysForInclude = feeds.channels_keys.filter(
-          key => !mapChannels.get(key),
-        );
-        const searchs = [];
-        keysForInclude.forEach(key =>
-          searchs.push(dispatch(searchChannels(feeds.channels[key].name))),
-        );
-        await Promise.all(searchs);
+        console.log('llamado a sync');
+        await searchMultiple(keysForInclude);
       } catch (err) {
         console.log(err);
       }
     };
     includeFeedsIntoChannels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, feeds]);
 
   useEffect(() => {
