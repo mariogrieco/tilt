@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import styles from './styles';
 
 export class StockChart extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(this.state, nextState);
   }
 
@@ -32,32 +32,32 @@ export class StockChart extends Component {
     const colorIsRed = chartPopup.changePercent < 0;
     const symbol_name = chartPopup.symbol.replace('$', '');
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: theme.primaryBackgroundColor},
+        ]}>
         <View style={styles.heading}>
           <Text style={[styles.price, {color: theme.popupPriceColor}]}>
             ${chartPopup.price}
           </Text>
-          <Text>
-            <Text
-              style={[
-                styles.text,
-                colorIsRed ? styles.redPercent : styles.symbolPercent,
-              ]}>
-              {chartPopup.change}
-            </Text>{' '}
-            <Text style={styles.changePercent}>
-              ({chartPopup.changePercent}%)
-            </Text>
+          <Text
+            style={[
+              styles.changePercent,
+              colorIsRed ? styles.redPercent : styles.symbolPercent,
+            ]}>
+            {chartPopup.change} ({chartPopup.changePercent}%)
           </Text>
         </View>
-        {chartPopup.chart_data &&
+        {chartPopup.chart_data && (
           <LineChartContainer
             isRed={colorIsRed}
             symbol={symbol_name}
             data={chartPopup.chart_data}
             fullHeight
+            stockRoom
           />
-        }
+        )}
       </View>
     );
   }

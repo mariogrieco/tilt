@@ -16,7 +16,7 @@ import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import {connect} from 'react-redux';
 
 import styles from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export class Watchlist extends React.Component {
   state = {
@@ -184,11 +184,17 @@ export class Watchlist extends React.Component {
   };
 
   renderSeparator(text) {
+    const {theme} = this.props;
     return (
       <TouchableOpacity
-        style={styles.separator}
+        style={[
+          styles.separator,
+          {backgroundColor: theme.secondaryBackgroundColor},
+        ]}
         onPress={this.onTogglePress.bind(this, text)}>
-        <Text style={styles.separatorText}>{text}</Text>
+        <Text style={[styles.separatorText, {color: theme.secondaryTextColor}]}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }
