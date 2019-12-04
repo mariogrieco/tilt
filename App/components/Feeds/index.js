@@ -27,7 +27,7 @@ const Feeds = ({navigation}) => {
     const includeFeedsIntoChannels = async () => {
       try {
         console.log('llamado a sync');
-        await searchMultiple(keysForInclude);
+        await dispatch(searchMultiple(keysForInclude));
       } catch (err) {
         console.log(err);
       }
