@@ -26,7 +26,10 @@ class SymbolSummary extends PureComponent {
   render() {
     const {name, header, theme, latest_price} = this.props;
     return (
-      <TouchableOpacity onPress={this.handleOnPress} style={styles.container}>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={this.handleOnPress}
+        style={styles.container}>
         <View style={styles.lefContainer}>
           <Text style={[styles.pair, {color: theme.primaryTextColor}]}>
             {name}
