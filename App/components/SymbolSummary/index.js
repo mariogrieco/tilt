@@ -39,7 +39,9 @@ class SymbolSummary extends PureComponent {
           */}
         </View>
         <View style={styles.rows}>
-          <Text style={styles.label}>${latest_price}</Text>
+          <Text style={[styles.label, {color: theme.primaryTextColor}]}>
+            ${latest_price}
+          </Text>
           {this.renderChangePrice()}
         </View>
       </TouchableOpacity>
