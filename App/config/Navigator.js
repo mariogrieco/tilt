@@ -50,6 +50,7 @@ const HomeStack = createStackNavigator(
 const CryptoRoomStack = createStackNavigator(
   {
     CryptoRoom,
+    ChannelInfo,
   },
   {
     headerLayoutPreset: 'center',
