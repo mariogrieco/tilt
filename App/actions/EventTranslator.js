@@ -52,10 +52,10 @@ const eventsDispatched = data => {
       const {channel_id} = data.broadcast;
       return store.dispatch(getChannelById(channel_id, true));
     }
-    // case 'channel_created': {
-    //   const {channel_id} = data.data;
-    //   return store.dispatch(getChannelById(channel_id));
-    // }
+    case 'channel_created': {
+      const {channel_id} = data.data;
+      return store.dispatch(getChannelById(channel_id));
+    }
     case 'new_user': {
       return store.dispatch(getNewUser(data.data.user_id));
     }

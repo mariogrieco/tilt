@@ -451,12 +451,13 @@ export const getChannelById = (channelId, meChannel) => async (
   try {
     const meId = getState().login.user.id;
     const {channel} = await Client4.getChannel(channelId);
-    dispatch(getPostsForChannel(channel.id));
     if ((channel && meChannel) || (channel && channel.creator_id === meId)) {
       dispatch(getMyChannelByIdSucess(channel, meId));
-    } else {
+    }
+    if (channel) {
       dispatch(getChannelByIdSucess(channel, meId));
     }
+    await dispatch(getPostsForChannel(channel.id));
     return channel;
   } catch (ex) {
     dispatch(getChannelByIdError(ex));
@@ -706,6 +707,8 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
       dispatch(getChannelByIdSucess(r));
       channel = r;
     }
+
+    dispatch(getMyChannelByIdSucess(channel));
     dispatch(setActiveFocusChannel(channel.id));
     NavigationService.navigate('Channel', {
       name: getState().users.data[userId]

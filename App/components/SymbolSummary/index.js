@@ -14,7 +14,7 @@ class SymbolSummary extends PureComponent {
           style={[
             styles.priceChangeListView,
             {color: theme.primaryBackgroundColor},
-          ]}>{`${parseFloat(change_percent * 100).toFixed(2)}%`}</Text>
+          ]}>{`${parseFloat(change_percent).toFixed(2)}%`}</Text>
       </View>
     );
   };
@@ -39,7 +39,7 @@ class SymbolSummary extends PureComponent {
           */}
         </View>
         <View style={styles.rows}>
-          <Text style={styles.label}>{latest_price}%</Text>
+          <Text style={styles.label}>{latest_price}$</Text>
           {this.renderChangePrice()}
         </View>
       </TouchableOpacity>

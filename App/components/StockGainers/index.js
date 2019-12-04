@@ -32,7 +32,7 @@ export class StockGainers extends Component {
         name={item.symbol}
         header={item.companyName}
         latest_price={item.latestPrice}
-        change_percent={item.changePercent}
+        change_percent={item.changePercent * 100}
       />
     );
   };

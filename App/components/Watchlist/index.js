@@ -57,7 +57,7 @@ export class Watchlist extends React.Component {
     const {stocks, cryptos} = this.props;
     for (const {display_name} of [...cryptos, ...stocks]) {
       try {
-        const {changePercent, change} = await Client4.getSymbolTicket(
+        const {changePercent, change, price} = await Client4.getSymbolTicket(
           display_name,
         );
         this.setState(prevState => {
@@ -65,6 +65,7 @@ export class Watchlist extends React.Component {
           nextState[display_name] = {
             changePercent,
             change,
+            price,
           };
           return nextState;
         });
@@ -157,7 +158,7 @@ export class Watchlist extends React.Component {
       changePercent: 0,
       change: 0,
     };
-    const {changePercent, change} = data;
+    const {changePercent, price} = data;
     return (
       <SymbolSummary
         onPress={() => {
@@ -165,7 +166,7 @@ export class Watchlist extends React.Component {
         }}
         name={item.display_name}
         header={item.header}
-        latest_price={change}
+        latest_price={price}
         change_percent={changePercent}
       />
     );
