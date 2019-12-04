@@ -35,7 +35,7 @@ export class StockChart extends Component {
       if (data && data.items.length > 0) {
         // eslint-disable-next-line react/no-did-mount-set-state
         this.setState({
-          values: {items: data.items},
+          values: data,
         });
       }
       if (infoTicket) {
