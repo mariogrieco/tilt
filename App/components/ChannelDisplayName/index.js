@@ -154,6 +154,7 @@ class ChannelDisplayName extends Component {
           styles.container,
           {backgroundColor: theme.primaryBackgroundColor},
         ]}
+        activeOpacity={1}
         onPress={this.onPress}>
         {/*<View style={styles.imageContainer}>*/}
         {/*  <Image styles={styles.imageContainer} source={EARTH} />*/}

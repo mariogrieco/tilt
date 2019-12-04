@@ -48,6 +48,7 @@ class Themes extends React.PureComponent {
           <TouchableOpacity
             onPress={() => this.props.changeTheme(_theme)}
             key={_theme}
+            activeOpacity={1}
             style={[
               styles.row,
               styles.button,

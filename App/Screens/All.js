@@ -25,7 +25,9 @@ export class AllChannels extends Component {
     headerLeft: <GoBack onPress={() => navigation.goBack()} />,
     headerRight: (
       // eslint-disable-next-line react-native/no-inline-styles
-      <TouchableOpacity style={{paddingHorizontal: 15, paddingVertical: 13}}>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={{paddingHorizontal: 15, paddingVertical: 13}}>
         <Text
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
@@ -33,8 +35,8 @@ export class AllChannels extends Component {
             fontSize: 16,
             letterSpacing: 0.1,
             color: '#17C491',
-          }}>
-        </Text>
+          }}
+        />
       </TouchableOpacity>
     ),
     ...headerForScreenWithBottomLine({
@@ -62,26 +64,31 @@ export class AllChannels extends Component {
 
   componentDidMount() {
     this.props.getChannelStatsByGroup();
-  } 
+  }
 
   _fetchMore = ({distanceFromEnd}) => {
     if (distanceFromEnd <= 0) {
-      if (this.state.loading) return null;
-      this.setState({
-        loading: true
-      }, async () => {
-        try {
-          const {channels} = this.props;
-          await this.props.getPageForAllTab(channels.map(c => c.id));
-          this.props.getChannelStatsByGroup();
-        } catch (err) {
-          console.log(err);
-        } finally {
-          this.setState({
-            loading: false,
-          })
-        }
-      })
+      if (this.state.loading) {
+        return null;
+      }
+      this.setState(
+        {
+          loading: true,
+        },
+        async () => {
+          try {
+            const {channels} = this.props;
+            await this.props.getPageForAllTab(channels.map(c => c.id));
+            this.props.getChannelStatsByGroup();
+          } catch (err) {
+            console.log(err);
+          } finally {
+            this.setState({
+              loading: false,
+            });
+          }
+        },
+      );
     }
   };
 
