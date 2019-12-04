@@ -47,7 +47,7 @@ class Chart extends React.PureComponent {
           </Suspense>
         )}
         {/*<View style={{flexDirection: 'row', justifyContent: 'center'}}>*/}
-         <ChartBanner />
+         {/* <ChartBanner /> */}
         {/*</View>*/}
       </View>
     );
