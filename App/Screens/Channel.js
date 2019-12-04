@@ -646,7 +646,7 @@ class Channel extends React.Component {
           data={posts}
           inverted
           renderItem={this._renderItem}
-          onEndReached={this._onEndReached}
+          // onEndReached={this._onEndReached}
           onEndReachedThreshold={0}
           keyExtractor={this._keyExtractor}
           onScrollEndDrag={this._setScrollPosition}

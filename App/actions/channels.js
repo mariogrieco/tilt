@@ -790,7 +790,6 @@ export const getChannels = (
 };
 
 export const getChannelsSucess = channels => {
-  console.log('channels: ', channels);
   return {
     type: GET_CHANNELS_SUCESS,
     payload: channels || [],
