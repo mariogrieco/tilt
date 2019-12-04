@@ -3,7 +3,7 @@ import {Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import NavigationService from '../config/NavigationService';
 import {selectedSymbol} from '../actions/symbols';
-import {setPopupSymbolValue} from '../actions/chartPopup';
+// import {setPopupSymbolValue} from '../actions/chartPopup';
 import SearchBar from '../components/SearchBar';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
@@ -113,12 +113,12 @@ export class Stocks extends Component {
   handleOnSymbolPress = async symbol => {
     const {
       dispatchSelectedSymbol,
-      dispatchSetPopupSymbolValue,
+      // dispatchSetPopupSymbolValue,
       channels,
     } = this.props;
 
     dispatchSelectedSymbol({symbol});
-    dispatchSetPopupSymbolValue(`$${symbol}`, false);
+    // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = channels.find(
       channel => channel.display_name.toLowerCase() === symbol.toLowerCase(),
@@ -213,7 +213,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchSelectedSymbol: selectedSymbol,
-  dispatchSetPopupSymbolValue: setPopupSymbolValue,
+  // dispatchSetPopupSymbolValue: setPopupSymbolValue,
   setActiveFocusChannel,
   getChannelByName,
 };

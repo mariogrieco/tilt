@@ -93,7 +93,7 @@ export class Watchlist extends React.Component {
   handleCryptoPress = async symbol => {
     const {
       dispatchSelectedSymbol,
-      dispatchSetPopupSymbolValue,
+      // dispatchSetPopupSymbolValue,
       // stocks,
       cryptos,
     } = this.props;
@@ -125,12 +125,12 @@ export class Watchlist extends React.Component {
   handleStockPress = async symbol => {
     const {
       dispatchSelectedSymbol,
-      dispatchSetPopupSymbolValue,
+      // dispatchSetPopupSymbolValue,
       stocks,
     } = this.props;
 
     dispatchSelectedSymbol({symbol});
-    dispatchSetPopupSymbolValue(`$${symbol}`, false);
+    // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = stocks.find(channel => {
       return channel.display_name.toLowerCase() === symbol.toLowerCase();

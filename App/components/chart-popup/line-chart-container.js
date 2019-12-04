@@ -81,11 +81,6 @@ class LineChartContainer extends Component {
               legend={{
                 enabled: false,
               }}
-              // animation={{
-              //   durationX: 0,
-              //   durationY: 0,
-              //   easingY: 'EaseInOutQuart',
-              // }}
               xAxis={{
                 textColor: processColor(theme.primaryTextColor),
                 granularity: 1,
