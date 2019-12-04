@@ -71,7 +71,8 @@ export class AllChannels extends Component {
         loading: true
       }, async () => {
         try {
-          await this.props.getPageForAllTab([]);
+          const {channels} = this.props;
+          await this.props.getPageForAllTab(channels.map(c => c.id));
           this.props.getChannelStatsByGroup();
         } catch (err) {
           console.log(err);
@@ -112,12 +113,12 @@ export class AllChannels extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
-        // onEndReached={this._fetchMore}
+        onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
         updateCellsBatchingPeriod={150}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
-        ListEmptyComponent={this.renderActivityIndicator}
+        // ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
         style={{backgroundColor: theme.primaryBackgroundColor}}
@@ -127,7 +128,10 @@ export class AllChannels extends Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getAllChannels(state, channel => channel.content_type === 'N'),
+  channels: getAllChannels(
+    state,
+    c => c.content_type === 'N' && c.type === 'O',
+  ),
   theme: state.themes[state.themes.current],
   isAuth: state.login.isLogin,
   channelStatsGroup: state.channelStatsGroup,

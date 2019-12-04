@@ -72,7 +72,8 @@ export class AllChannels extends Component {
         loading: true
       }, async () => {
         try {
-          await this.props.getPageForNewTab([]);
+          const {channels} = this.props; 
+          await this.props.getPageForNewTab(channels.map(c => c.id));
           this.props.getChannelStatsByGroup();
         } catch (err) {
           console.log(err);
@@ -113,7 +114,7 @@ export class AllChannels extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
-        // onEndReached={this._fetchMore}
+        onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
         updateCellsBatchingPeriod={150}

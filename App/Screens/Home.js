@@ -279,7 +279,7 @@ class Home extends React.Component {
           renderItem={this.renderItem}
           keyExtractor={item => item.symbol}
           ItemSeparatorComponent={Separator}
-          // onEndReached={this.handleEndReach}
+          onEndReached={this.handleEndReach}
           onEndReachedThreshold={0.4}
           initialNumToRender={5}
           keyboardDismissMode="on-drag"

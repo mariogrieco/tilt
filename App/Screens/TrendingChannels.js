@@ -63,7 +63,8 @@ export class TrendingChannels extends Component {
         },
         async () => {
           try {
-            await this.props.getPageForTrendingTab();
+            const {channels} = this.props;
+            await this.props.getPageForTrendingTab(channels.map(c => c.id));
             this.props.getChannelStatsByGroup();
           } catch (err) {
             console.log(err);
@@ -113,7 +114,7 @@ export class TrendingChannels extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
-        // onEndReached={this._fetchMore}
+        onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
         updateCellsBatchingPeriod={150}

@@ -46,13 +46,11 @@ export class StockGainers extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
-        // onEndReached={this._fetchMore}
         onEndReachedThreshold={0}
         maxToRenderPerBatch={5}
         ItemSeparatorComponent={this.renderSeparator}
         updateCellsBatchingPeriod={150}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
-        // ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
         style={{backgroundColor: theme.primaryBackgroundColor}}

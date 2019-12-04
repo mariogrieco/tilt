@@ -93,7 +93,6 @@ class Discover extends React.Component {
           renderItem={this.renderItem}
           viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.15}}
           initialNumToRender={50}
-          // onEndReached={this._fetchMore}
           onEndReachedThreshold={0.15}
           keyboardDismissMode="on-drag"
           updateCellsBatchingPerio={150}

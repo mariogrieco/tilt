@@ -23,21 +23,26 @@ export const TRENDING_CHANNELS_TAB_PAGINATOR_SUCCESS =
 export const TRENDING_CHANNELS_TAB_PAGINATOR_ERROR =
   'TRENDING_CHANNELS_TAB_PAGINATOR_ERROR';
 
-export const getPageForTrendingTab = () => async (dispatch, getState) => {
+export const getPageForTrendingTab = filter_ids => async (
+  dispatch,
+  getState,
+) => {
   try {
     const current_tab_state = getState().trending_channels_tab_paginator;
     if (current_tab_state.stop) {
       return [];
     }
-    const nextPage = ++current_tab_state.page;
-    const list = await Client4.getChannelsBy({
-      page: nextPage,
-      per_page: PER_PAGE_DEFAULT,
-      is_stock: true,
-    });
+    const list = await Client4.getChannelsBy(
+      {
+        page: current_tab_state.page,
+        per_page: PER_PAGE_DEFAULT,
+        is_stock: true,
+      },
+      filter_ids,
+    );
     dispatch(
       getPageForTrendingTabSuccess({
-        page: nextPage,
+        page: filter_ids ? 0 : ++current_tab_state.page,
         stop: list.length === 0,
       }),
     );
@@ -69,15 +74,20 @@ export const getPageForStocksTab = () => async (dispatch, getState) => {
     if (current_tab_state.stop) {
       return [];
     }
-    const nextPage = ++current_tab_state.page;
-    const list = await Client4.getChannelsBy({
-      page: nextPage,
-      per_page: PER_PAGE_DEFAULT,
-      is_stock: true,
-    });
+    const filter_ids = getState()
+      .mapChannels.valueSeq()
+      .map(channel => channel.id);
+    const list = await Client4.getChannelsBy(
+      {
+        page: current_tab_state.page,
+        per_page: PER_PAGE_DEFAULT,
+        is_stock: true,
+      },
+      filter_ids,
+    );
     dispatch(
       getPageForStocksTabSuccess({
-        page: nextPage,
+        page: filter_ids ? 0 : ++current_tab_state.page,
         stop: list.length === 0,
       }),
     );
@@ -103,24 +113,26 @@ function getPageForStocksTabError(err) {
   };
 }
 
-export const getPageForNewTab = () => async (dispatch, getState) => {
+export const getPageForNewTab = filter_ids => async (dispatch, getState) => {
   try {
     const current_tab_state = getState().new_channels_tab_paginator;
     if (current_tab_state.stop) {
       return [];
     }
-    const nextPage = ++current_tab_state.page;
-    const list = await Client4.getChannelsBy({
-      page: nextPage,
-      per_page: PER_PAGE_DEFAULT,
-      orderBy: 'CreateAt,DESC',
-      created_after: moment()
-        .add(-3, 'days')
-        .valueOf(),
-    });
+    const list = await Client4.getChannelsBy(
+      {
+        page: current_tab_state.page,
+        per_page: PER_PAGE_DEFAULT,
+        orderBy: 'CreateAt,DESC',
+        created_after: moment()
+          .add(-3, 'days')
+          .valueOf(),
+      },
+      filter_ids,
+    );
     dispatch(
       getPageForNewTabSuccess({
-        page: nextPage,
+        page: filter_ids ? 0 : ++current_tab_state.page,
         stop: list.length === 0,
       }),
     );
@@ -146,26 +158,25 @@ function getPageForNewTabError(err) {
   };
 }
 
-export const getPageForAllTab = (filter_ids = []) => async (
-  dispatch,
-  getState,
-) => {
+export const getPageForAllTab = filter_ids => async (dispatch, getState) => {
   try {
     const current_tab_state = getState().all_channels_tab_paginator;
     if (current_tab_state.stop) {
       return [];
     }
-    const nextPage = ++current_tab_state.page;
-    const list = await Client4.getChannelsBy({
-      page: nextPage,
-      per_page: PER_PAGE_DEFAULT,
-      orderBy: 'CreateAt,DESC',
-      is_stock: 'false',
-      is_crypto: 'false',
-    });
+    const list = await Client4.getChannelsBy(
+      {
+        page: current_tab_state.page,
+        per_page: PER_PAGE_DEFAULT,
+        orderBy: 'CreateAt,DESC',
+        is_stock: 'false',
+        is_crypto: 'false',
+      },
+      filter_ids,
+    );
     dispatch(
       getPageForAllTabSuccess({
-        page: nextPage,
+        page: filter_ids ? 0 : ++current_tab_state.page,
         stop: list.length === 0,
       }),
     );
