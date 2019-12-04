@@ -142,7 +142,7 @@ class LineChartContainer extends Component {
                           ),
                           processColor(isRed ? '#fc3e30' : '#17c491'),
                         ],
-                        positions: [0, 0.7],
+                        positions: [0, 1],
                         angle: 90,
                         orientation: 'BOTTOM_TOP',
                       },
