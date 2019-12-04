@@ -163,7 +163,7 @@ class LineChartContainer extends Component {
           )}
           {barChartData && (
             <BarChart
-              style={styles.barChart}
+              style={!stockRoom ? styles.barChart : styles.stockRoomBarChart}
               chartDescription={{text: ''}}
               backgroundColor={
                 !stockRoom
@@ -245,6 +245,11 @@ const styles = StyleSheet.create({
   },
   barChart: {
     flex: 0.8,
+    paddingTop: 0,
+    marginTop: 0,
+  },
+  stockRoomBarChart: {
+    flex: 0.5,
     paddingTop: 0,
     marginTop: 0,
   },
