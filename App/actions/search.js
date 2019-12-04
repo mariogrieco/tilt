@@ -9,9 +9,11 @@ export const SEARCH_CHANNELS_ERROR = 'SEARCH_CHANNELS_ERROR';
 export const searchChannels = term => async (dispatch, getState) => {
   try {
     const results = await Client4.searchChannels(term);
+    console.log('results:', results);
     dispatch(searchChannelsSucess(results));
     return results;
   } catch (ex) {
+    console.log('ex:', ex);
     dispatch(searchChannelsError(ex));
     return Promise.reject(ex.message);
   }

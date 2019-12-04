@@ -34,7 +34,7 @@ const Feeds = ({navigation}) => {
       }
     };
     includeFeedsIntoChannels();
-  }, [dispatch, feeds, mapChannels]);
+  }, [dispatch, feeds]);
 
   useEffect(() => {
     const focusListener = navigation.addListener('didFocus', () => {
