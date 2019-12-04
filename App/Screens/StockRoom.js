@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {Dimensions, TouchableOpacity, Image, View} from 'react-native';
 import {connect} from 'react-redux';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
+import {headerForScreenWithBottomLine, headerForScreenWithTabs} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import StyleSheet from 'react-native-extended-stylesheet';
 import GoBack from '../components/GoBack';
@@ -63,7 +63,7 @@ export class StockRoom extends Component {
 
   static navigationOptions = ({navigation, screenProps}) => ({
     // title: navigation.getParam('title', ''),
-    ...headerForScreenWithTabs({
+    ...headerForScreenWithBottomLine({
       headerTintColor: screenProps.theme.headerTintColor,
       headerStyle: {
         backgroundColor: screenProps.theme.primaryBackgroundColor,
