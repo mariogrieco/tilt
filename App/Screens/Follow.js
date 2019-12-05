@@ -44,9 +44,11 @@ class Follow extends React.Component {
         prevProps.follow.following,
         this.props.follow.following,
       );
-      this.setState({
-        temporalFollowings,
-      });
+      this.setState(state => ({
+        temporalFollowings: _.uniq(
+          _.concat(state.temporalFollowings, temporalFollowings),
+        ),
+      }));
     }
   }
 
@@ -62,6 +64,7 @@ class Follow extends React.Component {
         ? follow[paramKey]
         : [...follow[paramKey], ...temporalFollowings];
 
+    if (paramKey === 'following') console.log('data a renderizar ', data);
     const sortedValues =
       paramKey === 'followers'
         ? _.sortBy(data, [userId => users.data[userId].username])
