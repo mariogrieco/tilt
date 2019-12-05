@@ -42,7 +42,7 @@ export class StockGainers extends Component {
     return (
       <FlatList
         extraData={channels}
-        data={channels}
+        data={channels.filter(channel => channel)}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
@@ -68,7 +68,4 @@ const mapDispatchToProps = {
   getStocksMarketGainersList,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StockGainers);
+export default connect(mapStateToProps, mapDispatchToProps)(StockGainers);

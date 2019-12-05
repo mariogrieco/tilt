@@ -32,6 +32,7 @@ export class StocksLosers extends Component {
     if (searchValue && !!searchValue.trim()) {
       searchValue = searchValue.toLowerCase();
       return channels.filter(channel => {
+        if (!channel) return false;
         if (
           channel.symbol.toLowerCase().includes(searchValue) ||
           channel.companyName.toLowerCase().includes(searchValue)
@@ -41,7 +42,7 @@ export class StocksLosers extends Component {
         return false;
       });
     }
-    return channels;
+    return channels.filter(channel => Boolean(channel));
   }
 
   renderItem = ({item}) => {
@@ -88,7 +89,4 @@ const mapDispatchToProps = {
   getStocksMarketLosersList,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StocksLosers);
+export default connect(mapStateToProps, mapDispatchToProps)(StocksLosers);

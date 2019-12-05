@@ -40,7 +40,7 @@ export class StocksActive extends Component {
     return (
       <FlatList
         extraData={channels}
-        data={channels}
+        data={channels.filter(channel => Boolean(channel))}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
@@ -67,7 +67,4 @@ const mapDispatchToProps = {
   getStocksMarketMostactiveList,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StocksActive);
+export default connect(mapStateToProps, mapDispatchToProps)(StocksActive);
