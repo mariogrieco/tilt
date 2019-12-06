@@ -8,7 +8,7 @@ const FollowSummary = ({navigation, userId}) => {
   const loggedUserId = useSelector(state =>
     state.login.user ? state.login.user.id : '',
   );
-  const user = useSelector(state => state.users.data[userId]);
+  const user = useSelector(state => state.users.data[userId] || {});
   const hasLoggedUserFollowData = useSelector(state =>
     Boolean(state.loggedUserFollow.following.length),
   );
