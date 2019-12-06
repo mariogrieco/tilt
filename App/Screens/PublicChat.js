@@ -3,14 +3,16 @@ import {TouchableOpacity, Image, Dimensions, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, TabBar} from 'react-native-tab-view';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {searchChannels} from '../actions/search';
-import Channels from '../components/Channels';
+import Watchlist from '../components/Watchlist';
 import Discover from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
+import TabButtonLayout from '../components/TabButtonLayout';
+
 import assets from '../config/themeAssets/assets';
 
 const {width} = Dimensions.get('window');
@@ -94,8 +96,8 @@ class PublicChat extends React.Component {
   state = {
     index: 0,
     routes: [
-      {key: 'channels', title: 'CHANNELS'},
-      {key: 'discover', title: 'DISCOVER'},
+      {key: 'channels', title: 'Channels'},
+      {key: 'discover', title: 'Watchlist'},
     ],
     searchValue: '',
     currentToggleSelected: 'left',
@@ -132,22 +134,31 @@ class PublicChat extends React.Component {
   async searchFor(queryStr) {
     // if (this.state.searchValue !== queryStr) return null;
     try {
-      await this.props.searchChannels('k1df69t1ibryue11z5wd4n48nr', queryStr);
+      await this.props.searchChannels(queryStr);
     } catch (ex) {
       alert(ex.message || ex);
     }
   }
 
+  renderScene = ({route, jumpTo}) => {
+    switch (route.key) {
+      case 'channels':
+        return <Discover jumpTo={jumpTo} />;
+      case 'discover':
+        return <Watchlist jumpTo={jumpTo} />;
+      default:
+        return null;
+    }
+  };
+
   renderChannels = () => {
     const {theme} = this.props;
     return (
       <React.Fragment>
+        <TabButtonLayout />
         <TabView
           navigationState={{...this.state}}
-          renderScene={SceneMap({
-            channels: Channels,
-            discover: Discover,
-          })}
+          renderScene={this.renderScene}
           onIndexChange={index => this.setState({index})}
           initialLayout={{width}}
           renderTabBar={props => (
@@ -166,7 +177,6 @@ class PublicChat extends React.Component {
               inactiveColor="#585C63"
             />
           )}
-          //swipeEnabled={false}
         />
       </React.Fragment>
     );
@@ -196,5 +206,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(PublicChat),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PublicChat),
 );

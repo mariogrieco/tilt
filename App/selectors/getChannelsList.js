@@ -5,6 +5,8 @@ import filterPostBy from './filterPostBy';
 const lastViewedSelector = state => state.lastViewed;
 const entitiesSelector = state => state.posts.entities;
 const myChannelsMapSelector = state => state.myChannelsMap;
+const channelsMapSelector = state => state.mapChannels;
+
 const ordersSelector = state => state.posts.orders;
 const usersDataSelector = state => state.users.data;
 const preferencesSelector = state =>
@@ -18,14 +20,26 @@ const getChnnelsList = createSelector(
     ordersSelector,
     usersDataSelector,
     preferencesSelector,
+    channelsMapSelector,
   ],
-  (lastViewed, entities, myChannelsMap, orders, data, preferences) => {
+  (
+    lastViewed,
+    entities,
+    myChannelsMap,
+    orders,
+    data,
+    preferences,
+    allChannels,
+  ) => {
     let channels = [];
 
     myChannelsMap
-      .filter(c => c.type === 'O')
-      .valueSeq()
-      .forEach(channel => {
+      .keySeq()
+      .filter(id => {
+        return allChannels.has(id) ? allChannels.get(id).type === 'O' : false;
+      })
+      .forEach(id => {
+        const channel = allChannels.get(id);
         const channelData = orders[channel.id];
         if (channelData && channelData.order) {
           let titleColor = '';

@@ -1,5 +1,4 @@
 import filterPostBy from './filterPostBy';
-import isChannelCreatorAdmin from './isChannelCreatorAdmin';
 import cloneDeep from 'lodash/cloneDeep';
 
 const getAdvancedSearchList = state => {
@@ -25,10 +24,9 @@ const getAdvancedSearchList = state => {
         } else {
           post.channel.show_name = post.channel.name;
         }
-        post.channel.isDollar = isChannelCreatorAdmin(state, post.channel_id);
         return {
           ...post,
-          isDollar: post.channel.isDollar,
+          isDollar: post.channel.content_type !== 'N',
         };
       })
       .filter(

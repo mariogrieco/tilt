@@ -33,10 +33,12 @@ class PrivateMessages extends React.Component {
     const lastPost = channel.posts[0];
     const injectInMessage = this.messageInjection(lastPost);
     const {theme} = this.props;
-    const profilePictureUrl = getUserProfilePicture(
-      channel.chattingUser.id,
-      channel.chattingUser.last_picture_update,
-    );
+    const profilePictureUrl =
+      channel && channel.chattingUser
+        ? getUserProfilePicture(
+            channel.chattingUser.id,
+            channel.chattingUser.last_picture_update,
+        ) : '';
     return (
       <TouchableOpacity
         activeOpacity={1}

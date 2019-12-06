@@ -14,41 +14,6 @@ class LineChartContainer extends Component {
     loading: false,
   };
 
-  // componentWillUnmount() {
-  //   this.setState({
-  //     data: null,
-  //     barChartData: null,
-  //   });
-  // }
-
-  // getKlinesData(symbol) {
-  //   this.setState(
-  //     {
-  //       loading: true,
-  //     },
-  //     async () => {
-  //       try {
-  //         const {data} = await Client4.getKlines(
-  //           symbol,
-  //           '30m',
-  //           moment()
-  //             .subtract(1, 'days')
-  //             .utc()
-  //             .valueOf(),
-  //         );
-  //         this.setDataState(data);
-  //       } catch (ex) {
-  //         console.log('ex: ', ex);
-  //         return ex;
-  //       } finally {
-  //         this.setState({
-  //           loading: false,
-  //         });
-  //       }
-  //     },
-  //   );
-  // }
-
   setDataState(items) {
     const barChartData = [];
     const nextState = items.map(item => {
@@ -81,24 +46,31 @@ class LineChartContainer extends Component {
   }
 
   render() {
-    const {theme, isRed} = this.props;
+    const {theme, isRed, fullHeight, stockRoom} = this.props;
     const {data, barChartData, isIex} = this.state;
     return (
       <View
         style={
-          data
+          data && !fullHeight
             ? {
                 paddingTop: 5,
                 height: Platform.OS === 'ios' ? ifIphoneX(350, 300) : 320,
               }
-            : {}
+            : {
+                flex: 1,
+                paddingBottom: 15,
+              }
         }>
         <View style={styles.container}>
           {data && (
             <LineChart
               chartDescription={{text: ''}}
               style={styles.chart}
-              backgroundColor={theme.modalPopupBackgroundColor}
+              backgroundColor={
+                !stockRoom
+                  ? theme.modalPopupBackgroundColor
+                  : theme.primaryBackgroundColor
+              }
               drawGridBackground={false}
               drawBorders={false}
               touchEnabled={false}
@@ -109,11 +81,6 @@ class LineChartContainer extends Component {
               legend={{
                 enabled: false,
               }}
-              // animation={{
-              //   durationX: 0,
-              //   durationY: 0,
-              //   easingY: 'EaseInOutQuart',
-              // }}
               xAxis={{
                 textColor: processColor(theme.primaryTextColor),
                 granularity: 1,
@@ -175,7 +142,7 @@ class LineChartContainer extends Component {
                           ),
                           processColor(isRed ? '#fc3e30' : '#17c491'),
                         ],
-                        positions: [0, 0.7],
+                        positions: [0, 1],
                         angle: 90,
                         orientation: 'BOTTOM_TOP',
                       },
@@ -191,9 +158,13 @@ class LineChartContainer extends Component {
           )}
           {barChartData && (
             <BarChart
-              style={styles.barChart}
+              style={!stockRoom ? styles.barChart : styles.stockRoomBarChart}
               chartDescription={{text: ''}}
-              backgroundColor={theme.modalPopupBackgroundColor}
+              backgroundColor={
+                !stockRoom
+                  ? theme.modalPopupBackgroundColor
+                  : theme.primaryBackgroundColor
+              }
               drawGridBackground={false}
               drawBorders={false}
               touchEnabled={false}
@@ -269,6 +240,11 @@ const styles = StyleSheet.create({
   },
   barChart: {
     flex: 0.8,
+    paddingTop: 0,
+    marginTop: 0,
+  },
+  stockRoomBarChart: {
+    flex: 0.5,
     paddingTop: 0,
     marginTop: 0,
   },

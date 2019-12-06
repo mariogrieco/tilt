@@ -10,18 +10,22 @@ const initialState = {
   changePercent: 0.0,
   is_chat: true, // Join
   symbol: '',
+  isActive: false,
 };
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_CHART_POPUP_SYMBOL_VALUE: {
       if (payload.changePercent) {
-        payload.changePercent = (payload.changePercent||0).toFixed(2);
+        payload.changePercent = (payload.changePercent || 0).toFixed(2);
       }
       if (payload.price) {
-        payload.price = (payload.price||0);
+        payload.price = payload.price || 0;
       }
-      let nextstate = {...initialState, ...payload, isActive: true};
+      let nextstate = {
+        ...initialState,
+        ...payload,
+      };
       return nextstate;
     }
     case SET_CHART_POPUP_VALUE:

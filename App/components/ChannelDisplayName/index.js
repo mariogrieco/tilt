@@ -8,8 +8,6 @@ import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import {addToChannel} from '../../actions/channels';
 import parser from '../../utils/parse_display_name';
 import styles from './styles';
-// import Rocket from '../IconStore/Rocket';
-import isChannelCreatorAdmin from '../../selectors/isChannelCreatorAdmin';
 
 const EARTH = require('../../../assets/themes/light/earth/earth.png');
 const NEW = require('../../../assets/themes/light/new/new.png');
@@ -24,14 +22,14 @@ class ChannelDisplayName extends Component {
   };
 
   onPress = () => {
-    const {channel_id, name, channel, isfromAdmin} = this.props;
+    const {channel_id, name, channel} = this.props;
     this.props.setActiveFocusChannel(channel_id);
     NavigationService.navigate('Channel', {
       name: name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
-      isAdminCreator: isfromAdmin,
+      isAdminCreator: channel.content_type !== 'N',
     });
   };
 
@@ -76,7 +74,7 @@ class ChannelDisplayName extends Component {
       members,
       fav,
       titleColor,
-      isfromAdmin,
+      isDollar,
       unreadMessagesCount,
       theme,
     } = this.props;
@@ -90,9 +88,9 @@ class ChannelDisplayName extends Component {
             styles.header,
             {color: theme.primaryTextColor},
             titleColor ? {color: titleColor} : {},
-            isfromAdmin ? {textTransform: 'uppercase'} : {},
+            isDollar ? {textTransform: 'uppercase'} : {},
           ]}>
-          <Text style={styles.hashtag}>{isfromAdmin ? '$' : '#'}</Text> {name}{' '}
+          <Text style={styles.hashtag}>{isDollar ? '$' : '#'}</Text> {name}{' '}
         </Text>
         <View style={styles.icons}>
           {diff && (
@@ -156,6 +154,7 @@ class ChannelDisplayName extends Component {
           styles.container,
           {backgroundColor: theme.primaryBackgroundColor},
         ]}
+        activeOpacity={1}
         onPress={this.onPress}>
         {/*<View style={styles.imageContainer}>*/}
         {/*  <Image styles={styles.imageContainer} source={EARTH} />*/}
@@ -222,7 +221,7 @@ ChannelDisplayName.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
   meId: state.login.user ? state.login.user.id : {},
-  isfromAdmin: isChannelCreatorAdmin(state, props.channel_id),
+  isDollar: props.content_type !== 'N',
   theme: state.themes[state.themes.current],
 });
 

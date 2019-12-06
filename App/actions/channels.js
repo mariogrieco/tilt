@@ -154,8 +154,8 @@ export const navigateIfExists = (
 ) => async (dispatch, getState) => {
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
-  const myChannels = state.myChannelsMap.valueSeq().toJS();
-  const channels = state.mapChannels.valueSeq().toJS();
+  const myChannels = state.myChannelsMap.keySeq();
+  const channels = state.mapChannels.valueSeq();
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
@@ -172,6 +172,14 @@ export const navigateIfExists = (
 
   [...channels, ...myChannels].forEach(async item => {
     let formatName = item.name;
+    let symbolType = '';
+    if (item.content_type === 'S') {
+      symbolType = 'StockRoom';
+    } else if (item.content_type === 'C') {
+      symbolType = 'Room';
+    } else if (item.content_type === 'N' && item.type === 'D') {
+      symbolType = 'Channel';
+    }
     if (
       `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
     ) {
@@ -186,8 +194,8 @@ export const navigateIfExists = (
             : '';
         }
         dispatch(setActiveFocusChannel(item.id));
-        NavigationService.navigate('Channel', {
-          name: formatName,
+        NavigationService.navigate(symbolType, {
+          title: item.display_name,
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(state, item.id),
@@ -200,7 +208,7 @@ export const navigateIfExists = (
         if (direct) {
           await dispatch(addToChannel(whoIam, item.id));
           dispatch(setActiveFocusChannel(item.id));
-          NavigationService.navigate('Channel', {
+          NavigationService.navigate(symbolType, {
             name: formatName,
             create_at: item.create_at,
             members: item.members,
@@ -222,11 +230,19 @@ export const navigateIfExists = (
         channelDisplayName.replace('$', '').replace('#', ''),
       );
       if (r.channel) {
+        let symbolType = '';
+        if (r.channel.content_type === 'S') {
+          symbolType = 'StockRoom';
+        } else if (r.channel.content_type === 'C') {
+          symbolType = 'Room';
+        } else if (r.channel.content_type === 'N' && r.channel.type === 'D') {
+          symbolType = 'Channel';
+        }
         if (direct) {
           dispatch(getChannelsSucess([r.channel]));
           await dispatch(addToChannel(whoIam, r.channel.id));
           dispatch(setActiveFocusChannel(r.channel.id));
-          NavigationService.navigate('Channel', {
+          NavigationService.navigate(symbolType, {
             name: r.channel.name,
             create_at: r.channel.create_at,
             members: r.channel.members,
@@ -309,10 +325,7 @@ function getViewChannelSchema(channelId, userId, value) {
 
 export const getChannelByName = channelName => async (dispatch, getState) => {
   try {
-    const channel = await Client4.getChannelByName(
-      getState().teams.default_team_id,
-      channelName,
-    );
+    const {channel} = await Client4.getChannelByNameService(channelName);
     if (channel) {
       dispatch(getChannelByNameSuccess(channel));
     }
@@ -453,17 +466,18 @@ export const getChannelById = (channelId, meChannel) => async (
 ) => {
   try {
     const meId = getState().login.user.id;
-    const channel = await Client4.getChannel(channelId);
-    dispatch(getPostsForChannel(channel.id));
-    if (meChannel || channel.creator_id === meId) {
+    const {channel} = await Client4.getChannel(channelId);
+    if ((channel && meChannel) || (channel && channel.creator_id === meId)) {
       dispatch(getMyChannelByIdSucess(channel, meId));
-    } else {
+    }
+    if (channel) {
       dispatch(getChannelByIdSucess(channel, meId));
     }
+    await dispatch(getPostsForChannel(channel.id));
     return channel;
   } catch (ex) {
     dispatch(getChannelByIdError(ex));
-    return Promise.reject(ex.message);
+    return null;
   }
 };
 
@@ -520,14 +534,16 @@ export const getChannelStatsError = err => ({
   payload: err,
 });
 
-export const getChannelStatsByGroup = channels => async dispatch => {
-  const results = [];
-  // console.log('start fetch channel stats')
+export const getChannelStatsByGroup = channels => async (
+  dispatch,
+  getState,
+) => {
+  const ids = [];
   try {
-    channels.forEach(channel =>
-      results.push(Client4.getChannelStats(channel.id)),
-    );
-    dispatch(getChannelStatsByGroupSuccess(await Promise.all(results)));
+    channels = channels ? channels : getState().mapChannels.valueSeq();
+    channels.forEach(channel => ids.push(channel.id));
+    const results = await Client4.getMemberCount(ids);
+    dispatch(getChannelStatsByGroupSuccess(results));
   } catch (err) {
     dispatch(getChannelStatsByGroupError(err));
     console.log(err);
@@ -607,7 +623,6 @@ export const createChannel = data => async (dispatch, getState) => {
     const payload = await Client4.createChannel(getChannelSchema(data));
     dispatch(createChannelSucess(payload));
     dispatch(getPostsForChannel(payload.id));
-    console.log(payload);
     return payload;
   } catch (ex) {
     dispatch(createChannelError(ex));
@@ -632,10 +647,13 @@ export const addToChannel = (user_id, channel_id, postRootId) => async (
   try {
     const state = getState();
     await Client4.addToChannel(user_id, channel_id, postRootId);
-    const payload = state.mapChannels.find(({id}) => channel_id === id);
-    dispatch(getPostsForChannel(channel_id));
-    dispatch(addToChannelSucess(payload));
-    return payload;
+    const channel = state.mapChannels.get(channel_id);
+    if (channel) {
+      dispatch(addToChannelSucess(channel));
+      dispatch(getPostsForChannel(channel.id));
+      console.log(channel);
+    }
+    return channel;
   } catch (ex) {
     dispatch(addToChannelError(ex));
     return Promise.reject(ex.message);
@@ -684,20 +702,29 @@ export const createAndRedirectDirect = userIds => async dispatch => {
 export const createDirectChannel = userId => async (dispatch, getState) => {
   try {
     dispatch(clearjumpToAction());
+    const channels = getState().mapChannels;
     const meId = getState().login.user.id;
     const comparator = `${userId}`;
-    let channel = getState().myChannelsMap.find(_channel => {
-      if (_channel.name.includes(comparator)) {
-        return _channel;
-      }
-      return false;
-    });
+    let channel = null;
+
+    getState()
+      .myChannelsMap.keySeq()
+      .find(id => {
+        const _channel = channels.get(id);
+        if (_channel && _channel.name.includes(comparator)) {
+          channel = _channel;
+        }
+        return false;
+      });
+
     if (!channel) {
       const r = await Client4.createDirectChannel([meId, userId]);
       dispatch(createDirectChannelSucess(r));
       dispatch(getChannelByIdSucess(r));
+      dispatch(getMyChannelByIdSucess(r));
       channel = r;
     }
+
     dispatch(setActiveFocusChannel(channel.id));
     NavigationService.navigate('Channel', {
       name: getState().users.data[userId]
@@ -726,26 +753,10 @@ export const createDirectChannelError = err => ({
   payload: err,
 });
 
-export const getMyChannels = () => async dispatch => {
+export const getMyChannels = () => async (dispatch, getState) => {
   try {
-    const teams = await Client4.getMyTeams();
-    const payload = [];
-    const asyncCalls = [];
-    let results = [];
-
-    for (const team of teams) {
-      asyncCalls.push(Client4.getMyChannels(team.id));
-    }
-
-    results = await Promise.all(asyncCalls);
-    results.forEach(result => {
-      if (result) {
-        result.forEach(channel => {
-          payload.push(channel);
-        });
-      }
-    });
-
+    const meId = getState().login.user.id;
+    const payload = await Client4.getMyChannels(meId);
     dispatch(getMyChannelsSucess(payload));
     return payload;
   } catch (ex) {
@@ -764,41 +775,45 @@ export const getMyChannelsError = err => ({
   payload: err,
 });
 
+// getMemberCount
+
 export const getChannels = (
   page = 0,
   perPage = PER_PAGE_DEFAULT,
 ) => async dispatch => {
   try {
-    const teams = await Client4.getMyTeams();
+    // const teams = await Client4.getMyTeams();
     const payload = [];
-    const asyncCalls = [];
-    let results = [];
+    // const asyncCalls = [];
+    // let results = [];
 
-    for (const team of teams) {
-      asyncCalls.push(Client4.getChannels(team.id, page, perPage));
-    }
+    // for (const team of teams) {
+    //   // asyncCalls.push(Client4.getChannels(team.id, page, perPage));
+    // }
 
-    results = await Promise.all(asyncCalls);
-    results.forEach(result => {
-      if (result) {
-        result.forEach(channel => {
-          payload.push(channel);
-        });
-      }
-    });
+    // results = await Promise.all(asyncCalls);
+    // results.forEach(result => {
+    //   if (result) {
+    //     result.forEach(channel => {
+    //       payload.push(channel);
+    //     });
+    //   }
+    // });
 
-    dispatch(getChannelsSucess(payload));
-    return payload;
+    // dispatch(getChannelsSucess(payload));
+    return [];
   } catch (ex) {
     dispatch(getChannelsError(ex));
     return Promise.reject(ex.message);
   }
 };
 
-export const getChannelsSucess = channels => ({
-  type: GET_CHANNELS_SUCESS,
-  payload: channels,
-});
+export const getChannelsSucess = channels => {
+  return {
+    type: GET_CHANNELS_SUCESS,
+    payload: channels || [],
+  };
+};
 
 export const getChannelsError = err => ({
   type: GET_CHANNELS_ERROR,

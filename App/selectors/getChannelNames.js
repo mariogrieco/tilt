@@ -1,6 +1,5 @@
 import {createSelector} from 'reselect';
 import getKeys from 'lodash/keys';
-import {isChannelCreatorAdmin} from './isChannelCreatorAdmin';
 
 const channelNamesSelector = state => state.channelsNames;
 const mapChannelsSelector = state => state.mapChannels;
@@ -20,13 +19,7 @@ export const getHashTagChannelsNames = createSelector(
     const keys = getKeys(channelsNames);
     const allData = keys
       .filter(key => {
-        const isAdmin = isChannelCreatorAdmin(
-          mapChannels,
-          myChannelsMap,
-          users,
-          channelsNames[key].id,
-          adminCreators,
-        );
+        const isAdmin = channelsNames[key].content_type !== 'N';
         return (
           !isAdmin &&
           channelsNames[key].type === 'O' &&
@@ -50,13 +43,7 @@ export const getDollarChannelNames = createSelector(
     const keys = getKeys(channelsNames);
     const allData = keys
       .filter(key => {
-        const isAdmin = isChannelCreatorAdmin(
-          mapChannels,
-          myChannelsMap,
-          users,
-          channelsNames[key].id,
-          adminCreators,
-        );
+        const isAdmin = channelsNames[key].content_type !== 'N'; 
         return (
           isAdmin &&
           channelsNames[key].type === 'O' &&
@@ -82,13 +69,7 @@ export const getChannelDisplayNameAsDictionary = createSelector(
     const keys = getKeys(channelsNames);
     keys
       .filter(key => {
-        const isAdmin = isChannelCreatorAdmin(
-          mapChannels,
-          myChannelsMap,
-          users,
-          channelsNames[key].id,
-          adminCreators,
-        );
+        const isAdmin = channelsNames[key].content_type !== 'N';
         return (
           channelsNames[key].type === 'O' &&
           isAdmin &&
@@ -101,13 +82,7 @@ export const getChannelDisplayNameAsDictionary = createSelector(
 
     keys
       .filter(key => {
-        const isAdmin = isChannelCreatorAdmin(
-          mapChannels,
-          myChannelsMap,
-          users,
-          channelsNames[key].id,
-          adminCreators,
-        );
+        const isAdmin = channelsNames[key].content_type !== 'N';
         return (
           channelsNames[key].type === 'O' &&
           !isAdmin &&

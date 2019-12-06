@@ -11,20 +11,22 @@ export const setPopupValue = data => ({
   payload: data,
 });
 
-export const setPopupSymbolValue = symbol_value => {
+export const setPopupSymbolValue = (symbol_value, showModal) => {
   return async (dispatch, getState) => {
     try {
-      // const isAdmin = symbol_value.match('$');
+      const {mapChannels} = getState();
+
       const parseName = symbol_value
         .replace('$', '')
         .replace('#', '')
         .toLowerCase();
 
-      const is_chat = getState().myChannelsMap.find(({name}) => {
+      const is_chat = mapChannels.find(({name}) => {
         return name.toLowerCase() === parseName;
       });
 
       const infoTicket = await Client4.getSymbolTicket(parseName);
+
       const {data} = await Client4.getKlines(
         parseName,
         '30m',
@@ -41,9 +43,11 @@ export const setPopupSymbolValue = symbol_value => {
           symbol: `${symbol_value}`,
           is_chat,
           chart_data: data,
+          isActive: showModal,
         },
       });
     } catch (ex) {
+      console.log('ex: ', ex);
       return Promise.resolve(ex);
     }
   };

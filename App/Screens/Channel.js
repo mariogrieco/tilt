@@ -710,7 +710,7 @@ const mapStateToProps = state => {
   const data = getJumpPostsOrtList(state, true);
   const {lastViewed} = state;
   const {active_channel_id, prev_active_channel_id} = state.appNavigation;
-  const channel = state.myChannelsMap.get(active_channel_id) || {};
+  const channel = state.mapChannels.get(active_channel_id) || {};
   const isArchived =
     findIndex(state.archivedChannels, ['channelId', active_channel_id]) !== -1;
 
@@ -742,5 +742,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(Channel),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Channel),
 );

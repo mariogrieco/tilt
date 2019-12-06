@@ -327,7 +327,6 @@ export class PureParsedText extends Component {
     value = value.split(' ')[0];
     this.props.clearjumpToAction();
     this.props.onChannel(value);
-    // this.props.onChannel2(value);
   }
 
   onUserPress(value) {

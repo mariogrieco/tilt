@@ -2,18 +2,29 @@ import {createSelector} from 'reselect';
 import filterPostBy from './filterPostBy';
 
 const postsSelector = state => state.posts;
+
 const privateChannelsSelector = state =>
-  state.myChannelsMap.filter(
-    ({type, name}) =>
-      type === 'D' &&
-      !state.blockedUsers[
-        name
-          .replace('__', '')
-          .replace(`${state.login.user ? state.login.user.id : ''}`, '')
-      ],
-  );
+  state.myChannelsMap
+    .map(id => state.mapChannels.get(id))
+    .filter(channel => {
+      if (channel) {
+        const {type, name} = channel;
+        return (
+          type === 'D' &&
+          !state.blockedUsers[
+            name
+              .replace('__', '')
+              .replace(`${state.login.user ? state.login.user.id : ''}`, '')
+          ]
+        );
+      }
+    });
+
 const publicChannelsSelector = state =>
-  state.myChannelsMap.filter(({type}) => type === 'O');
+  state.myChannelsMap.filter(
+    id => state.mapChannels.get(id) && state.mapChannels.get(id).type === 'O',
+  );
+
 const lastViewedSelector = state => state.lastViewed;
 
 const looper = (posts, channels, lastViewed) => {

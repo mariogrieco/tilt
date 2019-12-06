@@ -6,9 +6,10 @@ import filterPostBy from './filterPostBy';
 import getAllRootsforPost from './getAllRootsforPost';
 
 const getUserById = (state, userId) => {
-  const {users, myChannelsMap} = state;
+  const {users, myChannelsMap, mapChannels} = state;
   const channels = myChannelsMap
-    .filter(c => c.type === 'O')
+    .map(id => mapChannels.get(id))
+    .filter(c => c && c.type === 'O')
     .valueSeq()
     .map(channel => {
       const posts = state.posts.orders[channel.id];
@@ -43,12 +44,9 @@ function getAllPost(data, userId, entities) {
 
 const filterIfPrivate = (state, channel_id) => {
   let channel = state.mapChannels.get(channel_id);
-  channel = channel ? channel : state.myChannelsMap.get(channel_id);
-
   if (channel && channel.type !== 'O') {
     return true;
   }
-
   return false;
 };
 

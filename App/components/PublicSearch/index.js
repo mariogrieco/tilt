@@ -70,6 +70,7 @@ class PublicSearch extends React.Component {
                   showMembersLabel={!!mapChannelsForJoin[channel.id]}
                   join={!mapChannelsForJoin[channel.id]}
                   fav={mapFavoritesChannels[channel.id]}
+                  content_type={channel.content_type}
                   titleColor={mapChannelsColors[channel.id]}
                 />
               ))
@@ -90,20 +91,22 @@ class PublicSearch extends React.Component {
 PublicSearch.defaultProps = {
   channels: [],
   users: {},
-  myChannels: [],
+  // myChannels: [],
   searchValue: '',
 };
 
 const mapStateToProps = state => {
   const {users, myChannelsMap, channelStatsGroup} = state;
-  let channels = [...state.mapChannels.valueSeq().toJS()];
+  let channels = [...state.mapChannels.valueSeq()].filter(
+    channel => channel.type !== 'D',
+  );
   const mapChannelsForJoin = {};
   const mapFavoritesChannels = {};
   const mapChannelsColors = {};
   const searchResult = state.search;
 
   getChannelsList(state).forEach(channel => {
-    mapChannelsForJoin[channel.id] = true;
+    mapChannelsForJoin[channel.id] = myChannelsMap.has(channel.id);
     mapFavoritesChannels[channel.id] = getFavoriteChannelById(
       state,
       channel.id,
@@ -125,7 +128,7 @@ const mapStateToProps = state => {
     mapFavoritesChannels,
     channelStatsGroup,
     mapChannelsColors,
-    myChannels: myChannelsMap.valueSeq().toJS(),
+    // myChannels: myChannelsMap.keySeq(),
     theme: state.themes[state.themes.current],
   };
 };

@@ -34,6 +34,12 @@ import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
 import Themes from '../Screens/Themes';
+import NewChannels from '../Screens/NewChannels';
+import TrendingChannels from '../Screens/TrendingChannels';
+import Stocks from '../Screens/Stocks';
+import Cryptos from '../Screens/Cryptos';
+import StockRoom from '../Screens/StockRoom';
+import All from '../Screens/All';
 
 const HomeStack = createStackNavigator(
   {
@@ -44,9 +50,22 @@ const HomeStack = createStackNavigator(
   },
 );
 
-const RoomStack = createStackNavigator(
+const CryptoRoomStack = createStackNavigator(
   {
     CryptoRoom,
+    ChannelInfo,
+    AdvancedSearch,
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
+
+const StockRoomStack = createStackNavigator(
+  {
+    StockRoom,
+    ChannelInfo,
+    AdvancedSearch,
   },
   {
     headerLayoutPreset: 'center',
@@ -83,6 +102,11 @@ const PublicChatStack = createStackNavigator(
   {
     PublicChat,
     CreateChannel,
+    NewChannels,
+    TrendingChannels,
+    Stocks,
+    Cryptos,
+    All,
   },
   {
     headerLayoutPreset: 'center',
@@ -215,7 +239,8 @@ const FollowStack = createStackNavigator(
 const AppStack = createStackNavigator(
   {
     Root: TabBarPrincipal,
-    Room: RoomStack,
+    StockRoom: StockRoomStack,
+    Room: CryptoRoomStack,
     LoggedInMenuStack,
     ChannelStack,
     FollowStack,

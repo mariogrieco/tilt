@@ -65,7 +65,9 @@ class BlockedList extends Component {
             {username}
           </Text>
         </View>
-        <TouchableOpacity onPress={this._addOrRemoveOne.bind(this, id)}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={this._addOrRemoveOne.bind(this, id)}>
           <Text style={styles.unlock}>Unblock</Text>
         </TouchableOpacity>
       </View>

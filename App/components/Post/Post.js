@@ -486,6 +486,10 @@ class Post extends React.Component {
     return files.map((file, index) => this.renderFile(file));
   }
 
+  handleOnChannelChartMention = value => {
+    this.props.setPopupSymbolValue(value, true);
+  };
+
   renderMessage = () => {
     const {
       message,
@@ -498,7 +502,6 @@ class Post extends React.Component {
       isPM,
       // reported,
       post_props,
-      setPopupSymbolValue,
     } = this.props;
     const {theme} = this.props;
     const typeIsSystem = type.match('system');
@@ -543,7 +546,7 @@ class Post extends React.Component {
                 message={message}
                 typeIsSystem={typeIsSystem}
                 onChannel={navigateIfExists}
-                onChannel2={setPopupSymbolValue}
+                onChannel2={this.handleOnChannelChartMention}
                 onUser={onUser}
                 props={post_props}
                 disableUserPattern={isPM}

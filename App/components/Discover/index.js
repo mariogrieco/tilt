@@ -3,9 +3,8 @@ import {connect} from 'react-redux';
 import {FlatList, ActivityIndicator, Platform} from 'react-native';
 import isEqual from 'lodash/isEqual';
 import {withNavigation} from 'react-navigation';
-import getJoinChannelsList from '../../selectors/getJoinChannelsList';
+import getMyChannels from '../../selectors/getMyChannels';
 import ChannelDisplayName from '../ChannelDisplayName';
-// import {setChannelPaginator, getChannels} from '../../actions/channels';
 import {
   getHashtagChannels,
   getPageOnFocus,
@@ -21,24 +20,28 @@ class Discover extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.navigationListener) {
-      this.navigationListener.remove();
-    }
+    // if (this.navigationListener) {
+    //   this.navigationListener.remove();
+    // }
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-
-    this.navigationListener = navigation.addListener('didFocus', () => {
-      this.props.getPageOnFocus();
-    });
-    this.props.getPageOnFocus();
+    // const {navigation} = this.props;
+    // this.navigationListener = navigation.addListener('didFocus', () => {
+    //   // this.props.getPageOnFocus();
+    // });
+    // this.getData();
+    // this.props.getPageOnFocus();
   }
 
   _fetchMore = ({distanceFromEnd}) => {
-    if (distanceFromEnd < 0) {
-      return null;
-    }
+    // if (distanceFromEnd < 0) {
+    //   return null;
+    // }
+    // this.getData();
+  };
+
+  getData() {
     this.setState(
       {
         loading: true,
@@ -49,7 +52,7 @@ class Discover extends React.Component {
           if (stop) {
             return null;
           }
-          const channels = await this.props.getHashtagChannels(page);
+          await this.props.getHashtagChannels(page);
         } catch (ex) {
           alert(ex.message || ex);
         } finally {
@@ -59,7 +62,7 @@ class Discover extends React.Component {
         }
       },
     );
-  };
+  }
 
   renderItem({item}) {
     return (
@@ -70,7 +73,8 @@ class Discover extends React.Component {
         create_at={item.create_at}
         channel_id={item.id}
         channel={item}
-        join
+        content_type={item.content_type}
+        fav={item.fav}
       />
     );
   }
@@ -89,7 +93,6 @@ class Discover extends React.Component {
           renderItem={this.renderItem}
           viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.15}}
           initialNumToRender={50}
-          onEndReached={this._fetchMore}
           onEndReachedThreshold={0.15}
           keyboardDismissMode="on-drag"
           updateCellsBatchingPerio={150}
@@ -103,12 +106,18 @@ class Discover extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  channels: getJoinChannelsList(state),
+  channels: getMyChannels(
+    state,
+    channel => channel.content_type === 'N' && channel.type === 'O',
+  ),
   page: state.hashtagChannelsPaginator.page,
   stop: state.hashtagChannelsPaginator.stop,
   theme: state.themes[state.themes.current],
 });
 
 export default withNavigation(
-  connect(mapStateToProps, {getHashtagChannels, getPageOnFocus})(Discover),
+  connect(
+    mapStateToProps,
+    {getHashtagChannels, getPageOnFocus},
+  )(Discover),
 );

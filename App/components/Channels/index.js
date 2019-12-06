@@ -18,7 +18,6 @@ import {
   getChannels,
   getChannelStatsByGroup,
   getLastViewForChannels,
-  getMyChannels,
 } from '../../actions/channels';
 import {getFlagged} from '../../actions/flagged';
 import ChannelDisplayName from '../ChannelDisplayName';
@@ -51,37 +50,6 @@ class Channels extends React.Component {
     this.setState({
       unmount: true,
     });
-  }
-
-  // eslint-disable-next-line no-underscore-dangle
-  _getData() {
-    // if (!this.props.isAuth) return null;
-    // if (this.state.loadingData) return null;
-    // this.setState({
-    //   loadingData: true
-    // }, async () => {
-    // try {
-    //   await this.props.getTeams();
-    //   await this.props.getMyChannels();
-    //   const asyncFetchs = [];
-    //   const myChannels = await this.props.myChannels;
-    //   asyncFetchs.push(this.props.getLastViewForChannels());
-    //   asyncFetchs.push(this.props.getChannels());
-    //   asyncFetchs.push(this.props.getPostsByChannelId(myChannels));
-    //   // asyncFetchs.push(this.props.getMyChannelMembers())
-    //   await Promise.all(asyncFetchs);
-    //   await this.props.getProfilesInGroupChannels();
-    //   await this.props.getFlagged();
-    // } catch (ex) {
-    //   alert(ex.message || ex);
-    // } finally {
-    //   if (!this.state.unmount) {
-    // this.setState({
-    //   loadingData: false
-    // });
-    // }
-    // }
-    // });
   }
 
   renderActivityIndicator = () => {
@@ -125,6 +93,7 @@ class Channels extends React.Component {
         channel_id={item.id}
         titleColor={item.titleColor}
         unreadMessagesCount={item.unreadMessagesCount}
+        content_type={item.content_type}
       />
     );
   };
@@ -164,7 +133,6 @@ const mapDispatchToProps = {
   getLastViewForChannels,
   getFlagged,
   getMyChannelMembers,
-  getMyChannels,
   getTeams,
 };
 

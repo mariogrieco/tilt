@@ -183,9 +183,9 @@ class LogIn extends React.Component {
 
   getPostChannelsAndUsersData = async () => {
     try {
-      const [myChannels, channels, profiles] = await Promise.all([
+      const [myChannels, profiles] = await Promise.all([
         this.props.getMyChannels(),
-        this.props.getChannels(),
+        // this.props.getChannels(),
         this.props.getProfilesInGroupChannels(),
       ]);
       const posts = await this.props.getPostsByChannelId(myChannels);
