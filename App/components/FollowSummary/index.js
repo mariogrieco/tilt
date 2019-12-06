@@ -9,6 +9,9 @@ const FollowSummary = ({navigation, userId}) => {
     state.login.user ? state.login.user.id : '',
   );
   const user = useSelector(state => state.users.data[userId]);
+  const hasLoggedUserFollowData = useSelector(state =>
+    Boolean(state.loggedUserFollow.following.length),
+  );
   const {following, followers} = useSelector(state => {
     return state.login.user.id === userId
       ? state.loggedUserFollow
@@ -36,8 +39,12 @@ const FollowSummary = ({navigation, userId}) => {
       dispatch(getMyFollows());
     } else {
       dispatch(getFollowsForFocusUser());
+      //enter inside a profile withtout see logged user's profile first
+      if (!hasLoggedUserFollowData) {
+        dispatch(getMyFollows());
+      }
     }
-  }, [dispatch, loggedUserId, user.id]);
+  }, [dispatch, hasLoggedUserFollowData, loggedUserId, user.id]);
 
   useEffect(() => {
     const focusListener = navigation.addListener('didFocus', () => {
