@@ -242,6 +242,17 @@ Client4.unfollowUser = async ({user_id, following_id}) => {
   }
 };
 
+Client4.getFollowTimeLine = async (user_id, page, perPage) => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/following/posts/${user_id}?page=${page}&per_page=${perPage}`,
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 Client4.getChannelsBy = async (query, filter_ids) => {
   try {
     const body = {};
