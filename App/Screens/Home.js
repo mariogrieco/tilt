@@ -203,7 +203,7 @@ class Home extends React.Component {
     dispatchSelectedSymbol({symbol});
 
     const notInbutFound = channels.find(channel => {
-      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+      return parser(channel.display_name) === parser(symbol);
     });
 
     if (notInbutFound) {

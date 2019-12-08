@@ -11,7 +11,6 @@ import isEqual from 'lodash/isEqual';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {setActiveFocusChannel} from '../actions/AppNavigation';
 import {getChannelByName} from '../actions/channels';
-
 import StockLosers from '../components/StockLosers';
 import StockGainers from '../components/StockGainers';
 import StockActive from '../components/StockActive';
@@ -133,7 +132,7 @@ export class Stocks extends Component {
     // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = channels.find(
-      channel => channel.display_name.toLowerCase() === symbol.toLowerCase(),
+      channel => parser(channel.display_name) === parser(symbol)
     );
 
     if (notInbutFound) {

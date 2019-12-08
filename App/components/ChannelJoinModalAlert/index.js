@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Alert} from 'react-native';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -13,7 +13,7 @@ import {getFavoriteChannelById} from '../../selectors/getFavoriteChannels';
 
 // import styles from './style';
 
-export class ChannelJoinModalAlert extends Component {
+export class ChannelJoinModalAlert extends React.Component {
   // static propTypes = {
   //   prop: PropTypes
   // }
@@ -62,6 +62,7 @@ export class ChannelJoinModalAlert extends Component {
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
+      isAdminCreator: channel.content_type !== 'N',
     });
   }
 

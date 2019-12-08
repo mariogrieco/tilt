@@ -95,18 +95,12 @@ export class Watchlist extends React.Component {
   }
 
   handleCryptoPress = async symbol => {
-    const {
-      dispatchSelectedSymbol,
-      // dispatchSetPopupSymbolValue,
-      // stocks,
-      cryptos,
-    } = this.props;
+    const {dispatchSelectedSymbol, cryptos} = this.props;
 
     dispatchSelectedSymbol({symbol});
-    // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = cryptos.find(channel => {
-      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+      return parser(channel.display_name) === parser(symbol);
     });
 
     if (notInbutFound) {
@@ -137,7 +131,7 @@ export class Watchlist extends React.Component {
     // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = stocks.find(channel => {
-      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+      return parser(channel.display_name) === parser(symbol);
     });
 
     if (notInbutFound) {
