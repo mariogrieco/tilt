@@ -18,6 +18,8 @@ import {setActiveFocusChannel} from '../actions/AppNavigation';
 import NavigationService from '../config/NavigationService';
 import {getChannelByName} from '../actions/channels';
 
+import parser from '../utils/parse_display_name';
+
 const ORIGIN = 'WATCHLIST';
 
 const styles = StyleSheet.create({
@@ -145,7 +147,7 @@ class Home extends React.Component {
   navigateAction(channel, to) {
     this.props.setActiveFocusChannel(channel.id);
     NavigationService.navigate(to, {
-      title: channel.display_name,
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav ? true : false,

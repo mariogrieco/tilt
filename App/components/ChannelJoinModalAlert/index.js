@@ -58,7 +58,7 @@ export class ChannelJoinModalAlert extends Component {
   redirect(channel) {
     this.props.setActiveFocusChannel(channel.id);
     NavigationService.navigate('Channel', {
-      title: channel.display_name,
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,

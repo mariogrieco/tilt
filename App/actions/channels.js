@@ -169,7 +169,7 @@ export const navigateIfExists = (
   }
 
   channels.forEach(async item => {
-    let formatName = item.display_name.toLowerCase();
+    let formatName = parser(item.display_name);
     let symbolType = '';
     if (item.content_type === 'S') {
       symbolType = 'StockRoom';
@@ -180,9 +180,7 @@ export const navigateIfExists = (
     } else if (item.content_type === 'N') {
       symbolType = 'Channel';
     }
-    if (
-      `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
-    ) {
+    if (`${formatName}` === parser(channelDisplayName)) {
       exists = true;
       const joined = MyMapChannel.get(item.id);
       if (joined) {
@@ -198,7 +196,7 @@ export const navigateIfExists = (
           dispatch(selectedSymbol({symbol: item.display_name}));
         }
         NavigationService.navigate(symbolType, {
-          title: item.display_name,
+          title: parser(item.display_name),
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(state, item.id),
@@ -215,7 +213,7 @@ export const navigateIfExists = (
             dispatch(selectedSymbol({symbol: item.display_name}));
           }
           NavigationService.navigate(symbolType, {
-            title: item.display_name,
+            title: parser(item.display_name),
             create_at: item.create_at,
             members: item.members,
             fav: getFavoriteChannelById(state, item.id),
@@ -257,7 +255,7 @@ export const navigateIfExists = (
             dispatch(selectedSymbol({symbol: r.channel.display_name}));
           }
           NavigationService.navigate(symbolType, {
-            title: r.channel.display_name,
+            title: parser(r.channel.display_name),
             create_at: r.channel.create_at,
             members: r.channel.members,
             fav: getFavoriteChannelById(state, r.channel.id),

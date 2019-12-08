@@ -15,6 +15,7 @@ import {getChannelByName} from '../actions/channels';
 import StockLosers from '../components/StockLosers';
 import StockGainers from '../components/StockGainers';
 import StockActive from '../components/StockActive';
+import parser from '../utils/parse_display_name';
 import GoBack from '../components/GoBack';
 import {NavigationActions} from 'react-navigation';
 
@@ -156,7 +157,7 @@ export class Stocks extends Component {
 
   navigateAction(channel) {
     NavigationService.navigate('StockRoom', {
-      title: channel.display_name,
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,

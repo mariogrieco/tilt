@@ -25,7 +25,7 @@ class ChannelDisplayName extends Component {
     const {channel_id, name, channel} = this.props;
     this.props.setActiveFocusChannel(channel_id);
     NavigationService.navigate('Channel', {
-      title: name,
+      title: parser(name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
