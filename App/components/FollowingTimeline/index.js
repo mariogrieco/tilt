@@ -28,11 +28,14 @@ const FollowingTimeline = () => {
 
   const handleListEnd = useCallback(async () => {
     try {
-      await dispatch(getFollowTimeLine());
+      if (!followingTimeline.isLoading) {
+        console.log('hola');
+        await dispatch(getFollowTimeLine());
+      }
     } catch (err) {
       Alert(err);
     }
-  }, [dispatch]);
+  }, [dispatch, followingTimeline.isLoading]);
 
   const LoadingIndicator = useCallback(() => {
     if (followingTimeline.isLoading) {
@@ -73,17 +76,13 @@ const FollowingTimeline = () => {
 
   return (
     <View>
-      <Text>
-        length {followingTimeline.posts_ids.length} page{' '}
-        {followingTimeline.page}
-      </Text>
       <FlatList
         data={followingTimeline.posts_ids}
         renderItem={renderItem}
         keyExtractor={item => item}
         onEndReached={handleListEnd}
-        onEndReachedThreshold={0}
-        ListFooterComponent={LoadingIndicator}
+        onEndReachedThreshold={0.05}
+        ListHeaderComponent={LoadingIndicator}
         ItemSeparatorComponent={Separator}
       />
     </View>
