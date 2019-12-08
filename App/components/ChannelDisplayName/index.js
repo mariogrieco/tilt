@@ -7,6 +7,7 @@ import NavigationService from '../../config/NavigationService';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import {addToChannel} from '../../actions/channels';
 import parser from '../../utils/parse_display_name';
+import {selectedSymbol} from '../../actions/symbols';
 import styles from './styles';
 
 const EARTH = require('../../../assets/themes/light/earth/earth.png');
@@ -24,7 +25,14 @@ class ChannelDisplayName extends Component {
   onPress = () => {
     const {channel_id, name, channel} = this.props;
     this.props.setActiveFocusChannel(channel_id);
-    NavigationService.navigate('Channel', {
+    let roomName = 'Channel';
+    if (channel.content_type === 'S') {
+      roomName = 'StockRoom';
+    } else if (channel.content_type === 'C') {
+      roomName = 'Room';
+      this.props.selectedSymbol({symbol: channel.name});
+    }
+    NavigationService.navigate(roomName, {
       title: parser(name),
       create_at: channel.create_at,
       members: channel.members,
@@ -228,6 +236,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   setActiveFocusChannel,
   addToChannel,
+  selectedSymbol,
 };
 
 export default connect(
