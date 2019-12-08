@@ -165,11 +165,17 @@ export const navigateIfExists = (
       channelDisplayName = `${channel.content_type !== 'N' ? '$' : '#'}${
         channel.display_name
       }`;
+      if (channel.type === 'D') {
+        channelDisplayName = channel.name;
+      }
     }
   }
 
   channels.forEach(async item => {
-    let formatName = parser(item.display_name);
+    let formatName = item.display_name;
+    if (item.type === 'D') {
+      formatName = item.name;
+    }
     let symbolType = '';
     if (item.content_type === 'S') {
       symbolType = 'StockRoom';
@@ -180,11 +186,11 @@ export const navigateIfExists = (
     } else if (item.content_type === 'N') {
       symbolType = 'Channel';
     }
-    if (`${formatName}` === parser(channelDisplayName)) {
+    if (parser(formatName) === parser(channelDisplayName)) {
       exists = true;
       const joined = MyMapChannel.get(item.id);
       if (joined) {
-        const isPM = joined.type === 'D';
+        const isPM = item.type === 'D';
         if (isPM) {
           formatName = formatName.replace(whoIam, '').replace('__', '');
           formatName = users.data[formatName]
@@ -196,7 +202,7 @@ export const navigateIfExists = (
           dispatch(selectedSymbol({symbol: item.display_name}));
         }
         NavigationService.navigate(symbolType, {
-          title: parser(item.display_name),
+          title: formatName,
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(state, item.id),
@@ -213,13 +219,13 @@ export const navigateIfExists = (
             dispatch(selectedSymbol({symbol: item.display_name}));
           }
           NavigationService.navigate(symbolType, {
-            title: parser(item.display_name),
+            title: formatName,
             create_at: item.create_at,
             members: item.members,
             fav: getFavoriteChannelById(state, item.id),
             focusOn: false,
             isAdminCreator: channelDisplayName[0] === '$',
-            pm: false,
+            pm: item.type === 'D',
             ...props,
           });
         } else {
@@ -261,7 +267,7 @@ export const navigateIfExists = (
             fav: getFavoriteChannelById(state, r.channel.id),
             focusOn: false,
             isAdminCreator: channelDisplayName[0] === '$',
-            pm: false,
+            pm: r.channel.type === 'D',
             ...props,
           });
         } else {

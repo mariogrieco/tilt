@@ -4,6 +4,7 @@ const parser = str =>
     .join('-')
     .toLowerCase()
     .replace('$', '')
-    .replace('#', '');
+    .replace('#', '')
+    .replace('@', '');
 
 export default parser;

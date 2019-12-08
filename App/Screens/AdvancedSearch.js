@@ -358,9 +358,8 @@ export class AdvancedSearch extends Component {
   };
 
   render() {
-    const {posts} = this.props;
     const {loading, activeMentionBox, activeChannelBox} = this.state;
-    const {theme} = this.props;
+    const {theme, posts} = this.props;
     return (
       <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         {activeMentionBox && this.renderMentionBox()}
@@ -388,7 +387,9 @@ const mapStateToProps = state => {
       state.users.data[key] ? state.users.data[key] : {},
     ),
     channels: state.myChannelsMap
-      .filter(({type}) => type === 'O')
+      .keySeq()
+      .map(key => state.mapChannels.get(key))
+      .filter(c => c && c.type === 'O')
       .map(channel => {
         return {
           ...channel,
@@ -400,11 +401,10 @@ const mapStateToProps = state => {
                     channel.name.replace(whoIam, '').replace('__', '')
                   ],
                 )
-              : channel.name,
+              : channel.display_name,
           isDollar: channel.content_type !== 'N',
         };
       })
-      .valueSeq()
       .toJS(),
     theme: state.themes[state.themes.current],
   };

@@ -14,25 +14,24 @@ import Post from '../Post/Post';
 import styles from './styles';
 import BottomBlockSpaceSmall from '../BottomBlockSpaceSmall';
 import Separator from '../Separator';
-import parser from '../../utils/parse_display_name';
+// import parser from '../../utils/parse_display_name';
 
 export class SearchResults extends PureComponent {
   keyExtractor(item) {
     return item.id;
   }
 
-  navegateIfExists(displayName) {
+  navegateIfExists(id) {
     return () => {
-      this.props.navigateIfExists(`${displayName}`);
+      this.props.navigateIfExists(null, id);
     };
   }
 
   getChannelDisplayItem = item => {
-    const {theme} = this.props;
     const name = item.channel ? item.channel.show_name : '';
-    const realName = item.channel ? item.channel.name : '';
+    const id = item.channel ? item.channel.id : '';
     return (
-      <TouchableOpacity onPress={this.navegateIfExists(realName)}>
+      <TouchableOpacity onPress={this.navegateIfExists(id)}>
         <Text style={styles.channelTitle}>
           {item.pm ? '@' : item.isDollar ? '$' : '#'}
           {name}
