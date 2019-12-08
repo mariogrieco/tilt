@@ -33,7 +33,6 @@ const FollowingTimeline = () => {
   const handleListEnd = useCallback(async () => {
     try {
       if (!followingTimeline.isLoading) {
-        console.log('hola');
         await dispatch(getFollowTimeLine());
       }
     } catch (err) {
@@ -41,20 +40,16 @@ const FollowingTimeline = () => {
     }
   }, [dispatch, followingTimeline.isLoading]);
 
-  console.log('actual load', followingTimeline.isLoading);
-
   const LoadingIndicator = useCallback(() => {
     if (followingTimeline.isLoading) {
       return <Loader />;
     } else {
-      console.log('chao');
       return null;
     }
   }, [followingTimeline.isLoading]);
 
   const renderItem = ({item}) => {
     const post = followingTimeline.post_entities[item];
-    console.log(post.channel_id, post.message);
     return (
       <PostFeed
         id={post.id}
