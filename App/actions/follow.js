@@ -1,3 +1,4 @@
+import throttle from 'lodash/throttle';
 import Client4 from '../api/MattermostClient';
 
 export const GET_MY_FOLLOWS_SUCCESS = 'GET_MY_FOLLOWS_SUCCESS';
@@ -15,6 +16,10 @@ export const FOLLOW_CHANGE_LOADING = 'FOLLOW_CHANGE_LOADING';
 export const FOLLOW_CHANGE_END = 'FOLLOW_CHANGE_END';
 export const GET_FOLLOW_TIMELINE_SUCESS = 'GET_FOLLOW_TIMELINE_SUCCES';
 export const GET_FOLLOW_TIMELINE_ERROR = 'GET_FOLLOW_TIMELINE_ERROR';
+export const FOLLOW_TIMELINE_LOADING = 'FOLLOW_TIMELINE_LOADING';
+export const FOLLOW_TIMELINE_DONE = 'FOLLOW_TIMELINE_DONE';
+
+export const TIMELINE_CHUNK_SIZE = 30;
 
 export const getMyFollows = () => async (dispatch, getState) => {
   try {
@@ -116,21 +121,37 @@ export const setUnfollow = following_id => async (dispatch, getState) => {
   }
 };
 
-export const getFollowTimeLine = (page = 0, perPage = 30) => async (
-  dispatch,
-  getState,
-) => {
-  const user_id = getState().login.user ? getState().login.user.id : '';
-  try {
-    const timeLine = await Client4.getFollowTimeLine(user_id, page, perPage);
-    dispatch({
-      type: GET_FOLLOW_TIMELINE_SUCESS,
-      payload: timeLine,
-    });
-  } catch (err) {
-    console.log(err);
-    dispatch({
-      type: GET_FOLLOW_TIMELINE_ERROR,
-    });
-  }
-};
+export const getFollowTimeLine = throttle(
+  () => async (dispatch, getState) => {
+    const user_id = getState().login.user ? getState().login.user.id : '';
+    const page = getState().followingTimeline.page;
+    try {
+      dispatch({
+        type: FOLLOW_TIMELINE_LOADING,
+      });
+      const timeLine = await Client4.getFollowTimeLine(
+        user_id,
+        page,
+        TIMELINE_CHUNK_SIZE,
+      );
+      dispatch({
+        type: GET_FOLLOW_TIMELINE_SUCESS,
+        payload: timeLine,
+      });
+      dispatch({
+        type: FOLLOW_TIMELINE_DONE,
+      });
+      return timeLine;
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: GET_FOLLOW_TIMELINE_ERROR,
+      });
+      dispatch({
+        type: FOLLOW_TIMELINE_DONE,
+      });
+      throw err;
+    }
+  },
+  600,
+);
