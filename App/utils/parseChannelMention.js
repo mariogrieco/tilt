@@ -2,7 +2,7 @@ import parser from '../utils/parse_display_name';
 
 const parseChannelMention = (str = '') => parser(str);
 
-export const evaluateChannelForMention = channel => {
+export const evaluateChannelForMention = (channel = {}) => {
   if (channel.name === 'welcome') {
     return '#welcome';
   }

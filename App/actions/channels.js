@@ -467,7 +467,17 @@ export const getChannelById = (channelId, meChannel) => async (
 ) => {
   try {
     const meId = getState().login.user.id;
+    if (channelId === 'tsb16f3jypyi7mam7umrzsjnao') {
+      console.log('voy a llamar a nao');
+    }
     const {channel} = await Client4.getChannel(channelId);
+    if (channelId === 'tsb16f3jypyi7mam7umrzsjnao') {
+      console.log('voy a llamar a nao');
+      console.log(channel);
+    }
+    if (channel.id === 'tsb16f3jypyi7mam7umrzsjnao') {
+      console.log(channel);
+    }
     if ((channel && meChannel) || (channel && channel.creator_id === meId)) {
       dispatch(getMyChannelByIdSucess(channel, meId));
     }
@@ -479,6 +489,32 @@ export const getChannelById = (channelId, meChannel) => async (
   } catch (ex) {
     dispatch(getChannelByIdError(ex));
     return null;
+  }
+};
+
+export const syncMultipleChannels = (channelIds = []) => async (
+  dispatch,
+  getState,
+) => {
+  try {
+    const mapChannels = getState().mapChannels;
+    const myChannelsMap = getState().myChannelsMap;
+
+    const syncChannels = [];
+
+    channelIds.forEach(id => {
+      if (!(mapChannels.has(id) || myChannelsMap.has(id))) {
+        console.log('anexando channel ', id);
+        syncChannels.push(dispatch(getChannelById(id)));
+      }
+    });
+
+    const result = await Promise.all(syncChannels);
+
+    return result;
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 };
 

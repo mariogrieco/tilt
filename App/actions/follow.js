@@ -1,6 +1,6 @@
 import throttle from 'lodash/throttle';
 import Client4 from '../api/MattermostClient';
-import {getChannelById} from './channels';
+import {syncMultipleChannels} from './channels';
 
 export const GET_MY_FOLLOWS_SUCCESS = 'GET_MY_FOLLOWS_SUCCESS';
 export const GET_MY_FOLLOWS_ERROR = 'GET_MY_FOLLOWS_ERROR';
@@ -124,8 +124,6 @@ export const setUnfollow = following_id => async (dispatch, getState) => {
 
 export const getFollowTimeLine = throttle(
   () => async (dispatch, getState) => {
-    const mapChannels = getState().mapChannels;
-    const myChannelsMap = getState().myChannelsMap;
     const user_id = getState().login.user ? getState().login.user.id : '';
     const page = getState().followingTimeline.page;
     try {
@@ -138,17 +136,12 @@ export const getFollowTimeLine = throttle(
         TIMELINE_CHUNK_SIZE,
       );
 
-      const syncChannels = [];
+      const channelIds = timeLine.posts_ids.map(
+        id => timeLine.post_entities[id].channel_id,
+      );
 
-      timeLine.posts_ids.forEach(id => {
-        const channelId = timeLine.post_entities[id].channel_id;
-        if (!(mapChannels.has(channelId) || myChannelsMap.has(channelId))) {
-          console.log('anexando channel ', channelId);
-          syncChannels.push(getChannelById(channelId));
-        }
-      });
-
-      await Promise.all(syncChannels);
+      console.log('por llamar desde follow');
+      await dispatch(syncMultipleChannels(channelIds));
 
       dispatch({
         type: GET_FOLLOW_TIMELINE_SUCESS,

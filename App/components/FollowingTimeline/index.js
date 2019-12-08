@@ -1,20 +1,25 @@
 import React, {useCallback, useEffect} from 'react';
-import {FlatList, Text, View, ActivityIndicator, Alert} from 'react-native';
+import {FlatList, View, ActivityIndicator, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Separator from '../Separator';
 import PostFeed from '../Post/PostFeed';
 import {getFollowTimeLine} from '../../actions/follow';
-import {evaluateChannelForMention} from '../../utils/parseChannelMention';
 
 const Loader = () => {
+  const theme = useSelector(state => state.themes[state.themes.current]);
   return (
     <View
       // eslint-disable-next-line react-native/no-inline-styles
       style={{
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15,
+        height: 60,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 999,
+        backgroundColor: theme.primaryBackgroundColor,
       }}>
       <ActivityIndicator size="large" color="#17C491" />
     </View>
@@ -24,7 +29,6 @@ const Loader = () => {
 const FollowingTimeline = () => {
   const dispatch = useDispatch();
   const followingTimeline = useSelector(state => state.followingTimeline);
-  const mapChannels = useSelector(state => state.mapChannels);
 
   const handleListEnd = useCallback(async () => {
     try {
@@ -37,20 +41,20 @@ const FollowingTimeline = () => {
     }
   }, [dispatch, followingTimeline.isLoading]);
 
+  console.log('actual load', followingTimeline.isLoading);
+
   const LoadingIndicator = useCallback(() => {
     if (followingTimeline.isLoading) {
       return <Loader />;
     } else {
+      console.log('chao');
       return null;
     }
   }, [followingTimeline.isLoading]);
 
   const renderItem = ({item}) => {
     const post = followingTimeline.post_entities[item];
-
-    const channel = mapChannels.get(post.channel_id);
-
-    const postedChannelName = evaluateChannelForMention(channel);
+    console.log(post.channel_id, post.message);
     return (
       <PostFeed
         id={post.id}
@@ -61,8 +65,7 @@ const FollowingTimeline = () => {
         editedAt={post.edit_at}
         type={post.type}
         post_props={post.props}
-        postedChannelName={postedChannelName}
-        channelPostId={channel.id}
+        channelPostId={post.channel_id}
       />
     );
   };
@@ -75,14 +78,14 @@ const FollowingTimeline = () => {
   }, []);
 
   return (
-    <View>
+    <View style={{flex: 1, position: 'relative'}}>
+      <LoadingIndicator />
       <FlatList
         data={followingTimeline.posts_ids}
         renderItem={renderItem}
         keyExtractor={item => item}
         onEndReached={handleListEnd}
         onEndReachedThreshold={0.05}
-        ListHeaderComponent={LoadingIndicator}
         ItemSeparatorComponent={Separator}
       />
     </View>
