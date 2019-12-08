@@ -15,10 +15,10 @@ const PostFeed = ({
   type,
   postedChannelName,
   post_props,
+  channelPostId,
 }) => {
   const joinFeedProps = {id};
   const user = useSelector(state => state.users.data[postUserId] || {});
-  const channelPostId = useSelector(state => state.feeds.posts[id].channel_id);
 
   const isChannelForJoin = useSelector(state => {
     const localSelector = updateFeedJoin();

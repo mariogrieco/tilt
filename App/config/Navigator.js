@@ -2,8 +2,11 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import ThemeTabBar from '../components/ThemeTabBar';
 import TabBarIcon from '../components/TabBarIcon';
+import Follow from '../Screens/Follow';
+import AuthVerification from '../Screens/AuthVerification';
 import Home from '../Screens/Home';
 import PublicChat from '../Screens/PublicChat';
 import CryptoRoom from '../Screens/CryptoRoom';
@@ -91,7 +94,6 @@ const LoggedInTab = createStackNavigator(
     LoggedIn,
   },
   {
-    // headerMode: 'none',
     headerLayoutPreset: 'center',
   },
 );
@@ -161,6 +163,7 @@ const LoggedInMenuStack = createStackNavigator(
 const MemberStack = createStackNavigator(
   {
     MemberProfile,
+    Follow,
   },
   {
     headerLayoutPreset: 'center',
@@ -207,14 +210,40 @@ const InviteContactsStack = createStackNavigator(
   },
 );
 
-const RootStack = createStackNavigator(
+const FollowStack = createStackNavigator(
   {
-    SignUpStack,
+    Follow,
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
+
+// const RootStack = createStackNavigator(
+//   {
+//     SignUpStack,
+//     Root: TabBarPrincipal,
+//     Room: RoomStack,
+//     LoggedInMenuStack,
+//     ChannelStack,
+//     MemberStack,
+//     ThreadStack,
+//     ThreadEditStack,
+//     InviteContactsStack,
+//   },
+//   {
+//     headerMode: 'modal',
+//   },
+// );
+
+const AppStack = createStackNavigator(
+  {
     Root: TabBarPrincipal,
     StockRoom: StockRoomStack,
     Room: CryptoRoomStack,
     LoggedInMenuStack,
     ChannelStack,
+    FollowStack,
     MemberStack,
     ThreadStack,
     ThreadEditStack,
@@ -222,6 +251,17 @@ const RootStack = createStackNavigator(
   },
   {
     headerMode: 'modal',
+  },
+);
+
+const RootStack = createAnimatedSwitchNavigator(
+  {
+    AuthLoading: AuthVerification,
+    Auth: SignUpStack,
+    App: AppStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
   },
 );
 
