@@ -49,6 +49,7 @@ import chartPopup from './chartPopupReducer';
 import feeds from './feeds';
 import stockTab from './StockTab';
 import news from './news';
+import adminCreators from './adminCreators';
 
 import all_channels_tab_paginator from './all_channels_tab_paginator';
 import new_channels_tab_paginator from './new_channels_tab_paginator';
@@ -110,4 +111,5 @@ export default combineReducers({
   stocks_channels_tab_paginator,
   trending_channels_tab_paginator,
   news,
+  adminCreators,
 });

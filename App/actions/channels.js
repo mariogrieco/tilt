@@ -169,13 +169,15 @@ export const navigateIfExists = (
   }
 
   channels.forEach(async item => {
-    let formatName = item.display_name;
+    let formatName = item.display_name.toLowerCase();
     let symbolType = '';
     if (item.content_type === 'S') {
       symbolType = 'StockRoom';
     } else if (item.content_type === 'C') {
       symbolType = 'Room';
     } else if (item.content_type === 'N' && item.type === 'D') {
+      symbolType = 'Channel';
+    } else if (item.content_type === 'N') {
       symbolType = 'Channel';
     }
     if (
