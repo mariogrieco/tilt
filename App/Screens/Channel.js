@@ -160,7 +160,7 @@ class Channel extends React.Component {
         }}>
         <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
         <ChannelHeader
-          name={navigation.getParam('name', '')}
+          name={navigation.getParam('title', '')}
           create_at={navigation.getParam('create_at', '')}
           members={navigation.getParam('members', '')}
           fav={navigation.getParam('fav', '')}

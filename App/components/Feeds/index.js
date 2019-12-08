@@ -5,8 +5,6 @@ import {withNavigation} from 'react-navigation';
 import Separator from '../Separator';
 import PostFeed from '../Post/PostFeed';
 import {getFeeds} from '../../actions/feeds';
-import parse_channel_name from '../../utils/fix_name_if_need';
-import {evaluateChannelForMention} from '../../utils/parseChannelMention';
 
 const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);

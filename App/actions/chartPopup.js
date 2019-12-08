@@ -14,14 +14,14 @@ export const setPopupValue = data => ({
 export const setPopupSymbolValue = (symbol_value, showModal) => {
   return async (dispatch, getState) => {
     try {
-      const {mapChannels} = getState();
+      const {mapChannels, myChannelsMap} = getState();
 
       const parseName = symbol_value
         .replace('$', '')
         .replace('#', '')
         .toLowerCase();
 
-      const is_chat = mapChannels.find(({name}) => {
+      const channel = mapChannels.find(({name}) => {
         return name.toLowerCase() === parseName;
       });
 
@@ -41,7 +41,7 @@ export const setPopupSymbolValue = (symbol_value, showModal) => {
         payload: {
           ...infoTicket,
           symbol: `${symbol_value}`,
-          is_chat,
+          is_chat: channel ? myChannelsMap.has(channel.id) : false,
           chart_data: data,
           isActive: showModal,
         },

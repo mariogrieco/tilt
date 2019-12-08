@@ -23,7 +23,7 @@ class Flagged extends React.PureComponent {
           onPress={() => {
             this.props.setActiveFocusChannel(channel.id);
             NavigationService.navigate('Channel', {
-              name: channelName
+              title: channelName
                 .replace('$', '')
                 .replace('#', '')
                 .replace('@', ''),

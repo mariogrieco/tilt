@@ -140,7 +140,6 @@ export const getFollowTimeLine = throttle(
         id => timeLine.post_entities[id].channel_id,
       );
 
-      console.log('por llamar desde follow');
       await dispatch(syncMultipleChannels(channelIds));
 
       dispatch({
