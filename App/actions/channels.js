@@ -152,6 +152,7 @@ export const navigateIfExists = (
   direct,
   props = {},
 ) => async (dispatch, getState) => {
+  console.log('hola');
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
   const myChannels = state.myChannelsMap.keySeq();

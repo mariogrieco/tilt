@@ -2,7 +2,9 @@ import React, {useCallback, useEffect} from 'react';
 import {FlatList, Text, View, ActivityIndicator, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Separator from '../Separator';
+import PostFeed from '../Post/PostFeed';
 import {getFollowTimeLine} from '../../actions/follow';
+import {evaluateChannelForMention} from '../../utils/parseChannelMention';
 
 const Loader = () => {
   return (
@@ -22,6 +24,8 @@ const Loader = () => {
 const FollowingTimeline = () => {
   const dispatch = useDispatch();
   const followingTimeline = useSelector(state => state.followingTimeline);
+  const mapChannels = useSelector(state => state.mapChannels);
+  const myChannelsMap = useSelector(state => state.myChannelsMap);
 
   const handleListEnd = useCallback(async () => {
     try {
@@ -40,16 +44,33 @@ const FollowingTimeline = () => {
   }, [followingTimeline.isLoading]);
 
   const renderItem = ({item}) => {
+    const post = followingTimeline.post_entities[item];
+
+    const channel = mapChannels.get(post.channel_id);
+
+    const postedChannelName = evaluateChannelForMention(channel);
     return (
-      <View style={{height: 80}}>
-        <Text>{item}</Text>
-      </View>
+      <PostFeed
+        id={post.id}
+        metada={post.metadata}
+        postUserId={post.user_id}
+        message={post.message}
+        createdAt={post.create_at}
+        editedAt={post.edit_at}
+        type={post.type}
+        post_props={post.props}
+        postedChannelName={postedChannelName}
+        channelPostId={channel.id}
+      />
     );
   };
 
   useEffect(() => {
-    dispatch(getFollowTimeLine());
-  }, [dispatch]);
+    if (followingTimeline.posts_ids.length === 0) {
+      dispatch(getFollowTimeLine());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View>

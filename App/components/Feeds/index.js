@@ -65,6 +65,7 @@ const Feeds = ({navigation}) => {
         type={post.type}
         post_props={post.props}
         postedChannelName={postedChannelName}
+        channelPostId={post.channel_id}
       />
     );
   };
