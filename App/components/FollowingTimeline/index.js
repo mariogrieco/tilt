@@ -25,7 +25,6 @@ const FollowingTimeline = () => {
   const dispatch = useDispatch();
   const followingTimeline = useSelector(state => state.followingTimeline);
   const mapChannels = useSelector(state => state.mapChannels);
-  const myChannelsMap = useSelector(state => state.myChannelsMap);
 
   const handleListEnd = useCallback(async () => {
     try {
