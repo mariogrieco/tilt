@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -7,6 +7,7 @@ import PostFeed from '../Post/PostFeed';
 import {getFeeds} from '../../actions/feeds';
 import {searchMultiple} from '../../actions/search';
 import parse_channel_name from '../../utils/fix_name_if_need';
+import {evaluateChannelForMention} from '../../utils/parseChannelMention';
 
 const Feeds = ({navigation}) => {
   const feeds = useSelector(state => state.feeds);
@@ -47,14 +48,6 @@ const Feeds = ({navigation}) => {
 
     return clean;
   }, [dispatch, navigation]);
-
-  const evaluateChannelForMention = channel => {
-    if (channel.name === 'welcome') {
-      return '#welcome';
-    }
-    const name = `${channel.content_type !== 'N' ? '$' : '#'}${channel.name}`;
-    return name;
-  };
 
   const renderItem = ({item: postId}) => {
     const post = feeds.posts[postId];
