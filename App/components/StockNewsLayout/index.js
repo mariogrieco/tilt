@@ -34,7 +34,10 @@ export class StockNewsLayout extends Component {
 
   _fetchSomeNewsForSymbol() {
     const {selectedSymbol} = this.props;
-    this.props.getNewsForSymbol(selectedSymbol);
+    if (selectedSymbol) {
+      console.log('here: ', selectedSymbol);
+      this.props.getNewsForSymbol(selectedSymbol);
+    }
   }
 
   renderItem = ({item: {datetime, headline, image, source}}) => {

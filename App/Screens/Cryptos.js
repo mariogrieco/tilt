@@ -188,7 +188,7 @@ class Home extends React.Component {
       channels,
     } = this.props;
 
-    dispatchSelectedSymbol({symbol});
+    // dispatchSelectedSymbol({symbol});
 
     const notInbutFound = channels.find(channel => {
       return parser(channel.display_name) === parser(symbol);

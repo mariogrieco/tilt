@@ -23,17 +23,18 @@ class ChannelDisplayName extends Component {
   };
 
   onPress = () => {
-    const {channel_id, name, channel} = this.props;
+    const {channel_id, channel} = this.props;
+    if (!channel) return null;
     this.props.setActiveFocusChannel(channel_id);
     let roomName = 'Channel';
     if (channel.content_type === 'S') {
       roomName = 'StockRoom';
+      this.props.selectedSymbol({symbol: channel.display_name});
     } else if (channel.content_type === 'C') {
       roomName = 'Room';
-      this.props.selectedSymbol({symbol: channel.name});
     }
     NavigationService.navigate(roomName, {
-      title: parser(name),
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
