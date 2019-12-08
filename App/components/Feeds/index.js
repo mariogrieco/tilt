@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -52,7 +52,9 @@ const Feeds = ({navigation}) => {
     if (channel.name === 'welcome') {
       return '#welcome';
     }
-    const name = `${channel.content_type !== 'N' ? '$' : '#'}${channel.name}`;
+    const name = `${channel.content_type !== 'N' ? '$' : '#'}${
+      channel.display_name
+    }`;
     return name;
   };
 

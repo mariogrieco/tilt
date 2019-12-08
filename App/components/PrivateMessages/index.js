@@ -46,7 +46,7 @@ class PrivateMessages extends React.Component {
         onPress={() => {
           this.props.setActiveFocusChannel(channel.id);
           NavigationService.navigate('Channel', {
-            name: channel.chattingUser.username,
+            title: channel.chattingUser.username,
             create_at: channel.create_at,
             members: channel.members,
             fav: channel.fav,

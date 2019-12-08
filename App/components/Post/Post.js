@@ -366,7 +366,7 @@ class Post extends React.Component {
     }
 
     NavigationService.navigate('Channel', {
-      name: show_name,
+      title: show_name,
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,

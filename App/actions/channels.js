@@ -5,6 +5,7 @@ import {getPostsForChannel} from './posts';
 import {setActiveFocusChannel} from './AppNavigation';
 import {clearjumpToAction} from './advancedSearch';
 import {openModal} from './channelJoinModalAlert';
+import {selectedSymbol} from './symbols';
 
 import NavigationService from './../config/NavigationService';
 import {getFavoriteChannelById} from '../selectors/getFavoriteChannels';
@@ -154,24 +155,21 @@ export const navigateIfExists = (
 ) => async (dispatch, getState) => {
   const state = getState();
   const MyMapChannel = state.myChannelsMap;
-  const myChannels = state.myChannelsMap.keySeq();
   const channels = state.mapChannels.valueSeq();
   const whoIam = state.login.user ? state.login.user.id : null;
   const users = state.users;
   let exists = false;
   if (channel_id && !channelDisplayName) {
-    let channel = null;
-    channel = state.myChannelsMap.get(channel_id);
-    if (!channel) {
-      channel = state.mapChannels.get(channel_id);
-    }
+    let channel = state.mapChannels.get(channel_id);
     if (channel) {
-      channelDisplayName = channel.name;
+      channelDisplayName = `${channel.content_type !== 'N' ? '$' : '#'}${
+        channel.display_name
+      }`;
     }
   }
 
-  [...channels, ...myChannels].forEach(async item => {
-    let formatName = item.name;
+  channels.forEach(async item => {
+    let formatName = item.display_name;
     let symbolType = '';
     if (item.content_type === 'S') {
       symbolType = 'StockRoom';
@@ -194,6 +192,9 @@ export const navigateIfExists = (
             : '';
         }
         dispatch(setActiveFocusChannel(item.id));
+        if (item.content_type === 'S') {
+          dispatch(selectedSymbol({symbol: item.display_name}));
+        }
         NavigationService.navigate(symbolType, {
           title: item.display_name,
           create_at: item.create_at,
@@ -208,8 +209,11 @@ export const navigateIfExists = (
         if (direct) {
           await dispatch(addToChannel(whoIam, item.id));
           dispatch(setActiveFocusChannel(item.id));
+          if (item.content_type === 'S') {
+            dispatch(selectedSymbol({symbol: item.display_name}));
+          }
           NavigationService.navigate(symbolType, {
-            name: formatName,
+            title: item.display_name,
             create_at: item.create_at,
             members: item.members,
             fav: getFavoriteChannelById(state, item.id),
@@ -226,9 +230,14 @@ export const navigateIfExists = (
   });
   if (!exists) {
     try {
-      const r = await Client4.getChannelByNameService(
-        channelDisplayName.replace('$', '').replace('#', ''),
-      );
+      let r = {};
+      if (channelDisplayName) {
+        r = await Client4.getChannelByNameService(
+          channelDisplayName.replace('$', '').replace('#', ''),
+        );
+      } else {
+        r = await Client4.getChannel(channel_id);
+      }
       if (r.channel) {
         let symbolType = '';
         if (r.channel.content_type === 'S') {
@@ -242,8 +251,11 @@ export const navigateIfExists = (
           dispatch(getChannelsSucess([r.channel]));
           await dispatch(addToChannel(whoIam, r.channel.id));
           dispatch(setActiveFocusChannel(r.channel.id));
+          if (r.channel.content_type === 'S') {
+            dispatch(selectedSymbol({symbol: r.channel.display_name}));
+          }
           NavigationService.navigate(symbolType, {
-            name: r.channel.name,
+            title: r.channel.display_name,
             create_at: r.channel.create_at,
             members: r.channel.members,
             fav: getFavoriteChannelById(state, r.channel.id),
@@ -727,7 +739,7 @@ export const createDirectChannel = userId => async (dispatch, getState) => {
 
     dispatch(setActiveFocusChannel(channel.id));
     NavigationService.navigate('Channel', {
-      name: getState().users.data[userId]
+      title: getState().users.data[userId]
         ? getState().users.data[userId].username
         : '',
       create_at: channel.create_at,
