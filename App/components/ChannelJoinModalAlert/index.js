@@ -10,6 +10,7 @@ import {addToChannel} from '../../actions/channels';
 import parser from '../../utils/parse_display_name';
 import NavigationService from '../../config/NavigationService';
 import {getFavoriteChannelById} from '../../selectors/getFavoriteChannels';
+import {selectedSymbol} from '../../actions/symbols';
 
 // import styles from './style';
 
@@ -56,8 +57,18 @@ export class ChannelJoinModalAlert extends React.Component {
   };
 
   redirect(channel) {
+    let symbolType = '';
+    if (channel.content_type === 'S') {
+      this.props.selectedSymbol({symbol: channel.display_name});
+      symbolType = 'StockRoom';
+    } else if (channel.content_type === 'C') {
+      symbolType = 'Room';
+      this.props.selectedSymbol({symbol: channel.display_name});
+    } else if (channel.content_type === 'N') {
+      symbolType = 'Channel';
+    }
     this.props.setActiveFocusChannel(channel.id);
-    NavigationService.navigate('Channel', {
+    NavigationService.navigate(symbolType, {
       title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
@@ -140,6 +151,7 @@ const mapDispatchToProps = {
   closeModal,
   addToChannel,
   setActiveFocusChannel,
+  selectedSymbol,
 };
 
 export default connect(

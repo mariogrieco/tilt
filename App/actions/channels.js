@@ -192,7 +192,7 @@ export const navigateIfExists = (
             : '';
         }
         dispatch(setActiveFocusChannel(item.id));
-        if (item.content_type === 'S') {
+        if (item.content_type !== 'N') {
           dispatch(selectedSymbol({symbol: item.display_name}));
         }
         NavigationService.navigate(symbolType, {
@@ -209,7 +209,7 @@ export const navigateIfExists = (
         if (direct) {
           await dispatch(addToChannel(whoIam, item.id));
           dispatch(setActiveFocusChannel(item.id));
-          if (item.content_type === 'S') {
+          if (item.content_type !== 'N') {
             dispatch(selectedSymbol({symbol: item.display_name}));
           }
           NavigationService.navigate(symbolType, {
@@ -251,7 +251,7 @@ export const navigateIfExists = (
           dispatch(getChannelsSucess([r.channel]));
           await dispatch(addToChannel(whoIam, r.channel.id));
           dispatch(setActiveFocusChannel(r.channel.id));
-          if (r.channel.content_type === 'C') {
+          if (r.channel.content_type !== 'N') {
             dispatch(selectedSymbol({symbol: r.channel.display_name}));
           }
           NavigationService.navigate(symbolType, {

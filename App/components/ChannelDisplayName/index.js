@@ -31,6 +31,7 @@ class ChannelDisplayName extends Component {
       roomName = 'StockRoom';
       this.props.selectedSymbol({symbol: channel.display_name});
     } else if (channel.content_type === 'C') {
+      this.props.selectedSymbol({symbol: channel.display_name});
       roomName = 'Room';
     }
     NavigationService.navigate(roomName, {
