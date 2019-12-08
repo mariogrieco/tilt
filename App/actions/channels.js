@@ -483,7 +483,7 @@ export const getChannelById = (channelId, meChannel) => async (
       dispatch(getMyChannelByIdSucess(channel, meId));
     }
     if (channel) {
-      dispatch(getChannelByIdSucess(channel, meId));
+      dispatch(getChannelByIdSucess(channel));
     }
     await dispatch(getPostsForChannel(channel.id));
     return channel;
@@ -501,12 +501,9 @@ export const getMyChannelByIdSucess = (channel, meId) => ({
   },
 });
 
-export const getChannelByIdSucess = (channel, meId) => ({
+export const getChannelByIdSucess = channel => ({
   type: GET_CHANNEL_BY_ID_SUCCESS,
-  payload: {
-    channel,
-    meId,
-  },
+  payload: channel,
 });
 
 export const getChannelByIdError = err => ({
