@@ -141,7 +141,7 @@ Client4.getPostCountForUser = async (teamId, userID) => {
 
 Client4.getChannel = async id => {
   try {
-    const {data} = await axios.get(`${baseServicesUrl}/channel?id={${id}}`);
+    const {data} = await axios.get(`${baseServicesUrl}/channel?id=${id}`);
     return data;
   } catch (ex) {
     return Promise.reject(ex);
