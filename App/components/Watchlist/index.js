@@ -199,7 +199,7 @@ export class Watchlist extends React.Component {
   }
 
   keyExtractor(channel) {
-    return channel.symbol;
+    return channel.id;
   }
 
   renderStocksFlatList = () => {
@@ -270,6 +270,7 @@ export class Watchlist extends React.Component {
       <ScrollView
         // contentContainerStyle={styles.section}
         keyboardDismissMode="on-drag"
+        nestedScrollEnabled
         // eslint-disable-next-line react-native/no-inline-styles
         style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
         {this.renderSeparator('Stocks')}
