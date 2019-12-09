@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import Post from './Post';
 import updateFeedJoin from '../../selectors/feedJoin';
+import {evaluateChannelForMention} from '../../utils/parseChannelMention';
 
 const PostFeed = ({
   id,
@@ -13,17 +14,20 @@ const PostFeed = ({
   createdAt,
   editedAt,
   type,
-  postedChannelName,
   post_props,
+  channelPostId,
 }) => {
   const joinFeedProps = {id};
   const user = useSelector(state => state.users.data[postUserId] || {});
-  const channelPostId = useSelector(state => state.feeds.posts[id].channel_id);
-
+  const mapChannels = useSelector(state => state.mapChannels);
   const isChannelForJoin = useSelector(state => {
     const localSelector = updateFeedJoin();
     return localSelector(state, joinFeedProps);
   });
+
+  const channel = mapChannels.get(channelPostId);
+
+  const postedChannelName = evaluateChannelForMention(channel);
 
   return (
     <View style={styles.container}>

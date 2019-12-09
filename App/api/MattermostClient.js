@@ -216,6 +216,65 @@ Client4.getBlokedUsers = async user_id => {
   }
 };
 
+Client4.getUserFollowers = async user_id => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/followers/${user_id}`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+Client4.getUserFollowings = async user_id => {
+  try {
+    const {data} = await axios.get(`${baseServicesUrl}/following/${user_id}`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+Client4.followUser = async ({user_id, following_id}) => {
+  try {
+    const {data} = await axios({
+      method: 'POST',
+      url: `${baseServicesUrl}/follow`,
+      data: {user_id, following_id},
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+Client4.unfollowUser = async ({user_id, following_id}) => {
+  try {
+    const {data} = await axios({
+      method: 'DELETE',
+      url: `${baseServicesUrl}/follow`,
+      data: {user_id, following_id},
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+Client4.getFollowTimeLine = async (user_id, page, perPage) => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/following/posts/${user_id}?page=${page}&per_page=${perPage}`,
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 Client4.getChannelsBy = async (query, filter_ids) => {
   try {
     const body = {};

@@ -17,6 +17,7 @@ import {selectedSymbol} from '../actions/symbols';
 import {setActiveFocusChannel} from '../actions/AppNavigation';
 import NavigationService from '../config/NavigationService';
 import {getChannelByName} from '../actions/channels';
+import FollowingTimeline from '../components/FollowingTimeline';
 
 import parser from '../utils/parse_display_name';
 
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     height: 34,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '80%',
+    width: '100%',
     borderRadius: 8,
     overflow: 'hidden',
   },
@@ -64,7 +65,7 @@ class Home extends React.Component {
     return {
       headerTitle: () => (
         <SegmentedControlTab
-          values={['Feed', 'Cryptos']}
+          values={['Feed', 'Following', 'Cryptos']}
           selectedIndex={currentSegmentIndex}
           onTabPress={handleTab}
           tabsContainerStyle={{
@@ -92,7 +93,7 @@ class Home extends React.Component {
       headerRight: (
         <HeaderHome
           navigation={navigation}
-          allowSearch={Boolean(currentSegmentIndex)}
+          allowSearch={currentSegmentIndex === 2}
         />
       ),
       ...headerForScreenWithBottomLine({
@@ -250,6 +251,8 @@ class Home extends React.Component {
       case 0:
         return <Feeds />;
       case 1:
+        return <FollowingTimeline />;
+      case 2:
         return this.renderWatchList();
       default:
         <Feeds />;
@@ -321,13 +324,10 @@ const mapStateToProps = state => ({
   channels: getAllChannels(state, channel => channel.content_type === 'C'),
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    getSymbols,
-    modalActive,
-    dispatchSelectedSymbol: selectedSymbol,
-    getChannelByName,
-    setActiveFocusChannel,
-  },
-)(Home);
+export default connect(mapStateToProps, {
+  getSymbols,
+  modalActive,
+  dispatchSelectedSymbol: selectedSymbol,
+  getChannelByName,
+  setActiveFocusChannel,
+})(Home);

@@ -17,7 +17,10 @@ import GoBack from '../components/GoBack';
 import {isLogin, logout} from '../actions/login';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import {changeTheme} from '../actions/themeManager';
-import {enableGlobalNotifications, disableGlobalNotifications,} from '../actions/users';
+import {
+  enableGlobalNotifications,
+  disableGlobalNotifications,
+} from '../actions/users';
 
 const EDIT = require('../../assets/images/tune-black/tune.png');
 const INVITE_PEOPLE = require('../../assets/images/add-friend-black/add-friend.png');
@@ -77,7 +80,7 @@ class LoggedInMenu extends React.Component {
     const {dispatchLogout, dispatchIsLogin, navigation} = this.props;
     dispatchLogout();
     dispatchIsLogin(false);
-    navigation.navigate('SignUp');
+    navigation.navigate('Auth');
   };
 
   handleEditProfile = () => {
@@ -181,7 +184,10 @@ class LoggedInMenu extends React.Component {
           <View style={{flexDirection: 'row'}}>
             <Image style={styles.icon} source={BELL} />
             <View>
-              <Text style={[styles.buttonText, {color: theme.primaryTextColor}]}>Disable All Notifications</Text>
+              <Text
+                style={[styles.buttonText, {color: theme.primaryTextColor}]}>
+                Disable All Notifications
+              </Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -295,4 +301,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(LoggedInMenu);
-
