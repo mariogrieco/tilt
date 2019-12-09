@@ -39,6 +39,7 @@ class Description extends React.Component {
 
   componentDidMount() {
     const {dispatchGetSymbolData, symbol} = this.props;
+    dispatchGetSymbolData(ORIGIN, symbol);
     this.intervalId = setInterval(() => {
       dispatchGetSymbolData(ORIGIN, symbol);
     }, SYMBOL_DESCRIPTION_INTERVAL);
