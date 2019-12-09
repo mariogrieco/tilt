@@ -19,6 +19,7 @@ import {setActiveFocusChannel} from '../actions/AppNavigation';
 import NavigationService from '../config/NavigationService';
 import {getChannelByName} from '../actions/channels';
 import {NavigationActions} from 'react-navigation';
+import parser from '../utils/parse_display_name';
 import GoBack from '../components/GoBack';
 
 const ORIGIN = 'WATCHLIST';
@@ -172,7 +173,7 @@ class Home extends React.Component {
   navigateAction(channel, to) {
     this.props.setActiveFocusChannel(channel.id);
     NavigationService.navigate(to, {
-      title: channel.display_name,
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav ? true : false,
@@ -190,7 +191,7 @@ class Home extends React.Component {
     dispatchSelectedSymbol({symbol});
 
     const notInbutFound = channels.find(channel => {
-      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+      return parser(channel.display_name) === parser(symbol);
     });
 
     if (notInbutFound) {

@@ -571,9 +571,7 @@ class Channel extends React.Component {
     const isAdminCreator =
       navigation.getParam('isAdminCreator', '') || isDollar;
     const isPrivateMessage = navigation.getParam('pm', '');
-    const title = isPrivateMessage
-      ? navigation.getParam('name', '')
-      : channel.name;
+    const title = navigation.getParam('title', '');
 
     if (isAdminCreator) {
       return `Write to $${parseChannelMention(title).toUpperCase()}`;

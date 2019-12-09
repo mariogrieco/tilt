@@ -165,11 +165,17 @@ export const navigateIfExists = (
       channelDisplayName = `${channel.content_type !== 'N' ? '$' : '#'}${
         channel.display_name
       }`;
+      if (channel.type === 'D') {
+        channelDisplayName = channel.name;
+      }
     }
   }
 
   channels.forEach(async item => {
-    let formatName = item.display_name.toLowerCase();
+    let formatName = item.display_name;
+    if (item.type === 'D') {
+      formatName = item.name;
+    }
     let symbolType = '';
     if (item.content_type === 'S') {
       symbolType = 'StockRoom';
@@ -180,13 +186,11 @@ export const navigateIfExists = (
     } else if (item.content_type === 'N') {
       symbolType = 'Channel';
     }
-    if (
-      `${formatName}` === channelDisplayName.replace('$', '').replace('#', '')
-    ) {
+    if (parser(formatName) === parser(channelDisplayName)) {
       exists = true;
       const joined = MyMapChannel.get(item.id);
       if (joined) {
-        const isPM = joined.type === 'D';
+        const isPM = item.type === 'D';
         if (isPM) {
           formatName = formatName.replace(whoIam, '').replace('__', '');
           formatName = users.data[formatName]
@@ -194,11 +198,11 @@ export const navigateIfExists = (
             : '';
         }
         dispatch(setActiveFocusChannel(item.id));
-        if (item.content_type === 'S') {
+        if (item.content_type !== 'N') {
           dispatch(selectedSymbol({symbol: item.display_name}));
         }
         NavigationService.navigate(symbolType, {
-          title: item.display_name,
+          title: formatName,
           create_at: item.create_at,
           members: item.members,
           fav: getFavoriteChannelById(state, item.id),
@@ -211,17 +215,17 @@ export const navigateIfExists = (
         if (direct) {
           await dispatch(addToChannel(whoIam, item.id));
           dispatch(setActiveFocusChannel(item.id));
-          if (item.content_type === 'S') {
+          if (item.content_type !== 'N') {
             dispatch(selectedSymbol({symbol: item.display_name}));
           }
           NavigationService.navigate(symbolType, {
-            title: item.display_name,
+            title: formatName,
             create_at: item.create_at,
             members: item.members,
             fav: getFavoriteChannelById(state, item.id),
             focusOn: false,
             isAdminCreator: channelDisplayName[0] === '$',
-            pm: false,
+            pm: item.type === 'D',
             ...props,
           });
         } else {
@@ -253,17 +257,17 @@ export const navigateIfExists = (
           dispatch(getChannelsSucess([r.channel]));
           await dispatch(addToChannel(whoIam, r.channel.id));
           dispatch(setActiveFocusChannel(r.channel.id));
-          if (r.channel.content_type === 'S') {
+          if (r.channel.content_type !== 'N') {
             dispatch(selectedSymbol({symbol: r.channel.display_name}));
           }
           NavigationService.navigate(symbolType, {
-            title: r.channel.display_name,
+            title: parser(r.channel.display_name),
             create_at: r.channel.create_at,
             members: r.channel.members,
             fav: getFavoriteChannelById(state, r.channel.id),
             focusOn: false,
             isAdminCreator: channelDisplayName[0] === '$',
-            pm: false,
+            pm: r.channel.type === 'D',
             ...props,
           });
         } else {

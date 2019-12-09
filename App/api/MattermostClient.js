@@ -313,7 +313,10 @@ Client4.getMemberCount = async ids => {
   }
 };
 
-Client4.getNews = async symbol => {
+Client4.getNews = async (symbol = '') => {
+  if (symbol === 3) {
+    symbol = symbol.replace('11', '');
+  }
   try {
     const {data} = await axios.get(`${baseServicesUrl}/news/${symbol}`);
     return data;

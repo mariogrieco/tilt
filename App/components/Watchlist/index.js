@@ -12,7 +12,7 @@ import {selectedSymbol} from '../../actions/symbols';
 import {getChannelByName} from '../../actions/channels';
 import {withNavigation} from 'react-navigation';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
-
+import parser from '../../utils/parse_display_name';
 import {connect} from 'react-redux';
 
 import styles from './styles';
@@ -86,7 +86,7 @@ export class Watchlist extends React.Component {
   navigateAction(channel, to) {
     this.props.setActiveFocusChannel(channel.id);
     NavigationService.navigate(to, {
-      title: channel.display_name,
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav ? true : false,
@@ -95,18 +95,12 @@ export class Watchlist extends React.Component {
   }
 
   handleCryptoPress = async symbol => {
-    const {
-      dispatchSelectedSymbol,
-      // dispatchSetPopupSymbolValue,
-      // stocks,
-      cryptos,
-    } = this.props;
+    const {dispatchSelectedSymbol, cryptos} = this.props;
 
     dispatchSelectedSymbol({symbol});
-    // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = cryptos.find(channel => {
-      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+      return parser(channel.display_name) === parser(symbol);
     });
 
     if (notInbutFound) {
@@ -137,7 +131,7 @@ export class Watchlist extends React.Component {
     // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = stocks.find(channel => {
-      return channel.display_name.toLowerCase() === symbol.toLowerCase();
+      return parser(channel.display_name) === parser(symbol);
     });
 
     if (notInbutFound) {

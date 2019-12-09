@@ -68,4 +68,7 @@ const mapDispatchToProps = {
   getStocksMarketGainersList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StockGainers);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StockGainers);

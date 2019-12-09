@@ -21,7 +21,7 @@ import Chart from '../components/Chart';
 import ChannelOptionalView from '../components/ChannelOptionalView';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import ChannelHeader from '../components/ChannelHeader';
-
+import parser from '../utils/parse_display_name';
 import assets from '../config/themeAssets/assets';
 
 // const ChannelTab = () => <Channel displayAs="tab" />;
@@ -124,14 +124,10 @@ class CryptoRoom extends React.PureComponent {
     const {selectedSymbol, getChannelByName, channels, myChannels} = this.props;
 
     const notInbutFound = channels.find(
-      channel =>
-        channel.display_name.toLowerCase() ===
-        selectedSymbol.symbol.toLowerCase(),
+      channel => parser(channel.display_name) === parser(selectedSymbol.symbol),
     );
     const foundOnMy = myChannels.find(
-      channel =>
-        channel.display_name.toLowerCase() ===
-        selectedSymbol.symbol.toLowerCase(),
+      channel => parser(channel.display_name) === parser(selectedSymbol.symbol),
     );
     if (foundOnMy) {
       this.props.setActiveFocusChannel(foundOnMy.id);

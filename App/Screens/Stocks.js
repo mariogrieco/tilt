@@ -11,10 +11,10 @@ import isEqual from 'lodash/isEqual';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {setActiveFocusChannel} from '../actions/AppNavigation';
 import {getChannelByName} from '../actions/channels';
-
 import StockLosers from '../components/StockLosers';
 import StockGainers from '../components/StockGainers';
 import StockActive from '../components/StockActive';
+import parser from '../utils/parse_display_name';
 import GoBack from '../components/GoBack';
 import {NavigationActions} from 'react-navigation';
 
@@ -132,7 +132,7 @@ export class Stocks extends Component {
     // dispatchSetPopupSymbolValue(`$${symbol}`, false);
 
     const notInbutFound = channels.find(
-      channel => channel.display_name.toLowerCase() === symbol.toLowerCase(),
+      channel => parser(channel.display_name) === parser(symbol)
     );
 
     if (notInbutFound) {
@@ -156,7 +156,7 @@ export class Stocks extends Component {
 
   navigateAction(channel) {
     NavigationService.navigate('StockRoom', {
-      title: channel.display_name,
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,

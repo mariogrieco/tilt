@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Alert} from 'react-native';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -10,10 +10,11 @@ import {addToChannel} from '../../actions/channels';
 import parser from '../../utils/parse_display_name';
 import NavigationService from '../../config/NavigationService';
 import {getFavoriteChannelById} from '../../selectors/getFavoriteChannels';
+import {selectedSymbol} from '../../actions/symbols';
 
 // import styles from './style';
 
-export class ChannelJoinModalAlert extends Component {
+export class ChannelJoinModalAlert extends React.Component {
   // static propTypes = {
   //   prop: PropTypes
   // }
@@ -56,12 +57,23 @@ export class ChannelJoinModalAlert extends Component {
   };
 
   redirect(channel) {
+    let symbolType = '';
+    if (channel.content_type === 'S') {
+      this.props.selectedSymbol({symbol: channel.display_name});
+      symbolType = 'StockRoom';
+    } else if (channel.content_type === 'C') {
+      symbolType = 'Room';
+      this.props.selectedSymbol({symbol: channel.display_name});
+    } else if (channel.content_type === 'N') {
+      symbolType = 'Channel';
+    }
     this.props.setActiveFocusChannel(channel.id);
-    NavigationService.navigate('Channel', {
-      title: channel.display_name,
+    NavigationService.navigate(symbolType, {
+      title: parser(channel.display_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
+      isAdminCreator: channel.content_type !== 'N',
     });
   }
 
@@ -139,6 +151,7 @@ const mapDispatchToProps = {
   closeModal,
   addToChannel,
   setActiveFocusChannel,
+  selectedSymbol,
 };
 
 export default connect(
