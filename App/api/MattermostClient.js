@@ -45,6 +45,28 @@ Client4.searchChannels = async terms => {
   }
 };
 
+Client4.searchIexChannels = async terms => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/search/${terms}?is_iex=true`,
+    );
+    return data;
+  } catch (ex) {
+    return [];
+  }
+};
+
+Client4.searchBinanceChannels = async terms => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/search/${terms}?is_binance=true`,
+    );
+    return data;
+  } catch (ex) {
+    return [];
+  }
+};
+
 Client4.getMyChannels = async user_id => {
   try {
     const {data} = await axios.get(

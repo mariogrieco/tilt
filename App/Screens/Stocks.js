@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Dimensions} from 'react-native';
 import {connect} from 'react-redux';
+import Client4 from '../api/MattermostClient';
 import NavigationService from '../config/NavigationService';
 import {selectedSymbol} from '../actions/symbols';
 // import {setPopupSymbolValue} from '../actions/chartPopup';
@@ -17,6 +18,7 @@ import StockActive from '../components/StockActive';
 import parser from '../utils/parse_display_name';
 import GoBack from '../components/GoBack';
 import {NavigationActions} from 'react-navigation';
+import StockSearch from '../components/StockSearch';
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0,
+    shadowOpacity: 0, 
     shadowRadius: 0,
     elevation: 0,
   },
@@ -60,6 +62,8 @@ export class Stocks extends Component {
       {key: 'active', title: 'ACTIVE'},
     ],
     searchValue: '',
+    loding: false,
+    matches: [],
   };
 
   static navigationOptions = ({navigation, screenProps}) => {
@@ -114,11 +118,32 @@ export class Stocks extends Component {
       return {
         searchValue: text,
       };
-    });
+    }, this.searchForIex);
   };
 
   keyExtractor(channel) {
     return channel.id;
+  }
+
+  async searchForIex() {
+    const {searchValue} = this.state;
+    if (searchValue && searchValue.trim().length > 0) {
+      try {
+        this.setState({
+          loading: true,
+        });
+        const matches = await Client4.searchIexChannels(searchValue);
+        this.setState({
+          matches,
+        });
+      } catch (ex) {
+        console.log(ex);
+      } finally {
+        this.setState({
+          loading: false,
+        });
+      }
+    }
   }
 
   handleOnSymbolPress = async symbol => {
@@ -166,56 +191,59 @@ export class Stocks extends Component {
 
   render() {
     const {theme} = this.props;
-    const {searchValue} = this.state;
+    const {searchValue, matches} = this.state;
     return (
       <React.Fragment>
-        <TabView
-          navigationState={{...this.state}}
-          renderScene={SceneMap({
-            gainers: () => (
-              <StockGainers
-                searchValue={searchValue}
-                onPress={this.handleOnSymbolPress}
+        {searchValue ? (
+          <StockSearch list={matches} />
+        ) : (
+          <TabView
+            navigationState={{...this.state}}
+            renderScene={SceneMap({
+              gainers: () => (
+                <StockGainers
+                  searchValue={searchValue}
+                  onPress={this.handleOnSymbolPress}
+                />
+              ),
+              losers: () => (
+                <StockLosers
+                  searchValue={searchValue}
+                  onPress={this.handleOnSymbolPress}
+                />
+              ),
+              active: () => (
+                <StockActive
+                  searchValue={searchValue}
+                  onPress={this.handleOnSymbolPress}
+                />
+              ),
+            })}
+            onIndexChange={index => this.setState({index})}
+            initialLayout={{width}}
+            renderTabBar={props => (
+              <TabBar
+                {...props}
+                style={[
+                  styles.tabBar,
+                  {
+                    backgroundColor: theme.primaryBackgroundColor,
+                    borderBottomColor: theme.borderBottomColor,
+                  },
+                ]}
+                labelStyle={styles.label}
+                indicatorStyle={styles.indicator}
+                activeColor="#17C491"
+                inactiveColor="#585C63"
               />
-            ),
-            losers: () => (
-              <StockLosers
-                searchValue={searchValue}
-                onPress={this.handleOnSymbolPress}
-              />
-            ),
-            active: () => (
-              <StockActive
-                searchValue={searchValue}
-                onPress={this.handleOnSymbolPress}
-              />
-            ),
-          })}
-          onIndexChange={index => this.setState({index})}
-          initialLayout={{width}}
-          renderTabBar={props => (
-            <TabBar
-              {...props}
-              style={[
-                styles.tabBar,
-                {
-                  backgroundColor: theme.primaryBackgroundColor,
-                  borderBottomColor: theme.borderBottomColor,
-                },
-              ]}
-              labelStyle={styles.label}
-              indicatorStyle={styles.indicator}
-              activeColor="#17C491"
-              inactiveColor="#585C63"
-            />
-          )}
-          //swipeEnabled={false}
-        />
+            )}
+            //swipeEnabled={false}
+          />
+        )}
       </React.Fragment>
     );
   }
 }
-
 const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
   selectedSymbol: state.watchlist.selectedSymbol,
