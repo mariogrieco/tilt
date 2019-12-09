@@ -496,7 +496,6 @@ class Post extends React.Component {
       metadata,
       edit_at,
       type,
-      navigateIfExists,
       onUser,
       disableInteractions,
       isPM,
@@ -545,7 +544,7 @@ class Post extends React.Component {
               <PureParsedText
                 message={message}
                 typeIsSystem={typeIsSystem}
-                onChannel={navigateIfExists}
+                onChannel={this.props.navigateIfExists}
                 onChannel2={this.handleOnChannelChartMention}
                 onUser={onUser}
                 props={post_props}
