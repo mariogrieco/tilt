@@ -39,6 +39,7 @@ import TrendingChannels from '../Screens/TrendingChannels';
 import Stocks from '../Screens/Stocks';
 import Cryptos from '../Screens/Cryptos';
 import StockRoom from '../Screens/StockRoom';
+import WebView from '../Screens/WebView';
 import All from '../Screens/All';
 
 const HomeStack = createStackNavigator(
@@ -66,6 +67,7 @@ const StockRoomStack = createStackNavigator(
     StockRoom,
     ChannelInfo,
     AdvancedSearch,
+    WebView,
   },
   {
     headerLayoutPreset: 'center',

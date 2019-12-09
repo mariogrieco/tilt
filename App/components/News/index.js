@@ -8,9 +8,12 @@ import {connect} from 'react-redux';
 
 class News extends PureComponent {
   render() {
-    const {headline, source, image, datetime, theme} = this.props;
+    const {headline, source, image, datetime, theme, onPress} = this.props;
     return (
-      <TouchableOpacity style={styles.container} activeOpacity={1}>
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
+        onPress={onPress}>
         <View style={styles.left}>
           <Text style={[styles.title, {color: theme.primaryTextColor}]}>
             {headline}
