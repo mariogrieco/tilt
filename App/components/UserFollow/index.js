@@ -1,9 +1,11 @@
 import React, {useCallback} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import {createSelector} from 'reselect';
-import getUserProfilePicture from '../../selectors/getUserProfilePicture';
 import FollowButton from '../FollowButton';
+import getUserProfilePicture from '../../selectors/getUserProfilePicture';
+import {setCurrentDisplayUserProfile} from '../../actions/users';
+import NavigationService from '../../config/NavigationService';
 
 const userSelector = (state, props) => state.users.data[props.userId] || {};
 const followingUsers = state => state.loggedUserFollow.following;
@@ -16,6 +18,7 @@ const makeUserWithFollowState = () =>
   });
 
 const UserFollow = ({userId}) => {
+  const dispatch = useDispatch();
   const getUserWithFollowState = useCallback(() => {
     const getUser = makeUserWithFollowState();
     return state => getUser(state, {userId});
@@ -27,6 +30,15 @@ const UserFollow = ({userId}) => {
     state.login.user ? state.login.user.id : '',
   );
 
+  const navigateToProfile = useCallback(() => {
+    dispatch(setCurrentDisplayUserProfile(user.id));
+    if (user.id === loggedUserId) {
+      NavigationService.navigate('LoggedIn');
+    } else {
+      NavigationService.navigate('MemberProfile');
+    }
+  }, [user.id, loggedUserId, dispatch]);
+
   const theme = useSelector(state => state.themes[state.themes.current]);
 
   const pictureUrl = getUserProfilePicture(user.id, user.last_picture_update);
@@ -34,24 +46,30 @@ const UserFollow = ({userId}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image source={{uri: pictureUrl}} style={styles.userPicture} />
+        <TouchableOpacity
+          style={{flex: 1, flexDirection: 'row'}}
+          onPress={navigateToProfile}>
+          <Image source={{uri: pictureUrl}} style={styles.userPicture} />
+          <View>
+            <Text
+              style={[
+                styles.userNames,
+                {color: theme.primaryTextColor},
+              ]}>{`${user.first_name || ''} ${user.last_name}`}</Text>
+            <Text style={styles.username}>@{user.username}</Text>
+          </View>
+        </TouchableOpacity>
         <View>
-          <Text
-            style={[
-              styles.userNames,
-              {color: theme.primaryTextColor},
-            ]}>{`${user.first_name || ''} ${user.last_name}`}</Text>
-          <Text style={styles.username}>@{user.username}</Text>
-        </View>
-        <View style={styles.followSection}>
           {loggedUserId !== user.id && (
             <FollowButton userId={user.id} isFollowing={user.isFollowed} />
           )}
         </View>
       </View>
-      <Text style={[styles.userBio, {color: theme.primaryTextColor}]}>
-        {user.position}
-      </Text>
+      <TouchableOpacity onPress={navigateToProfile}>
+        <Text style={[styles.userBio, {color: theme.primaryTextColor}]}>
+          {user.position}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -61,10 +79,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 13.5,
     paddingBottom: 15.5,
-  },
-  followSection: {
-    flex: 1,
-    alignItems: 'flex-end',
   },
   userNames: {
     fontSize: 16,
