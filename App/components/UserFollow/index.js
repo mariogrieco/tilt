@@ -9,14 +9,11 @@ const userSelector = (state, props) => state.users.data[props.userId] || {};
 const followingUsers = state => state.loggedUserFollow.following;
 
 const makeUserWithFollowState = () =>
-  createSelector(
-    [userSelector, followingUsers],
-    (user, following) => {
-      const result = following.find(userId => userId === user.id);
-      user.isFollowed = Boolean(result);
-      return user;
-    },
-  );
+  createSelector([userSelector, followingUsers], (user, following) => {
+    const result = following.find(userId => userId === user.id);
+    user.isFollowed = Boolean(result);
+    return user;
+  });
 
 const UserFollow = ({userId}) => {
   const getUserWithFollowState = useCallback(() => {
@@ -43,7 +40,7 @@ const UserFollow = ({userId}) => {
             style={[
               styles.userNames,
               {color: theme.primaryTextColor},
-            ]}>{`${user.name || ''} ${user.last_name}`}</Text>
+            ]}>{`${user.first_name || ''} ${user.last_name}`}</Text>
           <Text style={styles.username}>@{user.username}</Text>
         </View>
         <View style={styles.followSection}>
