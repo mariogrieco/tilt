@@ -159,8 +159,10 @@ function getRootID(post) {
 
 const threadSelector = state => {
   const activePost = state.appNavigation.active_thread_data;
+  console.log('thread key ', activePost);
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
+  const followPost = state.followingTimeline.post_entities[activePost];
   const mapChannels = state.mapChannels;
   const localFeedJoin = updateFeedJoin();
 
@@ -208,6 +210,32 @@ const threadSelector = state => {
     };
   }
 
+  if (followPost) {
+    const thread = [
+      followPost,
+      ...followPost.feed_thread.map(
+        postReplyKey => state.followingTimeline.post_entities[postReplyKey],
+      ),
+    ];
+    const originChannel = mapChannels.get(followPost.channel_id);
+    const channelName = originChannel
+      ? `${
+          originChannel.content_type !== 'N'
+            ? `$${originChannel.name.toUpperCase()}`
+            : `#${originChannel.name}`
+        }`
+      : '';
+    return {
+      needJoin: localFeedJoin(state, {id: followPost.id}),
+      thread,
+      root_id: followPost.id,
+      channelId: followPost.channel_id,
+      replyTo: state.users.data[followPost.user_id].username,
+      replyMessage: followPost.message,
+      channelName,
+    };
+  }
+
   return {
     thread: [],
     replyTo: null,
@@ -224,7 +252,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Thread);
+export default connect(mapStateToProps, mapDispatchToProps)(Thread);
