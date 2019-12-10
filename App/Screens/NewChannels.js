@@ -66,11 +66,13 @@ export class AllChannels extends Component {
   }
 
   _fetchMore = ({distanceFromEnd}) => {
+    alert('testing news onEndReached');
     if (distanceFromEnd <= 0) {
       if (this.state.loading) return null;
       this.setState({
         loading: true
       }, async () => {
+        alert('loading...');
         try {
           const {channels} = this.props; 
           await this.props.getPageForNewTab(channels.map(c => c.id));
