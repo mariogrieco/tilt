@@ -159,7 +159,6 @@ function getRootID(post) {
 
 const threadSelector = state => {
   const activePost = state.appNavigation.active_thread_data;
-  console.log('thread key ', activePost);
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
   const followPost = state.followingTimeline.post_entities[activePost];

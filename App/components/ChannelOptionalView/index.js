@@ -8,6 +8,8 @@ import {getPostsForChannel} from '../../actions/posts';
 import Channel from '../../Screens/Channel';
 import isEqual from 'lodash/isEqual';
 
+import ChannelPreview from '../ChannelPreview';
+
 class ChannelOptionalView extends React.Component {
   shouldComponentUpdate(nextProps) {
     return !isEqual(nextProps, this.props);
@@ -26,8 +28,14 @@ class ChannelOptionalView extends React.Component {
   render() {
     const {onMychannel, channel, active_channel_id, theme} = this.props;
     return (
+      // eslint-disable-next-line react-native/no-inline-styles
       <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
-        {!onMychannel && channel && <JoinBigBtn onJoin={this.handleJoin} />}
+        {!onMychannel && channel && (
+          <ChannelPreview
+            channel_id={active_channel_id}
+            onJoin={this.handleJoin}
+          />
+        )}
         {onMychannel && <Channel isDollar displayAs="tab" />}
         {!onMychannel && !channel && !!active_channel_id && (
           <Text>

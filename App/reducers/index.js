@@ -53,6 +53,7 @@ import stockTab from './StockTab';
 import news from './news';
 import adminCreators from './adminCreators';
 import webView from './webView';
+import channelPreview from './channelPreview';
 
 import all_channels_tab_paginator from './all_channels_tab_paginator';
 import new_channels_tab_paginator from './new_channels_tab_paginator';
@@ -120,4 +121,5 @@ export default combineReducers({
   followingTimeline,
   adminCreators,
   webView,
+  channelPreview,
 });

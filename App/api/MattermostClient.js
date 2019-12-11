@@ -335,6 +335,17 @@ Client4.getMemberCount = async ids => {
   }
 };
 
+Client4.getChannelPreview = async channel_id => {
+  try {
+    const {data} = await axios.get(
+      `${baseServicesUrl}/channel/preview/${channel_id}`,
+    );
+    return data;
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+};
+
 Client4.getNews = async (symbol = '') => {
   if (symbol === 3) {
     symbol = symbol.replace('11', '');
