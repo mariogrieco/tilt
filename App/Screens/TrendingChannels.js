@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Platform, FlatList} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  Platform,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import {connect} from 'react-redux';
 import GoBack from '../components/GoBack';
 import {getPageForTrendingTab} from '../actions/tab_channels_actions';
@@ -53,7 +59,7 @@ export class TrendingChannels extends Component {
   }
 
   _fetchMore = ({distanceFromEnd}) => {
-    if (distanceFromEnd <= 0) {
+    if (distanceFromEnd >= 0) {
       if (this.state.loading) {
         return null;
       }
@@ -115,10 +121,15 @@ export class TrendingChannels extends Component {
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
         onEndReached={this._fetchMore}
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={0.25}
         maxToRenderPerBatch={5}
         updateCellsBatchingPeriod={150}
-        viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
+        ListFooterComponent={
+          this.state.loading ? (
+            <ActivityIndicator margin={30} size="large" color="#17C491" />
+          ) : null
+        }
+        viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.25}}
         ListEmptyComponent={this.renderActivityIndicator}
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
@@ -131,8 +142,8 @@ export class TrendingChannels extends Component {
 const mapStateToProps = state => ({
   channels: getAllChannels(
     state,
-    channel => channel.total_msg_count > 2,
-    // (a, b) => b.total_message_count - a.total_message_count,
+    channel => channel.total_msg_count > 1,
+    (a, b) => b.total_message_count - a.total_message_count,
   ),
   theme: state.themes[state.themes.current],
   isAuth: state.login.isLogin,

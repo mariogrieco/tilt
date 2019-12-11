@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, Platform, FlatList} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  Platform,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 // import {NavigationActions} from 'react-navigation';
@@ -55,6 +61,7 @@ export class AllChannels extends Component {
 
   componentDidMount() {
     this.props.getChannelStatsByGroup();
+    this._fetchMore({distanceFromEnd: 0});
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -66,13 +73,11 @@ export class AllChannels extends Component {
   }
 
   _fetchMore = ({distanceFromEnd}) => {
-    alert('testing news onEndReached');
-    if (distanceFromEnd <= 0) {
+    if (distanceFromEnd >= 0) {
       if (this.state.loading) return null;
       this.setState({
         loading: true
       }, async () => {
-        alert('loading...');
         try {
           const {channels} = this.props; 
           await this.props.getPageForNewTab(channels.map(c => c.id));
@@ -84,7 +89,7 @@ export class AllChannels extends Component {
             loading: false,
           })
         }
-      })
+      });
     }
   };
 
@@ -117,11 +122,16 @@ export class AllChannels extends Component {
         keyExtractor={this.keyExtractor}
         initialNumToRender={50}
         onEndReached={this._fetchMore}
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={0.25}
         maxToRenderPerBatch={5}
         updateCellsBatchingPeriod={150}
-        viewabilityConfig={{viewAreaCoveragePercentThreshold: 0}}
+        viewabilityConfig={{viewAreaCoveragePercentThreshold: 0.25}}
         ListEmptyComponent={this.renderActivityIndicator}
+        ListFooterComponent={
+          this.state.loading ? (
+            <ActivityIndicator margin={30} size="large" color="#17C491" />
+          ) : null
+        }
         keyboardDismissMode="on-drag"
         removeClippedSubviews={Platform.OS === 'android'}
         style={{backgroundColor: theme.primaryBackgroundColor}}

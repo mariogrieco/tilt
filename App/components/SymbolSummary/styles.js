@@ -37,7 +37,7 @@ export default StyleSheet.create({
   container: {
     marginLeft: 15,
     marginRight: 15,
-    height: 68,
+    minHeight: 68,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

@@ -36,10 +36,11 @@ export const getPageForTrendingTab = filter_ids => async (
       {
         page: current_tab_state.page,
         per_page: PER_PAGE_DEFAULT,
-        is_stock: true,
+        at_least_one_post: true,
       },
       filter_ids,
     );
+    console.log(list.length);
     dispatch(
       getPageForTrendingTabSuccess({
         page: filter_ids ? 0 : ++current_tab_state.page,
