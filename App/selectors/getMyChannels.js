@@ -19,17 +19,24 @@ const preferencesSelector = state => {
   return pref;
 };
 
+const channelStatsGroupSelector = state => {
+  return state.channelStatsGroup;
+};
+
 const getMyChannels = createSelector(
-  [myChannelsMapSelector, preferencesSelector],
-  (myChannels, favChannels) => {
+  [myChannelsMapSelector, preferencesSelector, channelStatsGroupSelector],
+  (myChannels, favChannels, channelStatsGroup) => {
     const channels = [];
     myChannels.forEach(element => {
       channels.push({
         ...element,
         fav: favChannels[element.id],
+        members: channelStatsGroup[element.id] || 0,
       });
     });
-    return channels.sort((a, b) => a.create_at - b.create_at);
+    return channels
+      .sort((a, b) => a.create_at - b.create_at)
+      .sort((a, b) => a.fav - b.fav);
   },
 );
 

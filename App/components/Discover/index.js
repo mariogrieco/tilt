@@ -67,7 +67,6 @@ class Discover extends React.Component {
   renderItem({item}) {
     return (
       <ChannelDisplayName
-        showMembersLabel={false}
         name={item.name}
         key={item.id}
         create_at={item.create_at}
@@ -75,6 +74,8 @@ class Discover extends React.Component {
         channel={item}
         content_type={item.content_type}
         fav={item.fav}
+        showMembersLabel
+        members={item.members}
       />
     );
   }
