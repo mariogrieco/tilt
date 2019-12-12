@@ -60,8 +60,8 @@ export class AllChannels extends Component {
   });
 
   componentDidMount() {
-    this.props.getChannelStatsByGroup();
     this._fetchMore({distanceFromEnd: 0});
+    this.props.getChannelStatsByGroup();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
