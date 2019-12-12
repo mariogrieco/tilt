@@ -72,6 +72,20 @@ class ChannelPreview extends Component {
     />
   );
 
+  renderPrefix() {
+    const {channel} = this.props;
+    switch (channel.content_type) {
+      case 'S':
+        return '$';
+      case 'C':
+        return '$';
+      case 'N':
+        return '#';
+      default:
+        return '';
+    }
+  }
+
   render() {
     const {posts, theme, channel_id, channel} = this.props;
     const {load} = this.state;
@@ -113,7 +127,7 @@ class ChannelPreview extends Component {
                   <JoinButton
                     buttonStyle={styles.joinButtonContainer}
                     textStyle={styles.joinButtonText}
-                    displayText={`Join to ${channel.display_name}`}
+                    displayText={`Join to ${this.renderPrefix()}${channel.display_name}`}
                     channelId={channel_id}
                   />
               </View>
