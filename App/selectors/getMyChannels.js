@@ -36,7 +36,7 @@ const getMyChannels = createSelector(
     });
     return channels
       .sort((a, b) => a.create_at - b.create_at)
-      .sort((a, b) => a.fav - b.fav);
+      .sort((a, b) => (a.fav && !b.fav ? -1 : 1));
   },
 );
 
