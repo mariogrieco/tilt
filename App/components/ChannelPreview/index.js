@@ -62,7 +62,9 @@ class ChannelPreview extends Component {
       createdAt={post.create_at}
       type={post.type}
       edit_at={post.edit_at}
-      thread
+      // thread
+      // no_actions
+      disableInteractions
       replies={post.replies}
       isReply
       disableDots
@@ -71,7 +73,7 @@ class ChannelPreview extends Component {
   );
 
   render() {
-    const {posts, theme, channel_id} = this.props;
+    const {posts, theme, channel_id, channel} = this.props;
     const {load} = this.state;
 
     if (!load) return null;
@@ -80,7 +82,7 @@ class ChannelPreview extends Component {
       <SafeAreaView
         // eslint-disable-next-line react-native/no-inline-styles
         style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
-        {posts.length === 0 ?
+        {false ?
           <JoinBigBtn />
         :
           <View style={{flex: 1}}>
@@ -111,7 +113,7 @@ class ChannelPreview extends Component {
                   <JoinButton
                     buttonStyle={styles.joinButtonContainer}
                     textStyle={styles.joinButtonText}
-                    displayText={`Join`}
+                    displayText={`Join to ${channel.display_name}`}
                     channelId={channel_id}
                   />
               </View>
@@ -131,6 +133,7 @@ const mapStateToProps = (state, ownProps) => ({
     };
   }),
   theme: state.themes[state.themes.current],
+  channel: state.mapChannels.get(ownProps.channel_id) || {},
 });
 
 const mapDispatchToProps = {

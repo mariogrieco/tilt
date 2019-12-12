@@ -628,6 +628,7 @@ class Post extends React.Component {
       enablePostActions,
       usernameComponent,
       userPictureComponent,
+      no_actions,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);

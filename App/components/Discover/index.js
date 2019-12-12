@@ -87,6 +87,7 @@ class Discover extends React.Component {
     return (
       <Fragment>
         <FlatList
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}
           data={channels}
           extraData={channels}

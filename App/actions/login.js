@@ -110,6 +110,8 @@ export const login = (password, email) => async dispatch => {
   } catch (ex) {
     dispatch(loginFailed(ex));
     return Promise.reject(ex.message);
+  } finally {
+    // alert('done!');
   }
 };
 
