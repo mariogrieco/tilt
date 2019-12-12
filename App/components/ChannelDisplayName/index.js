@@ -194,7 +194,7 @@ class ChannelDisplayName extends Component {
   getJoinView() {
     const {theme} = this.props;
     return (
-      <TouchableOpacity activeOpacity={1} style={styles.containerJoin}>
+      <TouchableOpacity activeOpacity={1} style={styles.containerJoin} onPress={this.onPress}>
         {/*<View style={styles.imageContainer}>*/}
         {/*  <Image styles={styles.image} source={EARTH} />*/}
         {/*</View>*/}

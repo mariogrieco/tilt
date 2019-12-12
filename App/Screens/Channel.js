@@ -23,7 +23,7 @@ import GoBack from '../components/GoBack';
 import Post from '../components/Post/Post';
 import ChannelHeader from '../components/ChannelHeader';
 import Input from '../components/Input';
-import Separator from '../components/Separator';
+// import Separator from '../components/Separator';
 import NewMessageLabel from '../components/NewMessageLabel';
 import SeparatorContainer from '../components/SeparatorContainer';
 import {getJumpPostsOrtList} from '../selectors/getJumpPostList';
@@ -37,6 +37,7 @@ import {setRepostActiveOnInput} from '../actions/repost';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import assets from '../config/themeAssets/assets';
 import NewMessageSeparator from '../components/NewMessageSeparator';
+import ChannelPreview from '../components/ChannelPreview';
 
 const styles = StyleSheet.create({
   footer: {
@@ -623,10 +624,13 @@ class Channel extends React.Component {
   };
 
   render() {
-    const {channel, posts, activeJumpLabel, isArchived, theme} = this.props;
+    const {channel, posts, activeJumpLabel, isArchived, theme, joined, active_channel_id} = this.props;
     const {scrollLabel} = this.state;
     const placeholder = this.getPlaceHolder();
     const flagCount = this.props.flagCount || this.state.flagCount;
+    if (!joined) {
+      return <ChannelPreview channel_id={active_channel_id} />;
+    }
     return (
       <SafeAreaView
         forceInset={{top: 'never', bottom: 'always'}}
@@ -728,6 +732,8 @@ const mapStateToProps = state => {
     isPM: channel.type === 'D',
     isArchived,
     theme: state.themes[state.themes.current],
+    joined: state.myChannelsMap.has(active_channel_id),
+    active_channel_id,
   };
 };
 
