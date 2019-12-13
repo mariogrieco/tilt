@@ -151,11 +151,12 @@ class ChannelPreview extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   posts: (state.channelPreview[ownProps.channel_id] || []).map(post => {
-    return {
-      ...post,
-      user: state.users.data[post.user_id],
-    };
-  }),
+      return {
+        ...post,
+        user: state.users.data[post.user_id],
+      };
+    })
+    .filter(post => !state.blockedUsers[post.user_id]),
   theme: state.themes[state.themes.current],
   channel: state.mapChannels.get(ownProps.channel_id) || {},
 });
