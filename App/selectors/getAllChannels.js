@@ -39,7 +39,7 @@ const getAllChannels = createSelector(
           join: !myChannels.get(element.id),
         });
       });
-    return results;
+    return results.sort((a, b) => (a.fav && !b.fav ? -1 : 1));
   },
 );
 

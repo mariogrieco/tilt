@@ -15,13 +15,15 @@ function normalizePayload(reactions) {
     'rocket',
     'eyes',
   ];
-  return current_reactions.map(key => {
-    const match = reactions.find(r => r.EmojiName === key);
-    if (match) {
-      return match;
-    }
-    return {EmojiName: key, sum: 0};
-  });
+  return current_reactions
+    .map(key => {
+      const match = reactions.find(r => r.EmojiName === key);
+      if (match) {
+        return match;
+      }
+      return null;
+    })
+    .filter(r => r);
 }
 
 const reactions = (state = initialState, action) => {

@@ -5,8 +5,8 @@ import JoinButton from '../JoinButton';
 import Post from '../Post/Post';
 import {getChanelPreview} from '../../actions/channelPreview';
 import JoinBigBtn from '../JoinBigBtn';
+import parser from '../../utils/parse_display_name';
 import StyleSheet from 'react-native-extended-stylesheet';
-
 
 const styles = StyleSheet.create({
   joinContainer: {
@@ -90,50 +90,56 @@ class ChannelPreview extends Component {
     const {posts, theme, channel_id, channel} = this.props;
     const {load} = this.state;
 
-    if (!load) return null;
+    if (!load) {
+      return null;
+    }
 
     return (
       <SafeAreaView
         // eslint-disable-next-line react-native/no-inline-styles
         style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
-        {false ?
+        {false ? (
           <JoinBigBtn />
-        :
+        ) : (
+          // eslint-disable-next-line react-native/no-inline-styles
           <View style={{flex: 1}}>
             <FlatList
               keyboardDismissMode="on-drag"
+              // eslint-disable-next-line react-native/no-inline-styles
               contentContainerStyle={{paddingTop: 0}}
               data={posts}
               renderItem={this.renderItem}
             />
-              <View
+            <View
+              style={[
+                styles.joinContainer,
+                {
+                  borderTopColor: theme.borderBottomColor,
+                  backgroundColor: theme.primaryBackgroundColor,
+                },
+              ]}>
+              <Text
                 style={[
-                  styles.joinContainer,
+                  styles.joinMessageText,
                   {
-                    borderTopColor: theme.borderBottomColor,
-                    backgroundColor: theme.primaryBackgroundColor,
+                    color: theme.primaryTextColor,
                   },
                 ]}>
-              <Text
-                  style={[
-                    styles.joinMessageText,
-                    {
-                      color: theme.primaryTextColor,
-                    },
-                  ]}>
-                  Join to start commenting.
-                </Text>
-                <View style={[{paddingLeft: 15, paddingRight: 15, width: '100%'}]}>
-                  <JoinButton
-                    buttonStyle={styles.joinButtonContainer}
-                    textStyle={styles.joinButtonText}
-                    displayText={`Join to ${this.renderPrefix()}${channel.display_name}`}
-                    channelId={channel_id}
-                  />
+                Join to start commenting.
+              </Text>
+              <View
+                // eslint-disable-next-line react-native/no-inline-styles
+                style={[{paddingLeft: 15, paddingRight: 15, width: '100%'}]}>
+                <JoinButton
+                  buttonStyle={styles.joinButtonContainer}
+                  textStyle={styles.joinButtonText}
+                  displayText={`Join to ${this.renderPrefix()}${parser(channel.display_name)}`}
+                  channelId={channel_id}
+                />
               </View>
             </View>
           </View>
-        }
+        )}
       </SafeAreaView>
     );
   }
