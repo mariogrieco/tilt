@@ -335,6 +335,7 @@ class Post extends React.Component {
       allowRepost,
       repost,
       enablePostActions,
+      showPreviewDots,
     } = this.props;
     this.props.showPostActions(userId, postId, {
       hideReply: isReply,
@@ -343,6 +344,7 @@ class Post extends React.Component {
       showRepostNoRequieredRedirect:
         repost && !allowRepost ? repost.channel_id : null,
       enablePostActions,
+      showPreviewDots,
     });
   };
 
@@ -628,7 +630,7 @@ class Post extends React.Component {
       enablePostActions,
       usernameComponent,
       userPictureComponent,
-      no_actions,
+      showPreviewDots,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -644,10 +646,15 @@ class Post extends React.Component {
             <JoinButton channelId={channelId} buttonStyle={{marginRight: 5}} />
           )}
 
-          {!typeIsSystem && !disableDots && !isRepost && (
+          {((!typeIsSystem && !disableDots && !isRepost) ||
+            showPreviewDots) && (
             <TouchableOpacity
               style={[styles.dotContainer]}
-              onPress={disableInteractions ? () => {} : this.onPostPress}>
+              onPress={
+                disableInteractions && !showPreviewDots
+                  ? () => {}
+                  : this.onPostPress
+              }>
               <View
                 style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />

@@ -65,6 +65,7 @@ class ChannelPreview extends Component {
       // thread
       // no_actions
       disableInteractions
+      showPreviewDots
       replies={post.replies}
       isReply
       disableDots
@@ -125,7 +126,8 @@ class ChannelPreview extends Component {
                     color: theme.primaryTextColor,
                   },
                 ]}>
-                Join to start commenting.
+                Join {this.renderPrefix()}${parser(channel.display_name)} to
+                start commenting.
               </Text>
               <View
                 // eslint-disable-next-line react-native/no-inline-styles
@@ -133,7 +135,9 @@ class ChannelPreview extends Component {
                 <JoinButton
                   buttonStyle={styles.joinButtonContainer}
                   textStyle={styles.joinButtonText}
-                  displayText={`Join to ${this.renderPrefix()}${parser(channel.display_name)}`}
+                  displayText={`Join ${this.renderPrefix()}${parser(
+                    channel.display_name,
+                  )}`}
                   channelId={channel_id}
                 />
               </View>

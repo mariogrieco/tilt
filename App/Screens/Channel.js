@@ -177,7 +177,7 @@ class Channel extends React.Component {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        {!navigation.getParam('pm', '') && (
+        {(!navigation.getParam('pm', '') && !navigation.getParam('hiddeMenu', '')) && (
           <Fragment>
             <TouchableOpacity
               style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
@@ -230,12 +230,18 @@ class Channel extends React.Component {
     }
   }
 
+  componentWillMount() {
+    const {setParams} = this.props.navigation;
+    setParams({hiddeMenu: !this.props.joined});
+  }
+
   componentDidMount() {
     this.navigationListener = this.props.navigation.addListener(
       'didFocus',
       this.checkFocusedPost,
     );
     if (this.props.flagCount) {
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         scrollLabel: true,
       });
@@ -624,7 +630,15 @@ class Channel extends React.Component {
   };
 
   render() {
-    const {channel, posts, activeJumpLabel, isArchived, theme, joined, active_channel_id} = this.props;
+    const {
+      channel,
+      posts,
+      activeJumpLabel,
+      isArchived,
+      theme,
+      joined,
+      active_channel_id,
+    } = this.props;
     const {scrollLabel} = this.state;
     const placeholder = this.getPlaceHolder();
     const flagCount = this.props.flagCount || this.state.flagCount;
@@ -634,6 +648,7 @@ class Channel extends React.Component {
     return (
       <SafeAreaView
         forceInset={{top: 'never', bottom: 'always'}}
+        // eslint-disable-next-line react-native/no-inline-styles
         style={[{flex: 1}, {backgroundColor: theme.primaryBackgroundColor}]}>
         {!activeJumpLabel && scrollLabel && flagCount > 0 && (
           <NewMessageLabel
