@@ -126,8 +126,8 @@ class ChannelPreview extends Component {
                     color: theme.primaryTextColor,
                   },
                 ]}>
-                Join {this.renderPrefix()}${parser(channel.display_name)} to
-                start commenting.
+                Join {this.renderPrefix()}
+                {parser(channel.display_name)} to start commenting.
               </Text>
               <View
                 // eslint-disable-next-line react-native/no-inline-styles
