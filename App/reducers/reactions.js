@@ -1,20 +1,20 @@
 import {
-  ADDED_REACTION,
-  REMOVED_REACTION,
+  // ADDED_REACTION,
+  // REMOVED_REACTION,
   GET_REACTIONS_FOR_USER_SUCCES,
 } from '../actions/reactions';
 
 const initialState = {};
+export const current_reactions = [
+  '+1',
+  '-1',
+  'frowning_face',
+  'joy',
+  'rocket',
+  'eyes',
+];
 
 function normalizePayload(reactions) {
-  const current_reactions = [
-    '+1',
-    '-1',
-    'frowning_face',
-    'joy',
-    'rocket',
-    'eyes',
-  ];
   return current_reactions
     .map(key => {
       const match = reactions.find(r => r.EmojiName === key);
