@@ -195,7 +195,10 @@ export class Stocks extends Component {
     return (
       <React.Fragment>
         {searchValue ? (
-          <StockSearch list={matches} />
+          <StockSearch
+            list={matches}
+            handleOnSymbolPress={this.handleOnSymbolPress}
+          />
         ) : (
           <TabView
             navigationState={{...this.state}}

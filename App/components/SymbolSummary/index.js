@@ -1,8 +1,11 @@
 import React, {PureComponent} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
-// import PropTypes from 'prop-types';
+import parser from '../../utils/parse_display_name';
 import {connect} from 'react-redux';
 import JoinButton from '../JoinButton';
+import NavigationService from '../../config/NavigationService';
+import {setActiveFocusChannel} from '../../actions/AppNavigation';
+import {selectedSymbol} from '../../actions/symbols';
 
 import styles from './styles';
 
@@ -57,7 +60,10 @@ class SymbolSummary extends PureComponent {
 
 const mapStateToProps = ({themes}) => ({theme: themes[themes.current]});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setActiveFocusChannel,
+  selectedSymbol,
+};
 
 export default connect(
   mapStateToProps,

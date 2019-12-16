@@ -11,9 +11,8 @@ class StockSearch extends Component {
     return channel.id;
   }
 
-  onPress = channel_id => {
-    // eslint-disable-next-line no-alert
-    // alert(channel_id);
+  onPress = name => {
+    this.props.handleOnSymbolPress(name);
   };
 
   renderItem = ({item}) => {
@@ -22,10 +21,14 @@ class StockSearch extends Component {
         channelId={item.id}
         header={item.header}
         name={item.display_name}
+        members={item.members}
+        content_type={item.content_type}
+        create_at={item.create_at}
         hidde_prices
-        onPress={this.onPress.bind(this, item.id)}
+        fav={item.fav}
         join={item.join}
         onJoin={this.join}
+        onPress={this.onPress.bind(this, item.display_name)}
       />
     );
   };
@@ -54,10 +57,15 @@ class StockSearch extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   theme: state.themes[state.themes.current],
-  list: ownProps.list.map(channel => ({
-    ...channel,
-    join: !state.myChannelsMap.get(channel.id),
-  })),
+  list: ownProps.list
+    .map(channel => ({
+      ...channel,
+      join: !state.myChannelsMap.get(channel.id),
+      fav: state.preferences.find(
+        pre => pre.category === 'favorite_channel' && pre.name === channel.id,
+      ),
+    }))
+    .sort((a, b) => (a.fav && !b.fav ? -1 : 1)),
 });
 
 const mapDispatchToProps = {};
