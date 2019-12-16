@@ -87,14 +87,22 @@ class ChannelPreview extends Component {
     }
   }
 
-  render() {
-    const {posts, theme, channel_id, channel} = this.props;
-    const {load} = this.state;
+  displayName() {
+    const {channel} = this.props;
+    const isNormal = channel.content_type === 'N';
+    const name = `${this.renderPrefix()}${parser(channel.display_name)}`;
+    if (isNormal) {
+      return name;
+    }
+    return name.toUpperCase();
+  }
 
+  render() {
+    const {posts, theme, channel_id} = this.props;
+    const {load} = this.state;
     if (!load) {
       return null;
     }
-
     return (
       <SafeAreaView
         // eslint-disable-next-line react-native/no-inline-styles
@@ -126,8 +134,7 @@ class ChannelPreview extends Component {
                     color: theme.primaryTextColor,
                   },
                 ]}>
-                Join {this.renderPrefix()}
-                {parser(channel.display_name)} to start commenting.
+                Join {this.displayName()} to start commenting.
               </Text>
               <View
                 // eslint-disable-next-line react-native/no-inline-styles
@@ -135,9 +142,7 @@ class ChannelPreview extends Component {
                 <JoinButton
                   buttonStyle={styles.joinButtonContainer}
                   textStyle={styles.joinButtonText}
-                  displayText={`Join ${this.renderPrefix()}${parser(
-                    channel.display_name,
-                  )}`}
+                  displayText={`Join ${this.displayName()}`}
                   channelId={channel_id}
                 />
               </View>

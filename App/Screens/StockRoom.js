@@ -2,10 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {Dimensions, TouchableOpacity, Image, View} from 'react-native';
 import {connect} from 'react-redux';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {
-  headerForScreenWithBottomLine,
-  headerForScreenWithTabs,
-} from '../config/navigationHeaderStyle';
+import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import isEqual from 'lodash/isEqual';
 import StyleSheet from 'react-native-extended-stylesheet';
 import GoBack from '../components/GoBack';
@@ -100,23 +97,30 @@ export class StockRoom extends Component {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Fragment>
-          <TouchableOpacity
-            // eslint-disable-next-line react-native/no-inline-styles
-            style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
-            onPress={() => navigation.navigate('AdvancedSearch')}>
-            <Image source={assets[screenProps.themeName].SEARCH} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            // eslint-disable-next-line react-native/no-inline-styles
-            style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
-            onPress={() => navigation.navigate('ChannelInfo')}>
-            <Image source={assets[screenProps.themeName].GEAR} />
-          </TouchableOpacity>
-        </Fragment>
+        {navigation.getParam('showMenu', false) && (
+          <Fragment>
+            <TouchableOpacity
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
+              onPress={() => navigation.navigate('AdvancedSearch')}>
+              <Image source={assets[screenProps.themeName].SEARCH} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
+              onPress={() => navigation.navigate('ChannelInfo')}>
+              <Image source={assets[screenProps.themeName].GEAR} />
+            </TouchableOpacity>
+          </Fragment>
+        )}
       </View>
     ),
   });
+
+  componentWillMount() {
+    const {setParams} = this.props.navigation;
+    setParams({showMenu: this.props.joined});
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
@@ -160,6 +164,7 @@ export class StockRoom extends Component {
 
 const mapStateToProps = state => ({
   theme: state.themes[state.themes.current],
+  joined: state.myChannelsMap.has(state.appNavigation.active_channel_id),
 });
 
 const mapDispatchToProps = {
