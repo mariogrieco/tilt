@@ -1,7 +1,10 @@
 import {createSelector} from 'reselect';
 
 const channelPostIdSelector = (state, props) =>
-  state.feeds.posts[props.id] || state.posts.entities[props.id] || {};
+  state.feeds.posts[props.id] ||
+  state.posts.entities[props.id] ||
+  state.followingTimeline.post_entities[props.id] ||
+  {};
 const myChannelsMapSelector = state => state.myChannelsMap;
 const mapChannelsSelector = state => state.mapChannels;
 

@@ -744,8 +744,8 @@ const mapStateToProps = state => {
     ? state.mapChannels.get(channel_id)
     : {};
   const iAmAdmin = state.login.user.roles.includes('admin');
-  const channel = state.myChannelsMap.has(channel_id)
-    ? state.myChannelsMap.get(channel_id)
+  const channel = state.mapChannels.has(channel_id)
+    ? state.mapChannels.get(channel_id)
     : {};
   const owner = state.users.data[channel.creator_id];
   const ChannelCreatorPicture = getUserProfilePicture(channel.creator_id);

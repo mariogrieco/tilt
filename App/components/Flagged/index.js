@@ -7,11 +7,34 @@ import NavigationService from '../../config/NavigationService';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import styles from './styles';
 import BottomBlockSpaceSmall from '../BottomBlockSpaceSmall';
+import {selectedSymbol} from '../../actions/symbols';
 import parser from '../../utils/parse_display_name';
 
 const MOON = require('../../../assets/themes/light/flagged_moon/flagged_moon.png');
 
 class Flagged extends React.PureComponent {
+  navigatorAction(channel) {
+    if (!channel) {
+      return null;
+    }
+    this.props.setActiveFocusChannel(channel.id);
+    let roomName = 'Channel';
+    if (channel.content_type === 'S') {
+      roomName = 'StockRoom';
+      this.props.selectedSymbol({symbol: channel.display_name});
+    } else if (channel.content_type === 'C') {
+      this.props.selectedSymbol({symbol: channel.display_name});
+      roomName = 'Room';
+    }
+    NavigationService.navigate(roomName, {
+      title: parser(channel.display_name),
+      create_at: channel.create_at,
+      members: channel.members,
+      fav: channel.fav,
+      isAdminCreator: channel.content_type !== 'N',
+    });
+  }
+
   renderItem = ({item: channel}) => {
     const channelName = `${channel.prefix}${channel.show_name}`;
     const {theme} = this.props;
@@ -20,19 +43,7 @@ class Flagged extends React.PureComponent {
       <View style={{backgroundColor: theme.primaryBackgroundColor}}>
         <TouchableOpacity
           style={styles.channelTitleContainer}
-          onPress={() => {
-            this.props.setActiveFocusChannel(channel.id);
-            NavigationService.navigate('Channel', {
-              name: channelName
-                .replace('$', '')
-                .replace('#', '')
-                .replace('@', ''),
-              members: channel.members,
-              create_at: channel.create_at,
-              fav: channel.fav,
-              pm: channel.type === 'D',
-            });
-          }}>
+          onPress={this.navigatorAction.bind(this, channel)}>
           <Text style={[styles.channelTitle, {paddingTop: 5}]}>
             {channelName}
           </Text>
@@ -100,6 +111,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   setActiveFocusChannel,
+  selectedSymbol,
 };
 
 export default connect(

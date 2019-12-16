@@ -157,24 +157,21 @@ function getRootID(post) {
   return post.id;
 }
 
-// this will me move to selector folder soon.
-
 const threadSelector = state => {
   const activePost = state.appNavigation.active_thread_data;
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
+  const followPost = state.followingTimeline.post_entities[activePost];
   const mapChannels = state.mapChannels;
-  const adminIds = state.adminCreators;
   const localFeedJoin = updateFeedJoin();
 
   if (postEntity) {
-    console.log('lo encontre en entities');
     const root_id = getRootID(postEntity);
     const rootPost = getPostById(state, root_id);
     const originChannel = mapChannels.get(postEntity.channel_id);
-    const channelName = `${
-      adminIds.includes(originChannel.creator_id) ? '$' : '#'
-    }${originChannel ? originChannel.name : ''}`;
+    const channelName = `${originChannel.content_type !== 'N' ? '$' : '#'}${
+      originChannel ? originChannel.name : ''
+    }`;
     return {
       needJoin: localFeedJoin(state, {id: postEntity.id}),
       thread: getThreadForPost(state, postEntity),
@@ -187,7 +184,6 @@ const threadSelector = state => {
   }
 
   if (postFeed) {
-    console.log('lo encontre en feed');
     const thread = [
       postFeed,
       ...postFeed.feed_thread.map(
@@ -197,7 +193,7 @@ const threadSelector = state => {
     const originChannel = mapChannels.get(postFeed.channel_id);
     const channelName = originChannel
       ? `${
-          adminIds.includes(originChannel.creator_id)
+          originChannel.content_type !== 'N'
             ? `$${originChannel.name.toUpperCase()}`
             : `#${originChannel.name}`
         }`
@@ -213,7 +209,31 @@ const threadSelector = state => {
     };
   }
 
-  console.log('no encontre nada');
+  if (followPost) {
+    const thread = [
+      followPost,
+      ...followPost.feed_thread.map(
+        postReplyKey => state.followingTimeline.post_entities[postReplyKey],
+      ),
+    ];
+    const originChannel = mapChannels.get(followPost.channel_id);
+    const channelName = originChannel
+      ? `${
+          originChannel.content_type !== 'N'
+            ? `$${originChannel.name.toUpperCase()}`
+            : `#${originChannel.name}`
+        }`
+      : '';
+    return {
+      needJoin: localFeedJoin(state, {id: followPost.id}),
+      thread,
+      root_id: followPost.id,
+      channelId: followPost.channel_id,
+      replyTo: state.users.data[followPost.user_id].username,
+      replyMessage: followPost.message,
+      channelName,
+    };
+  }
 
   return {
     thread: [],
@@ -231,7 +251,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Thread);
+export default connect(mapStateToProps, mapDispatchToProps)(Thread);

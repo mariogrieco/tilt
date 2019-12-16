@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import {isChannelCreatorAdmin} from './isChannelCreatorAdmin';
 
 const usersDataSelector = state => state.users.data;
 const flaggedOrderSelector = state => state.flagged.order;
@@ -33,7 +32,9 @@ const getFlagged = createSelector(
   ) => {
     const flagged_channels = [];
 
-    myChannelsMap.valueSeq().forEach(channel => {
+    myChannelsMap.keySeq().forEach(id => {
+      const channel = mapChannels.get(id);
+      if (!channel) return null;
       const data = {
         ...channel,
         creator: usersData[channel.creator_id] || {},
@@ -61,15 +62,7 @@ const getFlagged = createSelector(
           data.prefix = '@';
         } else {
           data.show_name = data.name;
-          data.prefix = isChannelCreatorAdmin(
-            mapChannels,
-            myChannelsMap,
-            users,
-            data.id,
-            adminCreators,
-          )
-            ? '$'
-            : '#';
+          data.prefix = data.content_type !== 'N' ? '$' : '#';
         }
         flagged_channels.push(data);
       }

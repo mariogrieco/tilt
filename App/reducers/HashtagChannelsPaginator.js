@@ -8,7 +8,6 @@ const initialState = {
 export default (state = initialState, {type, payload}) => {
   switch (type) {
     case GET_PAGE_SUCCESS:
-      console.log(payload.channels.length);
       return {
         ...state,
         page: payload.page,

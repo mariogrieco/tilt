@@ -335,6 +335,7 @@ class Post extends React.Component {
       allowRepost,
       repost,
       enablePostActions,
+      showPreviewDots,
     } = this.props;
     this.props.showPostActions(userId, postId, {
       hideReply: isReply,
@@ -343,6 +344,7 @@ class Post extends React.Component {
       showRepostNoRequieredRedirect:
         repost && !allowRepost ? repost.channel_id : null,
       enablePostActions,
+      showPreviewDots,
     });
   };
 
@@ -366,7 +368,7 @@ class Post extends React.Component {
     }
 
     NavigationService.navigate('Channel', {
-      name: show_name,
+      title: parser(show_name),
       create_at: channel.create_at,
       members: channel.members,
       fav: channel.fav,
@@ -486,19 +488,21 @@ class Post extends React.Component {
     return files.map((file, index) => this.renderFile(file));
   }
 
+  handleOnChannelChartMention = value => {
+    this.props.setPopupSymbolValue(value, true);
+  };
+
   renderMessage = () => {
     const {
       message,
       metadata,
       edit_at,
       type,
-      navigateIfExists,
       onUser,
       disableInteractions,
       isPM,
       // reported,
       post_props,
-      setPopupSymbolValue,
     } = this.props;
     const {theme} = this.props;
     const typeIsSystem = type.match('system');
@@ -542,8 +546,8 @@ class Post extends React.Component {
               <PureParsedText
                 message={message}
                 typeIsSystem={typeIsSystem}
-                onChannel={navigateIfExists}
-                onChannel2={setPopupSymbolValue}
+                onChannel={this.props.navigateIfExists}
+                onChannel2={this.handleOnChannelChartMention}
                 onUser={onUser}
                 props={post_props}
                 disableUserPattern={isPM}
@@ -626,6 +630,7 @@ class Post extends React.Component {
       enablePostActions,
       usernameComponent,
       userPictureComponent,
+      showPreviewDots,
     } = this.props;
     const typeIsSystem = type.match('system');
     const reactions = reduceReactions(metadata);
@@ -641,10 +646,15 @@ class Post extends React.Component {
             <JoinButton channelId={channelId} buttonStyle={{marginRight: 5}} />
           )}
 
-          {!typeIsSystem && !disableDots && !isRepost && (
+          {((!typeIsSystem && !disableDots && !isRepost) ||
+            showPreviewDots) && (
             <TouchableOpacity
               style={[styles.dotContainer]}
-              onPress={disableInteractions ? () => {} : this.onPostPress}>
+              onPress={
+                disableInteractions && !showPreviewDots
+                  ? () => {}
+                  : this.onPostPress
+              }>
               <View
                 style={[styles.dot, {backgroundColor: theme.primaryTextColor}]}
               />

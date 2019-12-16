@@ -5,6 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import ThemeTabBar from '../components/ThemeTabBar';
 import TabBarIcon from '../components/TabBarIcon';
+import Follow from '../Screens/Follow';
 import AuthVerification from '../Screens/AuthVerification';
 import Home from '../Screens/Home';
 import PublicChat from '../Screens/PublicChat';
@@ -33,6 +34,13 @@ import AdvancedSearch from '../Screens/AdvancedSearch';
 import TermsWeb from '../Screens/TermsWeb';
 import BlockUser from '../Screens/BlockUser';
 import Themes from '../Screens/Themes';
+import NewChannels from '../Screens/NewChannels';
+import TrendingChannels from '../Screens/TrendingChannels';
+import Stocks from '../Screens/Stocks';
+import Cryptos from '../Screens/Cryptos';
+import StockRoom from '../Screens/StockRoom';
+import WebView from '../Screens/WebView';
+import All from '../Screens/All';
 
 const HomeStack = createStackNavigator(
   {
@@ -43,9 +51,23 @@ const HomeStack = createStackNavigator(
   },
 );
 
-const RoomStack = createStackNavigator(
+const CryptoRoomStack = createStackNavigator(
   {
     CryptoRoom,
+    ChannelInfo,
+    AdvancedSearch,
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
+
+const StockRoomStack = createStackNavigator(
+  {
+    StockRoom,
+    ChannelInfo,
+    AdvancedSearch,
+    WebView,
   },
   {
     headerLayoutPreset: 'center',
@@ -74,7 +96,6 @@ const LoggedInTab = createStackNavigator(
     LoggedIn,
   },
   {
-    // headerMode: 'none',
     headerLayoutPreset: 'center',
   },
 );
@@ -83,6 +104,11 @@ const PublicChatStack = createStackNavigator(
   {
     PublicChat,
     CreateChannel,
+    NewChannels,
+    TrendingChannels,
+    Stocks,
+    Cryptos,
+    All,
   },
   {
     headerLayoutPreset: 'center',
@@ -139,6 +165,7 @@ const LoggedInMenuStack = createStackNavigator(
 const MemberStack = createStackNavigator(
   {
     MemberProfile,
+    Follow,
   },
   {
     headerLayoutPreset: 'center',
@@ -185,6 +212,15 @@ const InviteContactsStack = createStackNavigator(
   },
 );
 
+const FollowStack = createStackNavigator(
+  {
+    Follow,
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
+
 // const RootStack = createStackNavigator(
 //   {
 //     SignUpStack,
@@ -205,9 +241,11 @@ const InviteContactsStack = createStackNavigator(
 const AppStack = createStackNavigator(
   {
     Root: TabBarPrincipal,
-    Room: RoomStack,
+    StockRoom: StockRoomStack,
+    Room: CryptoRoomStack,
     LoggedInMenuStack,
     ChannelStack,
+    FollowStack,
     MemberStack,
     ThreadStack,
     ThreadEditStack,

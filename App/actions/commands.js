@@ -53,9 +53,21 @@ export const executeCommand = (command, channelId) => async (
   const defaultTeam = getState().teams.default_team_id;
   switch (command.split(' ')[0]) {
     case '/search': {
-      let channel =
-        getState().myChannelsMap.find(_channel => channelId === _channel.id) ||
-        {};
+      const channels = getState().mapChannels;
+      let channel = null;
+
+      getState()
+        .myChannelsMap.keySeq()
+        .forEach(key => {
+          if (channelId === key) {
+            channel = channels.get(key);
+          }
+        });
+
+      if (!channel) {
+        return null;
+      }
+
       if (channel.type === 'D') {
         channel = {
           ...channel,

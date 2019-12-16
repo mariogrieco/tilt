@@ -81,7 +81,7 @@ export class ReactionSummary extends Component {
       case '+1':
         return <Like />;
       default:
-        <View />;
+        return null;
     }
   }
 

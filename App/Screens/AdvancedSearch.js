@@ -1,6 +1,6 @@
 import React, {Component, createRef} from 'react';
 import {FlatList, View, Text, TouchableOpacity} from 'react-native';
-import {NavigationActions, withNavigation} from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 import isEqual from 'lodash/isEqual';
 import {connect} from 'react-redux';
 import Separator from '../components/Separator';
@@ -11,10 +11,7 @@ import SearchBar from '../components/SearchBar';
 import {searchPostsWithParams} from '../actions/advancedSearch';
 import getAdvancedSearchList from '../selectors/getAdvancedSearchList';
 import Suggestions from '../components/Suggestions';
-import isChannelCreatorAdmin from '../selectors/isChannelCreatorAdmin';
-import GoBack from '../components/GoBack';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
-// import PropTypes from 'prop-types'
 
 const fromRegx = /(from:.[a-z0-9_-]+)|(from:)/gi;
 const inRegx = /(in:.[a-z0-9_-]+)|(in:)/gi;
@@ -361,9 +358,8 @@ export class AdvancedSearch extends Component {
   };
 
   render() {
-    const {posts} = this.props;
     const {loading, activeMentionBox, activeChannelBox} = this.state;
-    const {theme} = this.props;
+    const {theme, posts} = this.props;
     return (
       <View style={{flex: 1, backgroundColor: theme.primaryBackgroundColor}}>
         {activeMentionBox && this.renderMentionBox()}
@@ -391,7 +387,9 @@ const mapStateToProps = state => {
       state.users.data[key] ? state.users.data[key] : {},
     ),
     channels: state.myChannelsMap
-      .filter(({type}) => type === 'O')
+      .keySeq()
+      .map(key => state.mapChannels.get(key))
+      .filter(c => c && c.type === 'O')
       .map(channel => {
         return {
           ...channel,
@@ -403,11 +401,10 @@ const mapStateToProps = state => {
                     channel.name.replace(whoIam, '').replace('__', '')
                   ],
                 )
-              : channel.name,
-          isDollar: isChannelCreatorAdmin(state, channel.id),
+              : channel.display_name,
+          isDollar: channel.content_type !== 'N',
         };
       })
-      .valueSeq()
       .toJS(),
     theme: state.themes[state.themes.current],
   };

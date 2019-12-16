@@ -6,16 +6,27 @@ import Client4 from '../api/MattermostClient';
 export const SEARCH_CHANNELS_SUCCESS = 'SEARCH_CHANNELS_SUCCESS';
 export const SEARCH_CHANNELS_ERROR = 'SEARCH_CHANNELS_ERROR';
 
-export const searchChannels = (_XX, term) => async (dispatch, getState) => {
+export const searchChannels = term => async (dispatch, getState) => {
   try {
-    const team_id = getState().teams.default_team_id;
-    const results = await Client4.searchChannels(team_id, term);
-    const channelsFilter = results.filter(channel => channel.delete_at === 0);
-    dispatch(searchChannelsSucess(channelsFilter));
-    return channelsFilter;
+    const results = await Client4.searchChannels(term);
+    // console.log('results:', results);
+    dispatch(searchChannelsSucess(results));
+    return results;
   } catch (ex) {
+    // console.log('ex:', ex);
     dispatch(searchChannelsError(ex));
     return Promise.reject(ex.message);
+  }
+};
+
+export const searchMultiple = (terms = []) => async dispatch => {
+  try {
+    const searchs = [];
+    terms.forEach(term => searchs.push(dispatch(searchChannels(term))));
+    return await Promise.all(searchs);
+  } catch (err) {
+    console.log(err);
+    return err;
   }
 };
 

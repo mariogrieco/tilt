@@ -23,7 +23,7 @@ import GoBack from '../components/GoBack';
 import Post from '../components/Post/Post';
 import ChannelHeader from '../components/ChannelHeader';
 import Input from '../components/Input';
-import Separator from '../components/Separator';
+// import Separator from '../components/Separator';
 import NewMessageLabel from '../components/NewMessageLabel';
 import SeparatorContainer from '../components/SeparatorContainer';
 import {getJumpPostsOrtList} from '../selectors/getJumpPostList';
@@ -37,6 +37,7 @@ import {setRepostActiveOnInput} from '../actions/repost';
 import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import assets from '../config/themeAssets/assets';
 import NewMessageSeparator from '../components/NewMessageSeparator';
+import ChannelPreview from '../components/ChannelPreview';
 
 const styles = StyleSheet.create({
   footer: {
@@ -160,7 +161,7 @@ class Channel extends React.Component {
         }}>
         <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
         <ChannelHeader
-          name={navigation.getParam('name', '')}
+          name={navigation.getParam('title', '')}
           create_at={navigation.getParam('create_at', '')}
           members={navigation.getParam('members', '')}
           fav={navigation.getParam('fav', '')}
@@ -176,7 +177,7 @@ class Channel extends React.Component {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        {!navigation.getParam('pm', '') && (
+        {(!navigation.getParam('pm', '') && !navigation.getParam('hiddeMenu', '')) && (
           <Fragment>
             <TouchableOpacity
               style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
@@ -229,12 +230,18 @@ class Channel extends React.Component {
     }
   }
 
+  componentWillMount() {
+    const {setParams} = this.props.navigation;
+    setParams({hiddeMenu: !this.props.joined});
+  }
+
   componentDidMount() {
     this.navigationListener = this.props.navigation.addListener(
       'didFocus',
       this.checkFocusedPost,
     );
     if (this.props.flagCount) {
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         scrollLabel: true,
       });
@@ -571,9 +578,7 @@ class Channel extends React.Component {
     const isAdminCreator =
       navigation.getParam('isAdminCreator', '') || isDollar;
     const isPrivateMessage = navigation.getParam('pm', '');
-    const title = isPrivateMessage
-      ? navigation.getParam('name', '')
-      : channel.name;
+    const title = navigation.getParam('title', '');
 
     if (isAdminCreator) {
       return `Write to $${parseChannelMention(title).toUpperCase()}`;
@@ -625,13 +630,25 @@ class Channel extends React.Component {
   };
 
   render() {
-    const {channel, posts, activeJumpLabel, isArchived, theme} = this.props;
+    const {
+      channel,
+      posts,
+      activeJumpLabel,
+      isArchived,
+      theme,
+      joined,
+      active_channel_id,
+    } = this.props;
     const {scrollLabel} = this.state;
     const placeholder = this.getPlaceHolder();
     const flagCount = this.props.flagCount || this.state.flagCount;
+    if (!joined) {
+      return <ChannelPreview channel_id={active_channel_id} />;
+    }
     return (
       <SafeAreaView
         forceInset={{top: 'never', bottom: 'always'}}
+        // eslint-disable-next-line react-native/no-inline-styles
         style={[{flex: 1}, {backgroundColor: theme.primaryBackgroundColor}]}>
         {!activeJumpLabel && scrollLabel && flagCount > 0 && (
           <NewMessageLabel
@@ -710,7 +727,7 @@ const mapStateToProps = state => {
   const data = getJumpPostsOrtList(state, true);
   const {lastViewed} = state;
   const {active_channel_id, prev_active_channel_id} = state.appNavigation;
-  const channel = state.myChannelsMap.get(active_channel_id) || {};
+  const channel = state.mapChannels.get(active_channel_id) || {};
   const isArchived =
     findIndex(state.archivedChannels, ['channelId', active_channel_id]) !== -1;
 
@@ -730,6 +747,8 @@ const mapStateToProps = state => {
     isPM: channel.type === 'D',
     isArchived,
     theme: state.themes[state.themes.current],
+    joined: state.myChannelsMap.has(active_channel_id),
+    active_channel_id,
   };
 };
 
@@ -742,5 +761,8 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(Channel),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Channel),
 );
