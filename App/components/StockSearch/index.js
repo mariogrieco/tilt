@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import Separator from '../Separator';
 import SymbolSummary from '../SymbolSummary';
 
-// import styles from './styles';
-
 class StockSearch extends Component {
   keyExtractor(channel) {
     return channel.id;

@@ -1,16 +1,13 @@
 import React, {PureComponent} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
-import parser from '../../utils/parse_display_name';
 import {connect} from 'react-redux';
 import JoinButton from '../JoinButton';
-import NavigationService from '../../config/NavigationService';
 import {setActiveFocusChannel} from '../../actions/AppNavigation';
 import {selectedSymbol} from '../../actions/symbols';
 
 import styles from './styles';
 
 class SymbolSummary extends PureComponent {
-  // static propTypes = {};
   renderChangePrice = () => {
     const {theme, change_percent} = this.props;
     const color = change_percent > 0 ? '#17C491' : '#FC3E30';
