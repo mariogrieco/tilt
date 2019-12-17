@@ -11,11 +11,14 @@ const userSelector = (state, props) => state.users.data[props.userId] || {};
 const followingUsers = state => state.loggedUserFollow.following;
 
 const makeUserWithFollowState = () =>
-  createSelector([userSelector, followingUsers], (user, following) => {
-    const result = following.find(userId => userId === user.id);
-    user.isFollowed = Boolean(result);
-    return user;
-  });
+  createSelector(
+    [userSelector, followingUsers],
+    (user, following) => {
+      const result = following.find(userId => userId === user.id);
+      user.isFollowed = Boolean(result);
+      return user;
+    },
+  );
 
 const UserFollow = ({userId}) => {
   const dispatch = useDispatch();
@@ -77,30 +80,32 @@ const UserFollow = ({userId}) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    paddingTop: 13.5,
-    paddingBottom: 15.5,
+    paddingVertical: 10,
   },
   userNames: {
     fontSize: 16,
     fontFamily: 'SFProDisplay-Bold',
     color: '#0e141e',
+    letterSpacing: 0.1,
   },
   username: {
     color: '#585c63',
     fontSize: 16,
     fontFamily: 'SFProDisplay-Regular',
+    letterSpacing: 0.1,
   },
   userPicture: {
     width: 36,
     height: 36,
-    borderRadius: 4,
+    borderRadius: 8,
     marginRight: 10,
   },
   userBio: {
-    marginTop: 12,
+    marginTop: 10,
     fontFamily: 'SFProDisplay-Regular',
     fontSize: 16,
-    color: '#1c2431',
+    color: '#0e141e',
+    letterSpacing: 0.1,
   },
 });
 
