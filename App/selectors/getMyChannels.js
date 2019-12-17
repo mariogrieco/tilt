@@ -1,10 +1,45 @@
 import {createSelector} from 'reselect';
+import filterPostBy from './filterPostBy';
 
-const myChannelsMapSelector = ({myChannelsMap, mapChannels}, filterMethod) => {
+const myChannelsMapSelector = ({
+    myChannelsMap,
+    mapChannels,
+    posts,
+    lastViewed,
+  },
+  filterMethod) => {
   const allChannels = filterMethod
     ? mapChannels.filter(filterMethod)
     : mapChannels;
-  return allChannels.filter(channel => myChannelsMap.get(channel.id));
+  return allChannels
+    .filter(channel => myChannelsMap.get(channel.id))
+    .map(channel => {
+      return {
+        ...channel,
+        unreadMessagesCount: countUnredMessages(
+          posts.orders[channel.id] ? posts.orders[channel.id].order : [],
+          posts.entities,
+          lastViewed,
+          channel.id,
+        ),
+      };
+    });
+};
+
+const countUnredMessages = (
+  order = [],
+  entities = {},
+  lastViewed = {},
+  channel_id = null,
+) => {
+  const data = order
+    .map(key => entities[key])
+    .filter(post => {
+      return (
+        post && post.create_at > lastViewed[channel_id] && filterPostBy(post)
+      );
+    });
+  return data.length;
 };
 
 const preferencesSelector = state => {
@@ -25,7 +60,7 @@ const channelStatsGroupSelector = state => {
 
 const getMyChannels = createSelector(
   [myChannelsMapSelector, preferencesSelector, channelStatsGroupSelector],
-  (myChannels, favChannels, channelStatsGroup) => {
+  (myChannels, favChannels, channelStatsGroup, lastViewed, posts) => {
     const channels = [];
     myChannels.forEach(element => {
       channels.push({

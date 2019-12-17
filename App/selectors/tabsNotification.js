@@ -34,11 +34,7 @@ const looper = (posts, channels, lastViewed) => {
     if (channelData) {
       channelData.order.some(postKey => {
         const post = posts.entities[postKey];
-        if (
-          filterPostBy(post) &&
-          (post.create_at > lastViewed[channel.id] ||
-            post.edit_at > lastViewed[channel.id])
-        ) {
+        if (filterPostBy(post) && post.create_at > lastViewed[channel.id]) {
           hasUnreadMessage = true;
         }
         return hasUnreadMessage;

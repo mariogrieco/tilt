@@ -76,6 +76,7 @@ class Discover extends React.Component {
         fav={item.fav}
         showMembersLabel
         members={item.members}
+        unreadMessagesCount={item.unreadMessagesCount}
       />
     );
   }

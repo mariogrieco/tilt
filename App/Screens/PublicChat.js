@@ -7,7 +7,7 @@ import {TabView, TabBar} from 'react-native-tab-view';
 import StyleSheet from 'react-native-extended-stylesheet';
 import {searchChannels} from '../actions/search';
 import Watchlist from '../components/Watchlist';
-import Discover from '../components/Discover';
+import Channels from '../components/Discover';
 import SearchBar from '../components/SearchBar';
 import PublicSearch from '../components/PublicSearch';
 import {headerForScreenWithTabs} from '../config/navigationHeaderStyle';
@@ -143,7 +143,7 @@ class PublicChat extends React.Component {
   renderScene = ({route, jumpTo}) => {
     switch (route.key) {
       case 'channels':
-        return <Discover jumpTo={jumpTo} />;
+        return <Channels jumpTo={jumpTo} />;
       case 'discover':
         return <Watchlist jumpTo={jumpTo} />;
       default:
