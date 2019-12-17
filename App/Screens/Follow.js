@@ -64,7 +64,9 @@ class Follow extends React.Component {
         ? follow[paramKey]
         : [...follow[paramKey], ...temporalFollowings];
 
-    if (paramKey === 'following') console.log('data a renderizar ', data);
+    if (paramKey === 'following') {
+      console.log('data a renderizar ', data);
+    }
     const sortedValues =
       paramKey === 'followers'
         ? _.sortBy(data, [userId => users.data[userId].username])
