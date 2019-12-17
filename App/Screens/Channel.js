@@ -177,20 +177,20 @@ class Channel extends React.Component {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        {(!navigation.getParam('pm', '') && !navigation.getParam('hiddeMenu', '')) && (
-          <Fragment>
-            <TouchableOpacity
-              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
-              onPress={() => navigation.navigate('AdvancedSearch')}>
-              <Image source={assets[screenProps.themeName].SEARCH} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
-              onPress={() => navigation.navigate('ChannelInfo')}>
-              <Image source={assets[screenProps.themeName].GEAR} />
-            </TouchableOpacity>
-          </Fragment>
-        )}
+        {(!navigation.getParam('pm', '') && navigation.getParam('showMenu', false)) && (
+            <Fragment>
+              <TouchableOpacity
+                style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
+                onPress={() => navigation.navigate('AdvancedSearch')}>
+                <Image source={assets[screenProps.themeName].SEARCH} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
+                onPress={() => navigation.navigate('ChannelInfo')}>
+                <Image source={assets[screenProps.themeName].GEAR} />
+              </TouchableOpacity>
+            </Fragment>
+          )}
       </View>
     ),
     ...headerForScreenWithBottomLine({
@@ -232,7 +232,7 @@ class Channel extends React.Component {
 
   componentWillMount() {
     const {setParams} = this.props.navigation;
-    setParams({hiddeMenu: !this.props.joined});
+    setParams({showMenu: this.props.joined});
   }
 
   componentDidMount() {

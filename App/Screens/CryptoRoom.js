@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   View,
   StyleSheet,
@@ -83,18 +83,22 @@ class CryptoRoom extends React.PureComponent {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <TouchableOpacity
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
-          onPress={() => navigation.navigate('AdvancedSearch')}>
-          <Image source={assets[screenProps.themeName].SEARCH} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
-          onPress={() => navigation.navigate('ChannelInfo')}>
-          <Image source={assets[screenProps.themeName].GEAR} />
-        </TouchableOpacity>
+        {navigation.getParam('showMenu', false) && (
+          <Fragment>
+            <TouchableOpacity
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
+              onPress={() => navigation.navigate('AdvancedSearch')}>
+              <Image source={assets[screenProps.themeName].SEARCH} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 15}}
+              onPress={() => navigation.navigate('ChannelInfo')}>
+              <Image source={assets[screenProps.themeName].GEAR} />
+            </TouchableOpacity>
+          </Fragment>
+        )}
       </View>
     ),
     ...headerForScreenWithBottomLine({
@@ -152,6 +156,8 @@ class CryptoRoom extends React.PureComponent {
 
   componentWillUnmount() {
     this.props.setActiveFocusChannel('');
+    const {setParams} = this.props.navigation;
+    setParams({showMenu: this.props.joined});
   }
 
   render() {
@@ -218,6 +224,7 @@ const mapStateToProps = state => ({
     .valueSeq()
     .toJS(),
   theme: state.themes[state.themes.current],
+  joined: state.myChannelsMap.has(state.appNavigation.active_channel_id),
 });
 
 export default connect(
