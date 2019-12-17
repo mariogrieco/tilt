@@ -14,7 +14,7 @@ const {width} = Dimensions.get('window');
 
 class Follow extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: navigation.getParam('title', 'hola'),
+    title: navigation.getParam('title', ''),
     headerLeft: (
       <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
