@@ -639,10 +639,12 @@ class Post extends React.Component {
       userId,
       last_picture_update,
     );
+
     return (
       <View style={[isRepost ? styles.repostContainer : styles.container]}>
         <View style={styles.dotJoinContainer}>
           {displayJoinButton && (
+            // eslint-disable-next-line react-native/no-inline-styles
             <JoinButton channelId={channelId} buttonStyle={{marginRight: 5}} />
           )}
 
@@ -675,6 +677,7 @@ class Post extends React.Component {
             onPress={disableInteractions ? () => {} : this.jumpTo}>
             <View>
               <Text
+                // eslint-disable-next-line react-native/no-inline-styles
                 style={{
                   color: '#17C491',
                   fontFamily: 'SFProDisplay-Medium',

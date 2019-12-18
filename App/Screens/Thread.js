@@ -60,24 +60,27 @@ class Thread extends React.Component {
     }),
   });
 
-  renderItem = ({item: post}) => (
-    <Post
-      postId={post.id}
-      userId={post.user_id}
-      last_picture_update={post.user ? post.user.last_picture_update : ''}
-      key={post.id}
-      message={post.message}
-      username={post.user ? post.user.username : ''}
-      metadata={post.metadata}
-      createdAt={post.create_at}
-      type={post.type}
-      edit_at={post.edit_at}
-      thread
-      replies={post.replies}
-      isReply
-      post_props={post.props}
-    />
-  );
+  renderItem = ({item: post}) => {
+    console.log('here: ', post.user ? post.user.username : '');
+    return (
+      <Post
+        postId={post.id}
+        userId={post.user_id}
+        last_picture_update={post.user ? post.user.last_picture_update : ''}
+        key={post.id}
+        message={post.message}
+        username={post.user ? post.user.username : ''}
+        metadata={post.metadata}
+        createdAt={post.create_at}
+        type={post.type}
+        edit_at={post.edit_at}
+        thread
+        replies={post.replies}
+        isReply
+        post_props={post.props}
+      />
+    );
+  };
 
   render() {
     const {
@@ -182,13 +185,17 @@ const threadSelector = state => {
       channelName,
     };
   }
-
   if (postFeed) {
+    postFeed.user = state.users.data[postFeed.user_id] || {};
     const thread = [
       postFeed,
-      ...postFeed.feed_thread.map(
-        postReplyKey => state.feeds.posts[postReplyKey],
-      ),
+      ...postFeed.feed_thread.map(postReplyKey => {
+        const post = state.feeds.posts[postReplyKey];
+        return {
+          ...post,
+          user: (post && state.users.data[post.user_id]) || {},
+        };
+      }),
     ];
     const originChannel = mapChannels.get(postFeed.channel_id);
     const channelName = originChannel
@@ -210,11 +217,16 @@ const threadSelector = state => {
   }
 
   if (followPost) {
+    followPost.user = state.users.data[followPost.user_id] || {};
     const thread = [
       followPost,
-      ...followPost.feed_thread.map(
-        postReplyKey => state.followingTimeline.post_entities[postReplyKey],
-      ),
+      ...followPost.feed_thread.map(postReplyKey => {
+        const post = state.followingTimeline.post_entities[postReplyKey];
+        return {
+          ...post,
+          user: (post && state.users.data[post.user_id]) || {},
+        };
+      }),
     ];
     const originChannel = mapChannels.get(followPost.channel_id);
     const channelName = originChannel
@@ -251,4 +263,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Thread);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Thread);
