@@ -10,7 +10,7 @@ const initialState = [];
 export default (state = initialState, {type, payload}) => {
   switch (type) {
     case SEARCH_CHANNELS_SUCCESS: {
-      return payload.map(channel => fix_name_if_need(channel));
+      return (payload || []).map(channel => fix_name_if_need(channel));
     }
     default: {
       return state;

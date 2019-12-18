@@ -77,30 +77,41 @@ const logoutFailed = err => ({
 });
 
 export const login = (password, email) => async dispatch => {
+  // try {
+  //   let fcmToken = await firebase.iid().getToken();
+  //   if (fcmToken) {
+  //     // user has a device token
+  //     // await firebase.messaging().deleteToken();
+  //     await firebase.iid().deleteToken();
+  //     fcmToken = await firebase.iid().getToken();
+  //   } else {
+  //     // user doesn't have a device token yet
+  //     fcmToken = await firebase.iid().getToken();
+  //   }
+
+  //   const device_ref = Platform.select({
+  //     android: `android_rn:${fcmToken}`,
+  //     ios: `apple_rn:${fcmToken}`,
+  //   });
+
+  //   const response = await Client4.login(email, password, '', device_ref);
+  //   dispatch(loginSuccess(response));
+  //   init();
+  //   return response;
+  // } catch (ex) {
+  //   dispatch(loginFailed(ex));
+  //   return Promise.reject(ex.message);
+  // }
   try {
-    let fcmToken = await firebase.iid().getToken();
-    if (fcmToken) {
-      // user has a device token
-      // await firebase.messaging().deleteToken();
-      await firebase.iid().deleteToken();
-      fcmToken = await firebase.iid().getToken();
-    } else {
-      // user doesn't have a device token yet
-      fcmToken = await firebase.iid().getToken();
-    }
-
-    const device_ref = Platform.select({
-      android: `android_rn:${fcmToken}`,
-      ios: `apple_rn:${fcmToken}`,
-    });
-
-    const response = await Client4.login(email, password, '', device_ref);
+    const response = await Client4.login(email, password);
     dispatch(loginSuccess(response));
     init();
     return response;
   } catch (ex) {
     dispatch(loginFailed(ex));
     return Promise.reject(ex.message);
+  } finally {
+    // alert('done!');
   }
 };
 

@@ -7,7 +7,7 @@ import {CandleStickChart} from 'react-native-charts-wrapper';
 import {connect} from 'react-redux';
 import update from 'immutability-helper';
 import merge from 'lodash/merge';
-import isEqueal from 'lodash/isEqual';
+// import isEqueal from 'lodash/isEqual';
 import BarChartSection from '../BarChartSection';
 import fetchCandle from '../../actions/candle';
 import isEqual from 'lodash/isEqual';
@@ -17,7 +17,7 @@ import config from './config';
 
 class CandleSection extends React.Component {
   static getDerivedStateFromProps(props, state) {
-    if (!isEqueal(props.candleData, state.data.dataSets[0].values)) {
+    if (!isEqual(props.candleData, state.data.dataSets[0].values)) {
       const xLabels = props.candleData.map(item => item.closeTime);
       const volume = props.candleData.map(item => ({y: item.volume}));
       const colors = props.candleData.map(item =>

@@ -39,7 +39,6 @@ import postMedia from './postMedia';
 import sponsored from './sponsored';
 import mapChannels from './MapChannels';
 import myChannelsMap from './MyChannelsMap';
-import adminCreators from './adminCreators';
 import postCount from './postCount';
 import repost from './repost';
 import hashtagChannelsPaginator from './HashtagChannelsPaginator';
@@ -48,6 +47,19 @@ import blockedUsers from './blockedUsers';
 import channelsProps from './channelsProps';
 import chartPopup from './chartPopupReducer';
 import feeds from './feeds';
+import loggedUserFollow from './loggedUserFollow';
+import currentFollowUserData from './currentFollowUserData';
+import stockTab from './StockTab';
+import news from './news';
+import adminCreators from './adminCreators';
+import webView from './webView';
+import channelPreview from './channelPreview';
+
+import all_channels_tab_paginator from './all_channels_tab_paginator';
+import new_channels_tab_paginator from './new_channels_tab_paginator';
+import stocks_channels_tab_paginator from './stocks_channels_tab_paginator';
+import trending_channels_tab_paginator from './trending_channels_tab_paginator';
+import followingTimeline from './followingTimeline';
 
 export default combineReducers({
   flagged,
@@ -91,13 +103,23 @@ export default combineReducers({
   archivedChannels,
   mapChannels,
   myChannelsMap,
-  adminCreators,
+  stockTab,
   postCount,
   hashtagChannelsPaginator,
   themes,
-  // client4Error
   blockedUsers,
   channelsProps,
   chartPopup,
   feeds,
+  loggedUserFollow,
+  currentFollowUserData,
+  all_channels_tab_paginator,
+  new_channels_tab_paginator,
+  stocks_channels_tab_paginator,
+  trending_channels_tab_paginator,
+  news,
+  followingTimeline,
+  adminCreators,
+  webView,
+  channelPreview,
 });

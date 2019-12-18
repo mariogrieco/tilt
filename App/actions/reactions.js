@@ -12,6 +12,8 @@ export const GET_REACTIONS_FOR_USER_ERROR = 'GET_REACTIONS_FOR_USER_ERROR';
 export const ADDED_REACTION = 'ADDED_REACTION';
 export const REMOVED_REACTION = 'REMOVED_REACTION';
 
+import {current_reactions} from '../reducers/reactions';
+
 export const getReactionsForUser = userId => async dispatch => {
   try {
     const reactions = await Client4.getReactionsForUser(userId);
@@ -21,7 +23,9 @@ export const getReactionsForUser = userId => async dispatch => {
         userId,
       }),
     );
-    return reactions;
+    return reactions.filter(reaction =>
+      current_reactions.find(name => reaction.EmojiName === name),
+    );
   } catch (ex) {
     dispatch(getReactionsForUserError(ex));
     return Promise.reject(ex.message);

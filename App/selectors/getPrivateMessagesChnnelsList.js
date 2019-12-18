@@ -6,9 +6,10 @@ import cloneDeep from 'lodash/cloneDeep';
 
 const lastViewedSelector = state => state.lastViewed;
 const entitiesSelector = state => state.posts.entities;
+const channelsMapSelector = state => state.mapChannels;
 const loggedUserId = state =>
   state.login && state.login.user ? state.login.user.id : '';
-const myChannelsMapSelector = state => state.myChannelsMap;
+const myChannelsMapSelector = state => state.myChannelsMap.keySeq();
 const postsOrders = state => state.posts.orders;
 const usersDataSelector = state => state.users.data;
 const blockedUsersSelector = state => state.blockedUsers;
@@ -25,6 +26,7 @@ const getPrivateMessagesChnnelsList = createSelector(
     preferencesSelector,
     lastViewedSelector,
     blockedUsersSelector,
+    channelsMapSelector,
   ],
   (
     entities,
@@ -35,16 +37,23 @@ const getPrivateMessagesChnnelsList = createSelector(
     preferences,
     lastViewed,
     blockedUsers,
+    channels,
   ) => {
     const data = [];
     myChannelsMap
-      .filter(
-        ({type, name}) =>
-          type === 'D' &&
-          !blockedUsers[name.replace('__', '').replace(`${myId}`, '')],
-      )
-      .valueSeq()
-      .forEach(channel => {
+      .filter(id => {
+        const channel = channels.get(id);
+        if (channel) {
+          const {type, name} = channel;
+          return (
+            type === 'D' &&
+            !blockedUsers[name.replace('__', '').replace(`${myId}`, '')]
+          );
+        }
+        return false;
+      })
+      .forEach(id => {
+        const channel = channels.get(id);
         const channelData = cloneDeep(orders[channel.id]);
         if (channelData && channelData.order) {
           if (channel.type === 'D' && channel.name.match('__')) {

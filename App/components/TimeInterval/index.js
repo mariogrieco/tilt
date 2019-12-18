@@ -24,6 +24,11 @@ class TimeInterval extends React.Component {
           intervals[selectedInterval].format,
         );
       }, CANDLE_INTERVAL_MODERATE);
+      onSelect(
+        intervals[selectedInterval].interval,
+        intervals[selectedInterval].starTimeMilliseconds(),
+        intervals[selectedInterval].format,
+      );
     }
   }
 

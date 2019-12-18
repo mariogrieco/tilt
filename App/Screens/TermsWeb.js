@@ -4,16 +4,13 @@ import {WebView} from 'react-native-webview';
 import GoBack from '../components/GoBack';
 import {NavigationActions} from 'react-navigation';
 
-const BACK = require('../../assets/images/pin-left/pin-left.png');
+// const BACK = require('../../assets/images/pin-left/pin-left.png');
 
 export default class TermsWeb extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     title: 'Terms and Conditions',
     headerLeft: (
-      <GoBack
-        
-        onPress={() => navigation.dispatch(NavigationActions.back())}
-      />
+      <GoBack onPress={() => navigation.dispatch(NavigationActions.back())} />
     ),
   });
 

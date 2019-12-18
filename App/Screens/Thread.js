@@ -60,24 +60,27 @@ class Thread extends React.Component {
     }),
   });
 
-  renderItem = ({item: post}) => (
-    <Post
-      postId={post.id}
-      userId={post.user_id}
-      last_picture_update={post.user ? post.user.last_picture_update : ''}
-      key={post.id}
-      message={post.message}
-      username={post.user ? post.user.username : ''}
-      metadata={post.metadata}
-      createdAt={post.create_at}
-      type={post.type}
-      edit_at={post.edit_at}
-      thread
-      replies={post.replies}
-      isReply
-      post_props={post.props}
-    />
-  );
+  renderItem = ({item: post}) => {
+    console.log('here: ', post.user ? post.user.username : '');
+    return (
+      <Post
+        postId={post.id}
+        userId={post.user_id}
+        last_picture_update={post.user ? post.user.last_picture_update : ''}
+        key={post.id}
+        message={post.message}
+        username={post.user ? post.user.username : ''}
+        metadata={post.metadata}
+        createdAt={post.create_at}
+        type={post.type}
+        edit_at={post.edit_at}
+        thread
+        replies={post.replies}
+        isReply
+        post_props={post.props}
+      />
+    );
+  };
 
   render() {
     const {
@@ -157,24 +160,21 @@ function getRootID(post) {
   return post.id;
 }
 
-// this will me move to selector folder soon.
-
 const threadSelector = state => {
   const activePost = state.appNavigation.active_thread_data;
   const postEntity = state.posts.entities[activePost];
   const postFeed = state.feeds.posts[activePost];
+  const followPost = state.followingTimeline.post_entities[activePost];
   const mapChannels = state.mapChannels;
-  const adminIds = state.adminCreators;
   const localFeedJoin = updateFeedJoin();
 
   if (postEntity) {
-    console.log('lo encontre en entities');
     const root_id = getRootID(postEntity);
     const rootPost = getPostById(state, root_id);
     const originChannel = mapChannels.get(postEntity.channel_id);
-    const channelName = `${
-      adminIds.includes(originChannel.creator_id) ? '$' : '#'
-    }${originChannel ? originChannel.name : ''}`;
+    const channelName = `${originChannel.content_type !== 'N' ? '$' : '#'}${
+      originChannel ? originChannel.name : ''
+    }`;
     return {
       needJoin: localFeedJoin(state, {id: postEntity.id}),
       thread: getThreadForPost(state, postEntity),
@@ -185,19 +185,22 @@ const threadSelector = state => {
       channelName,
     };
   }
-
   if (postFeed) {
-    console.log('lo encontre en feed');
+    postFeed.user = state.users.data[postFeed.user_id] || {};
     const thread = [
       postFeed,
-      ...postFeed.feed_thread.map(
-        postReplyKey => state.feeds.posts[postReplyKey],
-      ),
+      ...postFeed.feed_thread.map(postReplyKey => {
+        const post = state.feeds.posts[postReplyKey];
+        return {
+          ...post,
+          user: (post && state.users.data[post.user_id]) || {},
+        };
+      }),
     ];
     const originChannel = mapChannels.get(postFeed.channel_id);
     const channelName = originChannel
       ? `${
-          adminIds.includes(originChannel.creator_id)
+          originChannel.content_type !== 'N'
             ? `$${originChannel.name.toUpperCase()}`
             : `#${originChannel.name}`
         }`
@@ -213,7 +216,36 @@ const threadSelector = state => {
     };
   }
 
-  console.log('no encontre nada');
+  if (followPost) {
+    followPost.user = state.users.data[followPost.user_id] || {};
+    const thread = [
+      followPost,
+      ...followPost.feed_thread.map(postReplyKey => {
+        const post = state.followingTimeline.post_entities[postReplyKey];
+        return {
+          ...post,
+          user: (post && state.users.data[post.user_id]) || {},
+        };
+      }),
+    ];
+    const originChannel = mapChannels.get(followPost.channel_id);
+    const channelName = originChannel
+      ? `${
+          originChannel.content_type !== 'N'
+            ? `$${originChannel.name.toUpperCase()}`
+            : `#${originChannel.name}`
+        }`
+      : '';
+    return {
+      needJoin: localFeedJoin(state, {id: followPost.id}),
+      thread,
+      root_id: followPost.id,
+      channelId: followPost.channel_id,
+      replyTo: state.users.data[followPost.user_id].username,
+      replyMessage: followPost.message,
+      channelName,
+    };
+  }
 
   return {
     thread: [],

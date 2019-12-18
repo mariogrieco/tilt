@@ -39,6 +39,7 @@ class Description extends React.Component {
 
   componentDidMount() {
     const {dispatchGetSymbolData, symbol} = this.props;
+    dispatchGetSymbolData(ORIGIN, symbol);
     this.intervalId = setInterval(() => {
       dispatchGetSymbolData(ORIGIN, symbol);
     }, SYMBOL_DESCRIPTION_INTERVAL);
@@ -84,9 +85,9 @@ const mapStateToProps = ({
   },
   themes,
 }) => ({
-  lastPrice,
-  priceChange,
-  priceChangePercent,
+  lastPrice: lastPrice ? lastPrice : 0,
+  priceChange: priceChange ? priceChange : 0,
+  priceChangePercent: priceChangePercent ? priceChangePercent : 0,
   symbol,
   theme: themes[themes.current],
 });

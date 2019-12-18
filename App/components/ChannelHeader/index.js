@@ -13,6 +13,19 @@ const CHANNEL_ROCKET = require('../../../assets/themes/light/channelRocket/chann
 const FIRE = require('../../../assets/themes/light/fire/fire.png');
 
 class ChannelHeader extends PureComponent {
+  renderImage(members) {
+    switch (members) {
+      case members > 10000:
+        return <Image source={FIRE} />;
+      case members > 100000:
+        return <Image source={CHANNEL_ROCKET} />;
+      case members > 1000000:
+        return <Image source={GOAT} />;
+      default:
+        return <View />;
+    }
+  }
+
   render() {
     const {
       name,
@@ -30,6 +43,7 @@ class ChannelHeader extends PureComponent {
           style={[
             styles.text,
             {color: theme.primaryTextColor},
+            // eslint-disable-next-line react-native/no-inline-styles
             isAdminCreator ? {textTransform: 'uppercase'} : {},
           ]}>
           {!pm ? `${isAdminCreator ? '$' : '#'} ${name}` : `@${name}`}
@@ -37,11 +51,8 @@ class ChannelHeader extends PureComponent {
         </Text>
         {!pm && (
           <View style={styles.icon}>
-            {diff && <Image source={NEW} />}
-            {!diff && members > 10000 && <Image source={FIRE} />}
-            {!diff && members > 100000 && <Image source={CHANNEL_ROCKET} />}
-            {!diff && members > 1000000 && <Image source={GOAT} />}
-            {fav && <Image source={STAR} />}
+            {diff ? <Image source={NEW} /> : this.renderImage(members)}
+            {!!fav && <Image source={STAR} />}
           </View>
         )}
       </View>

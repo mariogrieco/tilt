@@ -4,7 +4,11 @@ export const REPORT_POST_TO_MODERATOR_SUCCESS =
   'REPORT_POST_TO_MODERATOR_SUCCESS';
 export const REPORT_POST_TO_MODERATOR_ERROR = 'REPORT_POST_TO_MODERATOR_ERROR';
 import {createPost} from './posts';
-import {createDirectChannel} from './channels';
+import {
+  createDirectChannel,
+  getMyChannelByIdSucess,
+  getChannelByIdSucess,
+} from './channels';
 import {moderator_user_id} from '../globals';
 const MODERATOR_USER_ID = moderator_user_id;
 
@@ -12,6 +16,8 @@ export const reportPostById = post_id => async (dispatch, getState) => {
   try {
     const me = getState().login.user;
     const channel = await dispatch(createDirectChannel(MODERATOR_USER_ID));
+    dispatch(getMyChannelByIdSucess(channel));
+    dispatch(getChannelByIdSucess(channel));
     const posted = await dispatch(
       createPost('', channel.id, undefined, [], {
         reported_by: me.id,

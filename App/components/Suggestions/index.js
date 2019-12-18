@@ -81,6 +81,7 @@ class Suggestions extends PureComponent {
         <FlatList
           style={[{flex: 1}, {backgroundColor: theme.primaryBackgroundColor}]}
           data={data}
+          extraData={data}
           renderItem={this.renderItem}
           renderSeparator={this.renderSeparator}
           keyExtractor={this.keyExtractor}

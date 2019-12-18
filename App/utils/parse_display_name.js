@@ -2,6 +2,9 @@ const parser = str =>
   str
     .split(' ')
     .join('-')
-    .toLowerCase();
+    .toLowerCase()
+    .replace('$', '')
+    .replace('#', '')
+    .replace('@', '');
 
 export default parser;
