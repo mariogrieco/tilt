@@ -1,13 +1,10 @@
 import {createSelector} from 'reselect';
 import filterPostBy from './filterPostBy';
 
-const myChannelsMapSelector = ({
-    myChannelsMap,
-    mapChannels,
-    posts,
-    lastViewed,
-  },
-  filterMethod) => {
+const myChannelsMapSelector = (
+  {myChannelsMap, mapChannels, posts, lastViewed},
+  filterMethod,
+) => {
   const allChannels = filterMethod
     ? mapChannels.filter(filterMethod)
     : mapChannels;
