@@ -77,6 +77,7 @@ class Discover extends React.Component {
         showMembersLabel
         members={item.members}
         unreadMessagesCount={item.unreadMessagesCount}
+        titleColor={item.unreadMessagesCount > 0 ? '#17C491' : false}
       />
     );
   }

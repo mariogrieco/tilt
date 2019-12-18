@@ -24,7 +24,9 @@ class ChannelDisplayName extends Component {
 
   onPress = () => {
     const {channel_id, channel} = this.props;
-    if (!channel) return null;
+    if (!channel) {
+      return null;
+    }
     this.props.setActiveFocusChannel(channel_id);
     let roomName = 'Channel';
     if (channel.content_type === 'S') {
@@ -166,9 +168,6 @@ class ChannelDisplayName extends Component {
         ]}
         activeOpacity={1}
         onPress={this.onPress}>
-        {/*<View style={styles.imageContainer}>*/}
-        {/*  <Image styles={styles.imageContainer} source={EARTH} />*/}
-        {/*</View>*/}
         <View>
           {this.getHeader()}
           {this.getMembersLabel()}
@@ -194,10 +193,10 @@ class ChannelDisplayName extends Component {
   getJoinView() {
     const {theme} = this.props;
     return (
-      <TouchableOpacity activeOpacity={1} style={styles.containerJoin} onPress={this.onPress}>
-        {/*<View style={styles.imageContainer}>*/}
-        {/*  <Image styles={styles.image} source={EARTH} />*/}
-        {/*</View>*/}
+      <TouchableOpacity
+        activeOpacity={1}
+        style={styles.containerJoin}
+        onPress={this.onPress}>
         <View style={{flex: 1}}>
           {this.getHeader()}
           {this.getDescription()}
