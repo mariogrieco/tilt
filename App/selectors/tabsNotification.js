@@ -36,7 +36,6 @@ const lastViewedSelector = state => state.lastViewed;
 
 const looper = (posts, channels, lastViewed) => {
   let hasUnreadMessage = false;
-  console.log('channels: ', channels);
   channels.valueSeq().forEach(channel => {
     const channelData = posts.orders[channel.id];
     if (channelData) {
