@@ -5,6 +5,7 @@ const postsSelector = state => state.posts;
 
 const privateChannelsSelector = state =>
   state.myChannelsMap
+    .keySeq()
     .map(id => state.mapChannels.get(id))
     .filter(channel => {
       if (channel) {
@@ -21,9 +22,15 @@ const privateChannelsSelector = state =>
     });
 
 const publicChannelsSelector = state =>
-  state.myChannelsMap.filter(
-    id => state.mapChannels.get(id) && state.mapChannels.get(id).type === 'O',
-  );
+  state.myChannelsMap
+    .keySeq()
+    .filter(
+      key =>
+        state.mapChannels.has(key) &&
+        state.mapChannels.get(key).type === 'O' &&
+        state.mapChannels.get(key).content_type === 'N',
+    )
+    .map(key => state.mapChannels.get(key));
 
 const lastViewedSelector = state => state.lastViewed;
 
@@ -34,11 +41,7 @@ const looper = (posts, channels, lastViewed) => {
     if (channelData) {
       channelData.order.some(postKey => {
         const post = posts.entities[postKey];
-        if (
-          filterPostBy(post) &&
-          (post.create_at > lastViewed[channel.id] ||
-            post.edit_at > lastViewed[channel.id])
-        ) {
+        if (filterPostBy(post) && post.create_at > lastViewed[channel.id]) {
           hasUnreadMessage = true;
         }
         return hasUnreadMessage;
