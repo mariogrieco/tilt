@@ -17,7 +17,11 @@ import Form from '../components/Form';
 import GoBack from '../components/GoBack';
 import {isLogin, userLogin, login} from '../actions/login';
 import {resetPasswordModal} from '../actions/modal';
-import {getChannels, getMyChannels} from '../actions/channels';
+import {
+  getChannels,
+  getMyChannels,
+  getChannelStatsByGroup,
+} from '../actions/channels';
 import {getPostsByChannelId, getPostThreads} from '../actions/posts';
 import {
   // getProfilesInChannels,
@@ -183,12 +187,9 @@ class LogIn extends React.Component {
 
   getPostChannelsAndUsersData = async () => {
     try {
-      const [myChannels, profiles] = await Promise.all([
-        this.props.getMyChannels(),
-        // this.props.getChannels(),
-        this.props.getProfilesInGroupChannels(),
-      ]);
-      const posts = await this.props.getPostsByChannelId(myChannels);
+      const [myChannels] = await Promise.all([this.props.getMyChannels()]);
+      this.props.getChannelStatsByGroup(myChannels),
+        await this.props.getPostsByChannelId(myChannels);
     } catch (ex) {
       alert(ex.message);
     }
@@ -289,6 +290,7 @@ const mapDispatchToProps = {
   // getCommandsList,
   getPostThreads,
   getProfilesInGroupChannels,
+  getChannelStatsByGroup,
 };
 
 export default connect(

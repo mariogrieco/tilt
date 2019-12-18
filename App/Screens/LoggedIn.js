@@ -2,7 +2,11 @@ import React from 'react';
 import {TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
 import UserProfile from '../components/UserProfile';
-import {getChannels, getMyChannels} from '../actions/channels';
+import {
+  getChannels,
+  getMyChannels,
+  getChannelStatsByGroup,
+} from '../actions/channels';
 import {getPostsByChannelId} from '../actions/posts';
 import {
   getProfilesInGroupChannels,
@@ -49,12 +53,9 @@ class LoggedIn extends React.Component {
 
   getPostChannelsAndUsersData = async () => {
     try {
-      const [myChannels, channels, profiles] = await Promise.all([
-        this.props.getMyChannels(),
-        // this.props.getChannels(),
-        this.props.getProfilesInGroupChannels(),
-      ]);
-      const posts = await this.props.getPostsByChannelId(myChannels);
+      const [myChannels] = await Promise.all([this.props.getMyChannels()]);
+      this.props.getChannelStatsByGroup(myChannels),
+        await this.props.getPostsByChannelId(myChannels);
     } catch (ex) {
       alert(ex.message);
     }
@@ -71,6 +72,7 @@ const mapDispatchToProps = {
   getPostsByChannelId,
   getProfilesInGroupChannels,
   setCurrentDisplayUserProfile,
+  getChannelStatsByGroup,
 };
 
 const mapStateToProps = ({login}) => ({
