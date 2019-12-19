@@ -70,17 +70,22 @@ const styles = StyleSheet.create({
 
 class EditProfile extends React.PureComponent {
   inputRefPosition = createRef();
-
   inputRefName = createRef();
-
   inputRefFirst = createRef();
+  inputRefUserName = createRef();
+  inputRefEmail = createRef();
 
-  static getDerivedStateFromProps({user}, {firstName, lastName, position}) {
-    if (!(firstName || lastName || position)) {
+  static getDerivedStateFromProps(
+    {user},
+    {firstName, lastName, position, username, email},
+  ) {
+    if (!(firstName || lastName || position || username)) {
       return {
         firstName: user.first_name,
         lastName: user.last_name,
         position: user.position,
+        username: user.username,
+        // email: user.email,
       };
     }
     return null;
@@ -115,6 +120,8 @@ class EditProfile extends React.PureComponent {
     firstName: '',
     lastName: '',
     position: '',
+    username: '',
+    // email: '',
     profilePicture: null,
   };
 
@@ -127,12 +134,15 @@ class EditProfile extends React.PureComponent {
         loading: true,
       },
       async () => {
-        const {firstName, lastName, position} = this.state;
+        const {firstName, lastName, position, username, email} = this.state;
         const {updateUser, user} = this.props;
         try {
           user.first_name = firstName || user.first_name;
           user.last_name = lastName || user.last_name;
           user.position = position || user.position;
+          user.username = username || user.username;
+          // user.email = email || user.email;
+          // user.password = 'here_pass';
           await updateUser(user);
           this.blurAll();
           this.props.navigation.goBack();
@@ -156,6 +166,13 @@ class EditProfile extends React.PureComponent {
     }
     if (this.inputRefPosition && this.inputRefPosition.current) {
       this.inputRefPosition.current.blur();
+    }
+    if (this.inputRefUserName && this.inputRefUserName.current) {
+      this.inputRefUserName.current.blur();
+    }
+
+    if (this.inputRefEmail && this.inputRefEmail.current) {
+      this.inputRefEmail.current.blur();
     }
   }
 
@@ -188,16 +205,17 @@ class EditProfile extends React.PureComponent {
     });
   };
 
+  onUserNameChange = username => this.setState({username});
+
+  onEmailChange = email => this.setState({email});
+
   prepareFileToUpload(data) {
-    // const file = new FormData();
     const id = generateId();
     let formBoundary;
     if (Platform.os === 'ios') {
       formBoundary = '--mobile.client.file.upload';
     }
     data.name = encodeHeaderURIStringToUTF8(data.fileName);
-    // file.append('channel_id', this.props.channelId);
-    // file.append('client_ids', id);
     return {
       formBoundary,
       data,
@@ -222,14 +240,25 @@ class EditProfile extends React.PureComponent {
   };
 
   render() {
-    const {firstName, lastName, position, profilePicture} = this.state;
+    const {
+      firstName,
+      lastName,
+      position,
+      profilePicture,
+      username,
+      // email,
+    } = this.state;
     const {pictureUrl} = this.props;
     const {theme} = this.props;
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 85 : 0;
     return (
       <ScrollView
         keyboardDismissMode="on-drag"
-        style={{flex: 1, backgroundColor: theme.secondaryBackgroundColor}}>
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flex: 1,
+          backgroundColor: theme.secondaryBackgroundColor,
+        }}>
         <KeyboardAvoidingView
           keyboardVerticalOffset={keyboardVerticalOffset}
           behavior={Platform.OS === 'ios' ? 'position' : undefined}>
@@ -304,6 +333,67 @@ class EditProfile extends React.PureComponent {
             keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
+
+          <View
+            style={[
+              styles.row,
+              styles.rowTitle,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
+            <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+              Username
+            </Text>
+          </View>
+          <Separator />
+          <TextInput
+            ref={this.inputRefUserName}
+            style={[
+              styles.row,
+              styles.rowInput,
+              styles.input,
+              {
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              },
+            ]}
+            value={username}
+            placeholder="Enter your username"
+            onChangeText={this.onUserNameChange}
+            selectionColor="#17C491"
+            placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
+          />
+          <Separator />
+          {/* <View
+            style={[
+              styles.row,
+              styles.rowTitle,
+              {backgroundColor: theme.secondaryBackgroundColor},
+            ]}>
+            <Text style={[styles.title, {color: theme.primaryTextColor}]}>
+              Email
+            </Text>
+          </View>
+           <Separator />
+           <TextInput
+            ref={this.inputRefEmail}
+            style={[
+              styles.row,
+              styles.rowInput,
+              styles.input,
+              {
+                color: theme.primaryTextColor,
+                backgroundColor: theme.primaryBackgroundColor,
+              },
+            ]}
+            value={email}
+            placeholder="Enter your email"
+            onChangeText={this.onEmailChange}
+            selectionColor="#17C491"
+            placeholderTextColor={theme.placeholderTextColor}
+            keyboardAppearance={theme.keyboardAppearanceColor}
+          />
+          <Separator /> */}
           <View
             style={[
               styles.row,
