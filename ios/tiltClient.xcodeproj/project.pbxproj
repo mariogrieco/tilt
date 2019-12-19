@@ -59,6 +59,7 @@
 		63324AA0235C9101008EBE35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63324AA2235C91A5008EBE35 /* tiltClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tiltClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		63324AA3235C91A5008EBE35 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		639ED49D2384B5D80005FC66 /* tiltClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = tiltClient.entitlements; path = tiltClient/tiltClient.entitlements; sourceTree = "<group>"; };
 		68C429A97D7A4DB1AD390925 /* SFProDisplay-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Semibold.otf"; path = "../assets/fonts/SFProDisplay-Semibold.otf"; sourceTree = "<group>"; };
 		68E6C13E37A3E2DE3C42E1EC /* Pods-tiltClient-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tiltClient-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-tiltClient-tvOSTests/Pods-tiltClient-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6B579FBEE053477B89826066 /* SFProDisplay-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Light.otf"; path = "../assets/fonts/SFProDisplay-Light.otf"; sourceTree = "<group>"; };
@@ -114,6 +115,7 @@
 		13B07FAE1A68108700A75B9A /* tiltClient */ = {
 			isa = PBXGroup;
 			children = (
+				639ED49D2384B5D80005FC66 /* tiltClient.entitlements */,
 				63324AA0235C9101008EBE35 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -409,6 +411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = tiltClient/tiltClient.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 337DR93H6B;
@@ -435,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = tiltClient/tiltClient.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 337DR93H6B;
 				INFOPLIST_FILE = tiltClient/Info.plist;
