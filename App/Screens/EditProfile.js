@@ -79,13 +79,13 @@ class EditProfile extends React.PureComponent {
     {user},
     {firstName, lastName, position, username, email},
   ) {
-    if (!(firstName || lastName || position || username || email)) {
+    if (!(firstName || lastName || position || username)) {
       return {
         firstName: user.first_name,
         lastName: user.last_name,
         position: user.position,
         username: user.username,
-        email: user.email,
+        // email: user.email,
       };
     }
     return null;
@@ -121,7 +121,7 @@ class EditProfile extends React.PureComponent {
     lastName: '',
     position: '',
     username: '',
-    email: '',
+    // email: '',
     profilePicture: null,
   };
 
@@ -141,7 +141,7 @@ class EditProfile extends React.PureComponent {
           user.last_name = lastName || user.last_name;
           user.position = position || user.position;
           user.username = username || user.username;
-          user.email = email || user.email;
+          // user.email = email || user.email;
           // user.password = 'here_pass';
           await updateUser(user);
           this.blurAll();
@@ -246,7 +246,7 @@ class EditProfile extends React.PureComponent {
       position,
       profilePicture,
       username,
-      email,
+      // email,
     } = this.state;
     const {pictureUrl} = this.props;
     const {theme} = this.props;
@@ -364,7 +364,7 @@ class EditProfile extends React.PureComponent {
             keyboardAppearance={theme.keyboardAppearanceColor}
           />
           <Separator />
-          <View
+          {/* <View
             style={[
               styles.row,
               styles.rowTitle,
@@ -374,8 +374,8 @@ class EditProfile extends React.PureComponent {
               Email
             </Text>
           </View>
-          <Separator />
-          <TextInput
+           <Separator />
+           <TextInput
             ref={this.inputRefEmail}
             style={[
               styles.row,
@@ -393,7 +393,7 @@ class EditProfile extends React.PureComponent {
             placeholderTextColor={theme.placeholderTextColor}
             keyboardAppearance={theme.keyboardAppearanceColor}
           />
-          <Separator />
+          <Separator /> */}
           <View
             style={[
               styles.row,
