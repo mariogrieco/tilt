@@ -44,7 +44,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Take photos and videos to share with the Tilt community.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Tilt wants access to display your contacts so that you can invite your friends to the app. We will not send messages without your explicit permission.</string>
+	<string>Tilt wants access to display your contacts so that you can invite your friends to the app. We do not store your contacts on our server. And the app does not send messages without your explicit permission.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos with the Tilt community.</string>
 	<key>UIAppFonts</key>
