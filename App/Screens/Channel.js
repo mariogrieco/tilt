@@ -38,6 +38,7 @@ import {headerForScreenWithBottomLine} from '../config/navigationHeaderStyle';
 import assets from '../config/themeAssets/assets';
 import NewMessageSeparator from '../components/NewMessageSeparator';
 import ChannelPreview from '../components/ChannelPreview';
+import ConnectionLabel from '../components/ConnectionLabel';
 
 const styles = StyleSheet.create({
   footer: {
@@ -177,7 +178,8 @@ class Channel extends React.Component {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        {(!navigation.getParam('pm', '') && navigation.getParam('showMenu', false)) && (
+        {!navigation.getParam('pm', '') &&
+          navigation.getParam('showMenu', false) && (
             <Fragment>
               <TouchableOpacity
                 style={{paddingVertical: 10, paddingLeft: 20, paddingRight: 5}}
@@ -657,6 +659,7 @@ class Channel extends React.Component {
             onPress={this.scrollToEnd}
           />
         )}
+        <ConnectionLabel />
         <FlatList
           ListFooterComponent={this.renderLoadingItem}
           ref={this.scrollView}
@@ -761,8 +764,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Channel),
+  connect(mapStateToProps, mapDispatchToProps)(Channel),
 );
