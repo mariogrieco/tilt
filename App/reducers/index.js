@@ -54,6 +54,7 @@ import news from './news';
 import adminCreators from './adminCreators';
 import webView from './webView';
 import channelPreview from './channelPreview';
+import socketStatus from './socketStatus';
 
 import all_channels_tab_paginator from './all_channels_tab_paginator';
 import new_channels_tab_paginator from './new_channels_tab_paginator';
@@ -122,4 +123,5 @@ export default combineReducers({
   adminCreators,
   webView,
   channelPreview,
+  socketStatus,
 });
